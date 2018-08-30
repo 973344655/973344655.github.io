@@ -62,6 +62,91 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-RestTemplate" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/30/RestTemplate/" class="article-date">
+  <time datetime="2018-08-30T08:51:32.000Z" itemprop="datePublished">2018-08-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/30/RestTemplate/">RestTemplate</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>因为在代码中需要调用外部的接口，所以使用RestTemplate</p>
+<h6 id="1-导入"><a href="#1-导入" class="headerlink" title="1.导入"></a>1.导入</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 包含有restTemplate --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>######2.完成配置类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class RestTemplateConfig &#123;</span><br><span class="line">  //因为在普通类中使用它，所以给Bean去个名字，方便getBean()导入</span><br><span class="line">	@Bean(name = &quot;RestTemplate&quot;)</span><br><span class="line">	public RestTemplate restTemplate(ClientHttpRequestFactory factory)&#123;</span><br><span class="line">		return new RestTemplate(factory);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Bean</span><br><span class="line">	public ClientHttpRequestFactory simpleClientHttpRequestFactory()&#123;</span><br><span class="line">		SimpleClientHttpRequestFactory factory=new SimpleClientHttpRequestFactory();</span><br><span class="line">		factory.setConnectTimeout(15000);</span><br><span class="line">		factory.setReadTimeout(5000);</span><br><span class="line">		return factory;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="3-使用"><a href="#3-使用" class="headerlink" title="3.使用"></a>3.使用</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class AcceptDeal extends Thread &#123;</span><br><span class="line"></span><br><span class="line">  //通过名字导入</span><br><span class="line">	RestTemplate restTemplate = (RestTemplate) SpringUtil.getBean(&quot;RestTemplate&quot;);</span><br><span class="line"></span><br><span class="line">	//回执接口</span><br><span class="line">	String url = &quot;url&quot; + &quot;/&quot; + report.getState();</span><br><span class="line">	restTemplate.getForEntity(&quot;url&quot;, String.class);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/30/RestTemplate/" data-id="cjlgd6ayo0000a4vpfpgg6qel" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot-java-RestTemplate/">springboot, java, RestTemplate</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Spring上下文" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/30/Spring上下文/" class="article-date">
+  <time datetime="2018-08-30T08:34:21.000Z" itemprop="datePublished">2018-08-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/30/Spring上下文/">Spring上下文</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>非spring管理的类（普通类），获得一个Bean。<br>在一个普通类中，@Autowired和new都不能导入一个Bean对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class AcceptDeal extends Thread &#123;</span><br><span class="line">  @Autowired</span><br><span class="line">  LogService logservice;//但此时mapper中信息又为null</span><br><span class="line">  //或者new 一个对象</span><br><span class="line">  //LogService logservice = new LogService();//此时mapper又不能导入</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>解决方案：使用Spring上下文，获取Bean</p>
+<h6 id="1-新建一个工具类SpringUtil"><a href="#1-新建一个工具类SpringUtil" class="headerlink" title="1.新建一个工具类SpringUtil"></a>1.新建一个工具类SpringUtil</h6><p>可以根据自己的需要添加上下文相关的管理方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">package com.bonc.sms.util;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.BeansException;</span><br><span class="line">import org.springframework.context.ApplicationContext;</span><br><span class="line">import org.springframework.context.ApplicationContextAware;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 普通类调用Spring bean对象：</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class SpringUtil implements ApplicationContextAware&#123;</span><br><span class="line">	private static ApplicationContext applicationContext = null;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException &#123;</span><br><span class="line">	   if(SpringUtil.applicationContext == null)&#123;</span><br><span class="line">		   SpringUtil.applicationContext  = applicationContext;</span><br><span class="line">	   &#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//获取applicationContext</span><br><span class="line">	public static ApplicationContext getApplicationContext() &#123;</span><br><span class="line">	   return applicationContext;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//通过name获取 Bean.</span><br><span class="line">	public static Object getBean(String name)&#123;</span><br><span class="line">	   return getApplicationContext().getBean(name);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//通过class获取Bean.</span><br><span class="line">	public static &lt;T&gt; T getBean(Class&lt;T&gt; clazz)&#123;</span><br><span class="line">	   return getApplicationContext().getBean(clazz);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//通过name,以及Clazz返回指定的Bean</span><br><span class="line">	public static &lt;T&gt; T getBean(String name,Class&lt;T&gt; clazz)&#123;</span><br><span class="line">	   return getApplicationContext().getBean(name, clazz);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="2-在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext"><a href="#2-在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext" class="headerlink" title="2.在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext"></a>2.在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext</h6><p>不确定是否必须加这一步,网上教程说加，我没加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">public class App&#123;</span><br><span class="line">	public static void main( String[] args )&#123;</span><br><span class="line">		System.out.println( &quot;Hello World!&quot; );</span><br><span class="line">		ApplicationContext app = SpringApplication.run(App.class, args);</span><br><span class="line">		SpringContextUtil.setApplicationContext(app);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="3-在普通类中通过getBean-获取"><a href="#3-在普通类中通过getBean-获取" class="headerlink" title="3.在普通类中通过getBean()获取"></a>3.在普通类中通过getBean()获取</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//导入Logservice</span><br><span class="line">LogService logService = (LogService) SpringUtil.getBean(LogService.class);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/30/Spring上下文/" data-id="cjlgd6azd0001a4vpmto2lsgy" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot-java/">springboot, java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sqlmap" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/28/sqlmap/" class="article-date">
@@ -269,7 +354,7 @@ sqlmap -u &quot;http://127.0.0.1:80/sqli-labs/Less-62/?id=1*&quot; --batch
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/sqlmap/" data-id="cjldemypa0004kkvpgtde74uq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/28/sqlmap/" data-id="cjlgd6b0a000aa4vpf3l0cvg7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sqlmap/">sqlmap</a></li></ul>
@@ -617,7 +702,7 @@ information_schema的表columns中的列column_name记录了所有数据库的�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/28/sql注入/" data-id="cjldemyps0007kkvp8iiiti5i" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/28/sql注入/" data-id="cjlgd6b0q000da4vpuhjwqr2s" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql注入-sqli-labs/">sql注入,sqli-labs</a></li></ul>
@@ -661,7 +746,7 @@ information_schema的表columns中的列column_name记录了所有数据库的�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/20/reinstall/" data-id="cjldemyny0001kkvphlft38ey" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/20/reinstall/" data-id="cjlgd6azl0003a4vp5sjlxuna" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
@@ -708,7 +793,7 @@ information_schema的表columns中的列column_name记录了所有数据库的�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/19/hello-world/" data-id="cjldemynr0000kkvpiif43as8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/19/hello-world/" data-id="cjlgd6azo0004a4vpdyum4ckw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -731,7 +816,7 @@ information_schema的表columns中的列column_name记录了所有数据库的�
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlmap/">sqlmap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql注入-sqli-labs/">sql注入,sqli-labs</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot-java/">springboot, java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot-java-RestTemplate/">springboot, java, RestTemplate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlmap/">sqlmap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql注入-sqli-labs/">sql注入,sqli-labs</a></li></ul>
     </div>
   </div>
 
@@ -741,7 +826,7 @@ information_schema的表columns中的列column_name记录了所有数据库的�
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/sqlmap/" style="font-size: 10px;">sqlmap</a> <a href="/tags/sql注入-sqli-labs/" style="font-size: 10px;">sql注入,sqli-labs</a>
+      <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/springboot-java/" style="font-size: 10px;">springboot, java</a> <a href="/tags/springboot-java-RestTemplate/" style="font-size: 10px;">springboot, java, RestTemplate</a> <a href="/tags/sqlmap/" style="font-size: 10px;">sqlmap</a> <a href="/tags/sql注入-sqli-labs/" style="font-size: 10px;">sql注入,sqli-labs</a>
     </div>
   </div>
 
@@ -763,6 +848,14 @@ information_schema的表columns中的列column_name记录了所有数据库的�
       <ul>
         
           <li>
+            <a href="/2018/08/30/RestTemplate/">RestTemplate</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/30/Spring上下文/">Spring上下文</a>
+          </li>
+        
+          <li>
             <a href="/2018/08/28/sqlmap/">sqlmap</a>
           </li>
         
@@ -772,10 +865,6 @@ information_schema的表columns中的列column_name记录了所有数据库的�
         
           <li>
             <a href="/2018/08/20/reinstall/">reinstall</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/19/hello-world/">Hello World</a>
           </li>
         
       </ul>
