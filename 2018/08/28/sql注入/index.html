@@ -6,24 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>sql注入 | Hexo</title>
+  <title>sql注入 | xiong&#39;s blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="SQL注入sql注入:利用现有程序，使之执行构造的payload. 一. 环境搭建 ubuntu16.04虚拟机 更新阿里源 apt-get update 安装mysql apt-get install mysql-server mysql-client -y 安装apache apt-get install apache2 -y 安装git apt-get install git -y 项目 c">
 <meta name="keywords" content="sql注入,sqli-labs">
 <meta property="og:type" content="article">
 <meta property="og:title" content="sql注入">
 <meta property="og:url" content="http://yoursite.com/2018/08/28/sql注入/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="xiong&#39;s blogs">
 <meta property="og:description" content="SQL注入sql注入:利用现有程序，使之执行构造的payload. 一. 环境搭建 ubuntu16.04虚拟机 更新阿里源 apt-get update 安装mysql apt-get install mysql-server mysql-client -y 安装apache apt-get install apache2 -y 安装git apt-get install git -y 项目 c">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2018/08/28/images/youarein.png">
-<meta property="og:updated_time" content="2018-08-28T07:29:58.878Z">
+<meta property="og:updated_time" content="2018-08-31T10:06:55.103Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sql注入">
 <meta name="twitter:description" content="SQL注入sql注入:利用现有程序，使之执行构造的payload. 一. 环境搭建 ubuntu16.04虚拟机 更新阿里源 apt-get update 安装mysql apt-get install mysql-server mysql-client -y 安装apache apt-get install apache2 -y 安装git apt-get install git -y 项目 c">
 <meta name="twitter:image" content="http://yoursite.com/2018/08/28/images/youarein.png">
   
-    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="xiong&#39;s blogs" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -50,10 +50,10 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="" class="js-avatar">
+			<img src="/images/avator.jpg" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">John Doe</a></h1>
+		  <h1 class="header-author"><a href="/">xiong</a></h1>
 		</hgroup>
 		
 
@@ -61,8 +61,6 @@
 			<ul>
 			
 				<li><a href="/">主页</a></li>
-	        
-				<li><a href="/tags/随笔/">随笔</a></li>
 	        
 			</ul>
 		</nav>
@@ -108,15 +106,13 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="" class="js-avatar">
+				<img src="/images/avator.jpg" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">John Doe</h1>
+			  <h1 class="header-author js-header-author">xiong</h1>
 			</hgroup>
 			
 			
-			
-				
 			
 				
 			
@@ -140,9 +136,7 @@
 				<ul style="width: 50%">
 				
 				
-					<li style="width: 50%"><a href="/">主页</a></li>
-		        
-					<li style="width: 50%"><a href="/tags/随笔/">随笔</a></li>
+					<li style="width: 100%"><a href="/">主页</a></li>
 		        
 				</ul>
 			</nav>
@@ -190,10 +184,10 @@
 </ul>
 <h5 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h5><ul>
 <li>navicat连不上mysql <br><br>  注释 /etc/mysql/mysql.cnf.d/mysqld.cnf 中bind 127.0.0.1<br><br>  修改select user, host from user;  update user set host = “%” where host = ‘localhost’;  flush privileges;</li>
-<li>php版本导致mysql_connect()废弃 <br><br>  安装phpstorm 配置phpcgi  apt-get install php版本-cgi<br><br>  降低版本到php5.6错误仍然在<br><br>  第二天重启Phpstrom 打开网页，错误消失<br><br>猜测是降低版本有效，但第一天有缓存<br></li>
-</ul>
+<li><p>php版本导致mysql_connect()废弃 <br><br>  安装phpstorm 配置phpcgi  apt-get install php版本-cgi<br><br>  降低版本到php5.6错误仍然在<br><br>  第二天重启Phpstrom 打开网页，错误消失<br><br>猜测是降低版本有效，但第一天有缓存<br></p>
+<a id="more"></a>
 <h3 id="二-sqli-labs"><a href="#二-sqli-labs" class="headerlink" title="二.sqli-labs"></a>二.sqli-labs</h3><p>参考了大牛的教程<a href="https://github.com/lcamry/sqli-labs/blob/master/mysql-injection.pdf" target="_blank" rel="noopener">https://github.com/lcamry/sqli-labs/blob/master/mysql-injection.pdf</a></p>
-<ul>
+</li>
 <li><p><strong> less1 GET-Error based - Single quotes - String <br> </strong><br>  php中代码 SELECT * FROM users WHERE id=’$id’ LIMIT 0,1;<br>  %20 空格 %27 单引号 %3D 等于号<br><br>  一：?id=(select%20id%20from%20users%20where%20username%20%3D”admin”) 未成功      ’$id’ 注入被单引号包裹，将输入变成了字符串<br><br>  二：?id=’%20and%20username%3D%27admin 未成功 id=’’这个条件未绕过<br>  想利用id=这个条件或者绕过这个条件<br><br>  三：?id=’%20or%20username%3D%27admin 成功<br><br>  基于二，转换思路，利用or成功绕过<br><br>  爆破数据库版本<br><br>  ?id=-1%27%20%20union%20select%201%2cversion()%2c3%23<br><br>  ？id=-1’  union select 1,version(),3#<br><br>  union必须列一样，所以1和3是为了保持三列</p>
 </li>
 <li><p><strong> less 2 GET - Error based -Intiger based<br> </strong><br>  php中代码 $sql=”SELECT * FROM users WHERE id=$id LIMIT 0,1”;<br><br>  $id未加引号过滤输入<br> ?id=(select%20id%20from%20users%20where%20username%20%3D”admin”)成功注入</p>
@@ -645,7 +639,7 @@ information_schema的表columns中的列column_name记录了所有数据库的�
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 John Doe
+    		&copy; 2018 xiong
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -728,7 +722,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot, java, RestTemplate</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -736,7 +730,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color1">springboot, java, RestTemplate</a>
               </li>
              
               <li class="article-tag-list-item">
