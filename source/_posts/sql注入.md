@@ -25,7 +25,7 @@ sql注入:利用现有程序，使之执行构造的payload.
 	降低版本到php5.6错误仍然在</br>
 	第二天重启Phpstrom 打开网页，错误消失</br>
   猜测是降低版本有效，但第一天有缓存</br>
-
+<!-- more -->
 ### 二.sqli-labs
 参考了大牛的教程https://github.com/lcamry/sqli-labs/blob/master/mysql-injection.pdf
 

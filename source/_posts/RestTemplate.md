@@ -15,7 +15,7 @@ tags: springboot, java, RestTemplate
 </dependency>
 ```
 
-######2.完成配置类
+###### 2.完成配置类
 ```
 @Configuration
 public class RestTemplateConfig {

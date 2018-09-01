@@ -2,6 +2,7 @@
 title: reinstall
 date: 2018-08-20 09:37:39
 tags: hexo
+toc: true
 ---
 
 ## 重装
