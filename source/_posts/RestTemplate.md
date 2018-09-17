@@ -49,3 +49,24 @@ public class AcceptDeal extends Thread {
 }
 
 ```
+设置header与发送接收类型
+```
+try {
+           String url = "http://xxxxx";
+           //设置ContentType
+           HttpHeaders httpHeaders = new HttpHeaders();
+           MediaType type = MediaType.parseMediaType( "application/x-www-form-urlencoded;charset=utf-8");
+           httpHeaders.setContentType(type);
+           //form表单
+           MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<String, String>();
+           paramMap.add("number", deliver.getUserNumber().substring(2));
+           paramMap.add("port", deliver.getSPNumber());
+           paramMap.add("content",new String(deliver.getMessageByte(), "UnicodeBigUnmarked"));
+           paramMap.add("time", df.format(new Date()));
+           HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(paramMap, httpHeaders);
+           //调用回执接口
+           String re = restTemplate.postForObject(url, requestEntity, String.class);
+       }catch (Exception e){
+         e.printStackTrace();
+       }
+```
