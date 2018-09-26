@@ -1,7 +1,7 @@
 ---
 title: Spring上下文
 date: 2018-08-30 16:34:21
-tags: springboot, java
+tags: [springboot, java,spring上下文]
 ---
 
 非spring管理的类（普通类），获得一个Bean。

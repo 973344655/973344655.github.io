@@ -146,6 +146,88 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-javasocket" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/26/javasocket/">javasocket</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/26/javasocket/" class="archive-article-date">
+  	<time datetime="2018-09-26T09:49:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-java-net-socket"><a href="#1-java-net-socket" class="headerlink" title="1.java.net.socket"></a>1.java.net.socket</h4><p>server端代码，使用子线程处理连接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">public class SocketController &#123;</span><br><span class="line">    private final static Log logger = LogFactory.getLog(SocketController.class);</span><br><span class="line"></span><br><span class="line">    public void accept()&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            ServerSocket socketServer = new ServerSocket(8888);</span><br><span class="line">            logger.info(&quot;socket启动，保持监听。。。&quot;);</span><br><span class="line">            //保持监听,同时连接多个</span><br><span class="line">            while (true)&#123;</span><br><span class="line">                Socket socket = socketServer.accept();</span><br><span class="line">                logger.info(&quot;子socket开始.....&quot;);</span><br><span class="line">                new DispatchRequestThread(socket).start();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 处理socket线程类</span><br><span class="line">     */</span><br><span class="line">    class DispatchRequestThread extends Thread &#123;</span><br><span class="line"></span><br><span class="line">        BufferedReader in;</span><br><span class="line">        PrintWriter out;</span><br><span class="line">        Socket socket;</span><br><span class="line"></span><br><span class="line">        public DispatchRequestThread(Socket socket) &#123;</span><br><span class="line">            this.socket = socket;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                //通过socket输入流，读取客户端发来的数据</span><br><span class="line">                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));</span><br><span class="line">                //通过socket输出流，给客户端发送回执</span><br><span class="line">                out = new PrintWriter(socket.getOutputStream(), true);</span><br><span class="line"></span><br><span class="line">                //获取input</span><br><span class="line">                String line = &quot;&quot;;</span><br><span class="line">               // line = in.readLine(); //其实就只有一行数据</span><br><span class="line">               while (true)&#123;</span><br><span class="line">                   if(in.ready())&#123;</span><br><span class="line">                       line = in.readLine();</span><br><span class="line">                       System.out.println(line);</span><br><span class="line">                       break;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">                socket.shutdownInput();</span><br><span class="line"></span><br><span class="line">               //返回</span><br><span class="line">                String result = vaildCkeck(line);</span><br><span class="line">                out.write(result);</span><br><span class="line"></span><br><span class="line">                //关闭socket</span><br><span class="line">                out.flush();</span><br><span class="line">                in.close();</span><br><span class="line">                out.close();</span><br><span class="line">                logger.info(&quot;该子socket监听完成，并关闭&quot;);</span><br><span class="line">            &#125; catch (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125; finally &#123;</span><br><span class="line">                //</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 输入校验，返回定义错误类型</span><br><span class="line">     * @param line</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public String vaildCkeck(String line) &#123;</span><br><span class="line">      //.....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>client代码，创建三个socket连接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class MsgTest &#123;</span><br><span class="line"></span><br><span class="line">  public void send() throws Exception,SGIP_Exception &#123;</span><br><span class="line">      //简单创建三个连接</span><br><span class="line">      Thread t1 = new SocketClientThread();</span><br><span class="line">      Thread t2 = new SocketClientThread();</span><br><span class="line">      Thread t3 = new SocketClientThread();</span><br><span class="line">      t1.join();</span><br><span class="line">      t2.join();</span><br><span class="line">      t3.join();</span><br><span class="line">      t1.start();</span><br><span class="line">      t2.start();</span><br><span class="line">      t3.start();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  //socket</span><br><span class="line">  class SocketClientThread extends  Thread&#123;</span><br><span class="line">      @Override</span><br><span class="line">      public void run()&#123;</span><br><span class="line">          Socket socket = null;</span><br><span class="line">          BufferedReader in = null;</span><br><span class="line">          PrintWriter out = null;</span><br><span class="line"></span><br><span class="line">          //可以同时发送1-100个号码</span><br><span class="line">          String str1 = &quot;178888******,178888******&quot;;</span><br><span class="line">          String str2 = &quot;191&quot;;</span><br><span class="line">          String str3 = &quot;内容1111111111111111111111111111111111&quot;;</span><br><span class="line">          String str = str1 +&quot;|&quot; + str2 + &quot;|&quot; + str3;</span><br><span class="line"></span><br><span class="line">          //建立连接</span><br><span class="line">          try &#123;</span><br><span class="line">              socket = new Socket(&quot;127.0.0.1&quot;, 8888);</span><br><span class="line">              socket.setSoTimeout(10000);</span><br><span class="line">              System.out.println(&quot;socket connected!&quot;);</span><br><span class="line">              out = new PrintWriter(socket.getOutputStream());</span><br><span class="line">              in = new BufferedReader(new InputStreamReader(socket.getInputStream()));</span><br><span class="line">              //发送消息</span><br><span class="line">              out.write(str);</span><br><span class="line">              out.flush();</span><br><span class="line">              socket.shutdownOutput();</span><br><span class="line">              //得到回执</span><br><span class="line">              System.out.println(in.readLine());</span><br><span class="line">              //关闭连接</span><br><span class="line">              in.close();</span><br><span class="line">              out.close();</span><br><span class="line">              socket.close();</span><br><span class="line">          &#125;catch (Exception e)&#123;</span><br><span class="line">              e.printStackTrace();</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行截图</p>
+<p><img src="../images/socketclient.png" alt="client"></p>
+<p><img src="../images/socketserver.png" alt="server"></p>
+<h4 id="2-nio"><a href="#2-nio" class="headerlink" title="2.nio"></a>2.nio</h4><h4 id="3-netty"><a href="#3-netty" class="headerlink" title="3.netty"></a>3.netty</h4>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">socket</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/26/javasocket/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-OJT022" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1050,95 +1132,6 @@ sqlmap -u &quot;http://127.0.0.1:80/sqli-labs/Less-62/?id=1*&quot; --batch
 
 
   
-    <article id="post-sql注入" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/28/sql注入/">sql注入</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/28/sql注入/" class="archive-article-date">
-  	<time datetime="2018-08-28T03:30:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h2><p>sql注入:利用现有程序，使之执行构造的payload.</p>
-<h3 id="一-环境搭建"><a href="#一-环境搭建" class="headerlink" title="一. 环境搭建"></a>一. 环境搭建</h3><ul>
-<li>ubuntu16.04虚拟机</li>
-<li>更新阿里源 apt-get update</li>
-<li>安装mysql apt-get install mysql-server mysql-client -y</li>
-<li>安装apache apt-get install apache2 -y</li>
-<li>安装git apt-get install git -y</li>
-<li>项目 cd /var/www &amp;&amp; sudo git clone <a href="https://github.com/Audi-1/sqli-labs.git" target="_blank" rel="noopener">https://github.com/Audi-1/sqli-labs.git</a> sqli-labs  </li>
-<li>更改项目的mysql配置文件为自己数据库</li>
-<li>现在在浏览器localhost/sqli-labs已经可以访问到了</li>
-</ul>
-<h5 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h5><ul>
-<li>navicat连不上mysql <br><br>  注释 /etc/mysql/mysql.cnf.d/mysqld.cnf 中bind 127.0.0.1<br><br>  修改select user, host from user;  update user set host = “%” where host = ‘localhost’;  flush privileges;</li>
-<li><p>php版本导致mysql_connect()废弃 <br><br>  安装phpstorm 配置phpcgi  apt-get install php版本-cgi<br><br>  降低版本到php5.6错误仍然在<br><br>  第二天重启Phpstrom 打开网页，错误消失<br><br>猜测是降低版本有效，但第一天有缓存<br></p>
-        
-          <a class="article-more-a" href="/2018/08/28/sql注入/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">sql注入,sqli-labs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/28/sql注入/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1244,15 +1237,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">java spring</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">sgip, java</a>
+                <a href="javascript:void(0)" class="js-tag color1">springboot, java, RestTemplate</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1260,11 +1249,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">socket</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot, java, RestTemplate</a>
+                <a href="javascript:void(0)" class="js-tag color1">sgip, java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1276,7 +1273,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">sql注入,sqli-labs</a>
+                <a href="javascript:void(0)" class="js-tag color1">sql注入</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">sqli-labs</a>
               </li>
             
             <div class="clearfix"></div>
