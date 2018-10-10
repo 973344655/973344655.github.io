@@ -43,7 +43,7 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="./images/avator.jpg" class="js-avatar">
+			<img src="../images/avator.jpg" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="/">xiong</a></h1>
@@ -77,11 +77,7 @@
 				
 					<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
 		        
-					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
-		        
-					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-		        
-					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+					<a class="qq" target="_blank" href="#" title="qq"><i class="icon-qq"></i></a>
 		        
 			</div>
 		</nav>
@@ -99,7 +95,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="./images/avator.jpg" class="js-avatar">
+				<img src="../images/avator.jpg" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author">xiong</h1>
@@ -116,11 +112,7 @@
 					
 						<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
-			        
-						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-			        
-						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+						<a class="qq" target="_blank" href="#" title="qq"><i class="icon-qq"></i></a>
 			        
 				</div>
 			</nav>
@@ -145,6 +137,88 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-Spring上下文" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/30/Spring上下文/">Spring上下文</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/30/Spring上下文/" class="archive-article-date">
+  	<time datetime="2018-08-30T08:34:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>非spring管理的类（普通类），获得一个Bean。<br>在一个普通类中，@Autowired和new都不能导入一个Bean对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class AcceptDeal extends Thread &#123;</span><br><span class="line">  @Autowired</span><br><span class="line">  LogService logservice;//但此时mapper中信息又为null</span><br><span class="line">  //或者new 一个对象</span><br><span class="line">  //LogService logservice = new LogService();//此时mapper又不能导入</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>解决方案：使用Spring上下文，获取Bean</p>
+<h6 id="1-新建一个工具类SpringUtil"><a href="#1-新建一个工具类SpringUtil" class="headerlink" title="1.新建一个工具类SpringUtil"></a>1.新建一个工具类SpringUtil</h6><p>可以根据自己的需要添加上下文相关的管理方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">package com.bonc.sms.util;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.BeansException;</span><br><span class="line">import org.springframework.context.ApplicationContext;</span><br><span class="line">import org.springframework.context.ApplicationContextAware;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 普通类调用Spring bean对象：</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class SpringUtil implements ApplicationContextAware&#123;</span><br><span class="line">	private static ApplicationContext applicationContext = null;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException &#123;</span><br><span class="line">	   if(SpringUtil.applicationContext == null)&#123;</span><br><span class="line">		   SpringUtil.applicationContext  = applicationContext;</span><br><span class="line">	   &#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//获取applicationContext</span><br><span class="line">	public static ApplicationContext getApplicationContext() &#123;</span><br><span class="line">	   return applicationContext;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//通过name获取 Bean.</span><br><span class="line">	public static Object getBean(String name)&#123;</span><br><span class="line">	   return getApplicationContext().getBean(name);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//通过class获取Bean.</span><br><span class="line">	public static &lt;T&gt; T getBean(Class&lt;T&gt; clazz)&#123;</span><br><span class="line">	   return getApplicationContext().getBean(clazz);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//通过name,以及Clazz返回指定的Bean</span><br><span class="line">	public static &lt;T&gt; T getBean(String name,Class&lt;T&gt; clazz)&#123;</span><br><span class="line">	   return getApplicationContext().getBean(name, clazz);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="2-在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext"><a href="#2-在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext" class="headerlink" title="2.在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext"></a>2.在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext</h6><p>不确定是否必须加这一步,网上教程说加，我没加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">public class App&#123;</span><br><span class="line">	public static void main( String[] args )&#123;</span><br><span class="line">		System.out.println( &quot;Hello World!&quot; );</span><br><span class="line">		ApplicationContext app = SpringApplication.run(App.class, args);</span><br><span class="line">		SpringContextUtil.setApplicationContext(app);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="3-在普通类中通过getBean-获取"><a href="#3-在普通类中通过getBean-获取" class="headerlink" title="3.在普通类中通过getBean()获取"></a>3.在普通类中通过getBean()获取</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//导入Logservice</span><br><span class="line">LogService logService = (LogService) SpringUtil.getBean(LogService.class);</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/30/Spring上下文/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-sqlmap" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -360,7 +434,7 @@ sqlmap -u &quot;http://127.0.0.1:80/sqli-labs/Less-62/?id=1*&quot; --batch
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">sqlmap</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">sql注入</a>
         		</li>
       		
 		</ul>
@@ -407,7 +481,7 @@ sqlmap -u &quot;http://127.0.0.1:80/sqli-labs/Less-62/?id=1*&quot; --batch
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/28/sql注入/">sql注入</a>
+      <a class="article-title" href="/2018/08/28/sql注入/">sql-labs注入</a>
     </h1>
   
 
@@ -450,10 +524,6 @@ sqlmap -u &quot;http://127.0.0.1:80/sqli-labs/Less-62/?id=1*&quot; --batch
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">sql注入</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">sqli-labs</a>
         		</li>
       		
 		</ul>
@@ -607,7 +677,7 @@ sqlmap -u &quot;http://127.0.0.1:80/sqli-labs/Less-62/?id=1*&quot; --batch
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
-		showTags: false
+		showTags: true
 	}
 </script>
 
@@ -669,19 +739,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">sprig</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -689,19 +751,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">spring上下文</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
+                <a href="javascript:void(0)" class="js-tag color2">socket</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">socket</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -721,15 +779,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">sqlmap</a>
+                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">sql注入</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">sqli-labs</a>
               </li>
             
             <div class="clearfix"></div>
@@ -812,7 +866,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">lazy</div>
   	  	
     	</section>
     
