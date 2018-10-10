@@ -1,7 +1,7 @@
 ---
-title: sql注入
+title: sql-labs注入
 date: 2018-08-28 11:30:20
-tags: [sql注入,sqli-labs]
+tags: [sql注入]
 ---
 ## SQL注入
 sql注入:利用现有程序，使之执行构造的payload.

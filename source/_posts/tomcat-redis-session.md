@@ -1,7 +1,7 @@
 ---
 title: tomcat-redis-session
 date: 2018-09-28 15:47:53
-tags: [tomcat, redis, session]
+tags: [tomcat, redis, session,java]
 ---
 #### 1.需求
 不同Ip主机上的tomcat,保持session同步。<br>

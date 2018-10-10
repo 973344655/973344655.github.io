@@ -9,14 +9,14 @@
   <title>Spring上下文 | xiong&#39;s blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="非spring管理的类（普通类），获得一个Bean。在一个普通类中，@Autowired和new都不能导入一个Bean对象123456public class AcceptDeal extends Thread &amp;#123;  @Autowired  LogService logservice;//但此时mapper中信息又为null  //或者new 一个对象  //LogService log">
-<meta name="keywords" content="java,springboot,spring上下文">
+<meta name="keywords" content="springboot,java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring上下文">
 <meta property="og:url" content="http://yoursite.com/2018/08/30/Spring上下文/index.html">
 <meta property="og:site_name" content="xiong&#39;s blogs">
 <meta property="og:description" content="非spring管理的类（普通类），获得一个Bean。在一个普通类中，@Autowired和new都不能导入一个Bean对象123456public class AcceptDeal extends Thread &amp;#123;  @Autowired  LogService logservice;//但此时mapper中信息又为null  //或者new 一个对象  //LogService log">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-26T10:31:51.619Z">
+<meta property="og:updated_time" content="2018-09-29T07:08:44.549Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring上下文">
 <meta name="twitter:description" content="非spring管理的类（普通类），获得一个Bean。在一个普通类中，@Autowired和new都不能导入一个Bean对象123456public class AcceptDeal extends Thread &amp;#123;  @Autowired  LogService logservice;//但此时mapper中信息又为null  //或者new 一个对象  //LogService log">
@@ -48,7 +48,7 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="./images/avator.jpg" class="js-avatar">
+			<img src="../images/avator.jpg" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="/">xiong</a></h1>
@@ -82,11 +82,7 @@
 				
 					<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
 		        
-					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
-		        
-					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-		        
-					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+					<a class="qq" target="_blank" href="#" title="qq"><i class="icon-qq"></i></a>
 		        
 			</div>
 		</nav>
@@ -104,7 +100,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="./images/avator.jpg" class="js-avatar">
+				<img src="../images/avator.jpg" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author">xiong</h1>
@@ -121,11 +117,7 @@
 					
 						<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
-			        
-						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-			        
-						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+						<a class="qq" target="_blank" href="#" title="qq"><i class="icon-qq"></i></a>
 			        
 				</div>
 			</nav>
@@ -208,15 +200,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">spring上下文</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		
 		</ul>
@@ -317,6 +305,19 @@
         </div>
         
         
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-新建一个工具类SpringUtil"><span class="toc-number">1.</span> <span class="toc-text">1.新建一个工具类SpringUtil</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext"><span class="toc-number">2.</span> <span class="toc-text">2.在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-在普通类中通过getBean-获取"><span class="toc-number">3.</span> <span class="toc-text">3.在普通类中通过getBean()获取</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
     </div>
 </aside>
 
@@ -361,7 +362,7 @@
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
-		showTags: false
+		showTags: true
 	}
 </script>
 
@@ -423,19 +424,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">sprig</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -443,19 +436,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">spring上下文</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
+                <a href="javascript:void(0)" class="js-tag color2">socket</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">socket</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -475,15 +464,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">sqlmap</a>
+                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">sql注入</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">sqli-labs</a>
               </li>
             
             <div class="clearfix"></div>
@@ -566,7 +551,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">lazy</div>
   	  	
     	</section>
     

@@ -9,7 +9,7 @@
   <title>tomcat-redis-session | xiong&#39;s blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="1.需求不同Ip主机上的tomcat,保持session同步。 2.查资料一般做法为，利用redis保持session,不同tomcat从redis存取，外层nginx做tomcat的负载均衡。开源项目https://github.com/jcoleman/tomcat-redis-session-manager， 提供了tomcat连接redis的jar包，但是，我试了多次，总是不行，版本不对，">
-<meta name="keywords" content="tomcat,redis,session">
+<meta name="keywords" content="java,tomcat,redis,session">
 <meta property="og:type" content="article">
 <meta property="og:title" content="tomcat-redis-session">
 <meta property="og:url" content="http://yoursite.com/2018/09/28/tomcat-redis-session/index.html">
@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/09/28/images/redis.png">
 <meta property="og:image" content="http://yoursite.com/2018/09/28/images/tomcat1.png">
 <meta property="og:image" content="http://yoursite.com/2018/09/28/images/tomcat2.png">
-<meta property="og:updated_time" content="2018-09-28T08:26:52.852Z">
+<meta property="og:updated_time" content="2018-09-29T07:10:59.681Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="tomcat-redis-session">
 <meta name="twitter:description" content="1.需求不同Ip主机上的tomcat,保持session同步。 2.查资料一般做法为，利用redis保持session,不同tomcat从redis存取，外层nginx做tomcat的负载均衡。开源项目https://github.com/jcoleman/tomcat-redis-session-manager， 提供了tomcat连接redis的jar包，但是，我试了多次，总是不行，版本不对，">
@@ -52,7 +52,7 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="./images/avator.jpg" class="js-avatar">
+			<img src="../images/avator.jpg" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="/">xiong</a></h1>
@@ -86,11 +86,7 @@
 				
 					<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
 		        
-					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
-		        
-					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-		        
-					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+					<a class="qq" target="_blank" href="#" title="qq"><i class="icon-qq"></i></a>
 		        
 			</div>
 		</nav>
@@ -108,7 +104,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="./images/avator.jpg" class="js-avatar">
+				<img src="../images/avator.jpg" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author">xiong</h1>
@@ -125,11 +121,7 @@
 					
 						<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
-			        
-						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-			        
-						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+						<a class="qq" target="_blank" href="#" title="qq"><i class="icon-qq"></i></a>
 			        
 				</div>
 			</nav>
@@ -223,6 +215,10 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">tomcat</a>
         		</li>
       		 
@@ -301,6 +297,15 @@
   
 <nav id="article-nav">
   
+    <a href="/2018/10/10/正则/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          正则
+        
+      </div>
+    </a>
+  
   
     <a href="/2018/09/26/javasocket/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">javasocket</div>
@@ -322,6 +327,19 @@
             </div>
         </div>
         
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-需求"><span class="toc-number">1.</span> <span class="toc-text">1.需求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-查资料"><span class="toc-number">2.</span> <span class="toc-text">2.查资料</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-实现"><span class="toc-number">3.</span> <span class="toc-text">3.实现</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-tomcat"><span class="toc-number">3.0.1.</span> <span class="toc-text">1.tomcat</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-nginx"><span class="toc-number">3.0.2.</span> <span class="toc-text">2.nginx</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-redis"><span class="toc-number">3.0.3.</span> <span class="toc-text">3.redis</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-重启tomcat-查看效果"><span class="toc-number">4.</span> <span class="toc-text">4. 重启tomcat 查看效果</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
         
     </div>
 </aside>
@@ -367,7 +385,7 @@
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
-		showTags: false
+		showTags: true
 	}
 </script>
 
@@ -429,19 +447,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">sprig</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -449,19 +459,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">spring上下文</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
+                <a href="javascript:void(0)" class="js-tag color2">socket</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">socket</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -481,15 +487,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">sqlmap</a>
+                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">sql注入</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">sqli-labs</a>
               </li>
             
             <div class="clearfix"></div>
@@ -572,7 +574,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">lazy</div>
   	  	
     	</section>
     
