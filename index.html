@@ -158,7 +158,26 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h4 id="1-正则表达式"><a href="#1-正则表达式" class="headerlink" title="1.正则表达式"></a>1.正则表达式</h4><p>正则表达式一般用来匹配字符串，进行相应处理。</p>
+<h4 id="2-常用符号"><a href="#2-常用符号" class="headerlink" title="2.常用符号"></a>2.常用符号</h4><ul>
+<li>(exp)  子串</li>
+<li>{n} {n,} {n,m} 限定匹配次数。分别为:匹配n次;至少n次;至少n次，至多m次。</li>
+<li>* + ? 限定次数。分别为:0或多次;1或多次;0或1次</li>
+<li>| 或 &nbsp;&nbsp;[a|b]匹配a或b</li>
+<li>^ java中为非，一般为匹配开始位置</li>
+<li>$ 匹配结尾位置</li>
+<li>\b 匹配边界，即字与空格间的位置</li>
+<li>数字 [0-9]或\d &nbsp;&nbsp;非数字 [^0-9]或\D</li>
+<li>字母 [a-z] &nbsp;&nbsp;非字母 [^a-z]</li>
+<li>任何字符 [A-Za-z0-9]或\w  &nbsp;&nbsp;非字符 [^A-Za-z0-9]或\W</li>
+</ul>
+<h4 id="3-例子"><a href="#3-例子" class="headerlink" title="3.例子"></a>3.例子</h4><ol>
+<li><p>例一</p>
+<p> 匹配两个或三个十一位的电话号码，中间用逗号分割(java)</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String zz1 = &quot;(\\d&#123;11&#125;,)&#123;1,3&#125;\\d&#123;11&#125;&quot;;</span><br><span class="line">String str1 = &quot;17888824094,17888824094,17888824094&quot;;</span><br><span class="line">boolean isTrue1 = Pattern.matches(zz1, str1);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
       
 
       
@@ -166,11 +185,134 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">正则</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/10/10/正则/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-googlehacking" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/10/googlehacking/">googlehacking</a>
+    </h1>
+  
+
+        
+        <a href="/2018/10/10/googlehacking/" class="archive-article-date">
+  	<time datetime="2018-10-09T21:24:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-GooleHacking"><a href="#1-GooleHacking" class="headerlink" title="1.GooleHacking"></a>1.GooleHacking</h4><p>利用搜索引擎的强大搜索能力，针对性的全网搜集所需资料。<br></p>
+<h4 id="2-关键字"><a href="#2-关键字" class="headerlink" title="2.关键字"></a>2.关键字</h4><ul>
+<li>intext/allintext: 在正文中搜索</li>
+<li>intitle/allintitle: 网页标题中， 例:intitle:后台管理，有很多</li>
+<li>cache: 缓存中？？</li>
+<li>filetype: 文件类型,   例:信息安全 filetype:doc</li>
+<li>info: 摘要信息</li>
+<li>inurl/allinurl: 在网址中</li>
+<li>site: 域名，返回域名中的所有url地址，用于检查网站拓扑结构。 例: site: baidu.com</li>
+<li>related: 搜索相关站点。  例:related:pku.edu.cn</li>
+<li>inanchor: 在链接文本中搜索。 例：inanchor:pku.edu.cn</li>
+<li>author: 新闻组贴子的作者。例:在google scholar搜索作者. author:”John”</li>
+<li>datarange: 某个日期范围内的网页.格式为天文学儒掠日。例：”Geri Halliwell” “Spice Girls” daterange:2450958-2450968</li>
+<li>weather: 天气. 例: weather:beijing</li>
+<li>group:</li>
+<li>stocks: 股票信息。 例:stocks:alibaba</li>
+<li>define:显示某术语定义。例:define:网络安全</li>
+<li>phonebook: 电话列表？？。 rphonebook:住宅电话 ; bphonebook:商业电话</li>
+<li>link：搜索与当前网页存在链接的网页（不能与其他操作符或搜索关键字混合使用. 例：link:<a href="http://www.vvv518.com" target="_blank" rel="noopener">www.vvv518.com</a></li>
+<li>msgid: 通过消息id搜索</li>
+</ul>
+<h4 id="3-语法"><a href="#3-语法" class="headerlink" title="3.语法"></a>3.语法</h4><ul>
+<li>“” 精确操作</li>
+<li>关键字之间不需要间隔，空格代表逻辑与操作</li>
+<li>- 忽略某个关键词. 例:a-b 搜索有a没b的网页</li>
+<li>～ 同义词</li>
+<li>+ 加入被忽略的关键字。google对com等频率高的英文单词做了忽略处理，加上 + ，使之强制搜索。</li>
+<li>布尔and/or/not 例：aorb</li>
+<li>通配符，出现通配符的关键字需要用引号。*多个， ？和 . 单个</li>
+</ul>
+<h4 id="4-注意"><a href="#4-注意" class="headerlink" title="4.注意"></a>4.注意</h4><ol>
+<li>google只能32个单词查询。<br></li>
+<li>操作符、冒号、关键字之间是没有空格的。</li>
+<li>高级操作符能够和单独的查询混合使用</li>
+</ol>
+<h4 id="5-例子"><a href="#5-例子" class="headerlink" title="5.例子"></a>5.例子</h4>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">渗透</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">google</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/10/10/googlehacking/">展开全文 >></a>
         </p>
       
 
@@ -896,92 +1038,6 @@
 
 
   
-    <article id="post-RestTemplate" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/30/RestTemplate/">RestTemplate</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/30/RestTemplate/" class="archive-article-date">
-  	<time datetime="2018-08-30T08:51:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>因为在代码中需要调用外部的接口，所以使用RestTemplate</p>
-<h6 id="1-导入"><a href="#1-导入" class="headerlink" title="1.导入"></a>1.导入</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 包含有restTemplate --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<h6 id="2-完成配置类"><a href="#2-完成配置类" class="headerlink" title="2.完成配置类"></a>2.完成配置类</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class RestTemplateConfig &#123;</span><br><span class="line">  //因为在普通类中使用它，所以给Bean去个名字，方便getBean()导入</span><br><span class="line">	@Bean(name = &quot;RestTemplate&quot;)</span><br><span class="line">	public RestTemplate restTemplate(ClientHttpRequestFactory factory)&#123;</span><br><span class="line">		return new RestTemplate(factory);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Bean</span><br><span class="line">	public ClientHttpRequestFactory simpleClientHttpRequestFactory()&#123;</span><br><span class="line">		SimpleClientHttpRequestFactory factory=new SimpleClientHttpRequestFactory();</span><br><span class="line">		factory.setConnectTimeout(15000);</span><br><span class="line">		factory.setReadTimeout(5000);</span><br><span class="line">		return factory;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h6 id="3-使用"><a href="#3-使用" class="headerlink" title="3.使用"></a>3.使用</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class AcceptDeal extends Thread &#123;</span><br><span class="line"></span><br><span class="line">  //通过名字导入</span><br><span class="line">	RestTemplate restTemplate = (RestTemplate) SpringUtil.getBean(&quot;RestTemplate&quot;);</span><br><span class="line"></span><br><span class="line">	//回执接口</span><br><span class="line">	String url = &quot;url&quot; + &quot;/&quot; + report.getState();</span><br><span class="line">	restTemplate.getForEntity(&quot;url&quot;, String.class);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>设置header与发送接收类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">try &#123;</span><br><span class="line">           String url = &quot;http://xxxxx&quot;;</span><br><span class="line">           //设置ContentType</span><br><span class="line">           HttpHeaders httpHeaders = new HttpHeaders();</span><br><span class="line">           MediaType type = MediaType.parseMediaType( &quot;application/x-www-form-urlencoded;charset=utf-8&quot;);</span><br><span class="line">           httpHeaders.setContentType(type);</span><br><span class="line">           //form表单</span><br><span class="line">           MultiValueMap&lt;String, String&gt; paramMap = new LinkedMultiValueMap&lt;String, String&gt;();</span><br><span class="line">           paramMap.add(&quot;number&quot;, deliver.getUserNumber().substring(2));</span><br><span class="line">           paramMap.add(&quot;port&quot;, deliver.getSPNumber());</span><br><span class="line">           paramMap.add(&quot;content&quot;,new String(deliver.getMessageByte(), &quot;UnicodeBigUnmarked&quot;));</span><br><span class="line">           paramMap.add(&quot;time&quot;, df.format(new Date()));</span><br><span class="line">           HttpEntity&lt;MultiValueMap&lt;String, String&gt;&gt; requestEntity = new HttpEntity&lt;MultiValueMap&lt;String, String&gt;&gt;(paramMap, httpHeaders);</span><br><span class="line">           //调用回执接口</span><br><span class="line">           String re = restTemplate.postForObject(url, requestEntity, String.class);</span><br><span class="line">       &#125;catch (Exception e)&#123;</span><br><span class="line">         e.printStackTrace();</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">RestTemplate</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/30/RestTemplate/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1091,7 +1147,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color3">渗透</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">google</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1099,11 +1159,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">sgip</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">正则</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1116,10 +1188,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">session</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
               </li>
              
               <li class="article-tag-list-item">
