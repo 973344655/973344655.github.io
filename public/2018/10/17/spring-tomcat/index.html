@@ -6,23 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>javasocket | xiong&#39;s blogs</title>
+  <title>spring_tomcat | xiong&#39;s blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.java.net.socketserver端代码，使用子线程处理连接12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879@Controllerpubl">
-<meta name="keywords" content="java,socket">
+  <meta name="description" content="Springboot部署war包到服务器上1.修改打包方式为war1234&amp;lt;groupId&amp;gt;com.xcloud&amp;lt;/groupId&amp;gt;   &amp;lt;artifactId&amp;gt;import-xcloud&amp;lt;/artifactId&amp;gt;   &amp;lt;version&amp;gt;0.0.1-SNAPSHOT&amp;lt;/version&amp;gt;   &amp;lt;packaging&amp;gt;w">
+<meta name="keywords" content="springboot,tomcat">
 <meta property="og:type" content="article">
-<meta property="og:title" content="javasocket">
-<meta property="og:url" content="http://yoursite.com/2018/09/26/javasocket/index.html">
+<meta property="og:title" content="spring_tomcat">
+<meta property="og:url" content="http://yoursite.com/2018/10/17/spring-tomcat/index.html">
 <meta property="og:site_name" content="xiong&#39;s blogs">
-<meta property="og:description" content="1.java.net.socketserver端代码，使用子线程处理连接12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879@Controllerpubl">
+<meta property="og:description" content="Springboot部署war包到服务器上1.修改打包方式为war1234&amp;lt;groupId&amp;gt;com.xcloud&amp;lt;/groupId&amp;gt;   &amp;lt;artifactId&amp;gt;import-xcloud&amp;lt;/artifactId&amp;gt;   &amp;lt;version&amp;gt;0.0.1-SNAPSHOT&amp;lt;/version&amp;gt;   &amp;lt;packaging&amp;gt;w">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/2018/09/26/images/socketclient.png">
-<meta property="og:image" content="http://yoursite.com/2018/09/26/images/socketserver.png">
-<meta property="og:updated_time" content="2018-09-26T10:30:09.816Z">
+<meta property="og:updated_time" content="2018-10-17T08:48:43.932Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="javasocket">
-<meta name="twitter:description" content="1.java.net.socketserver端代码，使用子线程处理连接12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879@Controllerpubl">
-<meta name="twitter:image" content="http://yoursite.com/2018/09/26/images/socketclient.png">
+<meta name="twitter:title" content="spring_tomcat">
+<meta name="twitter:description" content="Springboot部署war包到服务器上1.修改打包方式为war1234&amp;lt;groupId&amp;gt;com.xcloud&amp;lt;/groupId&amp;gt;   &amp;lt;artifactId&amp;gt;import-xcloud&amp;lt;/artifactId&amp;gt;   &amp;lt;version&amp;gt;0.0.1-SNAPSHOT&amp;lt;/version&amp;gt;   &amp;lt;packaging&amp;gt;w">
   
     <link rel="alternative" href="/atom.xml" title="xiong&#39;s blogs" type="application/atom+xml">
   
@@ -144,32 +141,30 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-javasocket" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-spring-tomcat" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      javasocket
+      spring_tomcat
     </h1>
   
 
         
-        <a href="/2018/09/26/javasocket/" class="archive-article-date">
-  	<time datetime="2018-09-26T09:49:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-26</time>
+        <a href="/2018/10/17/spring-tomcat/" class="archive-article-date">
+  	<time datetime="2018-10-17T07:14:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-17</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="1-java-net-socket"><a href="#1-java-net-socket" class="headerlink" title="1.java.net.socket"></a>1.java.net.socket</h4><p>server端代码，使用子线程处理连接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">public class SocketController &#123;</span><br><span class="line">    private final static Log logger = LogFactory.getLog(SocketController.class);</span><br><span class="line"></span><br><span class="line">    public void accept()&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            ServerSocket socketServer = new ServerSocket(8888);</span><br><span class="line">            logger.info(&quot;socket启动，保持监听。。。&quot;);</span><br><span class="line">            //保持监听,同时连接多个</span><br><span class="line">            while (true)&#123;</span><br><span class="line">                Socket socket = socketServer.accept();</span><br><span class="line">                logger.info(&quot;子socket开始.....&quot;);</span><br><span class="line">                new DispatchRequestThread(socket).start();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 处理socket线程类</span><br><span class="line">     */</span><br><span class="line">    class DispatchRequestThread extends Thread &#123;</span><br><span class="line"></span><br><span class="line">        BufferedReader in;</span><br><span class="line">        PrintWriter out;</span><br><span class="line">        Socket socket;</span><br><span class="line"></span><br><span class="line">        public DispatchRequestThread(Socket socket) &#123;</span><br><span class="line">            this.socket = socket;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                //通过socket输入流，读取客户端发来的数据</span><br><span class="line">                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));</span><br><span class="line">                //通过socket输出流，给客户端发送回执</span><br><span class="line">                out = new PrintWriter(socket.getOutputStream(), true);</span><br><span class="line"></span><br><span class="line">                //获取input</span><br><span class="line">                String line = &quot;&quot;;</span><br><span class="line">               // line = in.readLine(); //其实就只有一行数据</span><br><span class="line">               while (true)&#123;</span><br><span class="line">                   if(in.ready())&#123;</span><br><span class="line">                       line = in.readLine();</span><br><span class="line">                       System.out.println(line);</span><br><span class="line">                       break;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">                socket.shutdownInput();</span><br><span class="line"></span><br><span class="line">               //返回</span><br><span class="line">                String result = vaildCkeck(line);</span><br><span class="line">                out.write(result);</span><br><span class="line"></span><br><span class="line">                //关闭socket</span><br><span class="line">                out.flush();</span><br><span class="line">                in.close();</span><br><span class="line">                out.close();</span><br><span class="line">                logger.info(&quot;该子socket监听完成，并关闭&quot;);</span><br><span class="line">            &#125; catch (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125; finally &#123;</span><br><span class="line">                //</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 输入校验，返回定义错误类型</span><br><span class="line">     * @param line</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public String vaildCkeck(String line) &#123;</span><br><span class="line">      //.....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>client代码，创建三个socket连接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class MsgTest &#123;</span><br><span class="line"></span><br><span class="line">  public void send() throws Exception,SGIP_Exception &#123;</span><br><span class="line">      //简单创建三个连接</span><br><span class="line">      Thread t1 = new SocketClientThread();</span><br><span class="line">      Thread t2 = new SocketClientThread();</span><br><span class="line">      Thread t3 = new SocketClientThread();</span><br><span class="line">      t1.join();</span><br><span class="line">      t2.join();</span><br><span class="line">      t3.join();</span><br><span class="line">      t1.start();</span><br><span class="line">      t2.start();</span><br><span class="line">      t3.start();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  //socket</span><br><span class="line">  class SocketClientThread extends  Thread&#123;</span><br><span class="line">      @Override</span><br><span class="line">      public void run()&#123;</span><br><span class="line">          Socket socket = null;</span><br><span class="line">          BufferedReader in = null;</span><br><span class="line">          PrintWriter out = null;</span><br><span class="line"></span><br><span class="line">          //可以同时发送1-100个号码</span><br><span class="line">          String str1 = &quot;178888******,178888******&quot;;</span><br><span class="line">          String str2 = &quot;191&quot;;</span><br><span class="line">          String str3 = &quot;内容1111111111111111111111111111111111&quot;;</span><br><span class="line">          String str = str1 +&quot;|&quot; + str2 + &quot;|&quot; + str3;</span><br><span class="line"></span><br><span class="line">          //建立连接</span><br><span class="line">          try &#123;</span><br><span class="line">              socket = new Socket(&quot;127.0.0.1&quot;, 8888);</span><br><span class="line">              socket.setSoTimeout(10000);</span><br><span class="line">              System.out.println(&quot;socket connected!&quot;);</span><br><span class="line">              out = new PrintWriter(socket.getOutputStream());</span><br><span class="line">              in = new BufferedReader(new InputStreamReader(socket.getInputStream()));</span><br><span class="line">              //发送消息</span><br><span class="line">              out.write(str);</span><br><span class="line">              out.flush();</span><br><span class="line">              socket.shutdownOutput();</span><br><span class="line">              //得到回执</span><br><span class="line">              System.out.println(in.readLine());</span><br><span class="line">              //关闭连接</span><br><span class="line">              in.close();</span><br><span class="line">              out.close();</span><br><span class="line">              socket.close();</span><br><span class="line">          &#125;catch (Exception e)&#123;</span><br><span class="line">              e.printStackTrace();</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>运行截图</p>
-<p><img src="../images/socketclient.png" alt="client"></p>
-<p><img src="../images/socketserver.png" alt="server"></p>
-<h4 id="2-nio"><a href="#2-nio" class="headerlink" title="2.nio"></a>2.nio</h4><h4 id="3-netty"><a href="#3-netty" class="headerlink" title="3.netty"></a>3.netty</h4>
+        <h4 id="Springboot部署war包到服务器上"><a href="#Springboot部署war包到服务器上" class="headerlink" title="Springboot部署war包到服务器上"></a>Springboot部署war包到服务器上</h4><p>1.修改打包方式为war<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;groupId&gt;com.xcloud&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;import-xcloud&lt;/artifactId&gt;</span><br><span class="line">   &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">   &lt;packaging&gt;war&lt;/packaging&gt;</span><br></pre></td></tr></table></figure></p>
+<p>2.移除内置tomcat，引入外部的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">            &lt;!--使用外部tomcat时放开--&gt;</span><br><span class="line">            &lt;exclusions&gt;</span><br><span class="line">                &lt;exclusion&gt;</span><br><span class="line">                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                    &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</span><br><span class="line">                &lt;/exclusion&gt;</span><br><span class="line">            &lt;/exclusions&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!--下面的两个dependency都是用来部署到外置tomcat时使用，就是去掉内置的tomcat--&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;javax.servlet&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;servlet-api&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;3.0-alpha-1&lt;/version&gt;</span><br><span class="line">            &lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>3.修改启动类，继承extends SpringBootServletInitializer<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">public class ImportXcloudApplication extends SpringBootServletInitializer &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(ImportXcloudApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //返回启动类builder</span><br><span class="line">    @Override</span><br><span class="line">    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) &#123;</span><br><span class="line">        return builder.sources(ImportXcloudApplication.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
       
 
       
@@ -203,11 +198,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">socket</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">tomcat</a>
         		</li>
       		
 		</ul>
@@ -263,7 +258,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/09/26/javasocket/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/10/17/spring-tomcat/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -277,18 +272,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/09/28/tomcat-redis-session/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/10/31/java单例/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          tomcat-redis-session
+          java单例
         
       </div>
     </a>
   
   
-    <a href="/2018/09/21/spring/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">OJT022</div>
+    <a href="/2018/10/10/正则/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">正则</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -315,7 +310,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-java-net-socket"><span class="toc-number">1.</span> <span class="toc-text">1.java.net.socket</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-nio"><span class="toc-number">2.</span> <span class="toc-text">2.nio</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-netty"><span class="toc-number">3.</span> <span class="toc-text">3.netty</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Springboot部署war包到服务器上"><span class="toc-number">1.</span> <span class="toc-text">Springboot部署war包到服务器上</span></a></li></ol>
                     </div>
                 </span>
             </div>
