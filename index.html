@@ -138,19 +138,575 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-java单例" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-mavenmultiplemodules" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/31/java单例/">java单例</a>
+      <a class="article-title" href="/2018/11/28/mavenmultiplemodules/">mavenmultiplemodules</a>
     </h1>
   
 
         
-        <a href="/2018/10/31/java单例/" class="archive-article-date">
+        <a href="/2018/11/28/mavenmultiplemodules/" class="archive-article-date">
+  	<time datetime="2018-11-28T03:55:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/11/28/mavenmultiplemodules/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/springbootdemo" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/23/java/springbootdemo/">springbootdemo</a>
+    </h1>
+  
+
+        
+        <a href="/2018/11/23/java/springbootdemo/" class="archive-article-date">
+  	<time datetime="2018-11-23T07:47:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="springboot架子搭建"><a href="#springboot架子搭建" class="headerlink" title="springboot架子搭建"></a>springboot架子搭建</h3><h4 id="1-日志"><a href="#1-日志" class="headerlink" title="1.日志"></a>1.日志</h4><h5 id="（1）log4j2"><a href="#（1）log4j2" class="headerlink" title="（1）log4j2"></a>（1）log4j2</h5><ul>
+<li><p>依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--引入log4j2--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-log4j2&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!--log4j2依赖于disruptor--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.lmax&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;disruptor&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.4.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置文件log4j2.xml<br>log4j2默认会在classpath目录下寻找log4j.json、log4j.jsn、log4j2.xml等名称的文件，如果都没有找到，则会按默认配置输出，也就是输出到控制台</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!-- Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，</span><br><span class="line">    你会看到log4j2内部各种详细输出。可以设置成OFF(关闭)或Error(只输出错误信息)</span><br><span class="line">  --&gt;</span><br><span class="line">&lt;Configuration status=&quot;INFO&quot;&gt;</span><br><span class="line">    &lt;!-- 日志文件目录和压缩文件目录配置 --&gt;</span><br><span class="line">    &lt;Properties&gt;</span><br><span class="line">        &lt;Property name=&quot;fileName&quot;&gt;C:\\Users\\xiong\\Desktop\\log\\log4j2&lt;/Property&gt;</span><br><span class="line">        &lt;Property name=&quot;fileGz&quot;&gt;C:\\Users\\xiong\\Desktop\\log\\log4j2\\7z&lt;/Property&gt;</span><br><span class="line">    &lt;/Properties&gt;</span><br><span class="line">    &lt;!--appender主要作用就是：①控制打印日志的地方、②打印日志的输出格式--&gt;</span><br><span class="line">    &lt;Appenders&gt;</span><br><span class="line">        &lt;!-- 输出控制台日志的配置 --&gt;</span><br><span class="line">        &lt;Console name=&quot;console&quot; target=&quot;SYSTEM_OUT&quot;&gt;</span><br><span class="line">            &lt;!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）--&gt;</span><br><span class="line">            &lt;ThresholdFilter level=&quot;info&quot; onMatch=&quot;ACCEPT&quot; onMismatch=&quot;DENY&quot;/&gt;</span><br><span class="line">            &lt;!-- 输出日志的格式 --&gt;</span><br><span class="line">            &lt;PatternLayout pattern=&quot;%d&#123;HH:mm:ss.SSS&#125; [%t] %-5level %logger&#123;36&#125; - %msg%n&quot;/&gt;</span><br><span class="line">        &lt;/Console&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 --&gt;</span><br><span class="line">        &lt;RollingRandomAccessFile name=&quot;infoFile&quot; fileName=&quot;$&#123;fileName&#125;/log-info.log&quot; immediateFlush=&quot;false&quot;</span><br><span class="line">                                 filePattern=&quot;$&#123;fileGz&#125;/$$&#123;date:yyyy-MM&#125;/app-%d&#123;MM-dd-yyyy&#125;-%i.log-info.gz&quot;&gt;</span><br><span class="line">            &lt;PatternLayout pattern=&quot;%d&#123;yyyy-MM-dd &apos;at&apos; HH:mm:ss z&#125; [%t] %-5level %logger&#123;36&#125; %L %M - %msg%xEx%n&quot; /&gt;</span><br><span class="line">            &lt;Policies&gt;</span><br><span class="line">                &lt;TimeBasedTriggeringPolicy interval=&quot;6&quot; modulate=&quot;true&quot; /&gt;</span><br><span class="line">                &lt;SizeBasedTriggeringPolicy size=&quot;100 MB&quot;/&gt;</span><br><span class="line">            &lt;/Policies&gt;</span><br><span class="line">            &lt;Filters&gt;</span><br><span class="line">                &lt;!-- 只记录info和warn级别信息 --&gt;</span><br><span class="line">                &lt;ThresholdFilter level=&quot;error&quot; onMatch=&quot;DENY&quot; onMismatch=&quot;NEUTRAL&quot;/&gt;</span><br><span class="line">                &lt;ThresholdFilter level=&quot;info&quot; onMatch=&quot;ACCEPT&quot; onMismatch=&quot;DENY&quot; /&gt;</span><br><span class="line">            &lt;/Filters&gt;</span><br><span class="line">            &lt;!-- 指定每天的最大压缩包个数，默认7个，超过了会覆盖之前的 --&gt;</span><br><span class="line">            &lt;DefaultRolloverStrategy max=&quot;50&quot;/&gt;</span><br><span class="line">        &lt;/RollingRandomAccessFile&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 存储所有error信息 --&gt;</span><br><span class="line">        &lt;RollingRandomAccessFile name=&quot;errorFile&quot; fileName=&quot;$&#123;fileName&#125;/log-error.log&quot; immediateFlush=&quot;false&quot;</span><br><span class="line">                                 filePattern=&quot;$&#123;fileGz&#125;/$$&#123;date:yyyy-MM&#125;/app-%d&#123;MM-dd-yyyy&#125;-%i.log-error.gz&quot;&gt;</span><br><span class="line">            &lt;PatternLayout pattern=&quot;%d&#123;yyyy-MM-dd &apos;at&apos; HH:mm:ss z&#125; [%t] %-5level %logger&#123;36&#125; %L %M - %msg%xEx%n&quot; /&gt;</span><br><span class="line">            &lt;Policies&gt;</span><br><span class="line">                &lt;TimeBasedTriggeringPolicy interval=&quot;6&quot; modulate=&quot;true&quot; /&gt;</span><br><span class="line">                &lt;SizeBasedTriggeringPolicy size=&quot;100 MB&quot;/&gt;</span><br><span class="line">            &lt;/Policies&gt;</span><br><span class="line">            &lt;Filters&gt;</span><br><span class="line">                &lt;!-- 只记录error级别信息 --&gt;</span><br><span class="line">                &lt;ThresholdFilter level=&quot;error&quot; onMatch=&quot;ACCEPT&quot; onMismatch=&quot;DENY&quot; /&gt;</span><br><span class="line">            &lt;/Filters&gt;</span><br><span class="line">            &lt;!-- 指定每天的最大压缩包个数，默认7个，超过了会覆盖之前的 --&gt;</span><br><span class="line">            &lt;DefaultRolloverStrategy max=&quot;50&quot;/&gt;</span><br><span class="line">        &lt;/RollingRandomAccessFile&gt;</span><br><span class="line">    &lt;/Appenders&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 全局配置，默认所有的Logger都继承此配置 --&gt;</span><br><span class="line">    &lt;Loggers&gt;</span><br><span class="line">        &lt;!-- AsyncRoot - 异步记录日志 - 需要LMAX Disruptor的支持 --&gt;</span><br><span class="line">        &lt;AsyncRoot level=&quot;info&quot; additivity=&quot;false&quot;&gt;</span><br><span class="line">            &lt;AppenderRef ref=&quot;console&quot;/&gt;</span><br><span class="line">            &lt;AppenderRef ref=&quot;infoFile&quot;/&gt;</span><br><span class="line">            &lt;AppenderRef ref=&quot;errorFile&quot;/&gt;</span><br><span class="line">        &lt;/AsyncRoot&gt;</span><br><span class="line">    &lt;/Loggers&gt;</span><br><span class="line">&lt;/Configuration&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">public class TestController &#123;</span><br><span class="line">    Logger logger = LogManager.getLogger(TestController.class);</span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &quot;test&quot;, method = RequestMethod.GET)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public String test()&#123;</span><br><span class="line">        logger.debug(&quot;test debug&quot;);</span><br><span class="line">        logger.info(&quot;test info&quot;);</span><br><span class="line">        logger.warn(&quot;test warn&quot;);</span><br><span class="line">        logger.error(&quot;test error&quot;);</span><br><span class="line">        logger.fatal(&quot;test fatal&quot;);</span><br><span class="line">        return &quot;ok&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-Restful-API"><a href="#2-Restful-API" class="headerlink" title="2.Restful API"></a>2.Restful API</h4><p>使用swagger2</p>
+<ul>
+<li><p>依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">  &lt;!-- Swagger依赖 注意版本一致--&gt;</span><br><span class="line">  &lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.2.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.2.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@EnableSwagger2</span><br><span class="line">public class Swagger2 &#123;</span><br><span class="line">    /**</span><br><span class="line">     * apis()设置监控路径</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @Bean</span><br><span class="line">    public Docket createRestApi() &#123;</span><br><span class="line">        return new Docket(DocumentationType.SWAGGER_2)</span><br><span class="line">                .apiInfo(apiInfo())</span><br><span class="line">                .select()</span><br><span class="line">                .apis(RequestHandlerSelectors.basePackage(&quot;com.example.springboottemplate.controllers&quot;))</span><br><span class="line">                .paths(PathSelectors.any())</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 创建api基本信息，会展示在文档页面</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private ApiInfo apiInfo() &#123;</span><br><span class="line">        return new ApiInfoBuilder()</span><br><span class="line">                .title(&quot;Swagger2 demo&quot;)</span><br><span class="line">                .description(&quot;Spring Boot中使用Swagger2构建RESTful APIs&quot;)</span><br><span class="line">                .version(&quot;1.0&quot;)</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<br><br><strong>注意：要使用@RequestParam()接收参数，需要paramType=”query”</strong><br><br>具体参数信息:<a href="https://amphilicitezh.github.io/2017/12/04/swaggerui-introduce/" target="_blank" rel="noopener">https://amphilicitezh.github.io/2017/12/04/swaggerui-introduce/</a></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">@Api(value = &quot;测试接口类TestController&quot;)</span><br><span class="line">@Controller</span><br><span class="line">@ResponseBody</span><br><span class="line">public class TestController &#123;</span><br><span class="line">    Logger logger = LogManager.getLogger(TestController.class);</span><br><span class="line"></span><br><span class="line">    @ApiOperation(value = &quot;测试get不带参数&quot;,notes = &quot;测试get不带参数&quot;)</span><br><span class="line">    @RequestMapping(value = &quot;test1&quot;, method = RequestMethod.GET)</span><br><span class="line">    public String test()&#123;</span><br><span class="line">        logger.debug(&quot;test debug&quot;);</span><br><span class="line">        logger.info(&quot;test info&quot;);</span><br><span class="line">        logger.warn(&quot;test warn&quot;);</span><br><span class="line">        logger.error(&quot;test error&quot;);</span><br><span class="line">        logger.fatal(&quot;test fatal&quot;);</span><br><span class="line">        return &quot;ok&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ApiOperation(value = &quot;测试get带参数&quot;,notes = &quot;测试get带参数&quot;)</span><br><span class="line">    @ApiImplicitParam(name = &quot;username&quot;, value = &quot;用户名&quot;, required = true, dataType = &quot;String&quot;,paramType = &quot;query&quot;)</span><br><span class="line">    @RequestMapping(value = &quot;test2&quot;, method = RequestMethod.GET)</span><br><span class="line">    public String test2(@RequestParam(&quot;username&quot;) String username)&#123;</span><br><span class="line">        if(!username.equals(&quot;&quot;) &amp;&amp; username != null)&#123;</span><br><span class="line">            System.out.println(username);</span><br><span class="line">            return username;</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            return &quot;null&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ApiOperation(value = &quot;测试post带实体参数&quot;, notes = &quot;测试post带实体参数&quot;)</span><br><span class="line">    @ApiImplicitParam(name = &quot;user&quot;,value = &quot;用户名&quot;,required = true, dataType = &quot;Map&lt;String,Object&gt;&quot;)</span><br><span class="line">    @ApiResponses(&#123;</span><br><span class="line">           @ApiResponse(code = 400, message = &quot;请求参数没填好,注意为json&quot;),</span><br><span class="line">           @ApiResponse(code = 404, message = &quot;请求路径没有或页面跳转路径不对&quot;),</span><br><span class="line">           @ApiResponse(code = 500, message = &quot;服务器端发生错误&quot;)</span><br><span class="line">   &#125;)</span><br><span class="line">    @RequestMapping(value = &quot;/test3&quot;, method = RequestMethod.POST)</span><br><span class="line">    public String test3(@RequestBody Map&lt;String,Object&gt; user)&#123;</span><br><span class="line">        System.out.println(user.get(&quot;username&quot;).toString());</span><br><span class="line">        System.out.println(user.get(&quot;password&quot;).toString());</span><br><span class="line">        return &quot;ok&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ApiOperation(value = &quot;测试post参数为String&quot;, notes = &quot;测试post参数为String&quot;)</span><br><span class="line">    @ApiImplicitParams(&#123;</span><br><span class="line">            @ApiImplicitParam(name = &quot;username&quot;, value = &quot;用户名&quot;, required = true, paramType = &quot;query&quot;, dataType = &quot;String&quot;),</span><br><span class="line">            @ApiImplicitParam(name = &quot;password&quot;, value = &quot;密码&quot;, required = true, paramType = &quot;query&quot;, dataType = &quot;String&quot;)</span><br><span class="line">    &#125;)</span><br><span class="line">    @RequestMapping(value = &quot;/test4&quot;, method = RequestMethod.POST)</span><br><span class="line">    public String test4(@RequestParam(&quot;username&quot;) String username,</span><br><span class="line">                        @RequestParam(&quot;password&quot;) String passwprd)&#123;</span><br><span class="line">       return username + &quot;:&quot; + passwprd;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ApiOperation(value = &quot;测试restful类型接口&quot;, notes = &quot;测试restful类型接口&quot;)</span><br><span class="line">    @RequestMapping(value = &quot;/test5/&#123;name&#125;&quot;, method = RequestMethod.GET)</span><br><span class="line">    @ApiImplicitParam(name = &quot;username&quot;, value = &quot;用户名&quot;, required = true, paramType = &quot;query&quot;, dataType = &quot;String&quot;)</span><br><span class="line">    public String test5(@PathVariable(&quot;name&quot;) String name,</span><br><span class="line">                        @RequestParam(&quot;username&quot;) String username)&#123;</span><br><span class="line">        return name + &quot; : &quot; + username;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>访问:<a href="http://127.0.0.1:8080/swagger-ui.html" target="_blank" rel="noopener">http://127.0.0.1:8080/swagger-ui.html</a></p>
+<h4 id="3-Health"><a href="#3-Health" class="headerlink" title="3.Health"></a>3.Health</h4><p>这是2.0版本：<a href="https://blog.csdn.net/alinyua/article/details/80009435" target="_blank" rel="noopener">https://blog.csdn.net/alinyua/article/details/80009435</a><br><br>可以直观的看到自己CPU的利用率、内存的利用率、数据库连接是否正常等信息</p>
+<ul>
+<li><p>依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;</span><br><span class="line">    &lt;!--&lt;version&gt;2.1.0.RELEASE&lt;/version&gt;--&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Springboot2版本需要在application.properties加入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">management.endpoints.web.exposure.include=*</span><br><span class="line">#显示所有健康状态，需要加配置</span><br><span class="line">management.endpoint.health.show-details=always</span><br></pre></td></tr></table></figure>
+<p>内置EndPoints：</p>
+<blockquote>
+<p><a href="http://127.0.0.1:8080/actuator" target="_blank" rel="noopener">http://127.0.0.1:8080/actuator</a><br><br><a href="http://127.0.0.1:8080/actuator/health" target="_blank" rel="noopener">http://127.0.0.1:8080/actuator/health</a><br><br><a href="http://127.0.0.1:8080/actuator/info" target="_blank" rel="noopener">http://127.0.0.1:8080/actuator/info</a><br><br><a href="http://127.0.0.1:8080/actuator/beans" target="_blank" rel="noopener">http://127.0.0.1:8080/actuator/beans</a><br><br><a href="http://127.0.0.1:8080/actuator/httptrace" target="_blank" rel="noopener">http://127.0.0.1:8080/actuator/httptrace</a></p>
+</blockquote>
+</li>
+</ul>
+<h4 id="4-Eureka"><a href="#4-Eureka" class="headerlink" title="4.Eureka"></a>4.Eureka</h4>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/11/23/java/springbootdemo/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/spring-schdule" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/19/java/spring-schdule/">spring-schdule</a>
+    </h1>
+  
+
+        
+        <a href="/2018/11/19/java/spring-schdule/" class="archive-article-date">
+  	<time datetime="2018-11-19T03:18:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-Schduled注解"><a href="#1-Schduled注解" class="headerlink" title="1.@Schduled注解"></a>1.@Schduled注解</h4><p>配置完后，在方法上加@Scheduled(“定时表达式”)</p>
+<h4 id="2-实现ScheduingConfigurer接口"><a href="#2-实现ScheduingConfigurer接口" class="headerlink" title="2.实现ScheduingConfigurer接口"></a>2.实现ScheduingConfigurer接口</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">@Lazy(false)</span><br><span class="line">@EnableScheduling</span><br><span class="line">@Component</span><br><span class="line">public class DynamicScheduledTask implements SchedulingConfigurer &#123;</span><br><span class="line"></span><br><span class="line">	@Value(&quot;$&#123;abc.call-cron&#125;&quot;)</span><br><span class="line">	private String callCron;</span><br><span class="line"></span><br><span class="line">  //重写configureTasks</span><br><span class="line">	@Override</span><br><span class="line">	public void configureTasks(ScheduledTaskRegistrar taskRegistrar) &#123;</span><br><span class="line">		if(!&quot;0&quot;.equals(callCron))&#123;</span><br><span class="line">			taskRegistrar.addTriggerTask(new Runnable() &#123;</span><br><span class="line">				@Override</span><br><span class="line">				public void run() &#123;</span><br><span class="line">					//doSomething</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;, new Trigger() &#123;</span><br><span class="line"></span><br><span class="line">				@Override</span><br><span class="line">				public Date nextExecutionTime(TriggerContext triggerContext) &#123;</span><br><span class="line">          //定时器触发，callCron为定时表达式</span><br><span class="line">					CronTrigger trigger = new CronTrigger(callCron);</span><br><span class="line">					Date nextExecDate = trigger.nextExecutionTime(triggerContext);</span><br><span class="line">					return nextExecDate;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/11/19/java/spring-schdule/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/泛型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/15/java/泛型/">泛型</a>
+    </h1>
+  
+
+        
+        <a href="/2018/11/15/java/泛型/" class="archive-article-date">
+  	<time datetime="2018-11-15T03:41:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1"><a href="#1" class="headerlink" title="1."></a>1.<t></t></h4><p>泛型<t> T可以为任意大写字母<br><br>可以多泛型&lt;T,U&gt;等<br><br>单独的<t>表示T为Object下的子类。<br></t></t></p>
+<p>类型绑定: <t extends="" xxx=""> 表示T为继承XXX类型的子类<br></t></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">泛型</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/11/15/java/泛型/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/reflect" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/07/java/reflect/">Java反射</a>
+    </h1>
+  
+
+        
+        <a href="/2018/11/07/java/reflect/" class="archive-article-date">
+  	<time datetime="2018-11-07T02:30:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>详见:<a href="https://www.sczyh30.com/posts/Java/java-reflection-1/" target="_blank" rel="noopener">https://www.sczyh30.com/posts/Java/java-reflection-1/</a><br><br><a href="https://blog.csdn.net/ljphhj/article/details/12858767" target="_blank" rel="noopener">https://blog.csdn.net/ljphhj/article/details/12858767</a></p>
+<h4 id="1-什么是反射"><a href="#1-什么是反射" class="headerlink" title="1.什么是反射"></a>1.什么是反射</h4><blockquote>
+<p>Reflection enables Java code to discover information about the fields, methods and constructors of loaded classes, and to use reflected fields, methods, and constructors to operate on their underlying counterparts, within security restrictions.<br>The API accommodates applications that need access to either the public members of a target object (based on its runtime class) or the members declared by a given class. It also allows programs to suppress default reflective access control</p>
+</blockquote>
+<p>反射机制允许运行中的 Java 程序获取自身的信息，并且可以操作类或对象的内部属性。<br><br>反射的核心是 JVM 在运行时才动态加载类或调用方法/访问属性，它不需要事先（写代码的时候或编译期）知道运行对象是谁。<br><br>Java 反射主要提供以下功能：</p>
+<ul>
+<li>在运行时判断任意一个对象所属的类；</li>
+<li>在运行时构造任意一个类的对象；</li>
+<li>在运行时判断任意一个类所具有的成员变量和方法（通过反射甚至可以调用private方法）；</li>
+<li>在运行时调用任意一个对象的方法</li>
+</ul>
+<p><strong>在运行时，而不是编译时.</strong></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/11/07/java/reflect/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/factorypattern" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/07/java/factorypattern/">factorypattern</a>
+    </h1>
+  
+
+        
+        <a href="/2018/11/07/java/factorypattern/" class="archive-article-date">
+  	<time datetime="2018-11-07T02:09:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-工厂模式"><a href="#1-工厂模式" class="headerlink" title="1.工厂模式"></a>1.工厂模式</h4><p>让创建对象变得简单而且修改对象时能很方便.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/11/07/java/factorypattern/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-xss" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/06/xss/">xss</a>
+    </h1>
+  
+
+        
+        <a href="/2018/11/06/xss/" class="archive-article-date">
+  	<time datetime="2018-11-06T06:43:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1.印象笔记6.14客户端版本<br>存储型xss,上传的图片保存时为用户输入名字，(某个属性，src属性或者value属性?)未过滤编码等。<br>src属性或者value属性?<br><img ..="" src="图片路径 + 图片名"><br><img ..="" src="图片路径 + " onclick="xss">.jpg “&gt;</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/11/06/xss/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/java单例" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/31/java/java单例/">java单例</a>
+    </h1>
+  
+
+        
+        <a href="/2018/10/31/java/java单例/" class="archive-article-date">
   	<time datetime="2018-10-31T08:43:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-31</time>
 </a>
         
@@ -189,7 +745,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/31/java单例/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/10/31/java/java单例/">展开全文 >></a>
         </p>
       
 
@@ -219,19 +775,19 @@
 
 
   
-    <article id="post-spring-tomcat" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-java/spring-tomcat" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/17/spring-tomcat/">spring_tomcat</a>
+      <a class="article-title" href="/2018/10/17/java/spring-tomcat/">spring_tomcat</a>
     </h1>
   
 
         
-        <a href="/2018/10/17/spring-tomcat/" class="archive-article-date">
+        <a href="/2018/10/17/java/spring-tomcat/" class="archive-article-date">
   	<time datetime="2018-10-17T07:14:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-17</time>
 </a>
         
@@ -269,7 +825,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/17/spring-tomcat/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/10/17/java/spring-tomcat/">展开全文 >></a>
         </p>
       
 
@@ -391,652 +947,9 @@
 
 
   
-    <article id="post-googlehacking" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/10/googlehacking/">googlehacking</a>
-    </h1>
-  
-
-        
-        <a href="/2018/10/10/googlehacking/" class="archive-article-date">
-  	<time datetime="2018-10-09T21:24:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-GooleHacking"><a href="#1-GooleHacking" class="headerlink" title="1.GooleHacking"></a>1.GooleHacking</h4><p>利用搜索引擎的强大搜索能力，针对性的全网搜集所需资料。<br></p>
-<h4 id="2-关键字"><a href="#2-关键字" class="headerlink" title="2.关键字"></a>2.关键字</h4><ul>
-<li>intext/allintext: 在正文中搜索</li>
-<li>intitle/allintitle: 网页标题中， 例:intitle:后台管理，有很多</li>
-<li>cache: 缓存中？？</li>
-<li>filetype: 文件类型,   例:信息安全 filetype:doc</li>
-<li>info: 摘要信息</li>
-<li>inurl/allinurl: 在网址中</li>
-<li>site: 域名，返回域名中的所有url地址，用于检查网站拓扑结构。 例: site: baidu.com</li>
-<li>related: 搜索相关站点。  例:related:pku.edu.cn</li>
-<li>inanchor: 在链接文本中搜索。 例：inanchor:pku.edu.cn</li>
-<li>author: 新闻组贴子的作者。例:在google scholar搜索作者. author:”John”</li>
-<li>datarange: 某个日期范围内的网页.格式为天文学儒掠日。例：”Geri Halliwell” “Spice Girls” daterange:2450958-2450968</li>
-<li>weather: 天气. 例: weather:beijing</li>
-<li>group:</li>
-<li>stocks: 股票信息。 例:stocks:alibaba</li>
-<li>define:显示某术语定义。例:define:网络安全</li>
-<li>phonebook: 电话列表？？。 rphonebook:住宅电话 ; bphonebook:商业电话</li>
-<li>link：搜索与当前网页存在链接的网页（不能与其他操作符或搜索关键字混合使用. 例：link:<a href="http://www.vvv518.com" target="_blank" rel="noopener">www.vvv518.com</a></li>
-<li>msgid: 通过消息id搜索</li>
-</ul>
-<h4 id="3-语法"><a href="#3-语法" class="headerlink" title="3.语法"></a>3.语法</h4><ul>
-<li>“” 精确操作</li>
-<li>关键字之间不需要间隔，空格代表逻辑与操作</li>
-<li>- 忽略某个关键词. 例:a-b 搜索有a没b的网页</li>
-<li>～ 同义词</li>
-<li>+ 加入被忽略的关键字。google对com等频率高的英文单词做了忽略处理，加上 + ，使之强制搜索。</li>
-<li>布尔and/or/not 例：aorb</li>
-<li>通配符，出现通配符的关键字需要用引号。*多个， ？和 . 单个</li>
-</ul>
-<h4 id="4-注意"><a href="#4-注意" class="headerlink" title="4.注意"></a>4.注意</h4><ol>
-<li>google只能32个单词查询。<br></li>
-<li>操作符、冒号、关键字之间是没有空格的。</li>
-<li>高级操作符能够和单独的查询混合使用</li>
-</ol>
-<h4 id="5-例子"><a href="#5-例子" class="headerlink" title="5.例子"></a>5.例子</h4>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">渗透</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">google</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/10/googlehacking/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-tomcat-redis-session" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/28/tomcat-redis-session/">tomcat-redis-session</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/28/tomcat-redis-session/" class="archive-article-date">
-  	<time datetime="2018-09-28T07:47:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-需求"><a href="#1-需求" class="headerlink" title="1.需求"></a>1.需求</h4><p>不同Ip主机上的tomcat,保持session同步。<br></p>
-<h4 id="2-查资料"><a href="#2-查资料" class="headerlink" title="2.查资料"></a>2.查资料</h4><p>一般做法为，利用redis保持session,不同tomcat从redis存取，外层nginx做tomcat的负载均衡。<br><br>开源项目<a href="https://github.com/jcoleman/tomcat-redis-session-manager，" target="_blank" rel="noopener">https://github.com/jcoleman/tomcat-redis-session-manager，</a> 提供了tomcat连接redis的jar包，但是，我试了多次，总是不行，版本不对，或者class找不到等。<br><br>解决方案参照：<a href="https://my.oschina.net/Listening/blog/674759" target="_blank" rel="noopener">https://my.oschina.net/Listening/blog/674759</a>, 直接用gradle生成jar包。</p>
-<h4 id="3-实现"><a href="#3-实现" class="headerlink" title="3.实现"></a>3.实现</h4><p>tomcat7.0.61/nginx1.10.3/ubuntu虚拟机</p>
-<h6 id="1-tomcat"><a href="#1-tomcat" class="headerlink" title="1.tomcat"></a>1.tomcat</h6><ul>
-<li>解压两个tomcat到两个虚拟机</li>
-<li>conf/server.xml更改端口，使之不重复</li>
-<li>添加index.jsp到 webapps/Root目录下</li>
-<li>分别启动tomcat,看看是否正常<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;  </span><br><span class="line">&lt;%  </span><br><span class="line">String path = request.getContextPath();  </span><br><span class="line">String basePath = request.getScheme()+&quot;://&quot;+request.getServerName()+&quot;:&quot;+request.getServerPort()+path+&quot;/&quot;;  </span><br><span class="line">%&gt;  </span><br><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;  </span><br><span class="line">&lt;html&gt;  </span><br><span class="line">  &lt;head&gt;  </span><br><span class="line">    &lt;base href=&quot;&lt;%=basePath%&gt;&quot;&gt;  </span><br><span class="line">    &lt;title&gt;My JSP &apos;index.jsp&apos; starting page&lt;/title&gt;  </span><br><span class="line">    &lt;meta http-equiv=&quot;pragma&quot; content=&quot;no-cache&quot;&gt;  </span><br><span class="line">    &lt;meta http-equiv=&quot;cache-control&quot; content=&quot;no-cache&quot;&gt;  </span><br><span class="line">    &lt;meta http-equiv=&quot;expires&quot; content=&quot;0&quot;&gt;      </span><br><span class="line">    &lt;meta http-equiv=&quot;keywords&quot; content=&quot;keyword1,keyword2,keyword3&quot;&gt;  </span><br><span class="line">    &lt;meta http-equiv=&quot;description&quot; content=&quot;This is my page&quot;&gt;  </span><br><span class="line">    &lt;!--</span><br><span class="line">    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;styles.css&quot;&gt;</span><br><span class="line">    --&gt;  </span><br><span class="line">  &lt;/head&gt;  </span><br><span class="line">  &lt;body&gt;  </span><br><span class="line">        SessionID:&lt;%=session.getId()%&gt;  </span><br><span class="line">        &lt;BR&gt;  </span><br><span class="line">        SessionIP:&lt;%=request.getServerName()%&gt;  </span><br><span class="line">        &lt;BR&gt;  </span><br><span class="line">        SessionPort:&lt;%=request.getServerPort()%&gt;  </span><br><span class="line">        &lt;%  </span><br><span class="line">        out.println(&quot;This is Tomcat Server 22222&quot;);  </span><br><span class="line">        %&gt;  </span><br><span class="line">  &lt;/body&gt;  </span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h6 id="2-nginx"><a href="#2-nginx" class="headerlink" title="2.nginx"></a>2.nginx</h6><p>编辑/etc/nginx/nginx.conf 添加tomcat配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">user www-data;</span><br><span class="line">worker_processes auto;</span><br><span class="line">pid /run/nginx.pid;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">	worker_connections 768;</span><br><span class="line">	# multi_accept on;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line"> .......</span><br><span class="line">	include /etc/nginx/conf.d/*.conf;</span><br><span class="line">	include /etc/nginx/sites-enabled/*;</span><br><span class="line"></span><br><span class="line">upstream tomcat&#123;</span><br><span class="line">	#ip_hash;</span><br><span class="line">	server   192.168.93.132:8081	weight=1;</span><br><span class="line">	server   192.168.93.133:8080	weight=1;</span><br><span class="line">	&#125;</span><br><span class="line">server&#123;</span><br><span class="line">	listen 80;</span><br><span class="line">	server_name localhost 127.0.0.1;</span><br><span class="line">            location / &#123;</span><br><span class="line">                root    html;</span><br><span class="line">                index   index.jsp;</span><br><span class="line">                proxy_pass      http://tomcat;</span><br><span class="line">                proxy_set_header        X-Real-IP       $remote_addr;</span><br><span class="line">                client_max_body_size    100m;</span><br><span class="line">            &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">........</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h6 id="3-redis"><a href="#3-redis" class="headerlink" title="3.redis"></a>3.redis</h6><p>这一步很坑，参照：<a href="https://my.oschina.net/Listening/blog/674759" target="_blank" rel="noopener">https://my.oschina.net/Listening/blog/674759</a>, 进行配置<br></p>
-<p>将生成的jar包全部放入tomcat/lib/目录下<br><br>编辑tomcat/conf/content.xml文件,添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;Context&gt;</span><br><span class="line">    ........</span><br><span class="line">    &lt;!--</span><br><span class="line">    &lt;Valve className=&quot;org.apache.catalina.valves.CometConnectionManagerValve&quot; /&gt;</span><br><span class="line">    --&gt;</span><br><span class="line">&lt;Valve className=&quot;com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve&quot; /&gt;</span><br><span class="line">&lt;Manager className=&quot;com.orangefunction.tomcat.redissessions.RedisSessionManager&quot;</span><br><span class="line">    host=&quot;127.0.0.1&quot; //注意这里，应该是redis地址</span><br><span class="line">    port=&quot;6379&quot;</span><br><span class="line">    database=&quot;0&quot;</span><br><span class="line">    maxInactiveInterval=&quot;60&quot;</span><br><span class="line">/&gt;</span><br><span class="line"></span><br><span class="line">&lt;/Context&gt;</span><br></pre></td></tr></table></figure></p>
-<p>在这里可能会出现redis连接不上问题，原因是/etc/redis/redis.conf 文件里默认配置为 bind 127.0.0.1, 改为 0.0.0.0<br><br>除此之外也有可能防火墙原因.<br><br>重启 redis-server /etc/redis/redis.conf <br><br>查看是否监听0.0.0.0:6379端口 ps -ef | grep redis<br><img src="../images/redis.png" alt="redisport"></p>
-<h4 id="4-重启tomcat-查看效果"><a href="#4-重启tomcat-查看效果" class="headerlink" title="4. 重启tomcat 查看效果"></a>4. 重启tomcat 查看效果</h4><p><img src="../images/tomcat1.png" alt="redisport"><br><img src="../images/tomcat2.png" alt="redisport"></p>
-<p>可以看到现在session已经保持不变</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">tomcat</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">redis</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">session</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/28/tomcat-redis-session/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-javasocket" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/26/javasocket/">javasocket</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/26/javasocket/" class="archive-article-date">
-  	<time datetime="2018-09-26T09:49:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-java-net-socket"><a href="#1-java-net-socket" class="headerlink" title="1.java.net.socket"></a>1.java.net.socket</h4><p>server端代码，使用子线程处理连接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">public class SocketController &#123;</span><br><span class="line">    private final static Log logger = LogFactory.getLog(SocketController.class);</span><br><span class="line"></span><br><span class="line">    public void accept()&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            ServerSocket socketServer = new ServerSocket(8888);</span><br><span class="line">            logger.info(&quot;socket启动，保持监听。。。&quot;);</span><br><span class="line">            //保持监听,同时连接多个</span><br><span class="line">            while (true)&#123;</span><br><span class="line">                Socket socket = socketServer.accept();</span><br><span class="line">                logger.info(&quot;子socket开始.....&quot;);</span><br><span class="line">                new DispatchRequestThread(socket).start();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 处理socket线程类</span><br><span class="line">     */</span><br><span class="line">    class DispatchRequestThread extends Thread &#123;</span><br><span class="line"></span><br><span class="line">        BufferedReader in;</span><br><span class="line">        PrintWriter out;</span><br><span class="line">        Socket socket;</span><br><span class="line"></span><br><span class="line">        public DispatchRequestThread(Socket socket) &#123;</span><br><span class="line">            this.socket = socket;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                //通过socket输入流，读取客户端发来的数据</span><br><span class="line">                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));</span><br><span class="line">                //通过socket输出流，给客户端发送回执</span><br><span class="line">                out = new PrintWriter(socket.getOutputStream(), true);</span><br><span class="line"></span><br><span class="line">                //获取input</span><br><span class="line">                String line = &quot;&quot;;</span><br><span class="line">               // line = in.readLine(); //其实就只有一行数据</span><br><span class="line">               while (true)&#123;</span><br><span class="line">                   if(in.ready())&#123;</span><br><span class="line">                       line = in.readLine();</span><br><span class="line">                       System.out.println(line);</span><br><span class="line">                       break;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">                socket.shutdownInput();</span><br><span class="line"></span><br><span class="line">               //返回</span><br><span class="line">                String result = vaildCkeck(line);</span><br><span class="line">                out.write(result);</span><br><span class="line"></span><br><span class="line">                //关闭socket</span><br><span class="line">                out.flush();</span><br><span class="line">                in.close();</span><br><span class="line">                out.close();</span><br><span class="line">                logger.info(&quot;该子socket监听完成，并关闭&quot;);</span><br><span class="line">            &#125; catch (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125; finally &#123;</span><br><span class="line">                //</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 输入校验，返回定义错误类型</span><br><span class="line">     * @param line</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public String vaildCkeck(String line) &#123;</span><br><span class="line">      //.....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>client代码，创建三个socket连接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class MsgTest &#123;</span><br><span class="line"></span><br><span class="line">  public void send() throws Exception,SGIP_Exception &#123;</span><br><span class="line">      //简单创建三个连接</span><br><span class="line">      Thread t1 = new SocketClientThread();</span><br><span class="line">      Thread t2 = new SocketClientThread();</span><br><span class="line">      Thread t3 = new SocketClientThread();</span><br><span class="line">      t1.join();</span><br><span class="line">      t2.join();</span><br><span class="line">      t3.join();</span><br><span class="line">      t1.start();</span><br><span class="line">      t2.start();</span><br><span class="line">      t3.start();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  //socket</span><br><span class="line">  class SocketClientThread extends  Thread&#123;</span><br><span class="line">      @Override</span><br><span class="line">      public void run()&#123;</span><br><span class="line">          Socket socket = null;</span><br><span class="line">          BufferedReader in = null;</span><br><span class="line">          PrintWriter out = null;</span><br><span class="line"></span><br><span class="line">          //可以同时发送1-100个号码</span><br><span class="line">          String str1 = &quot;178888******,178888******&quot;;</span><br><span class="line">          String str2 = &quot;191&quot;;</span><br><span class="line">          String str3 = &quot;内容1111111111111111111111111111111111&quot;;</span><br><span class="line">          String str = str1 +&quot;|&quot; + str2 + &quot;|&quot; + str3;</span><br><span class="line"></span><br><span class="line">          //建立连接</span><br><span class="line">          try &#123;</span><br><span class="line">              socket = new Socket(&quot;127.0.0.1&quot;, 8888);</span><br><span class="line">              socket.setSoTimeout(10000);</span><br><span class="line">              System.out.println(&quot;socket connected!&quot;);</span><br><span class="line">              out = new PrintWriter(socket.getOutputStream());</span><br><span class="line">              in = new BufferedReader(new InputStreamReader(socket.getInputStream()));</span><br><span class="line">              //发送消息</span><br><span class="line">              out.write(str);</span><br><span class="line">              out.flush();</span><br><span class="line">              socket.shutdownOutput();</span><br><span class="line">              //得到回执</span><br><span class="line">              System.out.println(in.readLine());</span><br><span class="line">              //关闭连接</span><br><span class="line">              in.close();</span><br><span class="line">              out.close();</span><br><span class="line">              socket.close();</span><br><span class="line">          &#125;catch (Exception e)&#123;</span><br><span class="line">              e.printStackTrace();</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>运行截图</p>
-<p><img src="../images/socketclient.png" alt="client"></p>
-<p><img src="../images/socketserver.png" alt="server"></p>
-<h4 id="2-nio"><a href="#2-nio" class="headerlink" title="2.nio"></a>2.nio</h4><h4 id="3-netty"><a href="#3-netty" class="headerlink" title="3.netty"></a>3.netty</h4>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">socket</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/26/javasocket/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-spring" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/21/spring/">OJT022</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/21/spring/" class="archive-article-date">
-  	<time datetime="2018-09-21T08:30:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-Spring一些基本概念"><a href="#1-Spring一些基本概念" class="headerlink" title="1.Spring一些基本概念"></a>1.Spring一些基本概念</h4><p>容器:<br>就是一个存放东西还能随时取出来的地方</p>
-<p>Bean:<br>本质上是一个Java对象,是构成应用程序的一个个基本组件</p>
-<p>Ioc(控制反转)/DI(依赖注入) <br><br>控制反转从容器的角度描述,容器控制应用程序,由容器反向的向应用程序注入应用程序所需的外部资源 <br><br>依赖注入是从应用程序的角度描述,应用程序组件依赖容器创建并注入它所需的外部资源<br><br>在Ioc/DI思想中,应用程序由主动变成被动的,等待容器来创建并注入它所需的资源,<br><br>即，spring初始化一个容器，程序需要啥（配置，依赖等），我就从容器中拿出啥给你使用。<br><br>这个思想的转变,有效的解耦了对象和它所需的外部资源,有利于功能复用,也使得程序整个体系结构变得非常灵活<br><br>DI:称作依赖注入(Dependency Injection),和控制反转一个概念，具体的讲，当一个角色需要另外一个角色协助的时候，在传统的程序设计中，通常有调用者来创建被调用者的实例。但是在spring中创建被调用者将不再有调用者完成，因此叫控制反转。创建被调用对象有Spring来完成，在容器实例化对象的时候主动的将被调用者（或者说它的依赖对象）注入给调用对象，因此又叫依赖注入。<br><br>依赖注入通过反射来实现<br></p>
-<p>AOP<br><br>spring用代理类包裹切面，把他们织入到Spring管理的bean中。<br>也就是说代理类伪装成目标类，它会截取对目标类中方法的调用，<br>让调用者对目标类的调用都先变成调用伪装类，伪装类中就先执行了切面，再把调用转发给真正的目标bean。<br><br>(例如日志时的get(class)????)</p>
-<h4 id="2-spring优缺点"><a href="#2-spring优缺点" class="headerlink" title="2.spring优缺点"></a>2.spring优缺点</h4><p>优：</p>
-<ul>
-<li>简化编程，配置简单,让使用者只关心核心业务的开发，框架帮你屏蔽原有技术跟业务开发无关的各类技术问题</li>
-<li>解耦和</li>
-<li>因为bean的依赖注入，易于单元测试</li>
-</ul>
-<p>缺:</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/21/spring/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java基本类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/21/java基本类型/">OJT021</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/21/java基本类型/" class="archive-article-date">
-  	<time datetime="2018-09-21T08:23:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-基本类型"><a href="#1-基本类型" class="headerlink" title="1.基本类型"></a>1.基本类型</h4><ul>
-<li>short：16位，最大数据存储量是65536，数据范围是-32768~32767之间。</li>
-<li>int：32位，最大数据存储容量是2的32次方减1，数据范围是负的2的31次方到正的2的31次方减1。</li>
-<li>long：64位，最大数据存储容量是2的64次方减1，数据范围为负的2的63次方到正的2的63次方减1。</li>
-<li>float：32位，数据范围在3.4e-45~1.4e38，直接赋值时必须在数字后加上f或F。</li>
-<li>double：64位，数据范围在4.9e-324~1.8e308，赋值时可以加d或D也可以不加。</li>
-<li>boolean：只有true和false两个取值。</li>
-<li>char：16位，存储Unicode码，用单引号赋值。</li>
-</ul>
-<p>基本类型并不是类对象。<br><br>为了让这8中基本类型也能面向对象，Java为其提供了包装器类型.<br>对应上面顺序为：Byte, Short, Integer, Long, Float, Double, Boolean, Character<br>现在，这些包装器类型都是面向对象的类了，具有对象方法可以进行很多高级的操作，而不是简单的基本类型，都是引用类型了.<br>java提供了自动拆箱/装箱来实现基本类型数据和包装器类型数据之间相互转换、赋值。</p>
-<h4 id="2-引用类型"><a href="#2-引用类型" class="headerlink" title="2.引用类型"></a>2.引用类型</h4><ul>
-<li>强引用<br><br>最常用的引用类型，如Object obj = new Object(); 。只要强引用存在则GC时则必定不被回收。<br><br>其它三个暂时不太理解，以后接触再添加</li>
-<li>软引用</li>
-<li>弱引用</li>
-<li>虚引用</li>
-</ul>
-<h4 id="3-基本类型与引用类型区别"><a href="#3-基本类型与引用类型区别" class="headerlink" title="3.基本类型与引用类型区别"></a>3.基本类型与引用类型区别</h4><p>基本类型就是一个值<br><br>引用类型：它的值是指向内存空间的引用，就是地址，所指向的内存中保存着变量<br><br>
-        
-          <a class="article-more-a" href="/2018/09/21/java基本类型/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/21/java基本类型/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java面向对象" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/21/java面向对象/">OJT012</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/21/java面向对象/" class="archive-article-date">
-  	<time datetime="2018-09-21T08:09:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-java面向对象"><a href="#1-java面向对象" class="headerlink" title="1.java面向对象"></a>1.java面向对象</h4><h6 id="面向对象（Object-Oriented）"><a href="#面向对象（Object-Oriented）" class="headerlink" title="面向对象（Object Oriented）"></a>面向对象（Object Oriented）<br></h6><p>其基本思想是使用对象、类、继承、封装、多态等基本概念来进行程序设计.<br>从现实世界中客观存在的事物（即对象）出发来构造软件系统，并且在系统构造中尽可能运用人类的自然思维方式</p>
-<h6 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象<br></h6><p>对象是系统中用来描述客观事物的一个实体，它是构成系统的一个基本单位。一个对象由一组属性和对这组属性进行操作的一组服务组成。<br><br>类的实例化可生成对象，一个对象的生命周期包括三个阶段：生成、使用、消除。<br>当不存在对一个对象的引用时，该对象成为一个无用对象。Java的垃圾收集器自动扫描对象的动态内存区，<br>把没有引用的对象作为垃圾收集起来并释放。当系统内存用尽或调用System.gc( )要求垃圾回收时，垃圾回收线程与系统同步运行。</p>
-<h6 id="类"><a href="#类" class="headerlink" title="类"></a>类<br></h6><p>类是具有相同属性和方法的一组对象的集合，它为属于该类的所有对象提供了统一的抽象描述，其内部包括属性和方法两个主要部分。<br>在面向对象的编程语言中，类是一个独立的程序单位，它应该有一个类名并包括属性和方法两个主要部分。<br></p>
-<blockquote>
-<p>变量<br><br>static: 静态变量/静态方法(类变量/类方法，类层面上)<br><br>final: 常量(全局层面上)</p>
-</blockquote>
-<blockquote>
-<p>方法<br><br>static: 类方法，可通过类名直接调用<br><br>abstract: 抽象方法，没有方法体<br><br>final: 方法不能被重写<br><br>native: 集成其它语言的代码<br><br>synchronized: 控制多个并发线程的访问<br><br>方法声明包括方法名、返回类型和外部参数。其中参数的类型可以是简单数据类型，也可以是复合数据类型（又称引用数据类型）。<br><br>对于简单数据类型来说，java实现的是值传递，方法接收参数的值，但不能改变这些参数的值。如果要改变参数的值，则用引用数据类型，因为引用数据类型传递给方法的是数据在内存中的地址，方法中对数据的操作可以改变数据的值。<br><br>    方法体<br><br>    方法体是对方法的实现，它包括局部变量的声明以及所有合法的Java指令。方法体中声明的局部变量的作用域在该方法内部。若局部变量与类的成员变量同名，则类的成员变量被隐藏。<br><br>    为了区别参数和类的成员变量，我们必须使用this。this用在一个方法中引用当前对象，它的值是调用该方法的对象。返回值须与返回类型一致，或者完全相同，或是其子类。当返回类型是接口时，返回值必须实现该接口。<br></p>
-</blockquote>
-<blockquote>
-<p>构造方法<br><br>构造方法是一个特殊的方法。Java 中的每个类都有构造方法，用来初始化该类的一个对象。<br><br>构造方法具有和类名相同的名称，而且不返回任何数据类型。<br><br>重载经常用于构造方法。<br><br>构造方法只能由new运算符调用<br><br>
-        
-          <a class="article-more-a" href="/2018/09/21/java面向对象/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/21/java面向对象/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-nginx" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/17/nginx/">nginx</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/17/nginx/" class="archive-article-date">
-  	<time datetime="2018-09-17T03:45:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-nginx大概作用"><a href="#1-nginx大概作用" class="headerlink" title="1.nginx大概作用"></a>1.nginx大概作用</h4><p>原文链接: <a href="https://juejin.im/entry/58afa0975c497d006778502b" target="_blank" rel="noopener">https://juejin.im/entry/58afa0975c497d006778502b</a><br></p>
-<h6 id="1-反向代理"><a href="#1-反向代理" class="headerlink" title="1.反向代理"></a>1.反向代理</h6><p>反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。简单来说就是真实的服务器不能直接被外部网络访问，所以需要一台代理服务器，而代理服务器能被外部网络访问的同时又跟真实服务器在同一个网络环境，当然也可能是同一台服务器，端口不同而已。<br></p>
-<p>RR（默认）<br><br>每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除<br></p>
-<p>权重<br><br>指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。<br></p>
-<p>ip_hash<br><br>上面的2种方式都有一个问题，那就是下一个请求来的时候请求可能分发到另外一个服务器，当我们的程序不是无状态的时候（采用了session保存数据），这时候就有一个很大的很问题了，比如把登录信息保存到了session中，那么跳转到另外一台服务器的时候就需要重新登录了，所以很多时候我们需要一个客户只访问一个服务器，那么就需要用iphash了，iphash的每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题<br></p>
-<h6 id="3-http服务器"><a href="#3-http服务器" class="headerlink" title="3.http服务器"></a>3.http服务器</h6><p>Nginx本身也是一个静态资源的服务器，当只有静态资源的时候，就可以使用Nginx来做服务器，同时现在也很流行动静分离，就可以通过Nginx来实现<br><br>动静分离<br><br>动静分离是让动态网站里的动态网页根据一定规则把不变的资源和经常变的资源区分开来，动静资源做好了拆分以后，我们就可以根据静态资源的特点将其做缓存操作，这就是网站静态化处理的核心思路<br></p>
-<h6 id="4-正向代理"><a href="#4-正向代理" class="headerlink" title="4.正向代理"></a>4.正向代理</h6><p>正向代理，意思是一个位于客户端和原始服务器(origin server)之间的服务器，为了从原始服务器取得内容，客户端向代理发送一个请求并指定目标(原始服务器)，然后代理向原始服务器转交请求并将获得的内容返回给客户端。客户端才能使用正向代理。当你需要把你的服务器作为代理服务器的时候，可以用Nginx来实现正向代理。<br></p>
-<p>问题： 正向反向的区别是部署在客户端还是服务端？？？？</p>
-<h5 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h5><p>ngginx可以热部署<br><br>nginx -s reload<br><br>nginx.exe -s reload</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">nginx</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/17/nginx/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -1131,6 +1044,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">sgip</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">渗透</a>
               </li>
              
@@ -1139,23 +1064,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">socket</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">RestTemplate</a>
+                <a href="javascript:void(0)" class="js-tag color3">正则</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1163,11 +1072,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color1">sql注入</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">sgip</a>
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">RestTemplate</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">socket</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1179,7 +1104,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">正则</a>
+                <a href="javascript:void(0)" class="js-tag color3">泛型</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1188,10 +1113,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">session</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">sql注入</a>
               </li>
             
             <div class="clearfix"></div>
