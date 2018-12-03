@@ -63,18 +63,34 @@ public class SpringUtil implements ApplicationContextAware{
 ```
 
 ###### 2.在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext
-不确定是否必须加这一步,网上教程说加，我没加
+1.因为SpringUtil.setApplicationContext(app)不是static方法，所以不这样用
 ```
 @SpringBootApplication
 public class App{
 	public static void main( String[] args ){
 		System.out.println( "Hello World!" );
 		ApplicationContext app = SpringApplication.run(App.class, args);
-		SpringContextUtil.setApplicationContext(app);
+		SpringUtil.setApplicationContext(app);
 	}
 }
 ```
+2.解决办法
+```
+//在启动类上加@ComponentScan注解
+@SpringBootApplication
+@ComponentScan(basePackages = "com.***")
+public class SmsUpstreamApplication extends SpringBootServletInitializer {
 
+    public static void main(String[] args) {
+        SpringApplication.run(SmsUpstreamApplication.class, args);
+    }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(SmsUpstreamApplication.class);
+    }
+}
+```
 ###### 3.在普通类中通过getBean()获取
 ```
 //导入Logservice
