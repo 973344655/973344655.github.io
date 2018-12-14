@@ -165,6 +165,7 @@
 <h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><h5 id="1-第一个抓包小例子"><a href="#1-第一个抓包小例子" class="headerlink" title="1.第一个抓包小例子"></a>1.第一个抓包小例子</h5><p>1.先随意搜索后台登录页面,inurl:login.html,在这里我随机找了一个<a href="http://usr.005.tv/User/login.html" target="_blank" rel="noopener">http://usr.005.tv/User/login.html</a><br><img src="../images/security/burpsuite/usr005tv_login_page1.png" alt="login_page_1"><br>先点击注册<br><img src="../images/security/burpsuite/usr005tv_register1.png" alt="register_page_1"></p>
 <p><br><br><strong>其中我们邮箱和手机号都是填的假号码。<br>然后开始拦截抓包，滑动滑块</strong></p>
 <p><img src="../images/security/burpsuite/usr005tv_package_1.png" alt="package1"><br>修改号码为自己手机号，收到验证码<br><img src="../images/security/burpsuite/usr005tv_package_2.png" alt="package1"><br>输入验证码<br><img src="../images/security/burpsuite/usr005tv_package_3.png" alt="package1"><br>在这里发现，后端验证时，同时验证了发送验证码的手机号和验证码，所以验证失败，如果在这也修改为自己手机号，那注册时的假号码就无意义了。</p>
+<h5 id="2-一个爆破小例子"><a href="#2-一个爆破小例子" class="headerlink" title="2.一个爆破小例子"></a>2.一个爆破小例子</h5><p>来dvwn的登录（admin/password）<br><img src="../images/security/burpsuite/dvwn_login_1.png" alt="intruder_01"><br>随便输入，抓取数据包，send to intruder<br><img src="../images/security/burpsuite/burpsuite_intruder_01.png" alt="intruder_01"><br>选择Cluster模式，可以使用同的字典，进行穷举（笛卡尔积）<br><br>然后，clear清空变量，鼠标选中后，add添加自己需要的变量<br><img src="../images/security/burpsuite/burpsuite_intruder_02.png" alt="intruder_01"><br>分别添加变量对应的字典，进行爆破<br><img src="../images/security/burpsuite/burpsuite_intruder_03.png" alt="intruder_01"><br>爆破完成后，点击length，查看length长度(正确的和错误的length长度会不样)<br><img src="../images/security/burpsuite/burpsuite_intruder_04.png" alt="intruder_01"></p>
 <h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>1.使用burpsuite抓包后，vpn没用了，不能访问外网<br></p>
 <p>解决，虚拟机里使用burpsuite,nat模式连接，物理机还是挂了vpn</p>
 
@@ -1050,6 +1051,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">正则</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">sgip</a>
               </li>
              
@@ -1058,7 +1063,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">正则</a>
+                <a href="javascript:void(0)" class="js-tag color1">sql注入</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1066,7 +1071,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">sql注入</a>
+                <a href="javascript:void(0)" class="js-tag color3">模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1078,15 +1083,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">模式</a>
+                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">socket</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1098,15 +1099,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">泛型</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">redis</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">session</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">泛型</a>
               </li>
             
             <div class="clearfix"></div>
