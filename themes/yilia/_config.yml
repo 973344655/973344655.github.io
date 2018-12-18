@@ -68,7 +68,8 @@ google_analytics: ''
 favicon: /favicon.png
 
 #你的头像url
-avatar: /images/avator.jpg
+# avatar: ./images/avator.jpg
+avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxiXGki96zP_ki_-0ZMQVE_maV-Tu1C3k3ciVnvwetmuInFr1bTg'
 
 #是否开启分享
 share_jia: true

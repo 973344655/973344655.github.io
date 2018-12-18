@@ -26,7 +26,12 @@
 <meta property="og:image" content="http://yoursite.com/2018/12/12/images/security/burpsuite/usr005tv_package_1.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/12/images/security/burpsuite/usr005tv_package_2.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/12/images/security/burpsuite/usr005tv_package_3.png">
-<meta property="og:updated_time" content="2018-12-12T09:56:25.498Z">
+<meta property="og:image" content="http://yoursite.com/2018/12/12/images/security/burpsuite/dvwn_login_1.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/12/images/security/burpsuite/burpsuite_intruder_01.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/12/images/security/burpsuite/burpsuite_intruder_02.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/12/images/security/burpsuite/burpsuite_intruder_03.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/12/images/security/burpsuite/burpsuite_intruder_04.png">
+<meta property="og:updated_time" content="2018-12-14T01:32:58.674Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="burpsuite">
 <meta name="twitter:description" content="1.配置先配置浏览器代理，127.0.0.1：8080，使所有流量都要经过这      再配置burpsuite监听这个端口的流量   此外 ，因为要访问https,配置完这些后，打开浏览器访问http://burp，下载证书，安装到受信任颁发机构 实战1.第一个抓包小例子1.先随意搜索后台登录页面,inurl:login.html,在这里我随机找了一个http://usr.005.tv/User">
@@ -59,7 +64,7 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="/images/avator.jpg" class="js-avatar">
+			<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxiXGki96zP_ki_-0ZMQVE_maV-Tu1C3k3ciVnvwetmuInFr1bTg" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="/">xiong</a></h1>
@@ -111,7 +116,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="/images/avator.jpg" class="js-avatar">
+				<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxiXGki96zP_ki_-0ZMQVE_maV-Tu1C3k3ciVnvwetmuInFr1bTg" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author">xiong</h1>
@@ -179,6 +184,7 @@
 <h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><h5 id="1-第一个抓包小例子"><a href="#1-第一个抓包小例子" class="headerlink" title="1.第一个抓包小例子"></a>1.第一个抓包小例子</h5><p>1.先随意搜索后台登录页面,inurl:login.html,在这里我随机找了一个<a href="http://usr.005.tv/User/login.html" target="_blank" rel="noopener">http://usr.005.tv/User/login.html</a><br><img src="../images/security/burpsuite/usr005tv_login_page1.png" alt="login_page_1"><br>先点击注册<br><img src="../images/security/burpsuite/usr005tv_register1.png" alt="register_page_1"></p>
 <p><br><br><strong>其中我们邮箱和手机号都是填的假号码。<br>然后开始拦截抓包，滑动滑块</strong></p>
 <p><img src="../images/security/burpsuite/usr005tv_package_1.png" alt="package1"><br>修改号码为自己手机号，收到验证码<br><img src="../images/security/burpsuite/usr005tv_package_2.png" alt="package1"><br>输入验证码<br><img src="../images/security/burpsuite/usr005tv_package_3.png" alt="package1"><br>在这里发现，后端验证时，同时验证了发送验证码的手机号和验证码，所以验证失败，如果在这也修改为自己手机号，那注册时的假号码就无意义了。</p>
+<h5 id="2-一个爆破小例子"><a href="#2-一个爆破小例子" class="headerlink" title="2.一个爆破小例子"></a>2.一个爆破小例子</h5><p>来dvwn的登录（admin/password）<br><img src="../images/security/burpsuite/dvwn_login_1.png" alt="intruder_01"><br>随便输入，抓取数据包，send to intruder<br><img src="../images/security/burpsuite/burpsuite_intruder_01.png" alt="intruder_01"><br>选择Cluster模式，可以使用同的字典，进行穷举（笛卡尔积）<br><br>然后，clear清空变量，鼠标选中后，add添加自己需要的变量<br><img src="../images/security/burpsuite/burpsuite_intruder_02.png" alt="intruder_01"><br>分别添加变量对应的字典，进行爆破<br><img src="../images/security/burpsuite/burpsuite_intruder_03.png" alt="intruder_01"><br>爆破完成后，点击length，查看length长度(正确的和错误的length长度会不样)<br><img src="../images/security/burpsuite/burpsuite_intruder_04.png" alt="intruder_01"></p>
 <h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>1.使用burpsuite抓包后，vpn没用了，不能访问外网<br></p>
 <p>解决，虚拟机里使用burpsuite,nat模式连接，物理机还是挂了vpn</p>
 
@@ -314,7 +320,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-配置"><span class="toc-number">1.</span> <span class="toc-text">1.配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实战"><span class="toc-number">2.</span> <span class="toc-text">实战</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-第一个抓包小例子"><span class="toc-number">2.1.</span> <span class="toc-text">1.第一个抓包小例子</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#问题"><span class="toc-number">3.</span> <span class="toc-text">问题</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-配置"><span class="toc-number">1.</span> <span class="toc-text">1.配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实战"><span class="toc-number">2.</span> <span class="toc-text">实战</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-第一个抓包小例子"><span class="toc-number">2.1.</span> <span class="toc-text">1.第一个抓包小例子</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-一个爆破小例子"><span class="toc-number">2.2.</span> <span class="toc-text">2.一个爆破小例子</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#问题"><span class="toc-number">3.</span> <span class="toc-text">问题</span></a></li></ol>
                     </div>
                 </span>
             </div>

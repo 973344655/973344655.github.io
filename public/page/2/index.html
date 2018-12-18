@@ -43,7 +43,7 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="/images/avator.jpg" class="js-avatar">
+			<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxiXGki96zP_ki_-0ZMQVE_maV-Tu1C3k3ciVnvwetmuInFr1bTg" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="/">xiong</a></h1>
@@ -95,7 +95,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="/images/avator.jpg" class="js-avatar">
+				<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxiXGki96zP_ki_-0ZMQVE_maV-Tu1C3k3ciVnvwetmuInFr1bTg" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author">xiong</h1>
@@ -137,6 +137,86 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-java/spring-tomcat" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/17/java/spring-tomcat/">spring_tomcat</a>
+    </h1>
+  
+
+        
+        <a href="/2018/10/17/java/spring-tomcat/" class="archive-article-date">
+  	<time datetime="2018-10-17T07:14:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="Springboot部署war包到服务器上"><a href="#Springboot部署war包到服务器上" class="headerlink" title="Springboot部署war包到服务器上"></a>Springboot部署war包到服务器上</h4><p>1.修改打包方式为war<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;groupId&gt;com.xcloud&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;import-xcloud&lt;/artifactId&gt;</span><br><span class="line">   &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">   &lt;packaging&gt;war&lt;/packaging&gt;</span><br></pre></td></tr></table></figure></p>
+<p>2.移除内置tomcat，引入外部的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">            &lt;!--使用外部tomcat时放开--&gt;</span><br><span class="line">            &lt;exclusions&gt;</span><br><span class="line">                &lt;exclusion&gt;</span><br><span class="line">                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                    &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</span><br><span class="line">                &lt;/exclusion&gt;</span><br><span class="line">            &lt;/exclusions&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!--下面的两个dependency都是用来部署到外置tomcat时使用，就是去掉内置的tomcat--&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;javax.servlet&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;servlet-api&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;3.0-alpha-1&lt;/version&gt;</span><br><span class="line">            &lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>3.修改启动类，继承extends SpringBootServletInitializer<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">public class ImportXcloudApplication extends SpringBootServletInitializer &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(ImportXcloudApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //返回启动类builder</span><br><span class="line">    @Override</span><br><span class="line">    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) &#123;</span><br><span class="line">        return builder.sources(ImportXcloudApplication.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">tomcat</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/10/17/java/spring-tomcat/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-正则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -230,19 +310,19 @@
 
 
   
-    <article id="post-googlehacking" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-security/googlehacking" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/10/googlehacking/">googlehacking</a>
+      <a class="article-title" href="/2018/10/10/security/googlehacking/">googlehacking</a>
     </h1>
   
 
         
-        <a href="/2018/10/10/googlehacking/" class="archive-article-date">
+        <a href="/2018/10/10/security/googlehacking/" class="archive-article-date">
   	<time datetime="2018-10-09T21:24:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-10</time>
 </a>
         
@@ -312,7 +392,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/10/googlehacking/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/10/10/security/googlehacking/">展开全文 >></a>
         </p>
       
 
@@ -963,90 +1043,6 @@
 
 
   
-    <article id="post-sgip" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/04/sgip/">sgip</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/04/sgip/" class="archive-article-date">
-  	<time datetime="2018-09-04T08:49:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h6 id="问题"><a href="#问题" class="headerlink" title="问题:"></a>问题:</h6><p>在联通SGIP网关中，Submit发送消息后，怎么将返回的REPORT与之关联起来。</p>
-<h6 id="Submit内容"><a href="#Submit内容" class="headerlink" title="Submit内容"></a>Submit内容</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">CommandId*	命令ID，十六进制数字</span><br><span class="line">SequenceNumber	序列号，十六进制数字</span><br><span class="line">SPNumber	SP的接入号码，字符</span><br><span class="line">ChargeNumber	付费号码，字符，手机号码前加“86”国别标志；当且仅当群发且对用户收费时为空；如果为空，则该条短消息产生的费用由UserNumber代表的用户支付；如果为全零字符串“000000000000000000000”，表示该条短消息产生的费用由SP支付。</span><br><span class="line">UserNumber	一个或多个接收该短消息的手机号，手机号之间用逗号(,)隔开，字符，手机号码前加“86”国别标志，如8613001125453,8613001132345</span><br><span class="line">CorpId	企业代码，取值范围0-99999，字符</span><br><span class="line">ServiceType	业务代码，由SP定义，字符</span><br><span class="line">FeeType*	计费类型，字符</span><br><span class="line">FeeValue	取值范围0-99999，该条短消息的收费值，单位为分，由SP定义，字符</span><br><span class="line">对于包月制收费的用户，该值为月租费的值</span><br><span class="line">GivenValue	取值范围0-99999，赠送用户的话费，单位为分，由SP定义，特指由SP向用户发送广告时的赠送话费，字符</span><br><span class="line">AgentFlag	代收费标志，0：应收；1：实收，字符</span><br><span class="line">MorelatetoMTFlag	引起MT消息的原因</span><br><span class="line">0-MO点播引起的第一条MT消息；</span><br><span class="line">1-MO点播引起的非第一条MT消息；</span><br><span class="line">2-非MO点播引起的MT消息；</span><br><span class="line">3-系统反馈引起的MT消息。</span><br><span class="line">字符</span><br><span class="line">Priority	优先级0-9从低到高，默认为0，十六进制数字</span><br><span class="line">ExpireTime	短消息寿命的终止时间，如果为空，表示使用短消息中心的缺省值。时间内容为16个字符，格式为“yymmddhhmmsstnnp”，其中“tnnp”取固定值“032+”，即默认系统为北京时间</span><br><span class="line">ScheduleTime	短消息定时发送的时间，如果为空，表示立刻发送该短消息。时间内容为16个字符，格式为“yymmddhhmmsstnnp”，其中“tnnp”取固定值“032+”，即默认系统为北京时间</span><br><span class="line">ReportFlag	状态报告标记</span><br><span class="line">0-该条消息只有最后出错时要返回状态报告</span><br><span class="line">1-该条消息无论最后是否成功都要返回状态报告</span><br><span class="line">2-该条消息不需要返回状态报告</span><br><span class="line">3-该条消息仅携带包月计费信息，不下发给用户，要返回状态报告</span><br><span class="line">其它-保留</span><br><span class="line">缺省设置为0，十六进制数字</span><br><span class="line">MessageType	信息类型：</span><br><span class="line">0-短消息信息</span><br><span class="line">其它：待定</span><br><span class="line"></span><br><span class="line">十六进制数字</span><br><span class="line">TP_pid	GSM协议类型。详细解释请参考GSM03.40中的9.2.3.9</span><br><span class="line">十六进制数字</span><br><span class="line">TP_udhi	GSM协议类型。详细解释请参考GSM03.40中的9.2.3.23,仅使用1位，右对齐</span><br><span class="line">十六进制数字</span><br><span class="line">MessageCoding	短消息的编码格式。</span><br><span class="line">0：纯ASCII字符串</span><br><span class="line">3：写卡操作</span><br><span class="line">4：二进制编码</span><br><span class="line">8：UCS2编码</span><br><span class="line">15：GBK编码</span><br><span class="line">其它参见GSM3.38第4节：SMS Data Coding Scheme</span><br><span class="line">十六进制数字</span><br><span class="line">MessageContent	短消息的内容，十六进制数字</span><br><span class="line">Reserve	保留，扩展用</span><br></pre></td></tr></table></figure>
-<h6 id="REPORT内容"><a href="#REPORT内容" class="headerlink" title="REPORT内容"></a>REPORT内容</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">CommandId	命令ID，十六进制数字</span><br><span class="line">SequenceNumber	序列号，十六进制数字</span><br><span class="line">SubmitSequenceNumber	该命令所涉及的Submit或deliver命令的序列号，十六进制数字</span><br><span class="line">ReportType	Report命令类型</span><br><span class="line">0：对先前一条Submit命令的状态报告</span><br><span class="line">1：对先前一条前转Deliver命令的状态报告，十六进制数字</span><br><span class="line">UserNumber	接收该短消息的手机号，字符，手机号码前加“86”国别标志</span><br><span class="line">State*	该命令所涉及的短消息的当前执行状态</span><br><span class="line">0：发送成功</span><br><span class="line">1：等待发送</span><br><span class="line">2：发送失败</span><br><span class="line">十六进制数字</span><br><span class="line">ErrorCode	当State=2时为错误码值，否则为0，十六进制数字</span><br><span class="line">Reserve	保留，扩展用</span><br></pre></td></tr></table></figure>
-<h6 id="观察"><a href="#观察" class="headerlink" title="观察"></a>观察</h6><p>  请求时，返回：<br>  <img src="../images/report1.jpg" alt="REPORT1"><br>  后台输出REPORT:<br>  <img src="../images/report2.jpg" alt="REPORT2"></p>
-<p>  通过对比发现其中有某两个字段相同，ok,到这基本搞定。</p>
-<h6 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h6><p>1.在Submit时，将SequenceNumber存储<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//将seq与spNumber存储 SequenceNumber为 seq1+seq2+seq3</span><br><span class="line">SubmitReportMapEntity submitReportMapEntity = new SubmitReportMapEntity();</span><br><span class="line">submitReportMapEntity.setSeq1(String.valueOf(submit.getSeqno_1()));</span><br><span class="line">submitReportMapEntity.setSeq2(String.valueOf(submit.getSeqno_2()));</span><br><span class="line">submitReportMapEntity.setSeq3(String.valueOf(submit.getSeqno_3()));</span><br><span class="line">submitReportMapEntity.setSpNumber(String.valueOf(submit.getSPNumber()));</span><br><span class="line">logService.storeSubmitReportMap(submitReportMapEntity);</span><br></pre></td></tr></table></figure></p>
-<p>2.Report时通过SequenceNumber获取SP(外显号)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String spNumber_temp = new String();</span><br><span class="line">spNumber_temp = logService.submitReportMapInquiry(String.valueOf(report.getSeq_2()),String.valueOf(report.getSeq_3()));</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">sgip</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/04/sgip/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1144,18 +1140,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">burpsuite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">渗透</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">google</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
@@ -1176,19 +1160,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">sql注入</a>
+                <a href="javascript:void(0)" class="js-tag color3">模式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">RestTemplate</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1200,11 +1176,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">RestTemplate</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">泛型</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">burpsuite</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1216,7 +1204,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">泛型</a>
+                <a href="javascript:void(0)" class="js-tag color3">渗透</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">google</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">sql注入</a>
               </li>
             
             <div class="clearfix"></div>

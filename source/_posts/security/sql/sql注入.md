@@ -98,7 +98,7 @@ sql注入:利用现有程序，使之执行构造的payload.
 - ** less 9 GET - Blind - Time Based - Single Quotes ** </br>
 	?id=1%27%20and%20if(ascii(substr(database(),1,1))>116,%200,%20sleep(5))%20%23 </br>
 	因为在这正确或者错误都是返回的"you are in" 所以不能区分 </br>
-  ![youarein](../images/youarein.png)
+  ![youarein](../../../images/security/sql/youarein.png)
 	使用时间延迟，例子为判断数据库名字第一个字是否为s(ascii码为115)，要进行多次尝试
 
 - ** less 10 GET -Blind - Time Based - Double Quotes ** </br>
