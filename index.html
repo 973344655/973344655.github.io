@@ -138,6 +138,99 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-http与socket" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/24/http与socket/">Http与Socket</a>
+    </h1>
+  
+
+        
+        <a href="/2018/12/24/http与socket/" class="archive-article-date">
+  	<time datetime="2018-12-24T02:11:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h4><p>今天发现网关程序中，java监听了8083端口(Http)，同时，又在程序中使用了8083端口作为服务端，接收来自短信网关给我们发送的回执（Sgip1.2)。<br><br>不知道两者之间是否有冲突.了解了http与socket区别后，就知道了。</p>
+<h4 id="2-OSI七层模型"><a href="#2-OSI七层模型" class="headerlink" title="2.OSI七层模型"></a>2.OSI七层模型</h4><p><img src="../images/osi_七层模型.jpg" alt="OSI"><br>图片来自:<a href="https://www.jianshu.com/p/a18a5ba78fad" target="_blank" rel="noopener">https://www.jianshu.com/p/a18a5ba78fad</a></p>
+<h4 id="3-Http与Socket所在层"><a href="#3-Http与Socket所在层" class="headerlink" title="3.Http与Socket所在层"></a>3.Http与Socket所在层</h4><p>Http：Http是应用层的一种协议，用来对Http协议的数据进行读取。<br></p>
+<p>Tcp/Udp: 传输层。<br></p>
+<p>Ip: 网络层.<br></p>
+<p>Socket: Socket是对 TCP/IP 协议的封装，Socket 只是个接口不是协议，通过 Socket 我们才能使用 TCP/IP 协议，除了 TCP，也可以使用 UDP 协议来传递数据。<br></p>
+<p>Port: 端口是Tcp/Udp建立连接所用，也是在传输层，表现为Socket监听Port。<br></p>
+<h4 id="4-数据的处理流程"><a href="#4-数据的处理流程" class="headerlink" title="4.数据的处理流程"></a>4.数据的处理流程</h4><ul>
+<li>1.ClientA向服务端发一个数据，先根据所在层次，层层向下，按照所在层次的协议对数据进行包装。</li>
+<li>2.数据到达服务端后，从底层(物理层)开始，将数据按照对应层协议，进行处理，然后传到上一层，直到得到可用数据。</li>
+<li>3.http协议的数据，从客户端应用层，到达服务端应用层，一次传输完成。</li>
+<li>4.Sgip的数据，在ClientA时，先将数据按照Sgip协议进行包装，在传输层通过Socket发送(依然往下包装到达物理层，Sgip数据包),服务端接收到时，层层解包装，在传输层，Socket接收到数据包后，此时包装层已经只剩下了Sgip包装，因此，在这里按照Sgip协议解包装后，就已经得到了想要的数据。不需要再往上层传递.</li>
+<li>5.因此，在这里，虽然Http与Sgip都使用的统一端口，但是互不影响。</li>
+</ul>
+<h4 id="5-总结"><a href="#5-总结" class="headerlink" title="5.总结"></a>5.总结</h4><ul>
+<li>1.Http是应用层协议，Socket是对Tcp/Ip的封装</li>
+<li>2.Http发送数据也会经过Socket(Tcp或者Udp建立的连接)</li>
+<li>3.数据的传输和接收，是通过Socket,但是得到数据，是按照其包装和解包装的协议来的，Socket只是单纯的传输数据(bit)，并不关心数据是什么，有什么意义。</li>
+<li>4.Socket传输时，发送字符串，接收时也能直接接收到字符串，是因为包装/解包装层级一样，得到了发送时的数据。</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">socket</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/12/24/http与socket/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-security/example/cdnu-example-login" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -268,9 +361,10 @@
 <h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><h5 id="1-第一个抓包小例子"><a href="#1-第一个抓包小例子" class="headerlink" title="1.第一个抓包小例子"></a>1.第一个抓包小例子</h5><p>1.先随意搜索后台登录页面,inurl:login.html,在这里我随机找了一个<a href="http://usr.005.tv/User/login.html" target="_blank" rel="noopener">http://usr.005.tv/User/login.html</a><br><img src="../../images/security/burpsuite/usr005tv_login_page1.png" alt="login_page_1"><br>先点击注册<br><img src="../../images/security/burpsuite/usr005tv_register1.png" alt="register_page_1"></p>
 <p><br><br><strong>其中我们邮箱和手机号都是填的假号码。<br>然后开始拦截抓包，滑动滑块</strong></p>
 <p><img src="../../images/security/burpsuite/usr005tv_package_1.png" alt="package1"><br>修改号码为自己手机号，收到验证码<br><img src="../../images/security/burpsuite/usr005tv_package_2.png" alt="package1"><br>输入验证码<br><img src="../../images/security/burpsuite/usr005tv_package_3.png" alt="package1"><br>在这里发现，后端验证时，同时验证了发送验证码的手机号和验证码，所以验证失败，如果在这也修改为自己手机号，那注册时的假号码就无意义了。</p>
-<h5 id="2-一个爆破小例子"><a href="#2-一个爆破小例子" class="headerlink" title="2.一个爆破小例子"></a>2.一个爆破小例子</h5><p>来dvwn的登录（admin/password）<br><img src="../../images/security/burpsuite/dvwn_login_1.png" alt="intruder_01"><br>随便输入，抓取数据包，send to intruder<br><img src="../../images/security/burpsuite/burpsuite_intruder_01.png" alt="intruder_01"><br>选择Cluster模式，可以使用同的字典，进行穷举（笛卡尔积）<br><br>然后，clear清空变量，鼠标选中后，add添加自己需要的变量<br><img src="../../images/security/burpsuite/burpsuite_intruder_02.png" alt="intruder_01"><br>分别添加变量对应的字典，进行爆破<br><img src="../../images/security/burpsuite/burpsuite_intruder_03.png" alt="intruder_01"><br>爆破完成后，点击length，查看length长度(正确的和错误的length长度会不样)<br><img src="../../images/security/burpsuite/burpsuite_intruder_04.png" alt="intruder_01"></p>
+<h5 id="2-一个爆破小例子"><a href="#2-一个爆破小例子" class="headerlink" title="2.一个爆破小例子"></a>2.一个爆破小例子</h5><p>来dvwn的登录（admin/password）<br><img src="../../images/security/burpsuite/dvwn_login_1.png" alt="intruder_01"><br>随便输入，抓取数据包，send to intruder<br><img src="../../images/security/burpsuite/burpsuite_intruder_01.png" alt="intruder_02"><br>选择Cluster模式，可以使用同的字典，进行穷举（笛卡尔积）<br><br>然后，clear清空变量，鼠标选中后，add添加自己需要的变量<br><img src="../../images/security/burpsuite/burpsuite_intruder_02.png" alt="intruder_03"><br>分别添加变量对应的字典，进行爆破<br><img src="../../images/security/burpsuite/burpsuite_intruder_03.png" alt="intruder_04"><br>爆破完成后，点击length，查看length长度(正确的和错误的length长度会不样)<br><img src="../../images/security/burpsuite/burpsuite_intruder_04.png" alt="intruder_05"></p>
 <h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>1.使用burpsuite抓包后，vpn没用了，不能访问外网<br></p>
-<p>解决，虚拟机里使用burpsuite,nat模式连接，物理机还是挂了vpn</p>
+<p>解决1，虚拟机里使用burpsuite,nat模式连接，物理机还是挂了vpn<br></p>
+<p>2018/12/20 添加:<br><br>解决2，使用代理链 <a href="https://www.anquanke.com/post/id/85925" target="_blank" rel="noopener">https://www.anquanke.com/post/id/85925</a><br><br>同理，也可以使用代理链来用tor进行代理(防封ip)<br><img src="../../images/security/burpsuite/proxy_chain_01.png" alt="proxy_chain_01"><br>不稳定，容易出错：SOCKS server general failure<br><br>原因待查。。。</p>
 
       
 
@@ -880,87 +974,6 @@
 
 
   
-    <article id="post-java/java单例" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/31/java/java单例/">java单例</a>
-    </h1>
-  
-
-        
-        <a href="/2018/10/31/java/java单例/" class="archive-article-date">
-  	<time datetime="2018-10-31T08:43:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-用途"><a href="#1-用途" class="headerlink" title="1.用途"></a>1.用途</h4><p>用来维护一个全局的类，保存某些常用数据，减少资源消耗。</p>
-<h4 id="2-原理"><a href="#2-原理" class="headerlink" title="2.原理"></a>2.原理</h4><p>维护一个类，确保只有单一的对象被创建（创建一次），提供一个唯一的访问接口。私有的构造函数确保外部不能进行访问。</p>
-<h4 id="3-两种常用实现"><a href="#3-两种常用实现" class="headerlink" title="3.两种常用实现"></a>3.两种常用实现</h4><p>1.饿汉式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line">    //这句饿汉式的关键，类加载时初始化</span><br><span class="line">    private static  final Singleton instance = new Singleton();</span><br><span class="line">    //维护的数据</span><br><span class="line">    private Map&lt;String,Map&gt; data;</span><br><span class="line">    //构造函数,初始化一次</span><br><span class="line">    private Singleton()&#123;</span><br><span class="line">        this.data = new HashMap&lt;String, Map&gt;();</span><br><span class="line">    &#125;;</span><br><span class="line">    //获取实例</span><br><span class="line">    public static final Singleton getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //全局获取维护的数据</span><br><span class="line">    public  Map&lt;String, Map&gt; getData()&#123;</span><br><span class="line">        return this.data;</span><br><span class="line">    &#125;</span><br><span class="line">    //修改数据</span><br><span class="line">    public void setData(Map&lt;String, Map&gt; data) &#123;</span><br><span class="line">        this.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>2.静态内部类<br>可用调用时再初始化加载(lazyLoad)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line">    //静态内部类</span><br><span class="line">    private static class SingletonHolder&#123;</span><br><span class="line">        private static  final Singleton instance = new Singleton();</span><br><span class="line">    &#125;</span><br><span class="line">    //维护的数据</span><br><span class="line">    private Map&lt;String,Map&gt; data;</span><br><span class="line">    //构造函数,初始化一次</span><br><span class="line">    private Singleton()&#123;</span><br><span class="line">        this.data = new HashMap&lt;String, Map&gt;();</span><br><span class="line">    &#125;;</span><br><span class="line">    //获取实例</span><br><span class="line">    public static final Singleton getInstance()&#123;</span><br><span class="line">        return SingletonHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //全局获取维护的数据</span><br><span class="line">    public  Map&lt;String, Map&gt; getData()&#123;</span><br><span class="line">        return this.data;</span><br><span class="line">    &#125;</span><br><span class="line">    //修改数据</span><br><span class="line">    public void setData(Map&lt;String, Map&gt; data) &#123;</span><br><span class="line">        this.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">单例模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/31/java/java单例/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1062,6 +1075,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">socket</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">sgip</a>
               </li>
              
@@ -1078,19 +1095,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">springboot</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">socket</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1098,7 +1103,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color3">模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1106,11 +1115,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">泛型</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">burpsuite</a>
+                <a href="javascript:void(0)" class="js-tag color3">泛型</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1127,6 +1136,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">google</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">burpsuite</a>
               </li>
              
               <li class="article-tag-list-item">
