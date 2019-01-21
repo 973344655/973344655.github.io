@@ -1,7 +1,7 @@
 ---
 title: spring_tomcat
 date: 2018-10-17 15:14:40
-tags: [springboot, tomcat]
+tags: [springboot, tomcat,java]
 ---
 #### Springboot部署war包到服务器上
 

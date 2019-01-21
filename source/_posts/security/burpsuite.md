@@ -39,16 +39,23 @@ tags: [burpsuite]
 来dvwn的登录（admin/password）
 ![intruder_01](../../images/security/burpsuite/dvwn_login_1.png)
 随便输入，抓取数据包，send to intruder
-![intruder_01](../../images/security/burpsuite/burpsuite_intruder_01.png)
+![intruder_02](../../images/security/burpsuite/burpsuite_intruder_01.png)
 选择Cluster模式，可以使用同的字典，进行穷举（笛卡尔积）<br>
 然后，clear清空变量，鼠标选中后，add添加自己需要的变量
-![intruder_01](../../images/security/burpsuite/burpsuite_intruder_02.png)
+![intruder_03](../../images/security/burpsuite/burpsuite_intruder_02.png)
 分别添加变量对应的字典，进行爆破
-![intruder_01](../../images/security/burpsuite/burpsuite_intruder_03.png)
+![intruder_04](../../images/security/burpsuite/burpsuite_intruder_03.png)
 爆破完成后，点击length，查看length长度(正确的和错误的length长度会不样)
-![intruder_01](../../images/security/burpsuite/burpsuite_intruder_04.png)
+![intruder_05](../../images/security/burpsuite/burpsuite_intruder_04.png)
 
 #### 问题
 1.使用burpsuite抓包后，vpn没用了，不能访问外网<br>
 
-解决，虚拟机里使用burpsuite,nat模式连接，物理机还是挂了vpn
+解决1，虚拟机里使用burpsuite,nat模式连接，物理机还是挂了vpn<br>
+
+2018/12/20 添加:<br>
+解决2，使用代理链 https://www.anquanke.com/post/id/85925<br>
+同理，也可以使用代理链来用tor进行代理(防封ip)
+![proxy_chain_01](../../images/security/burpsuite/proxy_chain_01.png)
+不稳定，容易出错：SOCKS server general failure<br>
+原因待查。。。

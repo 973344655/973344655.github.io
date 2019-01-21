@@ -1,7 +1,7 @@
 ---
 title: RestTemplate
 date: 2018-08-30 16:51:32
-tags: [springboot, java, RestTemplate]
+tags: [java,springboot]
 ---
 
 因为在代码中需要调用外部的接口，所以使用RestTemplate

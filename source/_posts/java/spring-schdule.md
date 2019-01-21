@@ -1,7 +1,7 @@
 ---
 title: spring-schdule
 date: 2018-11-19 11:18:54
-tags: [spring,springboot]
+tags: [java,springboot]
 ---
 
 #### 1.@Schduled注解

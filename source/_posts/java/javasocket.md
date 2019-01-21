@@ -1,7 +1,7 @@
 ---
 title: javasocket
 date: 2018-09-26 17:49:23
-tags: [java,socket]
+tags: [java]
 ---
 
 #### 1.java.net.socket

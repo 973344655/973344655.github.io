@@ -1,7 +1,7 @@
 ---
 title: springboot-redis
 date: 2018-09-17 11:14:52
-tags: [redis, springboot]
+tags: [springboot]
 ---
 
 #### 1.redis大概

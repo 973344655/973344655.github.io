@@ -1,7 +1,7 @@
 ---
 title: java单例
 date: 2018-10-31 16:43:55
-tags: [java,单例模式]
+tags: [java]
 ---
 
 #### 1.用途
