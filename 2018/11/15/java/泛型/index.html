@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>泛型 | xiong&#39;s blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.泛型 T可以为任意大写字母可以多泛型&amp;lt;T,U&amp;gt;等单独的表示T为Object下的子类。 类型绑定:  表示T为继承XXX类型的子类">
-<meta name="keywords" content="java,泛型">
+  <meta name="description" content="1. &amp;lt;T&amp;gt;泛型 T可以为任意大写字母可以多泛型&amp;lt;T,U&amp;gt;等单独的表示T为Object下的子类。 类型绑定:  表示T为继承XXX类型的子类 2.例子1.泛型类12345678910public class GenericDemo &amp;lt;T&amp;gt;&amp;#123;    public   T test(T t)&amp;#123;        return t;    &amp;#125;">
+<meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="泛型">
 <meta property="og:url" content="http://yoursite.com/2018/11/15/java/泛型/index.html">
 <meta property="og:site_name" content="xiong&#39;s blogs">
-<meta property="og:description" content="1.泛型 T可以为任意大写字母可以多泛型&amp;lt;T,U&amp;gt;等单独的表示T为Object下的子类。 类型绑定:  表示T为继承XXX类型的子类">
+<meta property="og:description" content="1. &amp;lt;T&amp;gt;泛型 T可以为任意大写字母可以多泛型&amp;lt;T,U&amp;gt;等单独的表示T为Object下的子类。 类型绑定:  表示T为继承XXX类型的子类 2.例子1.泛型类12345678910public class GenericDemo &amp;lt;T&amp;gt;&amp;#123;    public   T test(T t)&amp;#123;        return t;    &amp;#125;">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-15T07:14:28.965Z">
+<meta property="og:updated_time" content="2019-01-21T09:08:10.659Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="泛型">
-<meta name="twitter:description" content="1.泛型 T可以为任意大写字母可以多泛型&amp;lt;T,U&amp;gt;等单独的表示T为Object下的子类。 类型绑定:  表示T为继承XXX类型的子类">
+<meta name="twitter:description" content="1. &amp;lt;T&amp;gt;泛型 T可以为任意大写字母可以多泛型&amp;lt;T,U&amp;gt;等单独的表示T为Object下的子类。 类型绑定:  表示T为继承XXX类型的子类 2.例子1.泛型类12345678910public class GenericDemo &amp;lt;T&amp;gt;&amp;#123;    public   T test(T t)&amp;#123;        return t;    &amp;#125;">
   
     <link rel="alternative" href="/atom.xml" title="xiong&#39;s blogs" type="application/atom+xml">
   
@@ -161,8 +161,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="1"><a href="#1" class="headerlink" title="1."></a>1.<t></t></h4><p>泛型<t> T可以为任意大写字母<br><br>可以多泛型&lt;T,U&gt;等<br><br>单独的<t>表示T为Object下的子类。<br></t></t></p>
+        <h4 id="1-lt-T"><a href="#1-lt-T" class="headerlink" title="1. &lt;T>"></a>1. &lt;T></h4><p>泛型<t> T可以为任意大写字母<br><br>可以多泛型&lt;T,U&gt;等<br><br>单独的<t>表示T为Object下的子类。<br></t></t></p>
 <p>类型绑定: <t extends="" xxx=""> 表示T为继承XXX类型的子类<br></t></p>
+<h4 id="2-例子"><a href="#2-例子" class="headerlink" title="2.例子"></a>2.例子</h4><h6 id="1-泛型类"><a href="#1-泛型类" class="headerlink" title="1.泛型类"></a>1.泛型类</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class GenericDemo &lt;T&gt;&#123;</span><br><span class="line">    public   T test(T t)&#123;</span><br><span class="line">        return t;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        GenericDemo&lt;String&gt; genericDemo = new GenericDemo&lt;&gt;();</span><br><span class="line">        System.out.println(genericDemo.test(&quot;aa&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="2-泛型方法"><a href="#2-泛型方法" class="headerlink" title="2.泛型方法"></a>2.泛型方法</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class GenericMethod &#123;</span><br><span class="line">    public static &lt;T&gt; T test(T t) &#123;</span><br><span class="line">        return t;</span><br><span class="line">    &#125;</span><br><span class="line">    public static  void  main(String[] args) &#123;</span><br><span class="line">        System.out.println(test(&quot;aa&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="3-泛型接口"><a href="#3-泛型接口" class="headerlink" title="3.泛型接口"></a>3.泛型接口</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public interface GenericInterface &lt;T,U&gt; &#123;</span><br><span class="line">    T test(U u);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class GenericInterfaceClass implements GenericInterface&lt;String,String&gt;&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public String test(String a)&#123;</span><br><span class="line">        return a;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
 
@@ -198,10 +201,6 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">泛型</a>
         		</li>
       		
 		</ul>
@@ -309,7 +308,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1"><span class="toc-number">1.</span> <span class="toc-text">1.</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-lt-T"><span class="toc-number">1.</span> <span class="toc-text">1. &lt;T&gt;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-例子"><span class="toc-number">2.</span> <span class="toc-text">2.例子</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-泛型类"><span class="toc-number">2.0.1.</span> <span class="toc-text">1.泛型类</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-泛型方法"><span class="toc-number">2.0.2.</span> <span class="toc-text">2.泛型方法</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-泛型接口"><span class="toc-number">2.0.3.</span> <span class="toc-text">3.泛型接口</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -338,7 +337,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 xiong
+    		&copy; 2019 xiong
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -421,11 +420,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">socket</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color3">正则</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -437,7 +440,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">正则</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -449,15 +452,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">RestTemplate</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
+                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -465,23 +460,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">redis</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">session</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">burpsuite</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">泛型</a>
+                <a href="javascript:void(0)" class="js-tag color1">tools</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -490,6 +469,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">google</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">burpsuite</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">wheels</a>
               </li>
              
               <li class="article-tag-list-item">
