@@ -1,5 +1,5 @@
 ---
-title: OJT021
+title: java基本类型
 date: 2018-09-21 16:23:45
 tags: [java]
 ---
@@ -91,4 +91,4 @@ public class Son {
 public	共有的，对所有类可见。<br>
 protected	受保护的，对同一包内的类和所有子类可见。<br>
 private	私有的，在同一类内可见。<br>
-默认的	在同一包内可见。默认不使用任何修饰符。<br>
+default (即不加修饰控制符情况下)默认的	在同一包内可见。默认不使用任何修饰符。<br>

@@ -1,7 +1,7 @@
 ---
 title: Http与Socket
 date: 2018-12-24 10:11:07
-tags: [socket]
+tags: [protocol]
 ---
 #### 1.问题
 今天发现网关程序中，java监听了8083端口(Http)，同时，又在程序中使用了8083端口作为服务端，接收来自短信网关给我们发送的回执（Sgip1.2)。<br>

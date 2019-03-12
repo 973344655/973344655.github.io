@@ -1,7 +1,7 @@
 ---
 title: googlehacking
 date: 2018-10-10 05:24:40
-tags: [渗透,google]
+tags: [security]
 ---
 
 #### 1.GooleHacking
@@ -41,5 +41,5 @@ tags: [渗透,google]
   1. google只能32个单词查询。<br>
   2. 操作符、冒号、关键字之间是没有空格的。
   3. 高级操作符能够和单独的查询混合使用
-  
+
 #### 5.例子

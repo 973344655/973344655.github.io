@@ -1,7 +1,7 @@
 ---
 title: burpsuite
 date: 2018-12-12 10:48:18
-tags: [burpsuite]
+tags: [security]
 ---
 
 #### 1.配置
@@ -59,3 +59,17 @@ tags: [burpsuite]
 ![proxy_chain_01](../../images/security/burpsuite/proxy_chain_01.png)
 不稳定，容易出错：SOCKS server general failure<br>
 原因待查。。。
+
+#### 3.返回包修改与抓手机包
+###### 3.1修改返回包
+![modify_response](../../images/security/burpsuite/modify_response.png)
+点击拦截后, forward会将返回结果拦截，然后自己进行修改。<br>
+再次点击forward将修改完的数据返回给原请求。
+###### 3.2抓取手机http流量
+https需要配置证书，其它一样。<br>
+手机和burp在同一局域网下<br>
+![intercept_mobile](../../images/security/burpsuite/intercept_mobile.png)
+配置burp监听本机ip,端口随意<br>
+到手机设置里面，对连接的wifi进行修改。选择连接的wifi->显示高级选项->选择代理(手动)->
+配置ip和端口(上一步burp中设置的)->ip(DHCP)。<br>
+现在可以到burp中进行抓包了<br>

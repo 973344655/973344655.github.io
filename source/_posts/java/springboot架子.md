@@ -1,5 +1,5 @@
 ---
-title: springbootdemo
+title: springboot项目架子
 date: 2018-11-23 15:47:52
 tags: [springboot]
 ---
@@ -108,7 +108,104 @@ public class TestController {
     }
 }
 ```
+##### logback(默认)
+在resouces下添加logback-spring.xml配置文件
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+	<jmxConfigurator/>
+	<!--<property name="log.path" value="/home/jzyx/epmnew/logs"/>-->
+    <property name="log.path" value="D:\\Logs\\aipmanage\\logs\\"/>
+	<!--<property name="log.path" value="\\opt"/>-->
 
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- Log message format -->
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %5level --- [%thread] %logger{36} : %msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<!-- deny all events with a level below DEBUG, that is TRACE  -->
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+	</appender>
+
+	<appender name="sysDailyRollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!--  <file>E:\\项目\\demoClientLog\\sys.log</file>-->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${log.path}\\demoClient-DEBUG-%d{yyyyMMdd}.log</fileNamePattern>
+			<!-- 保留30天的日志 -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %5level --- [%thread] %logger{36} : %msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+	</appender>
+
+	<appender name="infoDailyRollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- <file>E:\\项目\\demoClientLog\\demoClient-info.log</file> -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${log.path}\\demoClient-INFO-%d{yyyyMMdd}.log</fileNamePattern>
+			<!-- 保留30天的日志 -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %5level --- [%thread] %logger{36} : %msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+	<appender name="severeDailyRollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- <file>E:\\项目\\demoClientLog\\demoClient-severe.log</file> -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${log.path}\\demoClient-ERROR-%d{yyyyMMdd}.log</fileNamePattern>
+			<!-- 保留30天的日志 -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %5level --- [%thread] %logger{36} : %msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<!-- deny all events with a level below WARN, that is TRACE, DEBUG, and INFO -->
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+	</appender>
+
+	<logger name="com.bonc.demoClient" level="DEBUG">
+		<appender-ref ref="infoDailyRollingFile" />
+		<appender-ref ref="severeDailyRollingFile" />
+	</logger>
+
+	<!-- the root level of logging -->
+	<root level="INFO">
+		<appender-ref ref="sysDailyRollingFile" />
+		<appender-ref ref="infoDailyRollingFile" />
+		<appender-ref ref="severeDailyRollingFile" />
+	</root>
+
+</configuration>
+
+```
+###### 使用
+```
+private static final Logger logger = LoggerFactory.getLogger(ApiController.class);
+.......
+logger.info(".....");
+```
 #### 2.Restful API
 使用swagger2
 - 依赖

@@ -1,7 +1,7 @@
 ---
 title: nginx
 date: 2018-09-17 11:45:32
-tags: nginx
+tags: [tools]
 ---
 
 #### 1.nginx大概作用

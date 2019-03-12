@@ -1,7 +1,7 @@
 ---
 title: sqlmap
 date: 2018-08-28 15:30:54
-tags: [sql注入]
+tags: [security]
 ---
 使用sqlmap需要自己先找到注入点
 ## 1.sqlmap 用户文档

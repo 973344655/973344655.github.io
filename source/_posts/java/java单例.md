@@ -1,5 +1,5 @@
 ---
-title: java单例
+title: 单例模式
 date: 2018-10-31 16:43:55
 tags: [java]
 ---
@@ -11,6 +11,7 @@ tags: [java]
 
 #### 3.两种常用实现
 1.饿汉式
+线程安全，非懒加载
 ```
 public class Singleton {
     //这句饿汉式的关键，类加载时初始化
@@ -38,7 +39,9 @@ public class Singleton {
 ```
 
 2.静态内部类
-可用调用时再初始化加载(lazyLoad)
+可用调用时再初始化加载(lazyLoad)。<br>
+线程安全，懒加载
+
 ```
 public class Singleton {
     //静态内部类

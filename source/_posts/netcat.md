@@ -1,7 +1,7 @@
 ---
 title: netcat
 date: 2019-01-17 15:19:13
-tags:
+tags: [linux]
 ---
 
 netcat简称nc, 能通过tcp和udp在网络中读取数据。在两台电脑间建立连接，监听并返回两个数据流。

@@ -1,7 +1,7 @@
 ---
 title: hashutil
 date: 2019-01-15 16:22:19
-tags: wheels
+tags: [wheels,java]
 ---
 ```
 package util;

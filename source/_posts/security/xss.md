@@ -1,7 +1,7 @@
 ---
 title: xss
 date: 2018-11-06 14:43:30
-tags:
+tags: [security]
 ---
 
 1.印象笔记6.14客户端版本
