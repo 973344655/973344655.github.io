@@ -32,7 +32,9 @@
 <meta property="og:image" content="http://yoursite.com/2018/12/12/images/security/burpsuite/burpsuite_intruder_03.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/12/images/security/burpsuite/burpsuite_intruder_04.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/12/images/security/burpsuite/proxy_chain_01.png">
-<meta property="og:updated_time" content="2019-01-21T09:20:01.579Z">
+<meta property="og:image" content="http://yoursite.com/2018/12/12/images/security/burpsuite/modify_response.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/12/images/security/burpsuite/intercept_mobile.png">
+<meta property="og:updated_time" content="2019-01-25T07:54:07.444Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="burpsuite">
 <meta name="twitter:description" content="1.配置先配置浏览器代理，127.0.0.1：8080，使所有流量都要经过这      再配置burpsuite监听这个端口的流量   此外 ，因为要访问https,配置完这些后，打开浏览器访问http://burp，下载证书，安装到受信任颁发机构 实战1.第一个抓包小例子1.先随意搜索后台登录页面,inurl:login.html,在这里我随机找了一个http://usr.005.tv/User">
@@ -189,6 +191,8 @@
 <h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>1.使用burpsuite抓包后，vpn没用了，不能访问外网<br></p>
 <p>解决1，虚拟机里使用burpsuite,nat模式连接，物理机还是挂了vpn<br></p>
 <p>2018/12/20 添加:<br><br>解决2，使用代理链 <a href="https://www.anquanke.com/post/id/85925" target="_blank" rel="noopener">https://www.anquanke.com/post/id/85925</a><br><br>同理，也可以使用代理链来用tor进行代理(防封ip)<br><img src="../../images/security/burpsuite/proxy_chain_01.png" alt="proxy_chain_01"><br>不稳定，容易出错：SOCKS server general failure<br><br>原因待查。。。</p>
+<h4 id="3-返回包修改与抓手机包"><a href="#3-返回包修改与抓手机包" class="headerlink" title="3.返回包修改与抓手机包"></a>3.返回包修改与抓手机包</h4><h6 id="3-1修改返回包"><a href="#3-1修改返回包" class="headerlink" title="3.1修改返回包"></a>3.1修改返回包</h6><p><img src="../../images/security/burpsuite/modify_response.png" alt="modify_response"><br>点击拦截后, forward会将返回结果拦截，然后自己进行修改。<br><br>再次点击forward将修改完的数据返回给原请求。</p>
+<h6 id="3-2抓取手机http流量"><a href="#3-2抓取手机http流量" class="headerlink" title="3.2抓取手机http流量"></a>3.2抓取手机http流量</h6><p>https需要配置证书，其它一样。<br><br>手机和burp在同一局域网下<br><br><img src="../../images/security/burpsuite/intercept_mobile.png" alt="intercept_mobile"><br>配置burp监听本机ip,端口随意<br><br>到手机设置里面，对连接的wifi进行修改。选择连接的wifi-&gt;显示高级选项-&gt;选择代理(手动)-&gt;<br>配置ip和端口(上一步burp中设置的)-&gt;ip(DHCP)。<br><br>现在可以到burp中进行抓包了<br></p>
 
       
 
@@ -331,7 +335,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-配置"><span class="toc-number">1.</span> <span class="toc-text">1.配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实战"><span class="toc-number">2.</span> <span class="toc-text">实战</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-第一个抓包小例子"><span class="toc-number">2.1.</span> <span class="toc-text">1.第一个抓包小例子</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-一个爆破小例子"><span class="toc-number">2.2.</span> <span class="toc-text">2.一个爆破小例子</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#问题"><span class="toc-number">3.</span> <span class="toc-text">问题</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-配置"><span class="toc-number">1.</span> <span class="toc-text">1.配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实战"><span class="toc-number">2.</span> <span class="toc-text">实战</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-第一个抓包小例子"><span class="toc-number">2.1.</span> <span class="toc-text">1.第一个抓包小例子</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-一个爆破小例子"><span class="toc-number">2.2.</span> <span class="toc-text">2.一个爆破小例子</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#问题"><span class="toc-number">3.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-返回包修改与抓手机包"><span class="toc-number">4.</span> <span class="toc-text">3.返回包修改与抓手机包</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#3-1修改返回包"><span class="toc-number">4.0.1.</span> <span class="toc-text">3.1修改返回包</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-2抓取手机http流量"><span class="toc-number">4.0.2.</span> <span class="toc-text">3.2抓取手机http流量</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -443,6 +447,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
@@ -455,11 +463,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">

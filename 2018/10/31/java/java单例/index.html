@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>java单例 | xiong&#39;s blogs</title>
+  <title>单例模式 | xiong&#39;s blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.用途用来维护一个全局的类，保存某些常用数据，减少资源消耗。 2.原理维护一个类，确保只有单一的对象被创建（创建一次），提供一个唯一的访问接口。私有的构造函数确保外部不能进行访问。 3.两种常用实现1.饿汉式1234567891011121314151617181920212223public class Singleton &amp;#123;    //这句饿汉式的关键，类加载时初始化    pri">
+  <meta name="description" content="1.用途用来维护一个全局的类，保存某些常用数据，减少资源消耗。 2.原理维护一个类，确保只有单一的对象被创建（创建一次），提供一个唯一的访问接口。私有的构造函数确保外部不能进行访问。 3.两种常用实现1.饿汉式线程安全，非懒加载1234567891011121314151617181920212223public class Singleton &amp;#123;    //这句饿汉式的关键，类加载时初">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java单例">
+<meta property="og:title" content="单例模式">
 <meta property="og:url" content="http://yoursite.com/2018/10/31/java/java单例/index.html">
 <meta property="og:site_name" content="xiong&#39;s blogs">
-<meta property="og:description" content="1.用途用来维护一个全局的类，保存某些常用数据，减少资源消耗。 2.原理维护一个类，确保只有单一的对象被创建（创建一次），提供一个唯一的访问接口。私有的构造函数确保外部不能进行访问。 3.两种常用实现1.饿汉式1234567891011121314151617181920212223public class Singleton &amp;#123;    //这句饿汉式的关键，类加载时初始化    pri">
+<meta property="og:description" content="1.用途用来维护一个全局的类，保存某些常用数据，减少资源消耗。 2.原理维护一个类，确保只有单一的对象被创建（创建一次），提供一个唯一的访问接口。私有的构造函数确保外部不能进行访问。 3.两种常用实现1.饿汉式线程安全，非懒加载1234567891011121314151617181920212223public class Singleton &amp;#123;    //这句饿汉式的关键，类加载时初">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-01-21T09:06:32.882Z">
+<meta property="og:updated_time" content="2019-02-21T10:21:07.035Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="java单例">
-<meta name="twitter:description" content="1.用途用来维护一个全局的类，保存某些常用数据，减少资源消耗。 2.原理维护一个类，确保只有单一的对象被创建（创建一次），提供一个唯一的访问接口。私有的构造函数确保外部不能进行访问。 3.两种常用实现1.饿汉式1234567891011121314151617181920212223public class Singleton &amp;#123;    //这句饿汉式的关键，类加载时初始化    pri">
+<meta name="twitter:title" content="单例模式">
+<meta name="twitter:description" content="1.用途用来维护一个全局的类，保存某些常用数据，减少资源消耗。 2.原理维护一个类，确保只有单一的对象被创建（创建一次），提供一个唯一的访问接口。私有的构造函数确保外部不能进行访问。 3.两种常用实现1.饿汉式线程安全，非懒加载1234567891011121314151617181920212223public class Singleton &amp;#123;    //这句饿汉式的关键，类加载时初">
   
     <link rel="alternative" href="/atom.xml" title="xiong&#39;s blogs" type="application/atom+xml">
   
@@ -148,7 +148,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      java单例
+      单例模式
     </h1>
   
 
@@ -163,8 +163,9 @@
       
         <h4 id="1-用途"><a href="#1-用途" class="headerlink" title="1.用途"></a>1.用途</h4><p>用来维护一个全局的类，保存某些常用数据，减少资源消耗。</p>
 <h4 id="2-原理"><a href="#2-原理" class="headerlink" title="2.原理"></a>2.原理</h4><p>维护一个类，确保只有单一的对象被创建（创建一次），提供一个唯一的访问接口。私有的构造函数确保外部不能进行访问。</p>
-<h4 id="3-两种常用实现"><a href="#3-两种常用实现" class="headerlink" title="3.两种常用实现"></a>3.两种常用实现</h4><p>1.饿汉式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line">    //这句饿汉式的关键，类加载时初始化</span><br><span class="line">    private static  final Singleton instance = new Singleton();</span><br><span class="line">    //维护的数据</span><br><span class="line">    private Map&lt;String,Map&gt; data;</span><br><span class="line">    //构造函数,初始化一次</span><br><span class="line">    private Singleton()&#123;</span><br><span class="line">        this.data = new HashMap&lt;String, Map&gt;();</span><br><span class="line">    &#125;;</span><br><span class="line">    //获取实例</span><br><span class="line">    public static final Singleton getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //全局获取维护的数据</span><br><span class="line">    public  Map&lt;String, Map&gt; getData()&#123;</span><br><span class="line">        return this.data;</span><br><span class="line">    &#125;</span><br><span class="line">    //修改数据</span><br><span class="line">    public void setData(Map&lt;String, Map&gt; data) &#123;</span><br><span class="line">        this.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>2.静态内部类<br>可用调用时再初始化加载(lazyLoad)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line">    //静态内部类</span><br><span class="line">    private static class SingletonHolder&#123;</span><br><span class="line">        private static  final Singleton instance = new Singleton();</span><br><span class="line">    &#125;</span><br><span class="line">    //维护的数据</span><br><span class="line">    private Map&lt;String,Map&gt; data;</span><br><span class="line">    //构造函数,初始化一次</span><br><span class="line">    private Singleton()&#123;</span><br><span class="line">        this.data = new HashMap&lt;String, Map&gt;();</span><br><span class="line">    &#125;;</span><br><span class="line">    //获取实例</span><br><span class="line">    public static final Singleton getInstance()&#123;</span><br><span class="line">        return SingletonHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //全局获取维护的数据</span><br><span class="line">    public  Map&lt;String, Map&gt; getData()&#123;</span><br><span class="line">        return this.data;</span><br><span class="line">    &#125;</span><br><span class="line">    //修改数据</span><br><span class="line">    public void setData(Map&lt;String, Map&gt; data) &#123;</span><br><span class="line">        this.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="3-两种常用实现"><a href="#3-两种常用实现" class="headerlink" title="3.两种常用实现"></a>3.两种常用实现</h4><p>1.饿汉式<br>线程安全，非懒加载<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line">    //这句饿汉式的关键，类加载时初始化</span><br><span class="line">    private static  final Singleton instance = new Singleton();</span><br><span class="line">    //维护的数据</span><br><span class="line">    private Map&lt;String,Map&gt; data;</span><br><span class="line">    //构造函数,初始化一次</span><br><span class="line">    private Singleton()&#123;</span><br><span class="line">        this.data = new HashMap&lt;String, Map&gt;();</span><br><span class="line">    &#125;;</span><br><span class="line">    //获取实例</span><br><span class="line">    public static final Singleton getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //全局获取维护的数据</span><br><span class="line">    public  Map&lt;String, Map&gt; getData()&#123;</span><br><span class="line">        return this.data;</span><br><span class="line">    &#125;</span><br><span class="line">    //修改数据</span><br><span class="line">    public void setData(Map&lt;String, Map&gt; data) &#123;</span><br><span class="line">        this.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.静态内部类<br>可用调用时再初始化加载(lazyLoad)。<br><br>线程安全，懒加载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line">    //静态内部类</span><br><span class="line">    private static class SingletonHolder&#123;</span><br><span class="line">        private static  final Singleton instance = new Singleton();</span><br><span class="line">    &#125;</span><br><span class="line">    //维护的数据</span><br><span class="line">    private Map&lt;String,Map&gt; data;</span><br><span class="line">    //构造函数,初始化一次</span><br><span class="line">    private Singleton()&#123;</span><br><span class="line">        this.data = new HashMap&lt;String, Map&gt;();</span><br><span class="line">    &#125;;</span><br><span class="line">    //获取实例</span><br><span class="line">    public static final Singleton getInstance()&#123;</span><br><span class="line">        return SingletonHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //全局获取维护的数据</span><br><span class="line">    public  Map&lt;String, Map&gt; getData()&#123;</span><br><span class="line">        return this.data;</span><br><span class="line">    &#125;</span><br><span class="line">    //修改数据</span><br><span class="line">    public void setData(Map&lt;String, Map&gt; data) &#123;</span><br><span class="line">        this.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
 
@@ -419,6 +420,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
@@ -431,11 +436,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
