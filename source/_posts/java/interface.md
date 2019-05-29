@@ -1,5 +1,5 @@
 ---
-title: interface
+title: 接口
 date: 2019-01-21 14:26:34
 tags: [java]
 ---

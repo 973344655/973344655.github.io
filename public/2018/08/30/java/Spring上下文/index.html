@@ -9,14 +9,14 @@
   <title>Spring上下文 | xiong&#39;s blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="非spring管理的类（普通类），获得一个Bean。在一个普通类中，@Autowired和new都不能导入一个Bean对象123456public class AcceptDeal extends Thread &amp;#123;  @Autowired  LogService logservice;//但此时mapper中信息又为null  //或者new 一个对象  //LogService log">
-<meta name="keywords" content="springboot,java">
+<meta name="keywords" content="java,springboot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring上下文">
 <meta property="og:url" content="http://yoursite.com/2018/08/30/java/Spring上下文/index.html">
 <meta property="og:site_name" content="xiong&#39;s blogs">
 <meta property="og:description" content="非spring管理的类（普通类），获得一个Bean。在一个普通类中，@Autowired和new都不能导入一个Bean对象123456public class AcceptDeal extends Thread &amp;#123;  @Autowired  LogService logservice;//但此时mapper中信息又为null  //或者new 一个对象  //LogService log">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-03T09:00:16.847Z">
+<meta property="og:updated_time" content="2019-05-29T03:37:15.472Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring上下文">
 <meta name="twitter:description" content="非spring管理的类（普通类），获得一个Bean。在一个普通类中，@Autowired和new都不能导入一个Bean对象123456public class AcceptDeal extends Thread &amp;#123;  @Autowired  LogService logservice;//但此时mapper中信息又为null  //或者new 一个对象  //LogService log">
@@ -167,6 +167,7 @@
 <h6 id="2-在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext"><a href="#2-在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext" class="headerlink" title="2.在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext"></a>2.在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext</h6><p>1.因为SpringUtil.setApplicationContext(app)不是static方法，所以不这样用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">public class App&#123;</span><br><span class="line">	public static void main( String[] args )&#123;</span><br><span class="line">		System.out.println( &quot;Hello World!&quot; );</span><br><span class="line">		ApplicationContext app = SpringApplication.run(App.class, args);</span><br><span class="line">		SpringUtil.setApplicationContext(app);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>2.解决办法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//在启动类上加@ComponentScan注解</span><br><span class="line">@SpringBootApplication</span><br><span class="line">@ComponentScan(basePackages = &quot;com.***&quot;)</span><br><span class="line">public class SmsUpstreamApplication extends SpringBootServletInitializer &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(SmsUpstreamApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) &#123;</span><br><span class="line">        return builder.sources(SmsUpstreamApplication.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h6 id="3-在普通类中通过getBean-获取"><a href="#3-在普通类中通过getBean-获取" class="headerlink" title="3.在普通类中通过getBean()获取"></a>3.在普通类中通过getBean()获取</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//导入Logservice</span><br><span class="line">LogService logService = (LogService) SpringUtil.getBean(LogService.class);</span><br></pre></td></tr></table></figure>
+<h4 id="2019-5-29补充"><a href="#2019-5-29补充" class="headerlink" title="2019/5/29补充"></a>2019/5/29补充</h4><p>用@DependsOn来控制bean的初始化顺序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//控制bean的加载顺序  确保不为null</span><br><span class="line">@DependsOn(&#123;&quot;socketLogService&quot;,&quot;springUtil&quot;&#125;)</span><br></pre></td></tr></table></figure></p>
 
       
 
@@ -201,11 +202,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
         		</li>
       		
 		</ul>
@@ -313,7 +314,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-新建一个工具类SpringUtil"><span class="toc-number">1.</span> <span class="toc-text">1.新建一个工具类SpringUtil</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext"><span class="toc-number">2.</span> <span class="toc-text">2.在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-在普通类中通过getBean-获取"><span class="toc-number">3.</span> <span class="toc-text">3.在普通类中通过getBean()获取</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-新建一个工具类SpringUtil"><span class="toc-number">1.</span> <span class="toc-text">1.新建一个工具类SpringUtil</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext"><span class="toc-number">2.</span> <span class="toc-text">2.在Springboot启动类中，向上下文工具类SpringContextUtil中注入applicationContext</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-在普通类中通过getBean-获取"><span class="toc-number">3.</span> <span class="toc-text">3.在普通类中通过getBean()获取</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2019-5-29补充"><span class="toc-number"></span> <span class="toc-text">2019/5/29补充</span></a>
                     </div>
                 </span>
             </div>
@@ -425,23 +426,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">protocol</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">tools</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -449,7 +434,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -457,7 +442,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">security</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">protocol</a>
               </li>
              
               <li class="article-tag-list-item">

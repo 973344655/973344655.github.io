@@ -96,3 +96,10 @@ public class SmsUpstreamApplication extends SpringBootServletInitializer {
 //导入Logservice
 LogService logService = (LogService) SpringUtil.getBean(LogService.class);
 ```
+
+#### 2019/5/29补充
+用@DependsOn来控制bean的初始化顺序
+```
+//控制bean的加载顺序  确保不为null
+@DependsOn({"socketLogService","springUtil"})
+```

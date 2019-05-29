@@ -48,3 +48,5 @@ sudo docker exec  -it 9a8(容器id前三位) /bin/sh<br>
 对容器的修改默认是保存的<br>
 docker commit 698 name(生成一个新的版本名)
 ##### 11.生成自己的image
+
+<scr<script>ipt>alert("XSS");</scr<script>ipt>
