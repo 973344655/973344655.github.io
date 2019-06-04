@@ -164,11 +164,11 @@
 <li>CAS Server 负责用户的认证和授权</li>
 <li>CAS Client 与受保护的客户端应用部署在一起，负责认证用户是否登录,同时负责处理对客户端受保护资源的访问请求，需要登录时，重定向到CAS Server，以Filter方式保护受保护的资源。</li>
 </ul>
-<h4 id="一-授权与登录操作"><a href="#一-授权与登录操作" class="headerlink" title="一.授权与登录操作"></a>一.授权与登录操作</h4><h6 id="1-未登录时"><a href="#1-未登录时" class="headerlink" title="1.未登录时"></a>1.未登录时</h6><p><img src="http://67.216.218.37:8000/file/blogs/base/cas/cas01.png" alt="cas01"><br>如图:<br></p>
+<h4 id="一-授权与登录操作"><a href="#一-授权与登录操作" class="headerlink" title="一.授权与登录操作"></a>一.授权与登录操作</h4><h6 id="1-未登录时"><a href="#1-未登录时" class="headerlink" title="1.未登录时"></a>1.未登录时</h6><p><img src="http://67.216.218.49:8000/file/blogs/base/cas/cas01.png" alt="cas01"><br>如图:<br></p>
 <ul>
 <li>(1)客户端(即浏览器)请求资源(需要登录的受限资源)，CAS Client发现无权限(未登录，通过cookies中JSESSIONID判断是否登录)，尝试获取ticket(未获取到)。</li>
 <li>(2)CAS Client 返回重定向(CAS Server 登录地址)并在请求地址中带上原本要请求的资源地址，客户端请求该地址(重定向自动请求)获取ticket，此时ticket不存在(未登录)，返回登录页面。</li>
-<li>(3)客户端进行登录(带上认证信息，原本的请求资源地址，sessionid,sessionid为CAS Client生成)，CAS Server 验证通过，生成与sessionid进行关联的随机ticket,将请求的cookie中jsessionid设置为传过来的sessionid，并返回重定向(要请求的资源地址，带上ticket)<br><img src="http://67.216.218.37:8000/file/blogs/base/cas/cas_sessionid01.png" alt="cas_session01"><br>将会话的jsessionid设置为图中1.</li>
+<li>(3)客户端进行登录(带上认证信息，原本的请求资源地址，sessionid,sessionid为CAS Client生成)，CAS Server 验证通过，生成与sessionid进行关联的TGT与ST,将请求的cookie中jsessionid设置为传过来的sessionid，并返回重定向(要请求的资源地址，带上ticket(ST))<br><img src="http://67.216.218.49:8000/file/blogs/base/cas/cas_sessionid01.png" alt="cas_session01"><br>将会话的jsessionid设置为图中1.</li>
 <li>(4)此时，CAS Client发现请求无权限(未登录)，尝试获取ticket(获取到),CAS Client拿着ticket去CAS Server 进行认证</li>
 <li>(5)此时，CAS Server 发现该ticket认证通过，返回登录成功的信息，CAS Client(可以理解为服务端) 利用前面设置的JSESSIONID为该用户创建session会话，维护登录状态(JSESSIONID)，并返回原本受限的请求资源</li>
 </ul>
@@ -179,7 +179,7 @@
 <li>(3)此时，CAS Client发现请求无权限(未登录)，尝试获取ticket(获取到),CAS Client拿着ticket去CAS Server 进行认证，认证成功后设置该域的session.</li>
 <li>(4)此时，CAS Server 发现该ticket认证通过，返回登录成功的信息，CAS Client 为该用户创建session会话，保存在域下的登录状态，返回原本受限的请求资源。</li>
 </ul>
-<h4 id="二-登录状态判断"><a href="#二-登录状态判断" class="headerlink" title="二.登录状态判断"></a>二.登录状态判断</h4><p>已登录的用户在再次请求受限资源时，不能每次都去认证中心(CAS Server)判断是否登录(效率低)。<br><br><img src="http://67.216.218.37:8000/file/blogs/base/cas/cas_cookie01.png" alt="cas01"><br>当一个已经登录过的用户，再次请求该系统资源时，CAS Client会去session中查找用户信息(通过请求头的cookie中JSESSIONID字段的值)，判断是否登录。不用再去CAS Server认证。<br><br>不同的域，各自维护自己的session.<br></p>
+<h4 id="二-登录状态判断"><a href="#二-登录状态判断" class="headerlink" title="二.登录状态判断"></a>二.登录状态判断</h4><p>已登录的用户在再次请求受限资源时，不能每次都去认证中心(CAS Server)判断是否登录(效率低)。<br><br><img src="http://67.216.218.49:8000/file/blogs/base/cas/cas_cookie01.png" alt="cas01"><br>当一个已经登录过的用户，再次请求该系统资源时，CAS Client会去session中查找用户信息(通过请求头的cookie中JSESSIONID字段的值)，判断是否登录。不用再去CAS Server认证。<br><br>不同的域，各自维护自己的session.<br></p>
 <h4 id="三-退出"><a href="#三-退出" class="headerlink" title="三.退出"></a>三.退出</h4><ul>
 <li>(1)客户端向当前web应用发起退出请求。</li>
 <li>(2)应用取消本地会话session，同时通知CAS Server，用户已登出，清除TGT。</li>
@@ -190,6 +190,7 @@
 <li>TGT：TGT是CAS为用户签发的登录票据，拥有了TGT，用户就可以证明自己在CAS成功登录过。TGT封装了Cookie值以及此Cookie值对应的用户信息。用户在CAS 认证成功后，CAS生成cookie，写入浏览器，同时生成一个TGT对象，放入自己的缓存，TGT对象的ID就是cookie的值。当HTTP再次请求到来时，如果传过来的有CAS生成的cookie，则CAS以此cookie值为key查询缓存中有无TGT ，如果有的话，则说明用户之前登录过，如果没有，则用户需要重新登录。</li>
 <li>ST：服务票据，ST是CAS为用户签发的访问某一service的票据。用户访问service时，service发现用户没有ST，则要求用户去CAS获取ST。用户向CAS发出获取ST的请求，如果用户的请求中包含cookie，则CAS会以此cookie值为key查询缓存中有无TGT，如果存在TGT，则用此TGT签发一个ST，返回给用户。用户凭借ST去访问service，service拿ST去CAS验证，验证通过后，允许用户访问资源。</li>
 <li>LT: 定制login页面时候，提交以后还是要提交到cas进行验证，那么参数中需要带lt，这个lt必须在前面获取到，防止重复提交之类的作用。</li>
+<li>TGC:在系统A登录成功后，用户和认证中心之间建立起了全局会话，这个全局会话就是TGT(Ticket Granting Ticket)，TGT位于CAS服务器端，TGT并没有放在Session中，也就是说，CAS全局会话的实现并没有直接使用Session机制，而是利用了Cookie自己实现的，这个Cookie叫做TGC(Ticket Granting Cookie)，它存放了TGT的id(jsessionid),保存在用户浏览器上</li>
 </ul>
 
       
@@ -440,8 +441,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h3 id="一-整体概念"><a href="#一-整体概念" class="headerlink" title="一.整体概念"></a>一.整体概念</h3><p>Java.io 包含几乎所有的java的输入输出类</p>
-<p>先来一张 <a href="http://www.runoob.com/java/java-files-io.html" target="_blank" rel="noopener">菜鸟教程</a> 的图片<br><br><img src="./iostream.png" alt="io"></p>
-<p>再来一张 <a href="http://www.runoob.com/java/java-files-io.html" target="_blank" rel="noopener">csdn</a> (推荐，写得很好)简化的图片<br><br><img src="./iostream2.png" alt="io2"></p>
+<p>先来一张 <a href="http://www.runoob.com/java/java-files-io.html" target="_blank" rel="noopener">菜鸟教程</a> 的图片<br><br><img src="http://67.216.218.49:8000/file/blogs/java/io/iostream.png" alt="io"></p>
+<p>再来一张 <a href="http://www.runoob.com/java/java-files-io.html" target="_blank" rel="noopener">csdn</a> (推荐，写得很好)简化的图片<br><br><img src="http://67.216.218.49:8000/file/blogs/java/io/iostream2.png" alt="io2"></p>
 <p>java中io流分字节流与字符流两种。</p>
 <p>字符流:</p>
 <p>Reader 和 Writer 为字符流抽象基类，提供基本抽象方法。<br><br>InputStreamReader 和 OutputStreamWriter 为字符转换流，目的是将字节流转化为字符流。<br><br>BufferdReader 和 BufferdWriter 字符缓冲流，高效的从字符流中读取文不。<br><br>FileReader 和 FileWriter 为 InputStreamReader 和 OutputStreamWriter 的子类，特意用来读写文件。<br></p>
@@ -1067,11 +1068,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
