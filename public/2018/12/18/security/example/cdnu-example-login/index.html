@@ -16,22 +16,22 @@
 <meta property="og:site_name" content="xiong&#39;s blogs">
 <meta property="og:description" content="看了好久的渗透概念性东西，都没有实践过，今天想试一下，随意找了一个学校官网(自知菜鸟水平，还没入门，不敢找太好的学校)。 1.找到薄弱点官网一般相对安全一点，所以通常从子域名下手。chrome搜索，输入: inurl:cdnu.edu.cn  看到一个身份认证平台一般这些都是后台登录界面点进去 可以看到，不仅没有验证码，还清楚的告诉你了账号为学号，默认密码为身份证后六位。典型的用于给我们进行爆破。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/2018/12/18/images/security/example/index_page.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/18/images/security/example/search_page.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/18/images/security/example/login_page.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/18/images/security/example/studentid_search_01.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/18/images/security/example/studentid_search_02.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/18/images/security/example/studentid_search_03.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/18/images/security/example/password_success.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/18/images/security/example/password_modify.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/18/images/security/example/login_success.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/18/images/security/example/code_logic.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/18/images/security/example/code_logic_02.png">
-<meta property="og:updated_time" content="2019-01-21T09:19:26.293Z">
+<meta property="og:image" content="http://yoursite.com/2018/12/18/security/example/cdnu-example-login/index_page.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/18/security/example/cdnu-example-login/search_page.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/18/security/example/cdnu-example-login/login_page.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/18/security/example/cdnu-example-login/studentid_search_01.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/18/security/example/cdnu-example-login/studentid_search_02.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/18/security/example/cdnu-example-login/studentid_search_03.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/18/security/example/cdnu-example-login/password_success.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/18/security/example/cdnu-example-login/password_modify.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/18/security/example/cdnu-example-login/login_success.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/18/security/example/cdnu-example-login/code_logic.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/18/security/example/cdnu-example-login/code_logic_02.png">
+<meta property="og:updated_time" content="2019-05-29T04:46:00.033Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一个渗透小例子">
 <meta name="twitter:description" content="看了好久的渗透概念性东西，都没有实践过，今天想试一下，随意找了一个学校官网(自知菜鸟水平，还没入门，不敢找太好的学校)。 1.找到薄弱点官网一般相对安全一点，所以通常从子域名下手。chrome搜索，输入: inurl:cdnu.edu.cn  看到一个身份认证平台一般这些都是后台登录界面点进去 可以看到，不仅没有验证码，还清楚的告诉你了账号为学号，默认密码为身份证后六位。典型的用于给我们进行爆破。">
-<meta name="twitter:image" content="http://yoursite.com/2018/12/18/images/security/example/index_page.png">
+<meta name="twitter:image" content="http://yoursite.com/2018/12/18/security/example/cdnu-example-login/index_page.png">
   
     <link rel="alternative" href="/atom.xml" title="xiong&#39;s blogs" type="application/atom+xml">
   
@@ -173,29 +173,29 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>看了好久的渗透概念性东西，都没有实践过，今天想试一下，随意找了一个学校官网(自知菜鸟水平，还没入门，不敢找太好的学校)。<br><img src="../../../images/security/example/index_page.png" alt="indexPage"></p>
+        <p>看了好久的渗透概念性东西，都没有实践过，今天想试一下，随意找了一个学校官网(自知菜鸟水平，还没入门，不敢找太好的学校)。<br><img src="./index_page.png" alt="indexPage"></p>
 <h4 id="1-找到薄弱点"><a href="#1-找到薄弱点" class="headerlink" title="1.找到薄弱点"></a>1.找到薄弱点</h4><p>官网一般相对安全一点，所以通常从子域名下手。<br><br>chrome搜索，输入: inurl:cdnu.edu.cn</p>
-<p><img src="../../../images/security/example/search_page.png" alt="searchPage"></p>
-<p>看到一个身份认证平台<br><br>一般这些都是后台登录界面<br><br>点进去<br><img src="../../../images/security/example/login_page.png" alt="searchPage"></p>
+<p><img src="./search_page.png" alt="searchPage"></p>
+<p>看到一个身份认证平台<br><br>一般这些都是后台登录界面<br><br>点进去<br><img src="./login_page.png" alt="searchPage"></p>
 <p>可以看到，不仅没有验证码，还清楚的告诉你了账号为学号，默认密码为身份证后六位。典型的用于给我们进行爆破。</p>
-<h4 id="2-信息收集"><a href="#2-信息收集" class="headerlink" title="2.信息收集"></a>2.信息收集</h4><p>为了能进行爆破，先要得到学号。<br><br>直接google和百度.<br><img src="../../../images/security/example/studentid_search_01.png" alt="searchPage"></p>
-<p><img src="../../../images/security/example/studentid_search_02.png" alt="searchPage"></p>
-<p><img src="../../../images/security/example/studentid_search_03.png" alt="searchPage"></p>
+<h4 id="2-信息收集"><a href="#2-信息收集" class="headerlink" title="2.信息收集"></a>2.信息收集</h4><p>为了能进行爆破，先要得到学号。<br><br>直接google和百度.<br><img src="./studentid_search_01.png" alt="searchPage"></p>
+<p><img src="./studentid_search_02.png" alt="searchPage"></p>
+<p><img src="./studentid_search_03.png" alt="searchPage"></p>
 <p>可以看到，在搜索一些国内的网站信息时，百度还是要好用一点。<br></p>
 <p>尝试登录：160003021029/123456<br><br>返回:用户名或密码错误。到这还看不出什么<br><br>再尝试输入: 160000000000/123456<br><br>返回：用户名不存在。(由此可知160003021029用户是存在的，同理，可以知道160003021030等等)<br></p>
 <p>在这一步，由于网站的 <strong>不恰当返回信息处理</strong> (用户名枚举)，我们得到了可用用户名.<br></p>
 <p>接下来该进行爆破了，先生成身份证后六位的密码字典.<br><br>因为从学号可看出是2016届的，所以推测生日应该在1997-1999年，这样字典就只有三万条.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line"></span><br><span class="line"># ##########################</span><br><span class="line"># 生成身份证后六位的密码字典</span><br><span class="line"># ##########################</span><br><span class="line">year_start = input(&quot;请输入开始年份(四位): &quot;)</span><br><span class="line">year_end = input(&quot;请输入结束年份(四位):&quot;)</span><br><span class="line"></span><br><span class="line">if len(year_start) != 4 or len(year_end) != 4:</span><br><span class="line">    print(&quot;输入格式有误&quot;)</span><br><span class="line">    exit(-1)</span><br><span class="line">else:</span><br><span class="line">    year_count = abs(int(year_end) - int(year_start)) + 1</span><br><span class="line">    file_path = os.getcwd() + &quot;/&quot; + year_start + &quot;-&quot; + year_end + &quot;dict.txt&quot;</span><br><span class="line">    f = open(file_path, &quot;a+&quot;)</span><br><span class="line">    for index in range(0, year_count):</span><br><span class="line">        res = []</span><br><span class="line">        if year_start &lt; year_end:</span><br><span class="line">            list_temp = []</span><br><span class="line">            for i in range(0, 10000):</span><br><span class="line">                list_temp.append(str((int(year_start) + index))[-2:] + str(i).zfill(4))</span><br><span class="line">                f.write(str((int(year_start) + index))[-2:] + str(i).zfill(4))</span><br><span class="line">                f.write(&quot;\n&quot;)</span><br><span class="line">            res.append(list_temp)</span><br><span class="line">        else:</span><br><span class="line">            for i in range(0, 9999):</span><br><span class="line">                list_temp.append(str((int(year_end) + index))[-2:] + str(i).zfill(4))</span><br><span class="line">                f.write(str((int(year_end) + index))[-2:] + str(i).zfill(4))</span><br><span class="line">                f.write(&quot;\n&quot;)</span><br><span class="line">            res.append(list_temp)</span><br><span class="line">    f.close()</span><br></pre></td></tr></table></figure></p>
 <h4 id="3-进行尝试"><a href="#3-进行尝试" class="headerlink" title="3.进行尝试"></a>3.进行尝试</h4><p>使用burpsuite抓包，然后进行爆破<br><br>没有成功<br><br>换弱密码top100,再次尝试。<br></p>
-<p><img src="../../../images/security/example/password_success.png" alt="searchPage"></p>
+<p><img src="./password_success.png" alt="searchPage"></p>
 <p>这次可以看到密码：12345不一样，进行手动登录尝试(160003021029/12345).</p>
-<p><img src="../../../images/security/example/password_modify.png" alt="searchPage"></p>
+<p><img src="./password_modify.png" alt="searchPage"></p>
 <p>出现此界面，修改密码。</p>
-<p><img src="../../../images/security/example/login_success.png" alt="searchPage"></p>
+<p><img src="./login_success.png" alt="searchPage"></p>
 <p>nice,登录成功。<br></p>
 <p>注销登录，换(160003021030/12345)再次尝试<br><br>发现再次出现修改密码界面。<br><br>160003021030/123 再次尝试，并没此问题.<br></p>
 <p>由此惊讶的猜测测，12345并不是真是密码，而是由于逻辑错误造成的漏洞利用<br></p>
-<p>右击登录按钮，检查元素，查看源代码.<br><br><img src="../../../images/security/example/code_logic.png" alt="searchPage"></p>
-<p><img src="../../../images/security/example/code_logic_02.png" alt="searchPage"></p>
+<p>右击登录按钮，检查元素，查看源代码.<br><br><img src="./code_logic.png" alt="searchPage"></p>
+<p><img src="./code_logic_02.png" alt="searchPage"></p>
 <p>可以看到，因为触发了该界面，可以直接更改密码，且不需要输入密码<br><br>到此，因为没有挂代理，不敢进行下一步操作。</p>
 <h4 id="4-事后分析"><a href="#4-事后分析" class="headerlink" title="4.事后分析"></a>4.事后分析</h4><ul>
 <li>网站登录没有验证码，给了爆破利用空间。<br></li>
@@ -486,6 +486,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">base</a>
               </li>
              
               <li class="article-tag-list-item">

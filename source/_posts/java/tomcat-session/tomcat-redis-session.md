@@ -51,22 +51,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 ```
 
 ###### 2.nginx
-编辑/etc/nginx/nginx.conf 添加tomcat配置
+不使用ngnix也行，在浏览器手动分别访问两个tomcat<br>
+编辑/etc/nginx/nginx.conf 添加tomcat配置<br>
 ```
-user www-data;
-worker_processes auto;
-pid /run/nginx.pid;
-
-events {
-	worker_connections 768;
-	# multi_accept on;
-}
-
-http {
- .......
-	include /etc/nginx/conf.d/*.conf;
-	include /etc/nginx/sites-enabled/*;
-
 upstream tomcat{
 	#ip_hash;
 	server   192.168.93.132:8081	weight=1;
@@ -84,7 +71,7 @@ server{
             }
 	}
 }
-........
+
 }
 ```
 
@@ -159,65 +146,9 @@ dependencies {
   testCompile group: 'org.apache.tomcat', name: 'tomcat-coyote', version: '6.0.37'
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-  classifier = 'javadoc'
-  from 'build/docs/javadoc'
-}
 
-task sourcesJar(type: Jar) {
-  from sourceSets.main.allSource
-  classifier = 'sources'
-}
-
-artifacts {
-  archives jar
-
-  archives javadocJar
-  archives sourcesJar
-}
-
-task copyJars(type: Copy) {
-  from configurations.runtime
-  into 'dist'  
-}
-
-uploadArchives {
-  repositories {
-    mavenDeployer {
-      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-
-      pom.project {
-        name 'tomcat-redis-session-manager'
-        packaging 'jar'
-        description 'Tomcat Redis Session Manager is a Tomcat extension to store sessions in Redis'
-        url 'https://github.com/jcoleman/tomcat-redis-session-manager'
-
-        issueManagement {
-          url 'https://github.com:jcoleman/tomcat-redis-session-manager/issues'
-          system 'GitHub Issues'
-        }
-
-        scm {
-          url 'https://github.com:jcoleman/tomcat-redis-session-manager'
-          connection 'scm:git:git://github.com/jcoleman/tomcat-redis-session-manager.git'
-          developerConnection 'scm:git:git@github.com:jcoleman/tomcat-redis-session-manager.git'
-        }
-
-        licenses {
-          license {
-            name 'MIT'
-            url 'http://opensource.org/licenses/MIT'
-            distribution 'repo'
-          }
-        }
-
-      }
-    }
-  }
-}
 ```
-tomcat6版本在部署时，className名字和tomcat7版本不一样
+在部署时，注意className名字，和你打包生成的一致
 ```
 <Valve className="com.radiadesign.catalina.session.RedisSessionHandlerValve" />
 <Manager className="com.radiadesign.catalina.session.RedisSessionManager"
@@ -229,3 +160,19 @@ tomcat6版本在部署时，className名字和tomcat7版本不一样
 
 如果还报configure XXX.xml错误<br>
 到tomcat/conf/Catalina/localhost目录下，只保留你的项目.xml
+
+### 2019/5/29补充
+基于tomcat内存的方式:
+https://www.cnblogs.com/beyang/p/9122406.html
+
+### 2019/6/4补充
+tomcat7版本，注意jar包冲突<br>
+经测试的一个可用版本：<br>
+- commons-logging-1.1.3.jar
+- commons-pool-1.6.jar
+- commons-pool2-2.2.jar
+- jedis-2.2.1.jar
+- tomcat-redis-session-manager-1.2-tomcat-7-1.2.jar
+
+tomcat-redis-session-manager-1.2-tomcat-7-1.2.jar为github下载源码打包<br>
+https://github.com/jcoleman/tomcat-redis-session-manager/archive/1.2-tomcat-7.zip<br>

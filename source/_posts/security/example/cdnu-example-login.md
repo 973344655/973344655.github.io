@@ -5,29 +5,29 @@ tags: [security]
 ---
 
 看了好久的渗透概念性东西，都没有实践过，今天想试一下，随意找了一个学校官网(自知菜鸟水平，还没入门，不敢找太好的学校)。
-![indexPage](../../../images/security/example/index_page.png)
+![indexPage](./index_page.png)
 
 #### 1.找到薄弱点
 官网一般相对安全一点，所以通常从子域名下手。<br>
 chrome搜索，输入: inurl:cdnu.edu.cn
 
-![searchPage](../../../images/security/example/search_page.png)
+![searchPage](./search_page.png)
 
 看到一个身份认证平台<br>
 一般这些都是后台登录界面<br>
 点进去
-![searchPage](../../../images/security/example/login_page.png)
+![searchPage](./login_page.png)
 
 可以看到，不仅没有验证码，还清楚的告诉你了账号为学号，默认密码为身份证后六位。典型的用于给我们进行爆破。
 
 #### 2.信息收集
 为了能进行爆破，先要得到学号。<br>
 直接google和百度.
-![searchPage](../../../images/security/example/studentid_search_01.png)
+![searchPage](./studentid_search_01.png)
 
-![searchPage](../../../images/security/example/studentid_search_02.png)
+![searchPage](./studentid_search_02.png)
 
-![searchPage](../../../images/security/example/studentid_search_03.png)
+![searchPage](./studentid_search_03.png)
 
 可以看到，在搜索一些国内的网站信息时，百度还是要好用一点。<br>
 
@@ -78,15 +78,15 @@ else:
 没有成功<br>
 换弱密码top100,再次尝试。<br>
 
-![searchPage](../../../images/security/example/password_success.png)
+![searchPage](./password_success.png)
 
 这次可以看到密码：12345不一样，进行手动登录尝试(160003021029/12345).
 
-![searchPage](../../../images/security/example/password_modify.png)
+![searchPage](./password_modify.png)
 
 出现此界面，修改密码。
 
-![searchPage](../../../images/security/example/login_success.png)
+![searchPage](./login_success.png)
 
 nice,登录成功。<br>
 
@@ -99,9 +99,9 @@ nice,登录成功。<br>
 
 
 右击登录按钮，检查元素，查看源代码.<br>
-![searchPage](../../../images/security/example/code_logic.png)
+![searchPage](./code_logic.png)
 
-![searchPage](../../../images/security/example/code_logic_02.png)
+![searchPage](./code_logic_02.png)
 
 可以看到，因为触发了该界面，可以直接更改密码，且不需要输入密码<br>
 到此，因为没有挂代理，不敢进行下一步操作。
