@@ -168,6 +168,7 @@ https://www.cnblogs.com/beyang/p/9122406.html
 ### 2019/6/4补充
 tomcat7版本，注意jar包冲突<br>
 经测试的一个可用版本：<br>
+- apache-tomcat-7.0.61
 - commons-logging-1.1.3.jar
 - commons-pool-1.6.jar
 - commons-pool2-2.2.jar

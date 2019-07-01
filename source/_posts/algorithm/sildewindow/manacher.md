@@ -1,7 +1,7 @@
 ---
 title: 滑动窗口解决最长子串问题
 date: 2019-5-29 14:25:33
-tags: [java]
+tags: [algorithm]
 ---
 
 #### 1.问题

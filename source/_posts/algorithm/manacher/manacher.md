@@ -1,7 +1,7 @@
 ---
 title: 马拉车算法
 date: 2019-5-27 15:25:33
-tags: [java]
+tags: [algorithm]
 ---
 
 ### manacher算法
