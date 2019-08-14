@@ -70,3 +70,62 @@ public class Singleton {
 }
 
 ```
+
+使用
+```
+package com.bonc.sms.controller;
+
+import com.bonc.sms.entity.PlatformChannelSpEntity;
+import com.bonc.sms.entity.PlatformEntity;
+import com.bonc.sms.service.PlatformService;
+import com.bonc.sms.util.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Component
+public class InitDid implements CommandLineRunner {
+    private static final Logger logger = LoggerFactory.getLogger(InitDid.class);
+    @Autowired
+    PlatformService platformService;
+    @Override
+    public void run(String... strings) {
+        Map data = new HashMap<String,Map>();
+        System.out.println("**************************platform*************initdid");
+        List<PlatformEntity> platform = platformService.getPlatformAll();
+        System.out.println("***:"+ platform.size());
+        for(PlatformEntity platformEntity: platform){
+//            String url = platformService.getSpUrl(platformEntity.getSp_number()).getUrl();
+            Map value = new HashMap<String, String>();
+            value.put("platform_name", platformEntity.getPlatform_name());
+            value.put("platform_address", platformEntity.getPlatform_address());
+            value.put("platform_type", platformEntity.getPlatform_type());
+            value.put("platform_key",platformEntity.getPlatform_key());
+            List<PlatformChannelSpEntity> platformChannelSpEntities = platformService.getPlatformChannelSp(platformEntity.getPlatform_id());
+            List<String> channel = new ArrayList<String>();
+            Map<String,String> channel_sp = new HashMap<String, String>();
+            Map<String,String> channel_url = new HashMap<String, String>();
+            for(PlatformChannelSpEntity platformChannelSpEntity: platformChannelSpEntities){
+                channel.add(platformChannelSpEntity.getChannel_id());
+                channel_sp.put(platformChannelSpEntity.getChannel_id(),platformChannelSpEntity.getSp_number());
+                String url = platformService.getSpUrl(platformChannelSpEntity.getChannel_id());
+                channel_url.put(platformChannelSpEntity.getChannel_id(),url);
+            }
+            value.put("channel",channel);
+            value.put("channel_sp",channel_sp);
+            value.put("channel_url", channel_url);
+            data.put(platformEntity.getPlatform_id(), value);
+        }
+        Singleton.getInstance().setData(data);
+        logger.info("需要的平台缓存信息初始化完成");
+    }
+}
+
+```

@@ -1,0 +1,19 @@
+ThreadLocal 场景 线程间隔离，方法间共享
+
+
+jwt oauth2.0 session等之间的区别与场景
+
+
+全局异常拦截与处理，减少代码，优化逻辑
+
+分布式系统中，某个功能只在一台机器上执行(即，只执行一次)
+
+redis 等的分布式锁， mysql锁，DB的唯一索引
+
+几种文件流
+
+单测  Mock
+
+索引建立原则
+
+"msg":"提交数据成功","code":"000","activity_id":"SLFLpNIjbJYRpXOohvtQ4NE"

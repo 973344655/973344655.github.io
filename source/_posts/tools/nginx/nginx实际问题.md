@@ -22,6 +22,10 @@ ip_hash<br>
 
 - 正向代理
 
+访问一些访问不到的资源<br>
+同时可以隐藏自己<br>
+
+
 ```
 resolver 114.114.114.114 8.8.8.8;
 server {
@@ -38,6 +42,9 @@ server {
 ```
 
 - 反向代理
+
+让资源能被别人访问到<br>
+同时可以保护内网安全<br>
 
 ```
 server {
@@ -427,7 +434,7 @@ http
 ```
 </details>
 
-##1.全局块
+## 1.全局块
 
 全局块是默认配置文件从开始到events块之间的一部分内容，主要设置一些影响Nginx服务器整体运行的配置指令，作用域是Nginx服务器全局。<br>
 通常包含配置运行Nginx服务器的用户（组）、允许生成的worker process数，Nginx进程PID存放路径、日志的存放路径和类型以及配置文件引入等。<br>
@@ -538,10 +545,7 @@ server {
 
 location块的主要作用是，基于Nginx服务器接收到的请求字符串进行匹配，对特定的请求进行处理<br>
 
-##### (1) location正则
-
-
- <strong> location [=|\~|\~*|^~|@] /uri/ { … } </strong>
+ <strong> location [=|\~|\~\*|^~|@] /uri/ { … } </strong>
 
  location 可分两大类：
 
@@ -555,7 +559,6 @@ location块的主要作用是，基于Nginx服务器接收到的请求字符串�
 以 “ ~ ” 或 “ ~* ”为前缀的 /uri/, 即以  ~ 开头的<br>
 正则的意义是，url中可以使用正则<br>
 
-###### 正则符号
 
 =：表示完全匹配，不存在正则表示，如 location = /uri {.....}
 
@@ -563,6 +566,146 @@ location块的主要作用是，基于Nginx服务器接收到的请求字符串�
 
 ~\*：表示匹配时，大小写不敏感，即忽略大小写问题，如 location ~* /uri {......}，这时/uri，/Uri， /URI都可以匹配上。
 
-^\~：表示匹配时，只需开头部分匹配上即可，如 location ^~ /uri/ {....}  ，这时只要以/uri/开头的地址都会匹配上
+^\~：表示匹配时，只需开头部分匹配上即可，如 location ^~ /uri/ {....}  ，这时只要以/uri/开头的地址都会匹配上<br>
 
-location详细讲解参考 location模块.md
+<strong>location详细讲解参考 location模块.md</strong>
+
+
+# 三.其它
+
+## 1.nginx限制访问ip
+
+黑白名单
+
+```
+# 服务器全局限制
+allow 67.216.218.37;
+deny all;
+
+# location中限制
+location / {
+    index index.html index.htm index.php;
+    allow 67.216.218.37;
+    deny all;
+}
+```
+
+- 注意:<br>
+
+可以使用IP段<br>
+从允许访问的段位从小到大排列,如127.0.0.0/24 下面才能是10.10.0.0/16<br>
+deny all; 结尾 表示除了上面allow的其他都禁止<br>
+
+deny 192.168.1.1;<br>
+allow 127.0.0.0/24;<br>
+allow 192.168.0.0/16;<br>
+allow 10.10.0.0/16;<br>
+deny all;<br>
+
+## 2.限制下载速度
+
+限速
+
+```
+location /download {
+       # 10m之前不限速
+       limit_rate_after 10m;
+       limit_rate 128k;
+ }  
+```
+
+## 3.限制ip访问频率
+
+防攻击
+
+- limit_req_zone
+
+这个变量只能在http使用
+```
+http{
+  ...
+  #定义一个名为allips的limit_req_zone用来存储session，大小是10M内存，
+  #以$binary_remote_addr 为key,限制平均每秒的请求为5个，
+  #1M能存储16000个状态，rete的值必须为整数，
+  #如果限制两秒钟一个请求，可以设置成30r/m
+
+  limit_req_zone $binary_remote_addr zone=allips:10m rate=5r/s;
+  ...
+
+```
+
+- limit_req
+
+```
+...
+  server{
+    ...
+    location {
+      ...
+      #限制每ip每秒不超过20个请求，漏桶数burst为5
+      #brust的意思就是，如果第1秒、2,3,4秒请求为19个，
+      #第5秒的请求为25个是被允许的。
+      #但是如果你第1秒就25个请求，第2秒超过20的请求返回503错误。
+      #nodelay，如果不设置该选项，严格使用平均速率限制请求数，
+      #第1秒25个请求时，5个请求放到第2秒执行，
+      #设置nodelay，25个请求将在第1秒执行。
+
+      limit_req zone=allips burst=5 nodelay;
+      ...
+    }
+    ...
+  }
+  ...
+```
+
+## 4.https代理
+
+配置 SSL 将 http 代理到 https
+
+```
+#原80端口做301转跳
+server {
+    listen 80;
+    server_name w3cschool.cn www.w3cschool.cn;
+    return 301 https://www.zhimiyun.com$request_uri;    #跳转到Https
+}
+#配置ssl证书和开启ssl功能
+server {
+    listen       443;
+    server_name  www.w3cschool.cn;
+    root   wwwroot;
+    index  index.html index.htm;
+
+    ssl                  on;
+    ssl_certificate      /usr/ssl/ca.pem; #证书地址
+    ssl_certificate_key  /usr/ssl/ca.key;
+
+    ssl_session_timeout  5m;
+
+    ssl_protocols  SSLv2 SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
+    ssl_prefer_server_ciphers   on;
+    error_page 497 "https://$host$uri?$args"; #这是跳转Http请求到Https
+
+    location / {
+        ...
+    }
+}
+```
+
+## 5.静态资源缓存
+
+对于站点中不经常修改的静态内容（如图片，JS，CSS），可以设置静态资源缓存，控制浏览器缓存，达到有效减小带宽流量，降低服务器压力。
+
+```
+location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$ {
+#过期时间为30天，
+#图片文件不怎么更新，过期可以设大一点，
+#如果频繁更新，则可以设置得小一点。
+expires 30d;
+}
+
+location ~ .*\.(js|css)$ {
+expires 10d;
+}
+```

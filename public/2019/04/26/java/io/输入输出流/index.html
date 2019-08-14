@@ -18,7 +18,7 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://67.216.218.49:8000/file/blogs/java/io/iostream.png">
 <meta property="og:image" content="http://67.216.218.49:8000/file/blogs/java/io/iostream2.png">
-<meta property="og:updated_time" content="2019-06-04T03:26:29.264Z">
+<meta property="og:updated_time" content="2019-08-01T06:28:39.471Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="输入输出流">
 <meta name="twitter:description" content="一.整体概念Java.io 包含几乎所有的java的输入输出类 先来一张 菜鸟教程 的图片 再来一张 csdn (推荐，写得很好)简化的图片 java中io流分字节流与字符流两种。 字符流: Reader 和 Writer 为字符流抽象基类，提供基本抽象方法。InputStreamReader 和 OutputStreamWriter 为字符转换流，目的是将字节流转化为字符流。BufferdRea">
@@ -202,6 +202,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class BufferedOutputStream extends FilterOutputStream &#123;</span><br><span class="line">    //构造器</span><br><span class="line">    public BufferedOutputStream(OutputStream out)</span><br><span class="line">    public BufferedOutputStream(OutputStream out, int size)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="三-实际例子"><a href="#三-实际例子" class="headerlink" title="三.实际例子"></a>三.实际例子</h3><p>读取socket发送过来的字节流</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//1.客户端发过来的字节流 socket.getInputStream()</span><br><span class="line">//2.字节流转为字符流 InputStreamReader()</span><br><span class="line">//3.高效读写 BufferedReader()</span><br><span class="line">BufferedReader in = new BufferedReader(new InputStreamReader(</span><br><span class="line">socket.getInputStream()));</span><br><span class="line">System.out.println(in.readLine());  // 打印</span><br></pre></td></tr></table></figure>
+<h3 id="四-区别"><a href="#四-区别" class="headerlink" title="四.区别"></a>四.区别</h3><p><a href="https://comp.lang.java.help.narkive.com/dKrnNGj0/what-s-the-diff-printwriter-vs-outputstreamwriter" target="_blank" rel="noopener">https://comp.lang.java.help.narkive.com/dKrnNGj0/what-s-the-diff-printwriter-vs-outputstreamwriter</a></p>
 
       
 
@@ -344,7 +345,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一-整体概念"><span class="toc-number">1.</span> <span class="toc-text">一.整体概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二-具体方法"><span class="toc-number">2.</span> <span class="toc-text">二.具体方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-字符流"><span class="toc-number">2.1.</span> <span class="toc-text">1.字符流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-字节流"><span class="toc-number">2.2.</span> <span class="toc-text">2.字节流</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三-实际例子"><span class="toc-number">3.</span> <span class="toc-text">三.实际例子</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一-整体概念"><span class="toc-number">1.</span> <span class="toc-text">一.整体概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二-具体方法"><span class="toc-number">2.</span> <span class="toc-text">二.具体方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-字符流"><span class="toc-number">2.1.</span> <span class="toc-text">1.字符流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-字节流"><span class="toc-number">2.2.</span> <span class="toc-text">2.字节流</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三-实际例子"><span class="toc-number">3.</span> <span class="toc-text">三.实际例子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四-区别"><span class="toc-number">4.</span> <span class="toc-text">四.区别</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -480,11 +481,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">security</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">database</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -501,10 +510,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">protocol</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
