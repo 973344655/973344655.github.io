@@ -10,7 +10,7 @@ tags: [java]
 - 可以提供一个容器(可变长)用于存储对象
 
 ##### 2.集合关系图
-<Strong>集合主要为: Map 和 Collection<br></Strong>
+<Strong>容器主要为: Map 和 Collection<br></Strong>
 
 Collection主要包含了Set,List和Queue<br>
 ![collection1](http://67.216.218.49:8000/file/blogs/java/collection/collection1.png)
