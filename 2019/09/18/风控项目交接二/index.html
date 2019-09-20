@@ -18,7 +18,8 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://67.216.218.49:8000/file/blogs/others/address_verify_01.png">
 <meta property="og:image" content="http://67.216.218.49:8000/file/blogs/others/unrepair_repairType.png">
-<meta property="og:updated_time" content="2019-09-18T09:54:16.314Z">
+<meta property="og:image" content="http://67.216.218.49:8000/file/blogs/others/unrapair_cmcc_template.png">
+<meta property="og:updated_time" content="2019-09-20T03:52:28.211Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="风控项目交接说明二(失信人修复)">
 <meta name="twitter:description" content="现有项目地址: http://10.191.21.104:8300/unrepair/web/index 一.整体介绍失信人修复主要分为三部分：  修复后验证(地理位置验证)  失信人修复  用户与菜单管理(门户控制)   二.具体情况1.地理位置验证1.1 功能输入手机号和地址，查询出用户号码所在城市，用户号码所在城市，输入地址与实际居住地址距离，等几个指标信息. 这个没什么好说的，比较常规。">
@@ -237,6 +238,19 @@
 <h4 id="2-3-环境切换问题"><a href="#2-3-环境切换问题" class="headerlink" title="2.3 环境切换问题"></a>2.3 环境切换问题</h4><p>环境切换需要改两个文件，application.properties和bonc-security-base.properties</p>
 <h4 id="2-4-部署分布式"><a href="#2-4-部署分布式" class="headerlink" title="2.4 部署分布式"></a>2.4 部署分布式</h4><p>部署分布式时，记得做文件共享，找丹姐</p>
 <h4 id="2-5-特殊情况"><a href="#2-5-特殊情况" class="headerlink" title="2.5 特殊情况"></a>2.5 特殊情况</h4><p>如果核验过后，没有不一致的情况(即使有其它核验异常情况)， 再点修复，会返回无需要修复文件(甲方最初需求就这样)</p>
+<h2 id="四-后期待解决问题-09-20补充"><a href="#四-后期待解决问题-09-20补充" class="headerlink" title="四.后期待解决问题  09-20补充"></a>四.后期待解决问题  09-20补充</h2><h3 id="1-对接联通页面"><a href="#1-对接联通页面" class="headerlink" title="1.对接联通页面"></a>1.对接联通页面</h3><h4 id="1-1-排序"><a href="#1-1-排序" class="headerlink" title="1.1 排序"></a>1.1 排序</h4><p>已交给王澍稼</p>
+<h4 id="1-2-页面跳转"><a href="#1-2-页面跳转" class="headerlink" title="1.2 页面跳转"></a>1.2 页面跳转</h4><p>修复完成后，需要点击下一步跳转到联通外呼平台，进行下发。具体下发逻辑我们不管，我们进行对接，能跳转页面就行.<br></p>
+<p>注意: 跳转页面需要自动登录，找联通要接口。需要接口文档。</p>
+<h3 id="2-对接移动页面"><a href="#2-对接移动页面" class="headerlink" title="2.对接移动页面"></a>2.对接移动页面</h3><h4 id="2-1-https证书不安全"><a href="#2-1-https证书不安全" class="headerlink" title="2.1 https证书不安全"></a>2.1 https证书不安全</h4><p>此问题，为移动证书问题，让他们联系移动解决。</p>
+<h4 id="2-2-ip无权限"><a href="#2-2-ip无权限" class="headerlink" title="2.2 ip无权限"></a>2.2 ip无权限</h4><p>不能添加白名单，需要联通的ip,去雍和宫测试.</p>
+<h4 id="2-3-页面跳转时自动登录"><a href="#2-3-页面跳转时自动登录" class="headerlink" title="2.3 页面跳转时自动登录"></a>2.3 页面跳转时自动登录</h4><p>给个能用的接口，接口文档，会不会ip没权限问题？</p>
+<h4 id="2-4-移动模板和联通模板不一致"><a href="#2-4-移动模板和联通模板不一致" class="headerlink" title="2.4 移动模板和联通模板不一致"></a>2.4 移动模板和联通模板不一致</h4><p><img src="http://67.216.218.49:8000/file/blogs/others/unrapair_cmcc_template.png" alt="cmcc_template"></p>
+<p>模板中数据从哪来？授权码是啥,是否需要绑定用户?是否需要修改联通模板？需要的话，涉及到模板文件的从头捋一下。后续电信模板又不一致怎么办？</p>
+<h4 id="2-5-进入移动页面后，需要上传修复文件"><a href="#2-5-进入移动页面后，需要上传修复文件" class="headerlink" title="2.5 进入移动页面后，需要上传修复文件"></a>2.5 进入移动页面后，需要上传修复文件</h4><p>分为核验修复，和直接修复两种情况。<br></p>
+<p>直接修复，直接自己上传文件<br></p>
+<p>核验修复，需先核验，再上传核验过后需要修复的文件.此文件应该我们提供，给个接口，将文件处理成他们想要的格式，提供下载。(是否需要文档)</p>
+<h3 id="3-对接电信页面"><a href="#3-对接电信页面" class="headerlink" title="3.对接电信页面"></a>3.对接电信页面</h3><p>信息不足，暂无.</p>
+<h3 id="4-其它"><a href="#4-其它" class="headerlink" title="4.其它"></a>4.其它</h3><p>有问题，需要扯皮的，找项目经理</p>
 
       
 
@@ -370,7 +384,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一-整体介绍"><span class="toc-number">1.</span> <span class="toc-text">一.整体介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二-具体情况"><span class="toc-number">2.</span> <span class="toc-text">二.具体情况</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-地理位置验证"><span class="toc-number">2.1.</span> <span class="toc-text">1.地理位置验证</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-功能"><span class="toc-number">2.1.1.</span> <span class="toc-text">1.1 功能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-注意点"><span class="toc-number">2.1.2.</span> <span class="toc-text">1.2 注意点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-失信人修复"><span class="toc-number">2.2.</span> <span class="toc-text">2.失信人修复</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-核验"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.1 核验</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-1-流程"><span class="toc-number">2.2.1.1.</span> <span class="toc-text">2.1.1 流程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-2-问题"><span class="toc-number">2.2.1.2.</span> <span class="toc-text">2.2.2 问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-修复"><span class="toc-number">2.2.1.3.</span> <span class="toc-text">2.2 修复</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#版本一"><span class="toc-number">2.2.1.4.</span> <span class="toc-text">版本一</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#版本二"><span class="toc-number">2.2.1.5.</span> <span class="toc-text">版本二</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三-其它一些注意点"><span class="toc-number">3.</span> <span class="toc-text">三.其它一些注意点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-规范"><span class="toc-number">3.1.</span> <span class="toc-text">1.规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-其它一些注意点"><span class="toc-number">3.2.</span> <span class="toc-text">2.其它一些注意点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-缓存"><span class="toc-number">3.2.1.</span> <span class="toc-text">2.1 缓存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-跳转"><span class="toc-number">3.2.2.</span> <span class="toc-text">2.2 跳转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-环境切换问题"><span class="toc-number">3.2.3.</span> <span class="toc-text">2.3 环境切换问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-部署分布式"><span class="toc-number">3.2.4.</span> <span class="toc-text">2.4 部署分布式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-特殊情况"><span class="toc-number">3.2.5.</span> <span class="toc-text">2.5 特殊情况</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一-整体介绍"><span class="toc-number">1.</span> <span class="toc-text">一.整体介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二-具体情况"><span class="toc-number">2.</span> <span class="toc-text">二.具体情况</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-地理位置验证"><span class="toc-number">2.1.</span> <span class="toc-text">1.地理位置验证</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-功能"><span class="toc-number">2.1.1.</span> <span class="toc-text">1.1 功能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-注意点"><span class="toc-number">2.1.2.</span> <span class="toc-text">1.2 注意点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-失信人修复"><span class="toc-number">2.2.</span> <span class="toc-text">2.失信人修复</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-核验"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.1 核验</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-1-流程"><span class="toc-number">2.2.1.1.</span> <span class="toc-text">2.1.1 流程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-2-问题"><span class="toc-number">2.2.1.2.</span> <span class="toc-text">2.2.2 问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-修复"><span class="toc-number">2.2.1.3.</span> <span class="toc-text">2.2 修复</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#版本一"><span class="toc-number">2.2.1.4.</span> <span class="toc-text">版本一</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#版本二"><span class="toc-number">2.2.1.5.</span> <span class="toc-text">版本二</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三-其它一些注意点"><span class="toc-number">3.</span> <span class="toc-text">三.其它一些注意点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-规范"><span class="toc-number">3.1.</span> <span class="toc-text">1.规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-其它一些注意点"><span class="toc-number">3.2.</span> <span class="toc-text">2.其它一些注意点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-缓存"><span class="toc-number">3.2.1.</span> <span class="toc-text">2.1 缓存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-跳转"><span class="toc-number">3.2.2.</span> <span class="toc-text">2.2 跳转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-环境切换问题"><span class="toc-number">3.2.3.</span> <span class="toc-text">2.3 环境切换问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-部署分布式"><span class="toc-number">3.2.4.</span> <span class="toc-text">2.4 部署分布式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-特殊情况"><span class="toc-number">3.2.5.</span> <span class="toc-text">2.5 特殊情况</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四-后期待解决问题-09-20补充"><span class="toc-number">4.</span> <span class="toc-text">四.后期待解决问题  09-20补充</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-对接联通页面"><span class="toc-number">4.1.</span> <span class="toc-text">1.对接联通页面</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-排序"><span class="toc-number">4.1.1.</span> <span class="toc-text">1.1 排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-页面跳转"><span class="toc-number">4.1.2.</span> <span class="toc-text">1.2 页面跳转</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-对接移动页面"><span class="toc-number">4.2.</span> <span class="toc-text">2.对接移动页面</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-https证书不安全"><span class="toc-number">4.2.1.</span> <span class="toc-text">2.1 https证书不安全</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-ip无权限"><span class="toc-number">4.2.2.</span> <span class="toc-text">2.2 ip无权限</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-页面跳转时自动登录"><span class="toc-number">4.2.3.</span> <span class="toc-text">2.3 页面跳转时自动登录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-移动模板和联通模板不一致"><span class="toc-number">4.2.4.</span> <span class="toc-text">2.4 移动模板和联通模板不一致</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-进入移动页面后，需要上传修复文件"><span class="toc-number">4.2.5.</span> <span class="toc-text">2.5 进入移动页面后，需要上传修复文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-对接电信页面"><span class="toc-number">4.3.</span> <span class="toc-text">3.对接电信页面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-其它"><span class="toc-number">4.4.</span> <span class="toc-text">4.其它</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -486,15 +500,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">others</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">tools</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+                <a href="javascript:void(0)" class="js-tag color2">others</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -506,11 +516,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Index2</a>
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" class="js-tag color2">Index2</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -526,15 +536,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">database</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">database</a>
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">

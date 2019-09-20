@@ -231,6 +231,19 @@
 <h4 id="2-3-环境切换问题"><a href="#2-3-环境切换问题" class="headerlink" title="2.3 环境切换问题"></a>2.3 环境切换问题</h4><p>环境切换需要改两个文件，application.properties和bonc-security-base.properties</p>
 <h4 id="2-4-部署分布式"><a href="#2-4-部署分布式" class="headerlink" title="2.4 部署分布式"></a>2.4 部署分布式</h4><p>部署分布式时，记得做文件共享，找丹姐</p>
 <h4 id="2-5-特殊情况"><a href="#2-5-特殊情况" class="headerlink" title="2.5 特殊情况"></a>2.5 特殊情况</h4><p>如果核验过后，没有不一致的情况(即使有其它核验异常情况)， 再点修复，会返回无需要修复文件(甲方最初需求就这样)</p>
+<h2 id="四-后期待解决问题-09-20补充"><a href="#四-后期待解决问题-09-20补充" class="headerlink" title="四.后期待解决问题  09-20补充"></a>四.后期待解决问题  09-20补充</h2><h3 id="1-对接联通页面"><a href="#1-对接联通页面" class="headerlink" title="1.对接联通页面"></a>1.对接联通页面</h3><h4 id="1-1-排序"><a href="#1-1-排序" class="headerlink" title="1.1 排序"></a>1.1 排序</h4><p>已交给王澍稼</p>
+<h4 id="1-2-页面跳转"><a href="#1-2-页面跳转" class="headerlink" title="1.2 页面跳转"></a>1.2 页面跳转</h4><p>修复完成后，需要点击下一步跳转到联通外呼平台，进行下发。具体下发逻辑我们不管，我们进行对接，能跳转页面就行.<br></p>
+<p>注意: 跳转页面需要自动登录，找联通要接口。需要接口文档。</p>
+<h3 id="2-对接移动页面"><a href="#2-对接移动页面" class="headerlink" title="2.对接移动页面"></a>2.对接移动页面</h3><h4 id="2-1-https证书不安全"><a href="#2-1-https证书不安全" class="headerlink" title="2.1 https证书不安全"></a>2.1 https证书不安全</h4><p>此问题，为移动证书问题，让他们联系移动解决。</p>
+<h4 id="2-2-ip无权限"><a href="#2-2-ip无权限" class="headerlink" title="2.2 ip无权限"></a>2.2 ip无权限</h4><p>不能添加白名单，需要联通的ip,去雍和宫测试.</p>
+<h4 id="2-3-页面跳转时自动登录"><a href="#2-3-页面跳转时自动登录" class="headerlink" title="2.3 页面跳转时自动登录"></a>2.3 页面跳转时自动登录</h4><p>给个能用的接口，接口文档，会不会ip没权限问题？</p>
+<h4 id="2-4-移动模板和联通模板不一致"><a href="#2-4-移动模板和联通模板不一致" class="headerlink" title="2.4 移动模板和联通模板不一致"></a>2.4 移动模板和联通模板不一致</h4><p><img src="http://67.216.218.49:8000/file/blogs/others/unrapair_cmcc_template.png" alt="cmcc_template"></p>
+<p>模板中数据从哪来？授权码是啥,是否需要绑定用户?是否需要修改联通模板？需要的话，涉及到模板文件的从头捋一下。后续电信模板又不一致怎么办？</p>
+<h4 id="2-5-进入移动页面后，需要上传修复文件"><a href="#2-5-进入移动页面后，需要上传修复文件" class="headerlink" title="2.5 进入移动页面后，需要上传修复文件"></a>2.5 进入移动页面后，需要上传修复文件</h4><p>分为核验修复，和直接修复两种情况。<br></p>
+<p>直接修复，直接自己上传文件<br></p>
+<p>核验修复，需先核验，再上传核验过后需要修复的文件.此文件应该我们提供，给个接口，将文件处理成他们想要的格式，提供下载。(是否需要文档)</p>
+<h3 id="3-对接电信页面"><a href="#3-对接电信页面" class="headerlink" title="3.对接电信页面"></a>3.对接电信页面</h3><p>信息不足，暂无.</p>
+<h3 id="4-其它"><a href="#4-其它" class="headerlink" title="4.其它"></a>4.其它</h3><p>有问题，需要扯皮的，找项目经理</p>
 
       
 
@@ -488,90 +501,6 @@
 
 
   
-    <article id="post-algorithm/红黑树初次接触" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/20/algorithm/红黑树初次接触/">红黑树初接触</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/20/algorithm/红黑树初次接触/" class="archive-article-date">
-  	<time datetime="2019-08-20T09:02:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>要了解红黑树，首先要了解二叉查找树.红黑树是一种有特殊规则的二叉查找树.这些规则使红黑树保证了一种平衡，插入、删除、查找的最坏时间复杂度都为 O(logn)</p>
-<p>红黑树的应用比较广泛，主要是用它来存储有序的数据，它的时间复杂度是O(lgn)，效率非常之高。</p>
-<h2 id="一-红黑树特点"><a href="#一-红黑树特点" class="headerlink" title="一.红黑树特点"></a>一.红黑树特点</h2><p>1.根节点是黑色</p>
-<p>2.每个节点非黑即红</p>
-<p>3.每个叶子节点(即NULL)都是黑</p>
-<p>4.如果一个节点为红色，则它的子节点一定为黑色(没有说黑色节点的子节点一定为黑色)</p>
-<p>5.对于任意节点，其到叶子节点的每条路径都包含相同数目黑节点</p>
-<p>6.红黑树是一种弱平衡二叉树</p>
-<p>2.为什么要有红黑树<br>在插入和删除的过程中，红黑树会采取一定的策略对树的组织形式进行调整，以尽可能的减少树的高度，从而节省查找的时间<br>避免极端情况发生</p>
-<p>为什么要用红黑树就要了解它和AVL树的区别， 在删除时，红黑树最多经过三次旋转，效率更高</p>
-<p>3.怎么实现</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/20/algorithm/红黑树初次接触/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-algorithm/平衡二叉树了解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -732,6 +661,90 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/08/20/algorithm/平衡二叉树了解/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-algorithm/红黑树初次接触" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/20/algorithm/红黑树初次接触/">红黑树初接触</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/20/algorithm/红黑树初次接触/" class="archive-article-date">
+  	<time datetime="2019-08-20T09:02:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>要了解红黑树，首先要了解二叉查找树.红黑树是一种有特殊规则的二叉查找树.这些规则使红黑树保证了一种平衡，插入、删除、查找的最坏时间复杂度都为 O(logn)</p>
+<p>红黑树的应用比较广泛，主要是用它来存储有序的数据，它的时间复杂度是O(lgn)，效率非常之高。</p>
+<h2 id="一-红黑树特点"><a href="#一-红黑树特点" class="headerlink" title="一.红黑树特点"></a>一.红黑树特点</h2><p>1.根节点是黑色</p>
+<p>2.每个节点非黑即红</p>
+<p>3.每个叶子节点(即NULL)都是黑</p>
+<p>4.如果一个节点为红色，则它的子节点一定为黑色(没有说黑色节点的子节点一定为黑色)</p>
+<p>5.对于任意节点，其到叶子节点的每条路径都包含相同数目黑节点</p>
+<p>6.红黑树是一种弱平衡二叉树</p>
+<p>2.为什么要有红黑树<br>在插入和删除的过程中，红黑树会采取一定的策略对树的组织形式进行调整，以尽可能的减少树的高度，从而节省查找的时间<br>避免极端情况发生</p>
+<p>为什么要用红黑树就要了解它和AVL树的区别， 在删除时，红黑树最多经过三次旋转，效率更高</p>
+<p>3.怎么实现</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/20/algorithm/红黑树初次接触/">展开全文 >></a>
         </p>
       
 
@@ -926,19 +939,19 @@
 
 
   
-    <article id="post-java/base/java面向对象" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-java/java基础" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/19/java/base/java面向对象/">Java面向对象</a>
+      <a class="article-title" href="/2019/08/19/java/java基础/">Java基础</a>
     </h1>
   
 
         
-        <a href="/2019/08/19/java/base/java面向对象/" class="archive-article-date">
+        <a href="/2019/08/19/java/java基础/" class="archive-article-date">
   	<time datetime="2019-08-19T06:38:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
 </a>
         
@@ -946,10 +959,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="一-三大特征"><a href="#一-三大特征" class="headerlink" title="一.三大特征"></a>一.三大特征</h2><p><strong>java面向对象的三大特征：封装， 继承， 多态 <br></strong></p>
-<h3 id="1-封装"><a href="#1-封装" class="headerlink" title="(1)封装"></a>(1)封装</h3><p>合并特征和行为，进行抽象。将数据和具体细节等隐藏，提供一个统一的外部访问入口。</p>
-<h3 id="2-继承"><a href="#2-继承" class="headerlink" title="(2)继承"></a>(2)继承</h3><p>在已有类的基础上，创建拥有父类属性和方法的子类。子类能进行重写和拓展。允许将对象视为自己本身或基类进行处理。</p>
-<h3 id="3-多态"><a href="#3-多态" class="headerlink" title="(3)多态"></a>(3)多态</h3><p>同一个接口，使用不同的实例会进行不同的操作。<br><br>父类引用子类对象，调用方法时，会调用子类的实现，而不是父类的实现。<br></p>
+        <h1 id="1-数据类型"><a href="#1-数据类型" class="headerlink" title="1.数据类型"></a>1.数据类型</h1><p><a href="">基本数据类型</a></p>
+<p><a href="">访问权限</a></p>
+<p><a href="">面向对象</a></p>
+<p><a href="">理解java中参数传递</a></p>
+<p><a href="">杂</a></p>
 
       
 
@@ -963,7 +977,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Index2</a>
         		</li>
       		
 		</ul>
@@ -973,7 +987,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/19/java/base/java面向对象/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/08/19/java/java基础/">展开全文 >></a>
         </p>
       
 
@@ -1082,19 +1096,19 @@
 
 
   
-    <article id="post-java/java基础" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-java/base/java面向对象" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/19/java/java基础/">Java基础</a>
+      <a class="article-title" href="/2019/08/19/java/base/java面向对象/">Java面向对象</a>
     </h1>
   
 
         
-        <a href="/2019/08/19/java/java基础/" class="archive-article-date">
+        <a href="/2019/08/19/java/base/java面向对象/" class="archive-article-date">
   	<time datetime="2019-08-19T06:38:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
 </a>
         
@@ -1102,11 +1116,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="1-数据类型"><a href="#1-数据类型" class="headerlink" title="1.数据类型"></a>1.数据类型</h1><p><a href="">基本数据类型</a></p>
-<p><a href="">访问权限</a></p>
-<p><a href="">面向对象</a></p>
-<p><a href="">理解java中参数传递</a></p>
-<p><a href="">杂</a></p>
+        <h2 id="一-三大特征"><a href="#一-三大特征" class="headerlink" title="一.三大特征"></a>一.三大特征</h2><p><strong>java面向对象的三大特征：封装， 继承， 多态 <br></strong></p>
+<h3 id="1-封装"><a href="#1-封装" class="headerlink" title="(1)封装"></a>(1)封装</h3><p>合并特征和行为，进行抽象。将数据和具体细节等隐藏，提供一个统一的外部访问入口。</p>
+<h3 id="2-继承"><a href="#2-继承" class="headerlink" title="(2)继承"></a>(2)继承</h3><p>在已有类的基础上，创建拥有父类属性和方法的子类。子类能进行重写和拓展。允许将对象视为自己本身或基类进行处理。</p>
+<h3 id="3-多态"><a href="#3-多态" class="headerlink" title="(3)多态"></a>(3)多态</h3><p>同一个接口，使用不同的实例会进行不同的操作。<br><br>父类引用子类对象，调用方法时，会调用子类的实现，而不是父类的实现。<br></p>
 
       
 
@@ -1120,7 +1133,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Index2</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		
 		</ul>
@@ -1130,7 +1143,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/19/java/java基础/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/08/19/java/base/java面向对象/">展开全文 >></a>
         </p>
       
 
@@ -1261,15 +1274,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">others</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">tools</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+                <a href="javascript:void(0)" class="js-tag color2">others</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1281,11 +1290,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Index2</a>
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" class="js-tag color2">Index2</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1301,15 +1310,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color4">database</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">database</a>
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
               <li class="article-tag-list-item">
