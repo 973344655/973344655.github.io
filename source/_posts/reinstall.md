@@ -1,7 +1,7 @@
 ---
 title: reinstall
 date: 2018-08-20 09:37:39
-tags: [tools]
+tags: [others]
 toc: true
 ---
 
