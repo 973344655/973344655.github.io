@@ -138,32 +138,628 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-reinstall" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-security/googlehacking" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/20/reinstall/">reinstall</a>
+      <a class="article-title" href="/2018/10/10/security/googlehacking/">googlehacking</a>
     </h1>
   
 
         
-        <a href="/2018/08/20/reinstall/" class="archive-article-date">
-  	<time datetime="2018-08-20T01:37:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-20</time>
+        <a href="/2018/10/10/security/googlehacking/" class="archive-article-date">
+  	<time datetime="2018-10-09T21:24:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-10</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="重装"><a href="#重装" class="headerlink" title="重装"></a>重装</h2><p>重装系统，忘了备份本地md文件。不能找回，教训深刻。<br>在这记录一下解决方案，以免以后遇到。</p>
-<ol>
-<li>创建git分支</li>
-<li>将文件提交上传到分支保存</li>
-<li>git clone</li>
+        <h4 id="1-GooleHacking"><a href="#1-GooleHacking" class="headerlink" title="1.GooleHacking"></a>1.GooleHacking</h4><p>利用搜索引擎的强大搜索能力，针对性的全网搜集所需资料。<br></p>
+<h4 id="2-关键字"><a href="#2-关键字" class="headerlink" title="2.关键字"></a>2.关键字</h4><ul>
+<li>intext/allintext: 在正文中搜索</li>
+<li>intitle/allintitle: 网页标题中， 例:intitle:后台管理，有很多</li>
+<li>cache: 缓存中？？</li>
+<li>filetype: 文件类型,   例:信息安全 filetype:doc</li>
+<li>info: 摘要信息</li>
+<li>inurl/allinurl: 在网址中</li>
+<li>site: 域名，返回域名中的所有url地址，用于检查网站拓扑结构。 例: site: baidu.com</li>
+<li>related: 搜索相关站点。  例:related:pku.edu.cn</li>
+<li>inanchor: 在链接文本中搜索。 例：inanchor:pku.edu.cn</li>
+<li>author: 新闻组贴子的作者。例:在google scholar搜索作者. author:”John”</li>
+<li>datarange: 某个日期范围内的网页.格式为天文学儒掠日。例：”Geri Halliwell” “Spice Girls” daterange:2450958-2450968</li>
+<li>weather: 天气. 例: weather:beijing</li>
+<li>group:</li>
+<li>stocks: 股票信息。 例:stocks:alibaba</li>
+<li>define:显示某术语定义。例:define:网络安全</li>
+<li>phonebook: 电话列表？？。 rphonebook:住宅电话 ; bphonebook:商业电话</li>
+<li>link：搜索与当前网页存在链接的网页（不能与其他操作符或搜索关键字混合使用. 例：link:<a href="http://www.vvv518.com" target="_blank" rel="noopener">www.vvv518.com</a></li>
+<li>msgid: 通过消息id搜索</li>
+</ul>
+<h4 id="3-语法"><a href="#3-语法" class="headerlink" title="3.语法"></a>3.语法</h4><ul>
+<li>“” 精确操作</li>
+<li>关键字之间不需要间隔，空格代表逻辑与操作</li>
+<li>- 忽略某个关键词. 例:a-b 搜索有a没b的网页</li>
+<li>～ 同义词</li>
+<li>+ 加入被忽略的关键字。google对com等频率高的英文单词做了忽略处理，加上 + ，使之强制搜索。</li>
+<li>布尔and/or/not 例：aorb</li>
+<li>通配符，出现通配符的关键字需要用引号。*多个， ？和 . 单个</li>
+</ul>
+<h4 id="4-注意"><a href="#4-注意" class="headerlink" title="4.注意"></a>4.注意</h4><ol>
+<li>google只能32个单词查询。<br></li>
+<li>操作符、冒号、关键字之间是没有空格的。</li>
+<li>高级操作符能够和单独的查询混合使用</li>
 </ol>
+<h4 id="5-例子"><a href="#5-例子" class="headerlink" title="5.例子"></a>5.例子</h4>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">security</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/10/10/security/googlehacking/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/tomcat-session/tomcat-redis-session" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/28/java/tomcat-session/tomcat-redis-session/">tomcat利用redis保持session共享</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/28/java/tomcat-session/tomcat-redis-session/" class="archive-article-date">
+  	<time datetime="2018-09-28T07:47:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-需求"><a href="#1-需求" class="headerlink" title="1.需求"></a>1.需求</h4><p>不同Ip主机上的tomcat,保持session同步。<br></p>
+<h4 id="2-查资料"><a href="#2-查资料" class="headerlink" title="2.查资料"></a>2.查资料</h4><p>一般做法为，利用redis保持session,不同tomcat从redis存取，外层nginx做tomcat的负载均衡。<br><br>开源项目<a href="https://github.com/jcoleman/tomcat-redis-session-manager，" target="_blank" rel="noopener">https://github.com/jcoleman/tomcat-redis-session-manager，</a> 提供了tomcat连接redis的jar包，但是，我试了多次，总是不行，版本不对，或者class找不到等。<br><br>解决方案参照：<a href="https://my.oschina.net/Listening/blog/674759" target="_blank" rel="noopener">https://my.oschina.net/Listening/blog/674759</a>, 直接用gradle生成jar包。</p>
+<h4 id="3-实现"><a href="#3-实现" class="headerlink" title="3.实现"></a>3.实现</h4><p>tomcat7.0.61/nginx1.10.3/ubuntu虚拟机</p>
+<h6 id="1-tomcat"><a href="#1-tomcat" class="headerlink" title="1.tomcat"></a>1.tomcat</h6><ul>
+<li>解压两个tomcat到两个虚拟机</li>
+<li>conf/server.xml更改端口，使之不重复</li>
+<li>添加index.jsp到 webapps/Root目录下</li>
+<li>分别启动tomcat,看看是否正常<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;  </span><br><span class="line">&lt;%  </span><br><span class="line">String path = request.getContextPath();  </span><br><span class="line">String basePath = request.getScheme()+&quot;://&quot;+request.getServerName()+&quot;:&quot;+request.getServerPort()+path+&quot;/&quot;;  </span><br><span class="line">%&gt;  </span><br><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;  </span><br><span class="line">&lt;html&gt;  </span><br><span class="line">  &lt;head&gt;  </span><br><span class="line">    &lt;base href=&quot;&lt;%=basePath%&gt;&quot;&gt;  </span><br><span class="line">    &lt;title&gt;My JSP &apos;index.jsp&apos; starting page&lt;/title&gt;  </span><br><span class="line">    &lt;meta http-equiv=&quot;pragma&quot; content=&quot;no-cache&quot;&gt;  </span><br><span class="line">    &lt;meta http-equiv=&quot;cache-control&quot; content=&quot;no-cache&quot;&gt;  </span><br><span class="line">    &lt;meta http-equiv=&quot;expires&quot; content=&quot;0&quot;&gt;      </span><br><span class="line">    &lt;meta http-equiv=&quot;keywords&quot; content=&quot;keyword1,keyword2,keyword3&quot;&gt;  </span><br><span class="line">    &lt;meta http-equiv=&quot;description&quot; content=&quot;This is my page&quot;&gt;  </span><br><span class="line">    &lt;!--</span><br><span class="line">    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;styles.css&quot;&gt;</span><br><span class="line">    --&gt;  </span><br><span class="line">  &lt;/head&gt;  </span><br><span class="line">  &lt;body&gt;  </span><br><span class="line">        SessionID:&lt;%=session.getId()%&gt;  </span><br><span class="line">        &lt;BR&gt;  </span><br><span class="line">        SessionIP:&lt;%=request.getServerName()%&gt;  </span><br><span class="line">        &lt;BR&gt;  </span><br><span class="line">        SessionPort:&lt;%=request.getServerPort()%&gt;  </span><br><span class="line">        &lt;%  </span><br><span class="line">        out.println(&quot;This is Tomcat Server 22222&quot;);  </span><br><span class="line">        %&gt;  </span><br><span class="line">  &lt;/body&gt;  </span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h6 id="2-nginx"><a href="#2-nginx" class="headerlink" title="2.nginx"></a>2.nginx</h6><p>不使用ngnix也行，在浏览器手动分别访问两个tomcat<br><br>编辑/etc/nginx/nginx.conf 添加tomcat配置<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat&#123;</span><br><span class="line">	#ip_hash;</span><br><span class="line">	server   192.168.93.132:8081	weight=1;</span><br><span class="line">	server   192.168.93.133:8080	weight=1;</span><br><span class="line">	&#125;</span><br><span class="line">server&#123;</span><br><span class="line">	listen 80;</span><br><span class="line">	server_name localhost 127.0.0.1;</span><br><span class="line">            location / &#123;</span><br><span class="line">                root    html;</span><br><span class="line">                index   index.jsp;</span><br><span class="line">                proxy_pass      http://tomcat;</span><br><span class="line">                proxy_set_header        X-Real-IP       $remote_addr;</span><br><span class="line">                client_max_body_size    100m;</span><br><span class="line">            &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="3-redis"><a href="#3-redis" class="headerlink" title="3.redis"></a>3.redis</h6><p>这一步很坑，参照：<a href="https://my.oschina.net/Listening/blog/674759" target="_blank" rel="noopener">https://my.oschina.net/Listening/blog/674759</a>, 进行配置<br></p>
+<p>将生成的jar包全部放入tomcat/lib/目录下<br><br>编辑tomcat/conf/content.xml文件,添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;Context&gt;</span><br><span class="line">    ........</span><br><span class="line">    &lt;!--</span><br><span class="line">    &lt;Valve className=&quot;org.apache.catalina.valves.CometConnectionManagerValve&quot; /&gt;</span><br><span class="line">    --&gt;</span><br><span class="line">&lt;Valve className=&quot;com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve&quot; /&gt;</span><br><span class="line">&lt;Manager className=&quot;com.orangefunction.tomcat.redissessions.RedisSessionManager&quot;</span><br><span class="line">    host=&quot;127.0.0.1&quot; //注意这里，应该是redis地址</span><br><span class="line">    port=&quot;6379&quot;</span><br><span class="line">    database=&quot;0&quot;</span><br><span class="line">    maxInactiveInterval=&quot;60&quot;</span><br><span class="line">/&gt;</span><br><span class="line"></span><br><span class="line">&lt;/Context&gt;</span><br></pre></td></tr></table></figure></p>
+<p>在这里可能会出现redis连接不上问题，原因是/etc/redis/redis.conf 文件里默认配置为 bind 127.0.0.1, 改为 0.0.0.0<br><br>除此之外也有可能防火墙原因.<br><br>重启 redis-server /etc/redis/redis.conf <br><br>查看是否监听0.0.0.0:6379端口 ps -ef | grep redis<br><img src="./redis.png" alt="redisport"></p>
+<h4 id="4-重启tomcat-查看效果"><a href="#4-重启tomcat-查看效果" class="headerlink" title="4. 重启tomcat 查看效果"></a>4. 重启tomcat 查看效果</h4><p><img src="./tomcat1.png" alt="redisport"><br><img src="./tomcat2.png" alt="redisport"></p>
+<p>可以看到现在session已经保持不变</p>
+<h4 id="5-2018-12-26补充"><a href="#5-2018-12-26补充" class="headerlink" title="5.2018-12-26补充"></a>5.2018-12-26补充</h4><p>公司项目是用的tomcat6部署，所以直接用上面打包好的jar包会报:java.lang.AbstractMethodError错误，意思是jar包冲突。<br><br>解决办法:<br><br>去github上下载tomcat6的分支，重新打包,将dist目录下所有jar包和bulid/lib目录下的tomcat-redis-session-XXXX.jar放到tomcat的lib目录下<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &apos;java&apos;</span><br><span class="line">apply plugin: &apos;maven&apos;</span><br><span class="line">apply plugin: &apos;signing&apos;</span><br><span class="line"></span><br><span class="line">group = &apos;com.orangefunction&apos;</span><br><span class="line">version = &apos;1.2.0&apos;</span><br><span class="line"></span><br><span class="line">repositories &#123;</span><br><span class="line">  mavenCentral()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">compileJava &#123;</span><br><span class="line">  sourceCompatibility = 1.7</span><br><span class="line">  targetCompatibility = 1.7</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">  //compile group: &apos;org.apache.tomcat&apos;, name: &apos;tomcat-catalina&apos;,</span><br><span class="line">   version: &apos;6.0.37&apos;</span><br><span class="line">  //用tomcat6.0.37的jar打包</span><br><span class="line">  compile fileTree(dir: &apos;pathto/your/tomcat6.0.37/lib&apos;, include: [&apos;*.jar&apos;])</span><br><span class="line">  compile group: &apos;redis.clients&apos;, name: &apos;jedis&apos;, version: &apos;2.5.2&apos;</span><br><span class="line">  compile group: &apos;org.apache.commons&apos;, name: &apos;commons-pool2&apos;, version: &apos;2.2&apos;</span><br><span class="line"></span><br><span class="line">  testCompile group: &apos;junit&apos;, name: &apos;junit&apos;, version: &apos;4.+&apos;</span><br><span class="line">  testCompile &apos;org.hamcrest:hamcrest-core:1.3&apos;</span><br><span class="line">  testCompile &apos;org.hamcrest:hamcrest-library:1.3&apos;</span><br><span class="line">  testCompile &apos;org.mockito:mockito-all:1.9.5&apos;</span><br><span class="line">  testCompile group: &apos;org.apache.tomcat&apos;, name: &apos;tomcat-coyote&apos;, version: &apos;6.0.37&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在部署时，注意className名字，和你打包生成的一致<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;Valve className=&quot;com.radiadesign.catalina.session.RedisSessionHandlerValve&quot; /&gt;</span><br><span class="line">&lt;Manager className=&quot;com.radiadesign.catalina.session.RedisSessionManager&quot;</span><br><span class="line">         host=&quot;localhost&quot; &lt;!-- optional: defaults to &quot;localhost&quot; --&gt;</span><br><span class="line">         port=&quot;6379&quot; &lt;!-- optional: defaults to &quot;6379&quot; --&gt;</span><br><span class="line">         database=&quot;0&quot; &lt;!-- optional: defaults to &quot;0&quot; --&gt;</span><br><span class="line">         maxInactiveInterval=&quot;60&quot; &lt;!-- optional: defaults to &quot;60&quot; (in seconds) --&gt; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>如果还报configure XXX.xml错误<br><br>到tomcat/conf/Catalina/localhost目录下，只保留你的项目.xml</p>
+<h3 id="2019-5-29补充"><a href="#2019-5-29补充" class="headerlink" title="2019/5/29补充"></a>2019/5/29补充</h3><p>基于tomcat内存的方式:<br><a href="https://www.cnblogs.com/beyang/p/9122406.html" target="_blank" rel="noopener">https://www.cnblogs.com/beyang/p/9122406.html</a></p>
+<h3 id="2019-6-4补充"><a href="#2019-6-4补充" class="headerlink" title="2019/6/4补充"></a>2019/6/4补充</h3><p>tomcat7版本，注意jar包冲突<br><br>经测试的一个可用版本：<br></p>
+<ul>
+<li>apache-tomcat-7.0.61</li>
+<li>commons-logging-1.1.3.jar</li>
+<li>commons-pool-1.6.jar</li>
+<li>commons-pool2-2.2.jar</li>
+<li>jedis-2.2.1.jar</li>
+<li>tomcat-redis-session-manager-1.2-tomcat-7-1.2.jar</li>
+</ul>
+<p>tomcat-redis-session-manager-1.2-tomcat-7-1.2.jar为github下载源码打包<br><br><a href="https://github.com/jcoleman/tomcat-redis-session-manager/archive/1.2-tomcat-7.zip" target="_blank" rel="noopener">https://github.com/jcoleman/tomcat-redis-session-manager/archive/1.2-tomcat-7.zip</a><br></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">tomcat</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/28/java/tomcat-session/tomcat-redis-session/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/socket/javasocket" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/26/java/socket/javasocket/">socket</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/26/java/socket/javasocket/" class="archive-article-date">
+  	<time datetime="2018-09-26T09:49:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-java-net-socket"><a href="#1-java-net-socket" class="headerlink" title="1.java.net.socket"></a>1.java.net.socket</h4><p>server端代码，使用子线程处理连接.</p>
+<h6 id="1-存储消息的队列"><a href="#1-存储消息的队列" class="headerlink" title="(1)存储消息的队列"></a>(1)存储消息的队列</h6><p>使用两个队列InMsgQueue和OutMsgueue来存储输入输出数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *客户端返回数据队列</span><br><span class="line"> */</span><br><span class="line">public class InMsgQueue &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 阻塞队列，存储返回的数据</span><br><span class="line">     */</span><br><span class="line">    private Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; ins ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private static final InMsgQueue instance = new InMsgQueue();</span><br><span class="line"></span><br><span class="line">    private InMsgQueue()&#123;</span><br><span class="line">        ins =  new HashMap&lt;String, LinkedBlockingQueue&lt;String&gt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static final InMsgQueue getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; getDatas()&#123;</span><br><span class="line">        return this.ins;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>OutMsgQueue:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 维护要执行的命令</span><br><span class="line"> */</span><br><span class="line">public class OutMsgQueue &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 阻塞队列，存储页面输入的命令</span><br><span class="line">     */</span><br><span class="line">    private Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; outs ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private static final OutMsgQueue instance = new OutMsgQueue();</span><br><span class="line"></span><br><span class="line">    private OutMsgQueue()&#123;</span><br><span class="line">        outs =  new HashMap&lt;String, LinkedBlockingQueue&lt;String&gt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static final OutMsgQueue getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; getDatas()&#123;</span><br><span class="line">        return this.outs;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="2-sockerServer"><a href="#2-sockerServer" class="headerlink" title="(2)sockerServer"></a>(2)sockerServer</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 单例创建全局socketserver</span><br><span class="line"> */</span><br><span class="line">public class SocketServer &#123;</span><br><span class="line"></span><br><span class="line">    private ServerSocket server = null;</span><br><span class="line">    private int port = 12354;</span><br><span class="line">    private final static int minPort = 1023;</span><br><span class="line">    private final static int maxPort = 65535;</span><br><span class="line">    private static final  SocketServer instance = new SocketServer();</span><br><span class="line"></span><br><span class="line">    private SocketServer()&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            if(port &gt;= minPort &amp;&amp; port &lt;= maxPort)&#123;</span><br><span class="line">                server = new ServerSocket(port);</span><br><span class="line">            &#125;else &#123;</span><br><span class="line">                server = new ServerSocket(12354);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;catch (IOException e)&#123;</span><br><span class="line">            System.out.println(&quot;sockerserver 创建失败 &quot; + e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static final SocketServer getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public ServerSocket getServer()&#123;</span><br><span class="line">        return this.server;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setPort(int port)&#123;</span><br><span class="line">        this.port = port;</span><br><span class="line">    &#125;</span><br><span class="line">    public int getPort()&#123;</span><br><span class="line">        return this.port;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h6 id="3-处理链接"><a href="#3-处理链接" class="headerlink" title="(3)处理链接"></a>(3)处理链接</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 处理单个socket的服务类</span><br><span class="line"> * 普通的socket消息收发,通过阻塞队列与页面进行交互</span><br><span class="line"> */</span><br><span class="line">public class SocketThread implements Runnable&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private Socket socket = null;</span><br><span class="line">    /**</span><br><span class="line">     * 每个socket的对应id</span><br><span class="line">     */</span><br><span class="line">    private String id;</span><br><span class="line"></span><br><span class="line">    public SocketThread(Socket socket)&#123;</span><br><span class="line">        this.socket = socket;</span><br><span class="line">        this.id = socket.getInetAddress().getHostAddress() + &quot;:&quot; + socket.getPort();</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void run()&#123;</span><br><span class="line">        Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; mapIn = InMsgQueue.getInstance().getDatas();</span><br><span class="line">        Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; mapOut = OutMsgQueue.getInstance().getDatas();</span><br><span class="line">        LinkedBlockingQueue&lt;String&gt; queueOut = mapOut.get(id);</span><br><span class="line">        LinkedBlockingQueue&lt;String&gt; queueIn = mapIn.get(id);</span><br><span class="line">        try &#123;</span><br><span class="line"></span><br><span class="line">            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));</span><br><span class="line">            OutputStream out = socket.getOutputStream();</span><br><span class="line">            String line = null;</span><br><span class="line">            while (true)&#123;</span><br><span class="line">                StringBuilder sb = new StringBuilder();</span><br><span class="line">                // 999999999 结束标志</span><br><span class="line">                while (!(line = in.readLine()).equals(&quot;999999999&quot;))&#123;</span><br><span class="line">                    sb.append(line);</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(&quot;[+]: &quot; + sb.toString());</span><br><span class="line">                if(sb.toString().equals(&quot;exit()&quot;))&#123;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">                try &#123;</span><br><span class="line">                    queueIn.put(sb.toString());</span><br><span class="line">                &#125;catch (InterruptedException e2)&#123;</span><br><span class="line">                    e2.printStackTrace();</span><br><span class="line">                    queueIn.offer(e2.getMessage());</span><br><span class="line">                &#125;</span><br><span class="line">                //读取队列中的命令，send</span><br><span class="line">                try &#123;</span><br><span class="line">                    //阻塞等待页面输入</span><br><span class="line">                    out.write(queueOut.take().getBytes());</span><br><span class="line">                &#125;catch (InterruptedException e1)&#123;</span><br><span class="line">                    e1.printStackTrace();</span><br><span class="line">                    out.write(&quot;whoami&quot;.getBytes());</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">            in.close();</span><br><span class="line">            out.close();</span><br><span class="line">        &#125;catch (IOException e)&#123;</span><br><span class="line">            System.out.println(e.getMessage());</span><br><span class="line">        &#125;finally &#123;</span><br><span class="line">            //删除队列中的连接信息</span><br><span class="line">            mapIn.remove(id);</span><br><span class="line">            mapOut.remove(id);</span><br><span class="line">            try &#123;</span><br><span class="line">                if (socket != null)&#123;</span><br><span class="line">                    socket.close();</span><br><span class="line">                    System.out.println(&quot;[*]: 异常，关闭socket&quot; + id);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;catch (IOException e)&#123;</span><br><span class="line">                System.out.println(&quot;[*]: &quot; + id + &quot; 未正常关闭！ &quot; + e.getMessage());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setSocket(Socket socket)&#123;</span><br><span class="line">        this.socket = socket;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h6 id="4-使用多线程处理不同socket"><a href="#4-使用多线程处理不同socket" class="headerlink" title="(4)使用多线程处理不同socket"></a>(4)使用多线程处理不同socket</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">**</span><br><span class="line"> * 自动启动socket监听</span><br><span class="line"> */</span><br><span class="line">//控制bean的加载顺序  确保不为null</span><br><span class="line">@DependsOn(&#123;&quot;socketLogService&quot;,&quot;springUtil&quot;&#125;)</span><br><span class="line">@Component</span><br><span class="line">public class StartSocket implements ApplicationRunner &#123;</span><br><span class="line"></span><br><span class="line">    SocketLogService socketLogService = (SocketLogService)SpringUtil.getBean(&quot;socketLogService&quot;);</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run(ApplicationArguments args)&#123;</span><br><span class="line">        ServerSocket server = SocketServer.getInstance().getServer();</span><br><span class="line">        ThreadPoolExecutor executor = new ThreadPoolExecutor(4,4,24*60,</span><br><span class="line">                TimeUnit.MINUTES,new LinkedBlockingQueue&lt;&gt;());</span><br><span class="line">        try &#123;</span><br><span class="line">            while (true) &#123;</span><br><span class="line">                Socket socket = server.accept();</span><br><span class="line">                //连接日志</span><br><span class="line">                SocketLogEntity entity = new SocketLogEntity();</span><br><span class="line">                entity.setClientIp(socket.getInetAddress().getHostAddress());</span><br><span class="line">                entity.setClientPort(socket.getPort());</span><br><span class="line">                socketLogService.insertLog(entity);</span><br><span class="line">                //新来一个连接时，更新队列</span><br><span class="line">                Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; mapIn = InMsgQueue.getInstance().getDatas();</span><br><span class="line">                Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; mapOut = OutMsgQueue.getInstance().getDatas();</span><br><span class="line">                String ip = socket.getInetAddress().getHostAddress() + &quot;:&quot; + socket.getPort();</span><br><span class="line">                if (!mapIn.containsKey(ip)) &#123;</span><br><span class="line">                    mapOut.put(ip, new LinkedBlockingQueue&lt;String&gt;());</span><br><span class="line">                    mapIn.put(ip, new LinkedBlockingQueue&lt;String&gt;());</span><br><span class="line">                &#125;</span><br><span class="line">                //开单独的线程进行处理连接</span><br><span class="line">                executor.execute(new SocketThread(socket));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;catch (IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-nio"><a href="#2-nio" class="headerlink" title="2.nio"></a>2.nio</h4><h4 id="3-netty"><a href="#3-netty" class="headerlink" title="3.netty"></a>3.netty</h4>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/26/java/socket/javasocket/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/spring/spring" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/21/java/spring/spring/">spring基本概念一</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/21/java/spring/spring/" class="archive-article-date">
+  	<time datetime="2018-09-21T08:30:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>  2019/6/22重新编辑</p>
+</blockquote>
+<h3 id="1-为什么要有spring"><a href="#1-为什么要有spring" class="headerlink" title="1.为什么要有spring"></a>1.为什么要有spring</h3><p>根本目的: <strong>简化java应用的开发</strong>。<br></p>
+<ul>
+<li>利用容器管理bean</li>
+<li>通过依赖注入和面向接口实现松耦合。</li>
+<li>使用切面，简化开发</li>
+</ul>
+<h3 id="2-Spring一些基本概念"><a href="#2-Spring一些基本概念" class="headerlink" title="2.Spring一些基本概念"></a>2.Spring一些基本概念</h3><ul>
+<li>容器</li>
+</ul>
+<p>就是一个存放东西还能随时取出来的地方</p>
+<ul>
+<li>Bean</li>
+</ul>
+<p>即Java对象，交于容器进行管理</p>
+<ul>
+<li>Ioc(控制反转)</li>
+</ul>
+<p>将对象交给第三方容器( Spring 中的 Ioc 容器)来创建和管理。</p>
+<ul>
+<li>DI(依赖注入)</li>
+</ul>
+<p>依赖注入也是控制反转，将创建某个对象(bean)的权力，反转交给容器，由容器创建，并注入到需要引用的bean中去。</p>
+<ul>
+<li>AOP(切面)</li>
+</ul>
+<p>在特定的地方，插入我i们想要执行的代码。不改变原有代码(低侵入).</p>
+<h6 id="为什么要有控制反转和切面"><a href="#为什么要有控制反转和切面" class="headerlink" title="为什么要有控制反转和切面"></a>为什么要有控制反转和切面</h6><p>可以解耦和(Ioc)，抽象重复代码，提供一种编程思路(Aop).</p>
+<h3 id="3-spring优缺点"><a href="#3-spring优缺点" class="headerlink" title="3.spring优缺点"></a>3.spring优缺点</h3><p>优：</p>
+<ul>
+<li>简化编程，配置简单,让使用者只关心核心业务的开发，框架帮你屏蔽原有技术跟业务开发无关的各类技术问题</li>
+<li>解耦和</li>
+<li>因为bean的依赖注入，易于单元测试</li>
+</ul>
+<p>缺:</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/21/java/spring/spring/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/java基本类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/21/java/java基本类型/">java基本类型</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/21/java/java基本类型/" class="archive-article-date">
+  	<time datetime="2018-09-21T08:23:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-基本类型"><a href="#1-基本类型" class="headerlink" title="1.基本类型"></a>1.基本类型</h4><ul>
+<li>short：16位，最大数据存储量是65536，数据范围是-32768~32767之间。</li>
+<li>int：32位，最大数据存储容量是2的32次方减1，数据范围是负的2的31次方到正的2的31次方减1。</li>
+<li>long：64位，最大数据存储容量是2的64次方减1，数据范围为负的2的63次方到正的2的63次方减1。</li>
+<li>float：32位，数据范围在3.4e-45~1.4e38，直接赋值时必须在数字后加上f或F。</li>
+<li>double：64位，数据范围在4.9e-324~1.8e308，赋值时可以加d或D也可以不加。</li>
+<li>boolean：只有true和false两个取值。</li>
+<li>char：16位，存储Unicode码，用单引号赋值。</li>
+</ul>
+<p>基本类型并不是类对象。<br><br>为了让这8中基本类型也能面向对象，Java为其提供了包装器类型.<br>对应上面顺序为：Byte, Short, Integer, Long, Float, Double, Boolean, Character<br>现在，这些包装器类型都是面向对象的类了，具有对象方法可以进行很多高级的操作，而不是简单的基本类型，都是引用类型了.<br>java提供了自动拆箱/装箱来实现基本类型数据和包装器类型数据之间相互转换、赋值。</p>
+<h4 id="2-引用类型"><a href="#2-引用类型" class="headerlink" title="2.引用类型"></a>2.引用类型</h4><ul>
+<li>强引用<br><br>最常用的引用类型，如Object obj = new Object(); 。只要强引用存在则GC时则必定不被回收。<br><br>其它三个暂时不太理解，以后接触再添加</li>
+<li>软引用</li>
+<li>弱引用</li>
+<li>虚引用</li>
+</ul>
+<h4 id="3-基本类型与引用类型区别"><a href="#3-基本类型与引用类型区别" class="headerlink" title="3.基本类型与引用类型区别"></a>3.基本类型与引用类型区别</h4><p>基本类型就是一个值<br><br>引用类型：它的值是指向内存空间的引用，就是地址，所指向的内存中保存着变量<br><br>
+        
+          <a class="article-more-a" href="/2018/09/21/java/java基本类型/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/21/java/java基本类型/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/java面向对象" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/21/java/java面向对象/">java面向对象</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/21/java/java面向对象/" class="archive-article-date">
+  	<time datetime="2018-09-21T08:09:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-java面向对象"><a href="#1-java面向对象" class="headerlink" title="1.java面向对象"></a>1.java面向对象</h4><h6 id="面向对象（Object-Oriented）"><a href="#面向对象（Object-Oriented）" class="headerlink" title="面向对象（Object Oriented）"></a>面向对象（Object Oriented）<br></h6><p>其基本思想是使用对象、类、继承、封装、多态等基本概念来进行程序设计.<br>从现实世界中客观存在的事物（即对象）出发来构造软件系统，并且在系统构造中尽可能运用人类的自然思维方式</p>
+<h6 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象<br></h6><p>对象是系统中用来描述客观事物的一个实体，它是构成系统的一个基本单位。一个对象由一组属性和对这组属性进行操作的一组服务组成。<br><br>类的实例化可生成对象，一个对象的生命周期包括三个阶段：生成、使用、消除。<br>当不存在对一个对象的引用时，该对象成为一个无用对象。Java的垃圾收集器自动扫描对象的动态内存区，<br>把没有引用的对象作为垃圾收集起来并释放。当系统内存用尽或调用System.gc( )要求垃圾回收时，垃圾回收线程与系统同步运行。</p>
+<h6 id="类"><a href="#类" class="headerlink" title="类"></a>类<br></h6><p>类是具有相同属性和方法的一组对象的集合，它为属于该类的所有对象提供了统一的抽象描述，其内部包括属性和方法两个主要部分。<br>在面向对象的编程语言中，类是一个独立的程序单位，它应该有一个类名并包括属性和方法两个主要部分。<br></p>
+<blockquote>
+<p>变量<br><br>static: 静态变量/静态方法(类变量/类方法，类层面上)<br><br>final: 常量(全局层面上)</p>
+</blockquote>
+<blockquote>
+<p>方法<br><br>static: 类方法，可通过类名直接调用<br><br>abstract: 抽象方法，没有方法体<br><br>final: 方法不能被重写<br><br>native: 集成其它语言的代码<br><br>synchronized: 控制多个并发线程的访问<br><br>方法声明包括方法名、返回类型和外部参数。其中参数的类型可以是简单数据类型，也可以是复合数据类型（又称引用数据类型）。<br><br>对于简单数据类型来说，java实现的是值传递，方法接收参数的值，但不能改变这些参数的值。如果要改变参数的值，则用引用数据类型，因为引用数据类型传递给方法的是数据在内存中的地址，方法中对数据的操作可以改变数据的值。<br><br>    方法体<br><br>    方法体是对方法的实现，它包括局部变量的声明以及所有合法的Java指令。方法体中声明的局部变量的作用域在该方法内部。若局部变量与类的成员变量同名，则类的成员变量被隐藏。<br><br>    为了区别参数和类的成员变量，我们必须使用this。this用在一个方法中引用当前对象，它的值是调用该方法的对象。返回值须与返回类型一致，或者完全相同，或是其子类。当返回类型是接口时，返回值必须实现该接口。<br></p>
+</blockquote>
+<blockquote>
+<p>构造方法<br><br>构造方法是一个特殊的方法。Java 中的每个类都有构造方法，用来初始化该类的一个对象。<br><br>构造方法具有和类名相同的名称，而且不返回任何数据类型。<br><br>重载经常用于构造方法。<br><br>构造方法只能由new运算符调用<br><br>
+        
+          <a class="article-more-a" href="/2018/09/21/java/java面向对象/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/21/java/java面向对象/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-tools/nginx/nginx" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/17/tools/nginx/nginx/">nginx 基本信息</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/17/tools/nginx/nginx/" class="archive-article-date">
+  	<time datetime="2018-09-17T03:45:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-nginx大概作用"><a href="#1-nginx大概作用" class="headerlink" title="1.nginx大概作用"></a>1.nginx大概作用</h4><p>原文链接: <a href="https://juejin.im/entry/58afa0975c497d006778502b" target="_blank" rel="noopener">https://juejin.im/entry/58afa0975c497d006778502b</a><br></p>
+<h6 id="1-反向代理"><a href="#1-反向代理" class="headerlink" title="1.反向代理"></a>1.反向代理</h6><p>反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。简单来说就是真实的服务器不能直接被外部网络访问，所以需要一台代理服务器，而代理服务器能被外部网络访问的同时又跟真实服务器在同一个网络环境，当然也可能是同一台服务器，端口不同而已。<br></p>
+<h6 id="2-负载均衡"><a href="#2-负载均衡" class="headerlink" title="2.负载均衡"></a>2.负载均衡</h6><p>RR（默认）<br><br>每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除<br></p>
+<p>权重<br><br>指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。<br></p>
+<p>ip_hash<br><br>上面的2种方式都有一个问题，那就是下一个请求来的时候请求可能分发到另外一个服务器，当我们的程序不是无状态的时候（采用了session保存数据），这时候就有一个很大的很问题了，比如把登录信息保存到了session中，那么跳转到另外一台服务器的时候就需要重新登录了，所以很多时候我们需要一个客户只访问一个服务器，那么就需要用iphash了，iphash的每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题<br></p>
+<h6 id="3-http服务器"><a href="#3-http服务器" class="headerlink" title="3.http服务器"></a>3.http服务器</h6><p>Nginx本身也是一个静态资源的服务器，当只有静态资源的时候，就可以使用Nginx来做服务器，同时现在也很流行动静分离，就可以通过Nginx来实现<br><br>动静分离<br><br>动静分离是让动态网站里的动态网页根据一定规则把不变的资源和经常变的资源区分开来，动静资源做好了拆分以后，我们就可以根据静态资源的特点将其做缓存操作，这就是网站静态化处理的核心思路<br></p>
+<h6 id="4-正向代理"><a href="#4-正向代理" class="headerlink" title="4.正向代理"></a>4.正向代理</h6><p>正向代理，意思是一个位于客户端和原始服务器(origin server)之间的服务器，为了从原始服务器取得内容，客户端向代理发送一个请求并指定目标(原始服务器)，然后代理向原始服务器转交请求并将获得的内容返回给客户端。客户端才能使用正向代理。当你需要把你的服务器作为代理服务器的时候，可以用Nginx来实现正向代理。<br></p>
+<p>问题： 正向反向的区别是部署在客户端还是服务端？？？？<br></p>
+<p>2019/7/18添加: <br><br>现在，我理解的正向代理与反向代理的区别是:正向代理是将请求代理出去，反代理是将请求代理进来<br></p>
+<ul>
+<li>正向</li>
+</ul>
+<p>通常用来访问无法访问的资源,如google。<br><br>例如 vpn 。client 访问代理(vpn),代理去 <strong> 帮你访问 </strong>client想要的资源，然后返回回来. 其中，有个特点，正向代理需要提前设置一些东西，例如vpn的配置信息.</p>
+<ul>
+<li>反向</li>
+</ul>
+<p>通常用来负载均衡，和保证内网安全.<br><br>客户端是 <strong>无感知 </strong>代理的存在的，反向代理对外都是透明的，访问者者并不知道自己访问的是一个代理。因为客户端不需要任何配置就可以访问。<br><br>反向，实际是代理服务器来接受请求，然后将请求转发给内部网络上的服务器(转发时可以实现负载均衡)，并将从服务器上得到的结果返回客户端，此时代理服务器对外就表现为一个服务器。</p>
+<h5 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h5><p>ngginx可以热部署<br><br>nginx -s reload<br><br>nginx.exe -s reload</p>
+<h4 id="nginx-conf默认配置"><a href="#nginx-conf默认配置" class="headerlink" title="nginx.conf默认配置"></a>nginx.conf默认配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line">#定义Nginx运行的用户和用户组</span><br><span class="line">#user  nobody;</span><br><span class="line">#nginx进程数，建议设置为等于CPU总核心数。</span><br><span class="line">worker_processes  1;</span><br><span class="line"></span><br><span class="line">#全局错误日志定义类型，[ debug | info | notice | warn | error | crit ]</span><br><span class="line">#error_log  logs/error.log;</span><br><span class="line">#error_log  logs/error.log  notice;</span><br><span class="line">#error_log  logs/error.log  info;</span><br><span class="line"></span><br><span class="line">#进程文件</span><br><span class="line">#pid        logs/nginx.pid;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#工作模式与连接数上限</span><br><span class="line">events &#123;</span><br><span class="line">   #单个进程最大连接数（最大连接数=连接数*进程数）</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#设定http服务器</span><br><span class="line">http &#123;</span><br><span class="line">   #文件扩展名与文件类型映射表</span><br><span class="line">    include       mime.types;</span><br><span class="line">    #默认文件类型</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    #log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</span><br><span class="line">    #                  &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</span><br><span class="line">    #                  &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</span><br><span class="line"></span><br><span class="line">    #access_log  logs/access.log  main;</span><br><span class="line"></span><br><span class="line">    #开启高效文件传输模式，sendfile指令指定nginx是否调用sendfile函数来输出文件，对于普通应用设为 on，</span><br><span class="line">    # 如果用来进行下载等应用磁盘IO重负载应用，可设置为off，以平衡磁盘与网络I/O处理速度，降低系统的负载。</span><br><span class="line">    # 注意：如果图片显示不正常把这个改 成off。</span><br><span class="line">    sendfile        on;</span><br><span class="line">    #防止网络阻塞</span><br><span class="line">    #tcp_nopush     on;</span><br><span class="line"></span><br><span class="line">    #长连接超时时间，单位是秒</span><br><span class="line">    #keepalive_timeout  0;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    #开启gzip压缩输出</span><br><span class="line">    #gzip  on;</span><br><span class="line"></span><br><span class="line">    #虚拟主机的配置</span><br><span class="line">    server &#123;</span><br><span class="line">        #监听端口</span><br><span class="line">        listen       80;</span><br><span class="line">        #域名可以有多个，用空格隔开</span><br><span class="line">        server_name  localhost;</span><br><span class="line"></span><br><span class="line">        #默认编码</span><br><span class="line">        #charset koi8-r;</span><br><span class="line"></span><br><span class="line">        #定义本虚拟主机的访问日志</span><br><span class="line">        #access_log  logs/host.access.log  main;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            root   html;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        #error_page  404              /404.html;</span><br><span class="line"></span><br><span class="line">        # redirect server error pages to the static page /50x.html</span><br><span class="line">        #</span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        # proxy the PHP scripts to Apache listening on 127.0.0.1:80</span><br><span class="line">        #</span><br><span class="line">        #location ~ \.php$ &#123;</span><br><span class="line">        #    proxy_pass   http://127.0.0.1;</span><br><span class="line">        #&#125;</span><br><span class="line"></span><br><span class="line">        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span><br><span class="line">        #</span><br><span class="line">        #location ~ \.php$ &#123;</span><br><span class="line">        #    root           html;</span><br><span class="line">        #    fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">        #    fastcgi_index  index.php;</span><br><span class="line">        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;</span><br><span class="line">        #    include        fastcgi_params;</span><br><span class="line">        #&#125;</span><br><span class="line"></span><br><span class="line">        # deny access to .htaccess files, if Apache&apos;s document root</span><br><span class="line">        # concurs with nginx&apos;s one</span><br><span class="line">        #</span><br><span class="line">        #location ~ /\.ht &#123;</span><br><span class="line">        #    deny  all;</span><br><span class="line">        #&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    # another virtual host using mix of IP-, name-, and port-based configuration</span><br><span class="line">    #</span><br><span class="line">    #server &#123;</span><br><span class="line">    #    listen       8000;</span><br><span class="line">    #    listen       somename:8080;</span><br><span class="line">    #    server_name  somename  alias  another.alias;</span><br><span class="line"></span><br><span class="line">    #    location / &#123;</span><br><span class="line">    #        root   html;</span><br><span class="line">    #        index  index.html index.htm;</span><br><span class="line">    #    &#125;</span><br><span class="line">    #&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    # HTTPS server</span><br><span class="line">    #</span><br><span class="line">    #server &#123;</span><br><span class="line">    #    listen       443 ssl;</span><br><span class="line">    #    server_name  localhost;</span><br><span class="line"></span><br><span class="line">    #    ssl_certificate      cert.pem;</span><br><span class="line">    #    ssl_certificate_key  cert.key;</span><br><span class="line"></span><br><span class="line">    #    ssl_session_cache    shared:SSL:1m;</span><br><span class="line">    #    ssl_session_timeout  5m;</span><br><span class="line"></span><br><span class="line">    #    ssl_ciphers  HIGH:!aNULL:!MD5;</span><br><span class="line">    #    ssl_prefer_server_ciphers  on;</span><br><span class="line"></span><br><span class="line">    #    location / &#123;</span><br><span class="line">    #        root   html;</span><br><span class="line">    #        index  index.html index.htm;</span><br><span class="line">    #    &#125;</span><br><span class="line">    #&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="nginx-conf配置"><a href="#nginx-conf配置" class="headerlink" title="nginx.conf配置"></a>nginx.conf配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br></pre></td><td class="code"><pre><span class="line">#user  nobody;</span><br><span class="line">worker_processes  1;</span><br><span class="line"></span><br><span class="line">#error_log  logs/error.log;</span><br><span class="line">#error_log  logs/error.log  notice;</span><br><span class="line">#error_log  logs/error.log  info;</span><br><span class="line"></span><br><span class="line">#pid        logs/nginx.pid;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    #log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</span><br><span class="line">    #                  &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;</span><br><span class="line">    #                  &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;</span><br><span class="line"></span><br><span class="line">    #access_log  logs/access.log  main;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    #tcp_nopush     on;</span><br><span class="line"></span><br><span class="line">    #keepalive_timeout  0;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    #gzip  on;</span><br><span class="line"></span><br><span class="line">    #在http&#123;&#125;内配置</span><br><span class="line">    #自己进行负载均衡配置，weight为权重</span><br><span class="line">    upstream sms&#123;</span><br><span class="line">        server ip:port weight=1;</span><br><span class="line">        server ip:port weight=1;</span><br><span class="line">        #保证收发都是同一个连接</span><br><span class="line">        ip_hash;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    upstream xxx&#123;</span><br><span class="line">        ......</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost;</span><br><span class="line"></span><br><span class="line">        #charset koi8-r;</span><br><span class="line"></span><br><span class="line">        #access_log  logs/host.access.log  main;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            root   html;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        #配置自己的转发,在server&#123;&#125;内配置</span><br><span class="line">          #过来的url</span><br><span class="line">          location /smsCollection/ &#123;</span><br><span class="line">              #转发的url</span><br><span class="line">              proxy_pass http://sms;</span><br><span class="line">              proxy_set_header    REMOTE-HOST $remote_addr;</span><br><span class="line">              proxy_set_header   Host $host:8080;</span><br><span class="line">              proxy_set_header   X-Real-IP $remote_addr;</span><br><span class="line">              proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">              proxy_read_timeout 300s;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          location /SmsUpstream-1.0/sms191 &#123;</span><br><span class="line">              .....</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">        #error_page  404              /404.html;</span><br><span class="line"></span><br><span class="line">        # redirect server error pages to the static page /50x.html</span><br><span class="line">        #</span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        # proxy the PHP scripts to Apache listening on 127.0.0.1:80</span><br><span class="line">        #</span><br><span class="line">        #location ~ \.php$ &#123;</span><br><span class="line">        #    proxy_pass   http://127.0.0.1;</span><br><span class="line">        #&#125;</span><br><span class="line"></span><br><span class="line">        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000</span><br><span class="line">        #</span><br><span class="line">        #location ~ \.php$ &#123;</span><br><span class="line">        #    root           html;</span><br><span class="line">        #    fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">        #    fastcgi_index  index.php;</span><br><span class="line">        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;</span><br><span class="line">        #    include        fastcgi_params;</span><br><span class="line">        #&#125;</span><br><span class="line"></span><br><span class="line">        # deny access to .htaccess files, if Apache&apos;s document root</span><br><span class="line">        # concurs with nginx&apos;s one</span><br><span class="line">        #</span><br><span class="line">        #location ~ /\.ht &#123;</span><br><span class="line">        #    deny  all;</span><br><span class="line">        #&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    # another virtual host using mix of IP-, name-, and port-based configuration</span><br><span class="line">    #</span><br><span class="line">    #server &#123;</span><br><span class="line">    #    listen       8000;</span><br><span class="line">    #    listen       somename:8080;</span><br><span class="line">    #    server_name  somename  alias  another.alias;</span><br><span class="line"></span><br><span class="line">    #    location / &#123;</span><br><span class="line">    #        root   html;</span><br><span class="line">    #        index  index.html index.htm;</span><br><span class="line">    #    &#125;</span><br><span class="line">    #&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    # HTTPS server</span><br><span class="line">    #</span><br><span class="line">    #server &#123;</span><br><span class="line">    #    listen       443 ssl;</span><br><span class="line">    #    server_name  localhost;</span><br><span class="line"></span><br><span class="line">    #    ssl_certificate      cert.pem;</span><br><span class="line">    #    ssl_certificate_key  cert.key;</span><br><span class="line"></span><br><span class="line">    #    ssl_session_cache    shared:SSL:1m;</span><br><span class="line">    #    ssl_session_timeout  5m;</span><br><span class="line"></span><br><span class="line">    #    ssl_ciphers  HIGH:!aNULL:!MD5;</span><br><span class="line">    #    ssl_prefer_server_ciphers  on;</span><br><span class="line"></span><br><span class="line">    #    location / &#123;</span><br><span class="line">    #        root   html;</span><br><span class="line">    #        index  index.html index.htm;</span><br><span class="line">    #    &#125;</span><br><span class="line">    #&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
 
@@ -187,7 +783,250 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/20/reinstall/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/09/17/tools/nginx/nginx/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/springboot-redis" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/17/java/springboot-redis/">springboot-redis</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/17/java/springboot-redis/" class="archive-article-date">
+  	<time datetime="2018-09-17T03:14:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-redis大概"><a href="#1-redis大概" class="headerlink" title="1.redis大概"></a>1.redis大概</h4><p>1.Redis<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;  </span><br><span class="line">	&lt;groupId&gt;org.springframework.data&lt;/groupId&gt;  </span><br><span class="line">	&lt;artifactId&gt;spring-data-redis&lt;/artifactId&gt;  </span><br><span class="line">	&lt;version&gt;1.8.9.RELEASE&lt;/version&gt;  </span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>通过org.springframework.data.redis.connection.jedis.JedisConnectionFactory工厂类来管理，然后通过配置的模版bean，操作redis服务，代码段中充斥大量与业务无关的模版片段代码，代码冗余 <br><br>spring 封装了 RedisTemplate 对象来进行对redis的各种操作，它支持所有的 redis 原生的 api<br><br>
+        
+          <a class="article-more-a" href="/2018/09/17/java/springboot-redis/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/17/java/springboot-redis/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/sgip/sgip" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/04/java/sgip/sgip/">sgip网关问题</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/04/java/sgip/sgip/" class="archive-article-date">
+  	<time datetime="2018-09-04T08:49:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h6 id="问题"><a href="#问题" class="headerlink" title="问题:"></a>问题:</h6><p>在联通SGIP网关中，Submit发送消息后，怎么将返回的REPORT与之关联起来。</p>
+<h6 id="Submit内容"><a href="#Submit内容" class="headerlink" title="Submit内容"></a>Submit内容</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">CommandId*	命令ID，十六进制数字</span><br><span class="line">SequenceNumber	序列号，十六进制数字</span><br><span class="line">SPNumber	SP的接入号码，字符</span><br><span class="line">ChargeNumber	付费号码，字符，手机号码前加“86”国别标志；当且仅当群发且对用户收费时为空；如果为空，则该条短消息产生的费用由UserNumber代表的用户支付；如果为全零字符串“000000000000000000000”，表示该条短消息产生的费用由SP支付。</span><br><span class="line">UserNumber	一个或多个接收该短消息的手机号，手机号之间用逗号(,)隔开，字符，手机号码前加“86”国别标志，如8613001125453,8613001132345</span><br><span class="line">CorpId	企业代码，取值范围0-99999，字符</span><br><span class="line">ServiceType	业务代码，由SP定义，字符</span><br><span class="line">FeeType*	计费类型，字符</span><br><span class="line">FeeValue	取值范围0-99999，该条短消息的收费值，单位为分，由SP定义，字符</span><br><span class="line">对于包月制收费的用户，该值为月租费的值</span><br><span class="line">GivenValue	取值范围0-99999，赠送用户的话费，单位为分，由SP定义，特指由SP向用户发送广告时的赠送话费，字符</span><br><span class="line">AgentFlag	代收费标志，0：应收；1：实收，字符</span><br><span class="line">MorelatetoMTFlag	引起MT消息的原因</span><br><span class="line">0-MO点播引起的第一条MT消息；</span><br><span class="line">1-MO点播引起的非第一条MT消息；</span><br><span class="line">2-非MO点播引起的MT消息；</span><br><span class="line">3-系统反馈引起的MT消息。</span><br><span class="line">字符</span><br><span class="line">Priority	优先级0-9从低到高，默认为0，十六进制数字</span><br><span class="line">ExpireTime	短消息寿命的终止时间，如果为空，表示使用短消息中心的缺省值。时间内容为16个字符，格式为“yymmddhhmmsstnnp”，其中“tnnp”取固定值“032+”，即默认系统为北京时间</span><br><span class="line">ScheduleTime	短消息定时发送的时间，如果为空，表示立刻发送该短消息。时间内容为16个字符，格式为“yymmddhhmmsstnnp”，其中“tnnp”取固定值“032+”，即默认系统为北京时间</span><br><span class="line">ReportFlag	状态报告标记</span><br><span class="line">0-该条消息只有最后出错时要返回状态报告</span><br><span class="line">1-该条消息无论最后是否成功都要返回状态报告</span><br><span class="line">2-该条消息不需要返回状态报告</span><br><span class="line">3-该条消息仅携带包月计费信息，不下发给用户，要返回状态报告</span><br><span class="line">其它-保留</span><br><span class="line">缺省设置为0，十六进制数字</span><br><span class="line">MessageType	信息类型：</span><br><span class="line">0-短消息信息</span><br><span class="line">其它：待定</span><br><span class="line"></span><br><span class="line">十六进制数字</span><br><span class="line">TP_pid	GSM协议类型。详细解释请参考GSM03.40中的9.2.3.9</span><br><span class="line">十六进制数字</span><br><span class="line">TP_udhi	GSM协议类型。详细解释请参考GSM03.40中的9.2.3.23,仅使用1位，右对齐</span><br><span class="line">十六进制数字</span><br><span class="line">MessageCoding	短消息的编码格式。</span><br><span class="line">0：纯ASCII字符串</span><br><span class="line">3：写卡操作</span><br><span class="line">4：二进制编码</span><br><span class="line">8：UCS2编码</span><br><span class="line">15：GBK编码</span><br><span class="line">其它参见GSM3.38第4节：SMS Data Coding Scheme</span><br><span class="line">十六进制数字</span><br><span class="line">MessageContent	短消息的内容，十六进制数字</span><br><span class="line">Reserve	保留，扩展用</span><br></pre></td></tr></table></figure>
+<h6 id="REPORT内容"><a href="#REPORT内容" class="headerlink" title="REPORT内容"></a>REPORT内容</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">CommandId	命令ID，十六进制数字</span><br><span class="line">SequenceNumber	序列号，十六进制数字</span><br><span class="line">SubmitSequenceNumber	该命令所涉及的Submit或deliver命令的序列号，十六进制数字</span><br><span class="line">ReportType	Report命令类型</span><br><span class="line">0：对先前一条Submit命令的状态报告</span><br><span class="line">1：对先前一条前转Deliver命令的状态报告，十六进制数字</span><br><span class="line">UserNumber	接收该短消息的手机号，字符，手机号码前加“86”国别标志</span><br><span class="line">State*	该命令所涉及的短消息的当前执行状态</span><br><span class="line">0：发送成功</span><br><span class="line">1：等待发送</span><br><span class="line">2：发送失败</span><br><span class="line">十六进制数字</span><br><span class="line">ErrorCode	当State=2时为错误码值，否则为0，十六进制数字</span><br><span class="line">Reserve	保留，扩展用</span><br></pre></td></tr></table></figure>
+<h6 id="观察"><a href="#观察" class="headerlink" title="观察"></a>观察</h6><p>  请求时，返回：<br>  <img src="./report1.jpg" alt="REPORT1"><br>  后台输出REPORT:<br>  <img src="./report2.jpg" alt="REPORT2"></p>
+<p>  通过对比发现其中有某两个字段相同，ok,到这基本搞定。</p>
+<h6 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h6><p>1.在Submit时，将SequenceNumber存储<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//将seq与spNumber存储 SequenceNumber为 seq1+seq2+seq3</span><br><span class="line">SubmitReportMapEntity submitReportMapEntity = new SubmitReportMapEntity();</span><br><span class="line">submitReportMapEntity.setSeq1(String.valueOf(submit.getSeqno_1()));</span><br><span class="line">submitReportMapEntity.setSeq2(String.valueOf(submit.getSeqno_2()));</span><br><span class="line">submitReportMapEntity.setSeq3(String.valueOf(submit.getSeqno_3()));</span><br><span class="line">submitReportMapEntity.setSpNumber(String.valueOf(submit.getSPNumber()));</span><br><span class="line">logService.storeSubmitReportMap(submitReportMapEntity);</span><br></pre></td></tr></table></figure></p>
+<p>2.Report时通过SequenceNumber获取SP(外显号)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String spNumber_temp = new String();</span><br><span class="line">spNumber_temp = logService.submitReportMapInquiry(String.valueOf(report.getSeq_2()),String.valueOf(report.getSeq_3()));</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">protocol</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/04/java/sgip/sgip/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/RestTemplate" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/30/java/RestTemplate/">RestTemplate</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/30/java/RestTemplate/" class="archive-article-date">
+  	<time datetime="2018-08-30T08:51:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>因为在代码中需要调用外部的接口，所以使用RestTemplate</p>
+<h6 id="1-导入"><a href="#1-导入" class="headerlink" title="1.导入"></a>1.导入</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 包含有restTemplate --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<h6 id="2-完成配置类"><a href="#2-完成配置类" class="headerlink" title="2.完成配置类"></a>2.完成配置类</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class RestTemplateConfig &#123;</span><br><span class="line">  //因为在普通类中使用它，所以给Bean去个名字，方便getBean()导入</span><br><span class="line">	@Bean(name = &quot;RestTemplate&quot;)</span><br><span class="line">	public RestTemplate restTemplate(ClientHttpRequestFactory factory)&#123;</span><br><span class="line">		return new RestTemplate(factory);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Bean</span><br><span class="line">	public ClientHttpRequestFactory simpleClientHttpRequestFactory()&#123;</span><br><span class="line">		SimpleClientHttpRequestFactory factory=new SimpleClientHttpRequestFactory();</span><br><span class="line">		factory.setConnectTimeout(15000);</span><br><span class="line">		factory.setReadTimeout(5000);</span><br><span class="line">		return factory;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="3-使用"><a href="#3-使用" class="headerlink" title="3.使用"></a>3.使用</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class AcceptDeal extends Thread &#123;</span><br><span class="line"></span><br><span class="line">  //通过名字导入</span><br><span class="line">	RestTemplate restTemplate = (RestTemplate) SpringUtil.getBean(&quot;RestTemplate&quot;);</span><br><span class="line"></span><br><span class="line">	//回执接口</span><br><span class="line">	String url = &quot;url&quot; + &quot;/&quot; + report.getState();</span><br><span class="line">	restTemplate.getForEntity(&quot;url&quot;, String.class);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置header与发送接收类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">try &#123;</span><br><span class="line">           String url = &quot;http://xxxxx&quot;;</span><br><span class="line">           //设置ContentType</span><br><span class="line">           HttpHeaders httpHeaders = new HttpHeaders();</span><br><span class="line">           MediaType type = MediaType.parseMediaType( &quot;application/x-www-form-urlencoded;charset=utf-8&quot;);</span><br><span class="line">           httpHeaders.setContentType(type);</span><br><span class="line">           //form表单</span><br><span class="line">           MultiValueMap&lt;String, String&gt; paramMap = new LinkedMultiValueMap&lt;String, String&gt;();</span><br><span class="line">           paramMap.add(&quot;number&quot;, deliver.getUserNumber().substring(2));</span><br><span class="line">           paramMap.add(&quot;port&quot;, deliver.getSPNumber());</span><br><span class="line">           paramMap.add(&quot;content&quot;,new String(deliver.getMessageByte(), &quot;UnicodeBigUnmarked&quot;));</span><br><span class="line">           paramMap.add(&quot;time&quot;, df.format(new Date()));</span><br><span class="line">           HttpEntity&lt;MultiValueMap&lt;String, String&gt;&gt; requestEntity = new HttpEntity&lt;MultiValueMap&lt;String, String&gt;&gt;(paramMap, httpHeaders);</span><br><span class="line">           //调用回执接口</span><br><span class="line">           String re = restTemplate.postForObject(url, requestEntity, String.class);</span><br><span class="line">       &#125;catch (Exception e)&#123;</span><br><span class="line">         e.printStackTrace();</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/30/java/RestTemplate/">展开全文 >></a>
         </p>
       
 
@@ -219,7 +1058,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span>
+      <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
     </nav>
   
 
@@ -314,11 +1153,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Index</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">tools</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">interview</a>
+                <a href="javascript:void(0)" class="js-tag color2">others</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -330,7 +1173,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Index2</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -346,6 +1193,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
@@ -358,15 +1209,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+                <a href="javascript:void(0)" class="js-tag color4">protocol</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">base</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">protocol</a>
               </li>
              
               <li class="article-tag-list-item">

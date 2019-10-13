@@ -4,90 +4,10 @@ date: 2018-09-17 11:14:52
 tags: [springboot]
 ---
 
-#### 1.redis大概
-1.Redis
-```
-<dependency>  
-	<groupId>org.springframework.data</groupId>  
-	<artifactId>spring-data-redis</artifactId>  
-	<version>1.8.9.RELEASE</version>  
-</dependency>
-```
-通过org.springframework.data.redis.connection.jedis.JedisConnectionFactory工厂类来管理，然后通过配置的模版bean，操作redis服务，代码段中充斥大量与业务无关的模版片段代码，代码冗余 <br/>
-spring 封装了 RedisTemplate 对象来进行对redis的各种操作，它支持所有的 redis 原生的 api<br/>
-<!-- more -->
-配置类
-```
-package com.example.redisdemo.redis;
+## 1.redis大概
 
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CachingConfigurerSupport;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.cache.RedisCacheManager;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-@EnableCaching
-@Configuration
-public class RedisConfig extends CachingConfigurerSupport {
-
-    @Bean
-    public CacheManager cacheManager (RedisTemplate  redisTemplate){
-        CacheManager cacheManager = new RedisCacheManager(redisTemplate);
-        return cacheManager;
-    }
-
-    //spring 封装了 RedisTemplate 对象来进行对redis的各种操作，它支持所有的 redis 原生的 api
-//    @Bean
-    public RedisTemplate redisTemplate(RedisConnectionFactory factory){
-        RedisTemplate<String,Object> redisTemplate = new RedisTemplate<>();
-        //设置序列化方式,不设置value
-        RedisSerializer redisSerializer =new StringRedisSerializer();
-        redisTemplate.setKeySerializer(redisSerializer);
-        redisTemplate.setHashKeySerializer(redisSerializer);
-        //连接
-        redisTemplate.setConnectionFactory(factory);
-        return redisTemplate;
-    }
-}
-```
-
-使用
-```
-package com.example.redisdemo.redis;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.stereotype.Service;
-
-//@Service
-public class RedisServer {
-    @Autowired
-    RedisTemplate redisTemplate;
-
-    public  void setKey(String key, Object value){
-        ValueOperations<String,Object> vo = redisTemplate.opsForValue();
-        vo.set(key, value);
-        //设置过期时间
-        redisTemplate.expire(key,600,TimeUnit.SECONDS);
-
-    }
-
-    public  Object getKey(String key){
-        ValueOperations<String,Object> vo = redisTemplate.opsForValue();
-        return vo.get(key);
-    }
-
-}
-
-```
-
-2.Jedis
+### 1.2 Jedis
 ```
 <dependency>
 	<groupId>redis.clients</groupId>
@@ -172,7 +92,7 @@ public class JedisServer {
 }
 
 ```
-3.Jodis
+### 1.3 Jodis
 ```
         <dependency>
             <groupId>redis.clients</groupId>
@@ -294,8 +214,8 @@ public class JodisServer {
 
 ```
 
-#### 2.一些注意事项
-1.存储数据
+## 2.一些注意事项
+### 2.1 存储数据
 在jedis存储数据过程中
 ```
 public String set(String key, String value) {
@@ -386,7 +306,7 @@ public class ObjectTranscoder {
 }
 ```
 
-2.maven包冲突
+### 2.2 maven包冲突
 ```
       <!-- redis -->
        <!--<dependency>-->
@@ -408,7 +328,8 @@ public class ObjectTranscoder {
 springboot自己集成的spring-boot-data-redis与redis-clients有冲突<br/>
 redis-clients可以与jodis配合使用，所以选择redis-clients.
 
-3.关于redis过期时间
+### 2.3 关于redis过期时间
+
 redis默认不过期，当内存满时，删除先存入的
 ```
 //存短信记录,首次，设置过期时间
@@ -424,4 +345,66 @@ redis默认不过期，当内存满时，删除先存入的
        int time = Integer.parseInt(String.valueOf(jedis.ttl(key)));
        jedis.setex(key.getBytes(),time, FrequencyVerifiy.serialize(value));
    }
+```
+
+
+# 一.Springboot集成Redis
+
+- maven依赖
+
+```
+<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+```
+
+- application.properties
+
+```
+spring.redis.host=127.0.0.1
+spring.redis.port=6379
+```
+- 配置类
+
+```
+@Configuration
+public class RedisConfig  {
+
+    //spring 封装了 RedisTemplate 对象来进行对redis的各种操作，它支持所有的 redis 原生的 api
+    @Bean
+    public RedisTemplate redisTemplate(RedisConnectionFactory factory){
+        RedisTemplate<String,Object> redisTemplate = new RedisTemplate<>();
+        //设置序列化方式,不设置value
+        RedisSerializer redisSerializer =new StringRedisSerializer();
+        redisTemplate.setKeySerializer(redisSerializer);
+        redisTemplate.setHashKeySerializer(redisSerializer);
+        //连接
+        redisTemplate.setConnectionFactory(factory);
+        return redisTemplate;
+    }
+}
+```
+- 使用
+
+```
+@Service
+public class RedisDemo {
+    @Autowired
+    RedisTemplate redisTemplate;
+
+    public  void setKey(String key, Object value){
+        ValueOperations<String,Object> vo = redisTemplate.opsForValue();
+        vo.set(key, value);
+        //设置过期时间
+        redisTemplate.expire(key,600,TimeUnit.SECONDS);
+    }
+
+    public  Object getKey(String key){
+        ValueOperations<String,Object> vo = redisTemplate.opsForValue();
+        return vo.get(key);
+    }
+
+
+}
 ```

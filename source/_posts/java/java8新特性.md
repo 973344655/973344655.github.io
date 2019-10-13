@@ -182,6 +182,16 @@ List<String> list2 = Arrays.asList("4","5","6");
 Stream.of(list, list2).flatMap(List::stream).forEach(System.out::println);
 //result: 1 2 2 3 4 5 6
 ```
+两个list去重合并：
+```
+
+List<String> list1 = Arrays.asList("1","2","3","4");
+List<String> list2 = Arrays.asList("3","4","5","6");
+
+List list = Stream.of(list1, list2).flatMap(List::stream).distinct().collect(Collectors.toList());
+
+list.stream().forEach( System.out::println);
+```
 
 - reduce
 

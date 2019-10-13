@@ -1,19 +1,46 @@
-ThreadLocal 场景 线程间隔离，方法间共享
 
-
-jwt oauth2.0 session等之间的区别与场景
-
-
-全局异常拦截与处理，减少代码，优化逻辑
 
 分布式系统中，某个功能只在一台机器上执行(即，只执行一次)
 
 redis 等的分布式锁， mysql锁，DB的唯一索引
 
-几种文件流
 
-单测  Mock
+注解
+http://www.jiangxinlingdu.com/spring/2019/02/11/annotation.html
 
-索引建立原则
 
-"msg":"提交数据成功","code":"000","activity_id":"SLFLpNIjbJYRpXOohvtQ4NE"
+静态嵌套类和内部类
+https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html
+内部类方便回调？？
+
+RFC 2616
+
+NIO适用场景
+服务器需要支持超大量的长时间连接。比如10000个连接以上，并且每个客户端并不会频繁地发送太多数据。例如总公司的一个中心服务器需要收集全国便利店各个收银机的交易信息，只需要少量线程按需处理维护的大量长期连接。
+Jetty、Mina、Netty、ZooKeeper等都是基于NIO方式实现。
+BIO适用场景
+适用于连接数目比较小，并且一次发送大量数据的场景，这种方式对服务器资源要求比较高，并发局限于应用中。
+
+vim
+全局替换
+:%s/old/new/g
+当前行替换
+:s/old/new/g
+替换当前行第一个
+:s/old/new/
+
+
+
+两个list去重合并
+
+List<String> list1 = Arrays.asList("1","2","3","4");
+       List<String> list2 = Arrays.asList("3","4","5","6");
+
+       List list = Stream.of(list1, list2).flatMap(List::stream).distinct().collect(Collectors.toList());
+
+       list.stream().forEach( System.out::println);
+
+
+Collections.copy 深拷贝
+List<String> remain = new ArrayList<>(Arrays.asList(new String[list.size()]));
+Collections.copy(remain, list);

