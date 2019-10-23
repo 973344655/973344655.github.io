@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="xiong&#39;s blogs">
 <meta property="og:description" content="http://www.jasongj.com/java/threadlocal/ 一.ThreadLocal作用1.作用一半都说是实现了变量在线程间隔离,在类或者方法间共享。但是看到这句话一脸迷茫，怎么实现的，为什么要实现?? 2.为什么要用通常情况下，我们创建的变量是可以被任何一个线程访问并修改的。而使用ThreadLocal创建的变量只能被当前线程访问，其他线程则无法访问和修改(线程间隔离),">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-15T10:08:31.457Z">
+<meta property="og:updated_time" content="2019-10-13T12:15:12.172Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ThreadLocal了解">
 <meta name="twitter:description" content="http://www.jasongj.com/java/threadlocal/ 一.ThreadLocal作用1.作用一半都说是实现了变量在线程间隔离,在类或者方法间共享。但是看到这句话一脸迷茫，怎么实现的，为什么要实现?? 2.为什么要用通常情况下，我们创建的变量是可以被任何一个线程访问并修改的。而使用ThreadLocal创建的变量只能被当前线程访问，其他线程则无法访问和修改(线程间隔离),">
@@ -154,7 +154,7 @@
 
         
         <a href="/2019/07/27/java/thread/threadlocal/" class="archive-article-date">
-  	<time datetime="2019-07-27T08:43:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-27</time>
+  	<time datetime="2019-07-27T20:43:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-27</time>
 </a>
         
       </header>
@@ -298,18 +298,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/07/27/java/thread/线程池简要了解/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/08/01/java/spring全局异常/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          线程池简要了解
+          spring利用异常来优化代码
         
       </div>
     </a>
   
   
-    <a href="/2019/07/19/tools/nginx/location模块/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">location模块</div>
+    <a href="/2019/07/27/java/thread/线程池简要了解/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">线程池简要了解</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -452,11 +452,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">tools</a>
+                <a href="javascript:void(0)" class="js-tag color2">others</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">others</a>
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">base</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -468,15 +472,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Index2</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -484,7 +480,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">security</a>
+                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -492,11 +488,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">database</a>
+                <a href="javascript:void(0)" class="js-tag color4">security</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">tools</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -504,11 +508,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">protocol</a>
+                <a href="javascript:void(0)" class="js-tag color4">database</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">base</a>
+                <a href="javascript:void(0)" class="js-tag color4">protocol</a>
               </li>
              
               <li class="article-tag-list-item">

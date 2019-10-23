@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Http与Socket | xiong&#39;s blogs</title>
+  <title>Http与Socket关系 | xiong&#39;s blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="1.问题今天发现网关程序中，java监听了8083端口(Http)，同时，又在程序中使用了8083端口作为服务端，接收来自短信网关给我们发送的回执（Sgip1.2)。不知道两者之间是否有冲突.了解了http与socket区别后，就知道了。 2.OSI七层模型图片来自:https://www.jianshu.com/p/a18a5ba78fad 3.Http与Socket所在层Http：Http是应">
 <meta name="keywords" content="protocol">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Http与Socket">
+<meta property="og:title" content="Http与Socket关系">
 <meta property="og:url" content="http://yoursite.com/2018/12/24/base/httpandsocket/http与socket/index.html">
 <meta property="og:site_name" content="xiong&#39;s blogs">
 <meta property="og:description" content="1.问题今天发现网关程序中，java监听了8083端口(Http)，同时，又在程序中使用了8083端口作为服务端，接收来自短信网关给我们发送的回执（Sgip1.2)。不知道两者之间是否有冲突.了解了http与socket区别后，就知道了。 2.OSI七层模型图片来自:https://www.jianshu.com/p/a18a5ba78fad 3.Http与Socket所在层Http：Http是应">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2018/12/24/base/httpandsocket/http与socket/osi_七层模型.jpg">
-<meta property="og:updated_time" content="2019-05-29T03:41:18.884Z">
+<meta property="og:updated_time" content="2019-10-13T12:15:12.168Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Http与Socket">
+<meta name="twitter:title" content="Http与Socket关系">
 <meta name="twitter:description" content="1.问题今天发现网关程序中，java监听了8083端口(Http)，同时，又在程序中使用了8083端口作为服务端，接收来自短信网关给我们发送的回执（Sgip1.2)。不知道两者之间是否有冲突.了解了http与socket区别后，就知道了。 2.OSI七层模型图片来自:https://www.jianshu.com/p/a18a5ba78fad 3.Http与Socket所在层Http：Http是应">
 <meta name="twitter:image" content="http://yoursite.com/2018/12/24/base/httpandsocket/http与socket/osi_七层模型.jpg">
   
@@ -150,13 +150,13 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Http与Socket
+      Http与Socket关系
     </h1>
   
 
         
         <a href="/2018/12/24/base/httpandsocket/http与socket/" class="archive-article-date">
-  	<time datetime="2018-12-24T02:11:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-24</time>
+  	<time datetime="2018-12-24T15:11:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-24</time>
 </a>
         
       </header>
@@ -183,6 +183,45 @@
 <li>3.数据的传输和接收，是通过Socket,但是得到数据，是按照其包装和解包装的协议来的，Socket只是单纯的传输数据(bit)，并不关心数据是什么，有什么意义。</li>
 <li>4.Socket传输时，发送字符串，接收时也能直接接收到字符串，是因为包装/解包装层级一样，得到了发送时的数据。</li>
 </ul>
+<h4 id="6-各协议所对应层次-2019-09-23"><a href="#6-各协议所对应层次-2019-09-23" class="headerlink" title="6.各协议所对应层次 2019/09/23"></a>6.各协议所对应层次 2019/09/23</h4><table>
+<thead>
+<tr>
+<th>层级</th>
+<th>协议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>应用层</td>
+<td>DHCP · DNS · FTP · Gopher · HTTP · IMAP4 · IRC · NNTP · XMPP · POP3 · SIP · SMTP ·SNMP · SSH · TELNET · RPC · RTCP · RTP ·RTSP · SDP · SOAP · GTP · STUN · NTP · SSDP</td>
+</tr>
+<tr>
+<td>表示层</td>
+<td>HTTP/HTML · FTP · Telnet · ASN.1（具有表示层功能）</td>
+</tr>
+<tr>
+<td>会话层</td>
+<td>ADSP·ASP·H.245·ISO-SP·iSNS·NetBIOS·PAP·RPC·RTCP·SMPP·SCP·SSH·ZIP·SDP（具有会话层功能）</td>
+</tr>
+<tr>
+<td>传输层</td>
+<td>TCP · UDP · TLS · DCCP · SCTP ·RSVP · PPTP</td>
+</tr>
+<tr>
+<td>网络层</td>
+<td>IP (IPv4 · IPv6) · ICMP · ICMPv6 · IGMP ·IS-IS · IPsec · BGP · RIP · OSPF ·ARP · RARP</td>
+</tr>
+<tr>
+<td>数据链路层</td>
+<td>Wi-Fi(IEEE 802.11) · WiMAX(IEEE 802.16) ·ATM · DTM · 令牌环 · 以太网路 ·FDDI · 帧中继 · GPRS · EVDO · HSPA · HDLC · PPP · L2TP · ISDN ·STP</td>
+</tr>
+<tr>
+<td>物理层</td>
+<td>以太网路卡 · 调制解调器 · 电力线通信(PLC) · SONET/SDH（光同步数字传输网） ·G.709（光传输网络） · 光导纤维 · 同轴电缆 · 双绞线</td>
+</tr>
+</tbody>
+</table>
+<p>注意: 应用层，表示层，会话层可以不用那个严格区分，都可以当作应用层协议来看待</p>
 
       
 
@@ -325,7 +364,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-问题"><span class="toc-number">1.</span> <span class="toc-text">1.问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-OSI七层模型"><span class="toc-number">2.</span> <span class="toc-text">2.OSI七层模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Http与Socket所在层"><span class="toc-number">3.</span> <span class="toc-text">3.Http与Socket所在层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-数据的处理流程"><span class="toc-number">4.</span> <span class="toc-text">4.数据的处理流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-总结"><span class="toc-number">5.</span> <span class="toc-text">5.总结</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-问题"><span class="toc-number">1.</span> <span class="toc-text">1.问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-OSI七层模型"><span class="toc-number">2.</span> <span class="toc-text">2.OSI七层模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Http与Socket所在层"><span class="toc-number">3.</span> <span class="toc-text">3.Http与Socket所在层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-数据的处理流程"><span class="toc-number">4.</span> <span class="toc-text">4.数据的处理流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-总结"><span class="toc-number">5.</span> <span class="toc-text">5.总结</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-各协议所对应层次-2019-09-23"><span class="toc-number">6.</span> <span class="toc-text">6.各协议所对应层次 2019/09/23</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -441,11 +480,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">tools</a>
+                <a href="javascript:void(0)" class="js-tag color2">others</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">others</a>
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">base</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -457,15 +500,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Index2</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -473,7 +508,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">security</a>
+                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -481,11 +516,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">database</a>
+                <a href="javascript:void(0)" class="js-tag color4">security</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">tools</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -493,11 +536,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">protocol</a>
+                <a href="javascript:void(0)" class="js-tag color4">database</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">base</a>
+                <a href="javascript:void(0)" class="js-tag color4">protocol</a>
               </li>
              
               <li class="article-tag-list-item">

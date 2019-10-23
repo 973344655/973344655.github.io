@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="xiong&#39;s blogs">
 <meta property="og:description" content="java8 方便了函数式编程 一.lambda表达式1.意义lambda函数比较轻便，即用即仍，很适合需要完成一项功能，但是此功能只在此一处使用，连名字都很随意的情况下  lambda表达式可以方便的和以下一些特性结合使用。  2.形式1234567891011121314// 1. 不需要参数,返回值为 5  () -&amp;gt; 5  // 2. 接收一个参数(数字类型),返回其2倍的值  x -">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-14T06:18:02.112Z">
+<meta property="og:updated_time" content="2019-10-13T12:15:12.172Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java8新特性">
 <meta name="twitter:description" content="java8 方便了函数式编程 一.lambda表达式1.意义lambda函数比较轻便，即用即仍，很适合需要完成一项功能，但是此功能只在此一处使用，连名字都很随意的情况下  lambda表达式可以方便的和以下一些特性结合使用。  2.形式1234567891011121314// 1. 不需要参数,返回值为 5  () -&amp;gt; 5  // 2. 接收一个参数(数字类型),返回其2倍的值  x -">
@@ -154,7 +154,7 @@
 
         
         <a href="/2019/08/12/java/java8新特性/" class="archive-article-date">
-  	<time datetime="2019-08-12T11:07:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-12</time>
+  	<time datetime="2019-08-12T23:07:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-12</time>
 </a>
         
       </header>
@@ -203,6 +203,7 @@
 <p>mapToInt 将元素转成int类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = Arrays.asList(&quot;1&quot;,&quot;2&quot;,&quot;2&quot;,&quot;3&quot;);</span><br><span class="line">list.stream().mapToInt(data -&gt; Integer.parseInt(data)).forEach(System.out::println);</span><br></pre></td></tr></table></figure></p>
 <p>flatMap 是将Stream中的每个元素都转换成Stream类型，然后将每个Stream的元素提出取来，聚合成一个最外围的Stream<br></p>
 <p>例子：将两个Stream组合成一个<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = Arrays.asList(&quot;1&quot;,&quot;2&quot;,&quot;2&quot;,&quot;3&quot;);</span><br><span class="line">List&lt;String&gt; list2 = Arrays.asList(&quot;4&quot;,&quot;5&quot;,&quot;6&quot;);</span><br><span class="line">Stream.of(list, list2).flatMap(List::stream).forEach(System.out::println);</span><br><span class="line">//result: 1 2 2 3 4 5 6</span><br></pre></td></tr></table></figure></p>
+<p>两个list去重合并：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">List&lt;String&gt; list1 = Arrays.asList(&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;);</span><br><span class="line">List&lt;String&gt; list2 = Arrays.asList(&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;6&quot;);</span><br><span class="line"></span><br><span class="line">List list = Stream.of(list1, list2).flatMap(List::stream).distinct().collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">list.stream().forEach( System.out::println);</span><br></pre></td></tr></table></figure></p>
 <ul>
 <li>reduce</li>
 </ul>
@@ -483,11 +484,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">tools</a>
+                <a href="javascript:void(0)" class="js-tag color2">others</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">others</a>
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">base</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -499,15 +504,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Index2</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -515,7 +512,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">security</a>
+                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -523,11 +520,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">database</a>
+                <a href="javascript:void(0)" class="js-tag color4">security</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">tools</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -535,11 +540,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">protocol</a>
+                <a href="javascript:void(0)" class="js-tag color4">database</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">base</a>
+                <a href="javascript:void(0)" class="js-tag color4">protocol</a>
               </li>
              
               <li class="article-tag-list-item">

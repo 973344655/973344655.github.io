@@ -138,6 +138,514 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-tools/apt和dpkg了解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/10/23/tools/apt和dpkg了解/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-base/浏览器同源策略" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/14/base/浏览器同源策略/">浏览器同源策略</a>
+    </h1>
+  
+
+        
+        <a href="/2019/10/14/base/浏览器同源策略/" class="archive-article-date">
+  	<time datetime="2019-10-15T01:16:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一-什么是同源策略"><a href="#一-什么是同源策略" class="headerlink" title="一.什么是同源策略"></a>一.什么是同源策略</h1><p>首先，同源策略是浏览器端的，不存在于安卓，ios,node或java等其他环境.</p>
+<h2 id="1-什么是同源"><a href="#1-什么是同源" class="headerlink" title="1.什么是同源"></a>1.什么是同源</h2><p><img src="http://67.216.218.49:8000/file/blogs/base/origin_01.png" alt="origin"></p>
+<p>即,协议,ip，port 共同构成源.</p>
+<h2 id="2-同源协议内容"><a href="#2-同源协议内容" class="headerlink" title="2.同源协议内容"></a>2.同源协议内容</h2><ul>
+<li><p>(1).不能读取非同源的Cookie,LocalStorage,IndexDB</p>
+</li>
+<li><p>(2).不能获取非同源的DOM,Window</p>
+</li>
+<li><p>(3).跨域AJAX请求返回不能接收，被浏览器拦截</p>
+</li>
+</ul>
+<h2 id="3-一些可以跨域"><a href="#3-一些可以跨域" class="headerlink" title="3.一些可以跨域"></a>3.一些可以跨域</h2><ul>
+<li>Form表单</li>
+</ul>
+<p>form表单提交，一般会进行页面跳转</p>
+<ul>
+<li>\<image>,\<a>,\<script>,\<iframe>等拥有的src，href属性可以跨域</li>
+</ul>
+<p>在127.0.0.1的地址的页面中，可以用iframe加载baidu.com的页面，但是不能读取baidu.com中的内容(window对象和document对象),但是如果加载自己域名下其他页面(同源)，是可以读取的</p>
+<h1 id="二-为什么"><a href="#二-为什么" class="headerlink" title="二.为什么"></a>二.为什么</h1><h2 id="1-为什么需要同源策略"><a href="#1-为什么需要同源策略" class="headerlink" title="1.为什么需要同源策略"></a>1.为什么需要同源策略</h2><p>反证：如果没有同源策略会怎样?</p>
+<p>如果没有同源策略，一个页面可以任意读取其它页面的信息(页面内容，cookie等)，不用说都知道这样肯定不行。会导致CSRF等.</p>
+<h1 id="三-怎么解决"><a href="#三-怎么解决" class="headerlink" title="三.怎么解决"></a>三.怎么解决</h1><h2 id="1-JSONP"><a href="#1-JSONP" class="headerlink" title="1.JSONP"></a>1.JSONP</h2><p>jsonp实现跨域是因为\<script>,所以，它也只能发get请求，毕竟从没见过post方式的\<script></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function addScriptTag(src) &#123;  </span><br><span class="line">  var script = document.createElement(&apos;script&apos;);  </span><br><span class="line">  script.setAttribute(&quot;type&quot;,&quot;text/javascript&quot;);  </span><br><span class="line">  script.src = src;  </span><br><span class="line">  document.body.appendChild(script);  </span><br><span class="line">&#125;</span><br><span class="line">window.onload = function () &#123;  </span><br><span class="line">  addScriptTag(&apos;http://example.com/ip?callback=foo&apos;);  </span><br><span class="line">&#125;</span><br><span class="line">function foo(data) &#123;  </span><br><span class="line">  console.log(&apos;Your public IP address is: &apos; + data.ip);  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="2-WebSocket"><a href="#2-WebSocket" class="headerlink" title="2.WebSocket"></a>2.WebSocket</h2><p>首先WebSocket是一个协议.WebSocket 可以由服务端主动向客户端推送消息，是双全工方式。<br><br>而http，只能由客户端发起，是单向请求。<br></p>
+<p>具体可看:<a href="https://www.ruanyifeng.com/blog/2017/05/websocket.html">https://www.ruanyifeng.com/blog/2017/05/websocket.html</a></p>
+<h2 id="3-CORS"><a href="#3-CORS" class="headerlink" title="3.CORS"></a>3.CORS</h2><p>(原文) <a href="http://www.ruanyifeng.com/blog/2016/04/cors.html">http://www.ruanyifeng.com/blog/2016/04/cors.html</a></p>
+<p>Cross-origin resource sharing(跨域资源共享),是一个W3C标准，需要浏览器和服务器同时支持,目前浏览器都已支持，服务器端需进行配置.<br></p>
+<p>CORS请求分为简单请求和非简单请求。<br></p>
+<h3 id="3-1-简单请求"><a href="#3-1-简单请求" class="headerlink" title="3.1 简单请求"></a>3.1 简单请求</h3><h4 id="3-1-1-特征"><a href="#3-1-1-特征" class="headerlink" title="3.1.1 特征"></a>3.1.1 特征</h4><ul>
+<li><p>请求方式</p>
+<p>请求方式为 HEAD,GET,POST</p>
+</li>
+<li><p>header信息</p>
+<p>header信息不超出以下范围：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Accept</span><br><span class="line">Accept-Language</span><br><span class="line">Content-Language</span><br><span class="line">Last-Event-ID</span><br><span class="line">Content-Type：</span><br><span class="line">        application/x-www-form-urlencoded、 multipart/form-data、text/plain</span><br></pre></td></tr></table></figure>
+<p>一般主要是看Content-Type, 比如Content-Type: application/json 为复杂请求</p>
+</li>
+</ul>
+<h4 id="3-1-2-请求流程"><a href="#3-1-2-请求流程" class="headerlink" title="3.1.2 请求流程"></a>3.1.2 请求流程</h4><p> 对于简单请求，浏览器直接发出CORS请求。具体来说，就是在头信息之中，增加一个Origin字段。<br> 如：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /cors HTTP/1.1</span><br><span class="line">Origin: http://api.bob.com</span><br><span class="line">Host: api.alice.com</span><br><span class="line">Accept-Language: en-US</span><br><span class="line">Connection: keep-alive</span><br><span class="line">User-Agent: Mozilla/5.0...</span><br></pre></td></tr></table></figure></p>
+<p> 如果 Origin 不在许可的范围内，浏览器会返回一个正常的HTTP响应，但是响应头中不包含Access-Control-Allow-Origin信息，此时浏览器就知道出错了。</p>
+<p> 如果 Origin 在许可的范围内，服务器返回会多出几个头信息。<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: http://api.bob.com</span><br><span class="line">Access-Control-Allow-Credentials: true</span><br><span class="line">Access-Control-Expose-Headers: FooBar</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-2-非简单请求"><a href="#3-2-非简单请求" class="headerlink" title="3.2 非简单请求"></a>3.2 非简单请求</h3><p>超出简单请求范围的请求。<br></p>
+<p>如请求方式为PUT,DELETE, header包含Cookie， Content-Type为 application/json 等。</p>
+<p>非简单请求浏览器会先发送一个 OPTION 类型的预检请求，向服务器确认是否可以跨域。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">OPTIONS /cors HTTP/1.1</span><br><span class="line">Origin: http://api.bob.com</span><br><span class="line">Access-Control-Request-Method: PUT</span><br><span class="line">Access-Control-Request-Headers: X-Custom-Header</span><br><span class="line">Host: api.alice.com</span><br><span class="line">Accept-Language: en-US</span><br><span class="line">Connection: keep-alive</span><br><span class="line">User-Agent: Mozilla/5.0...</span><br></pre></td></tr></table></figure>
+<p>服务器收到预检请求后，检查Cors的相关信息，如果确认允许，则返回允许的信息，浏览器再发送真正请求，带上Origin字段。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Date: Mon, 01 Dec 2008 01:15:39 GMT</span><br><span class="line">Server: Apache/2.0.61 (Unix)</span><br><span class="line">Access-Control-Allow-Origin: http://api.bob.com</span><br><span class="line">Access-Control-Allow-Methods: GET, POST, PUT</span><br><span class="line">Access-Control-Allow-Headers: X-Custom-Header</span><br><span class="line">Content-Type: text/html; charset=utf-8</span><br><span class="line">Content-Encoding: gzip</span><br><span class="line">Content-Length: 0</span><br><span class="line">Keep-Alive: timeout=2, max=100</span><br><span class="line">Connection: Keep-Alive</span><br><span class="line">Content-Type: text/plain</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PUT /cors HTTP/1.1</span><br><span class="line">Origin: http://api.bob.com</span><br><span class="line">Host: api.alice.com</span><br><span class="line">X-Custom-Header: value</span><br><span class="line">Accept-Language: en-US</span><br><span class="line">Connection: keep-alive</span><br><span class="line">User-Agent: Mozilla/5.0...</span><br></pre></td></tr></table></figure>
+<p>如果预检信息不通过，则服务器返回的不带Cors相关信息。<br>浏览器根据Cors相关信息来确定是否允许跨域。</p>
+</script></a></image></li></ul>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/10/14/base/浏览器同源策略/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-security/vulnerability/winrar目录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>winrar目录穿越</p>
+<p>winrar下载<br>官网最新版本：5.71 beta 1<br><a href="https://www.rarlab.com/rar/winrar-x64-571b1.exe" target="_blank" rel="noopener">https://www.rarlab.com/rar/winrar-x64-571b1.exe</a><br>根据此规则,下载以前版本:5.50<br><a href="https://www.rarlab.com/rar/winrar-x64-550.exe" target="_blank" rel="noopener">https://www.rarlab.com/rar/winrar-x64-550.exe</a></p>
+<p>漏洞原理<br><a href="https://paper.tuisec.win/detail/896098d4d19debb" target="_blank" rel="noopener">https://paper.tuisec.win/detail/896098d4d19debb</a><br>winrar中的UNACE2.dll动态链接库处理文件路径时，通过特殊构造的路径，可以触发目录穿越漏洞。<br>利用此漏洞将恶意文件放到windows启动目录下，实现开机自启。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/10/13/security/vulnerability/winrar目录/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-base/发布订阅模式与观察者模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/09/base/发布订阅模式与观察者模式/">pub/sub模式和观察者模式</a>
+    </h1>
+  
+
+        
+        <a href="/2019/10/09/base/发布订阅模式与观察者模式/" class="archive-article-date">
+  	<time datetime="2019-10-09T20:43:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>知乎高赞回答:<a href="https://www.zhihu.com/question/23486749" target="_blank" rel="noopener">https://www.zhihu.com/question/23486749</a></p>
+<h1 id="什么是观察者模式"><a href="#什么是观察者模式" class="headerlink" title="什么是观察者模式"></a>什么是观察者模式</h1><p>观察者订阅一个对象，当对象状态发生改变，直接告诉观察者。</p>
+<p><img src="http://67.216.218.49:8000/file/blogs/base/design-patterns/obverse_01.png" alt="obeverse"></p>
+<h1 id="什么是发布订阅模式"><a href="#什么是发布订阅模式" class="headerlink" title="什么是发布订阅模式"></a>什么是发布订阅模式</h1><p>观察者订阅一个对象，但是不是直接订阅对象，而是订阅事件池中的该对象信息，对象发生改变时，将变更信息放到事件池， 观察者从事件池中获取变更。</p>
+<p><img src="http://67.216.218.49:8000/file/blogs/base/design-patterns/pub_sub_01.png" alt="pub_sub"></p>
+<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><p>为什么要多加个中间层？中间层充当什么角色，事件管理?调度中心？有什么好处？<br></p>
+<p>个人理解,不一定准确:<br></p>
+<p>观察者得一直盯着对象，观察它是否发生变化。 发布订阅可以一直盯着，也可以先干自己的事情，隔一段时间想起来了，再去事件池中看有无消息，应用场景更广。如，消息队列，观察者(既消费者)离线后，事件信息不会丢失,上线后还能继续处理.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/10/09/base/发布订阅模式与观察者模式/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/kafka初探" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/09/java/kafka初探/">kafka初了解</a>
+    </h1>
+  
+
+        
+        <a href="/2019/10/09/java/kafka初探/" class="archive-article-date">
+  	<time datetime="2019-10-09T17:23:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>win下Kafka测试环境搭建：<a href="https://blog.csdn.net/u012050154/article/details/76270655" target="_blank" rel="noopener">https://blog.csdn.net/u012050154/article/details/76270655</a></p>
+<h1 id="一-Kafka是什么"><a href="#一-Kafka是什么" class="headerlink" title="一.Kafka是什么"></a>一.Kafka是什么</h1><h2 id="1-是什么"><a href="#1-是什么" class="headerlink" title="1.是什么"></a>1.是什么</h2><p>我的理解是，kafka是一个分布式的消息队列，提供发布订阅功能.</p>
+<h2 id="2-专有名词"><a href="#2-专有名词" class="headerlink" title="2.专有名词"></a>2.专有名词</h2><p>Broker/Topic/Partition/Producer/Consumer/Consumer Group<br></p>
+<ul>
+<li><p>Broker</p>
+<p>Kafka集群包含一个或多个服务器，这种服务器被称为broker.</p>
+</li>
+<li><p>topic</p>
+<p>每条发布到Kafka集群的消息都有一个类别，这个类别被称为Topic（物理上不同Topic的消息分开存储[表现于日志落地]，逻辑上一个Topic的消息虽然保存于一个或多个broker上但用户只需指定消息的Topic即可生产或消费数据而不必关心数据存于何处）</p>
+</li>
+<li><p>partition</p>
+<p>Parition是物理上的概念，每个Topic包含一个或多个Partition.</p>
+</li>
+<li><p>Producer</p>
+<p>消息生产者</p>
+</li>
+<li><p>Consumer</p>
+<p>消息消费者</p>
+</li>
+<li><p>Consumer Group</p>
+<p>消费者所属组，组内的所有消费者协调在一起来消费订阅主题(subscribed topics)的所有分区(partition)。当然，每个分区只能由同一个消费组内的一个consumer来消费.<br><br>重要的再说一遍: Consumer Group下订阅的topic下的某一个分区只能分配给某个group下的一个consumer(当然该分区还可以被分配给其他group).</p>
+</li>
+</ul>
+<h1 id="二-Kafka作用与意义"><a href="#二-Kafka作用与意义" class="headerlink" title="二.Kafka作用与意义"></a>二.Kafka作用与意义</h1><p>为什么要用它,与其它产品相比怎么样？</p>
+<h2 id="1-为什么用它"><a href="#1-为什么用它" class="headerlink" title="1.为什么用它"></a>1.为什么用它</h2><h3 id="高吞吐率，高性能"><a href="#高吞吐率，高性能" class="headerlink" title="高吞吐率，高性能"></a>高吞吐率，高性能</h3><p><br>怎么实现？<br></p>
+<ul>
+<li><p>写入</p>
+<p>基于操作系统的页缓存来写入文件，相当于kafka将文件写入内存，然后由操作系统来决定什么时候将内存中的信息写入磁盘。</p>
+<p>以磁盘顺序来写入数据，不会在文件随机位置修改数据。</p>
+</li>
+<li><p>读取</p>
+<p>零拷贝技术，省略了两次拷贝(OS Cache将数据拷贝到应用程序缓存和 应用程序缓存拷贝数据到socket缓存)，直接将数据发送到网卡.</p>
+<p><img src="http://67.216.218.49:8000/file/blogs/java/bigdata/kafka_data_transmission_01.png" alt="kafka_data_transmission"></p>
+<p>原图出处: <a href="https://juejin.im/post/5cc00ac95188250a59405322" target="_blank" rel="noopener">https://juejin.im/post/5cc00ac95188250a59405322</a></p>
+</li>
+</ul>
+<h3 id="分布式"><a href="#分布式" class="headerlink" title="分布式"></a>分布式</h3><p>数据分布式存储(特点就是可以存极大数据)，消费者可以根据分区来进行读取。</p>
+<h3 id="消息队列的通用优点"><a href="#消息队列的通用优点" class="headerlink" title="消息队列的通用优点"></a>消息队列的通用优点</h3><p>灵活，销峰，缓冲等。</p>
+<h2 id="2-和redis区别"><a href="#2-和redis区别" class="headerlink" title="2.和redis区别"></a>2.和redis区别</h2><h3 id="kafka发布订阅模式，和redis有啥不同？"><a href="#kafka发布订阅模式，和redis有啥不同？" class="headerlink" title="kafka发布订阅模式，和redis有啥不同？"></a>kafka发布订阅模式，和redis有啥不同？</h3><h1 id="三-怎么用"><a href="#三-怎么用" class="headerlink" title="三.怎么用"></a>三.怎么用</h1><h2 id="1-springboot中kafka集成"><a href="#1-springboot中kafka集成" class="headerlink" title="1.springboot中kafka集成"></a>1.springboot中kafka集成</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;org.springframework.kafka&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;spring-kafka&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;2.2.9.RELEASE&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>配置文件application.properties<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">server.port=8888</span><br><span class="line"></span><br><span class="line">#kafka，更多配置查看kafka的属性类：org.springframework.boot.autoconfigure.kafka.KafkaProperties</span><br><span class="line">#指定kafka 代理地址，可以多个</span><br><span class="line">#spring.kafka.bootstrap-servers=192.168.1.159:9092,192.168.1.159:9093,192.168.1.159:9094</span><br><span class="line">spring.kafka.bootstrap-servers=localhost:9092</span><br><span class="line">#指定默认topic id</span><br><span class="line">spring.kafka.template.default-topic=testDemo</span><br><span class="line">#指定listener 容器中的线程数，用于提高并发量</span><br><span class="line">spring.kafka.listener.concurrency=3</span><br><span class="line">#每次批量发送消息的数量</span><br><span class="line">spring.kafka.producer.batch-size=1000</span><br><span class="line">#将Java对象转换成字节数组发送给broker</span><br><span class="line">spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer</span><br><span class="line">spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer</span><br><span class="line"></span><br><span class="line">#指定默认消费者group id</span><br><span class="line">spring.kafka.consumer.group-id=myGroup1</span><br><span class="line">#若设置为earliest，那么会从头开始读partition，latest读取最新的</span><br><span class="line">spring.kafka.consumer.auto-offset-reset=latest</span><br><span class="line">#将字节数组读取</span><br><span class="line">spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer</span><br><span class="line">spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer</span><br></pre></td></tr></table></figure></p>
+<h2 id="2-生产一条消息"><a href="#2-生产一条消息" class="headerlink" title="2.生产一条消息"></a>2.生产一条消息</h2><p>KafkaTemplate 是Spring提供的用来发消息的实现类，可以在application.properties中进行配置属性，也可以用kafka自己的KafkaProducer来send()消息.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.kafka.clients.producer.KafkaProducer;</span><br><span class="line">import org.apache.kafka.clients.producer.ProducerRecord;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.kafka.core.KafkaTemplate;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">import java.util.Properties;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * kafka生产者send()消息demo</span><br><span class="line"> *</span><br><span class="line"> * 两种，一种是Spring提供的可以用spring配置的KafkaTemplate</span><br><span class="line"> * 一种是Kafka自带的，需要自己注入配置信息的KafkaProducer</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">@Component</span><br><span class="line">public class ProducerDemo &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private KafkaTemplate kafkaTemplate;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public void send1()&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            kafkaTemplate.send(&quot;testDemo&quot;,&quot;data1&quot;);</span><br><span class="line">            System.out.println(&quot;[*]: send success 1 !&quot;);</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void send2()&#123;</span><br><span class="line">        Properties kafkaProps = new Properties();</span><br><span class="line">        kafkaProps.put(&quot;bootstrap.servers&quot;,&quot;localhost:9092&quot;);</span><br><span class="line">        kafkaProps.put(&quot;key.serializer&quot;,&quot;org.apache.kafka.common.serialization.StringSerializer&quot;);</span><br><span class="line">        kafkaProps.put(&quot;value.serializer&quot;,&quot;org.apache.kafka.common.serialization.StringSerializer&quot;);</span><br><span class="line"></span><br><span class="line">        KafkaProducer producer = new KafkaProducer&lt;String, String&gt;(kafkaProps);</span><br><span class="line"></span><br><span class="line">        ProducerRecord record = new ProducerRecord(&quot;testDemo&quot;,&quot;data2&quot;);</span><br><span class="line"></span><br><span class="line">        try&#123;</span><br><span class="line">            producer.send(record);</span><br><span class="line">            System.out.println(&quot;[*]: send success 2 !&quot;);</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-订阅消费消息"><a href="#3-订阅消费消息" class="headerlink" title="3.订阅消费消息"></a>3.订阅消费消息</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.kafka.clients.consumer.ConsumerRecord;</span><br><span class="line">import org.apache.kafka.clients.consumer.ConsumerRecords;</span><br><span class="line">import org.apache.kafka.clients.consumer.KafkaConsumer;</span><br><span class="line">import org.springframework.kafka.annotation.KafkaListener;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Properties;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * kafka消费消息demo</span><br><span class="line"> *</span><br><span class="line"> * 1.@KafkaListener 注解为Spring提供用来监听数据的，</span><br><span class="line"> * 由KafkaListenerAnnotationBeanPostProcessor类在postProcessAfterInitialization()时读取所有@Kafkalistener注解</span><br><span class="line"> *</span><br><span class="line"> * 2.KafkaConsumer为kafka自带的类，需要自己初始化配置文件</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class ConsumerDemo &#123;</span><br><span class="line"></span><br><span class="line">    @KafkaListener(id = &quot;testConsumer1&quot;, topics = &quot;testDemo&quot;, groupId = &quot;myGroup1&quot;)</span><br><span class="line">    public void receive1(String data)&#123;</span><br><span class="line">        System.out.println(&quot;[*]: receive success 1 !&quot;);</span><br><span class="line">        System.out.println(data);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void receive2()&#123;</span><br><span class="line">        Properties kafkaProps = new Properties();</span><br><span class="line">        kafkaProps.put(&quot;bootstrap.servers&quot;,&quot;localhost:9092&quot;);</span><br><span class="line">        kafkaProps.put(&quot;group.id&quot;,&quot;myGroup1&quot;);</span><br><span class="line">        kafkaProps.put(&quot;key.deserializer&quot;,&quot;org.apache.kafka.common.serialization.StringDeserializer&quot;);</span><br><span class="line">        kafkaProps.put(&quot;value.deserializer&quot;,&quot;org.apache.kafka.common.serialization.StringDeserializer&quot;);</span><br><span class="line"></span><br><span class="line">        KafkaConsumer kafkaConsumer = new KafkaConsumer(kafkaProps);</span><br><span class="line"></span><br><span class="line">        //List topics = List.of(&quot;testDemo&quot;);</span><br><span class="line">        List&lt;String&gt; topics = new ArrayList&lt;&gt;();</span><br><span class="line">        topics.add(&quot;testDemo&quot;);</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">            kafkaConsumer.subscribe(topics);</span><br><span class="line">            System.out.println(&quot;[*]: receive success 2 !&quot;);</span><br><span class="line">            while(true)&#123;</span><br><span class="line">                ConsumerRecords consumerRecords = kafkaConsumer.poll(1000);</span><br><span class="line">                if(!consumerRecords.isEmpty())&#123;</span><br><span class="line">                   for(Object consumerRecord: consumerRecords.records(&quot;testDemo&quot;))&#123;</span><br><span class="line">                       ConsumerRecord temp = (ConsumerRecord)consumerRecord;</span><br><span class="line">                       System.out.println(&quot;[*]: new data: &quot; + temp.value());</span><br><span class="line">                   &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="四-其它"><a href="#四-其它" class="headerlink" title="四.其它"></a>四.其它</h1>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/10/09/java/kafka初探/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-一次重启失败问题的解决" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/24/一次重启失败问题的解决/">一次linux启动失败问题的解决</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/24/一次重启失败问题的解决/" class="archive-article-date">
+  	<time datetime="2019-09-24T19:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h2><p>下载了一个截屏软件，然后提示设置了一些东西，需要重启.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install flameshot</span><br></pre></td></tr></table></figure></p>
+<p>经试验，只这次出现了，在虚拟机中未需要设置并重启.具体原因未知.<br></p>
+<p>然后，重启，发现启动报错，进不了桌面.<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">failed to start network manager</span><br><span class="line">failed to start postgresql cluster 10-main</span><br></pre></td></tr></table></figure>
+<h2 id="2-解决"><a href="#2-解决" class="headerlink" title="2.解决"></a>2.解决</h2><p>重启，进入恢复模式,找到postgres路径,并尝试手动启动，看有什么问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find / -name postgres</span><br><span class="line">./postgres</span><br></pre></td></tr></table></figure></p>
+<p>报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">relocation error /usr/lib/x86_64-linux-gnu/libgnutls.so.30:</span><br><span class="line">symbol _idn2_punycode_decode version IDN2_0.0.0 not defined in file libidn2.so.0 with link time reference</span><br></pre></td></tr></table></figure></p>
+<p>在网上找到该文件并尝试下载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://ftp.us.debian.org/debian/pool/main/libi/libidn2/libidn2-0_2.0.5-1_amd64.deb</span><br></pre></td></tr></table></figure>
+<p>报和上面同样的错误<br><br>此时猜测 failed to start network manager 已与此问题有关.<br></p>
+<p>重启,进入windows（双系统),下载该文件，复制到u盘<br></p>
+<p>重启，进入恢复模式<br></p>
+<p>查看u盘信息,并将文件得到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l</span><br><span class="line"></span><br><span class="line">//挂载</span><br><span class="line">mount -t vfat /dev/sdb1 /media (如果fat32格式)</span><br><span class="line">//mount -t nfs /dev/sdb1 /media (如果ntfs格式)</span><br><span class="line"></span><br><span class="line">//然后拿出文件  </span><br><span class="line">mv /media/libidn2-0_2.0.5-1_amd64.deb  /root</span><br></pre></td></tr></table></figure></p>
+<p>安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -i libidn2-0_2.0.5-1_amd64.deb</span><br></pre></td></tr></table></figure></p>
+<p>重启，成功进入桌面，问题解决.<br></p>
+<p>总结，此问题应该不是是装flameshot导致的，而是其它某个apt update之类操作引发</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">others</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/24/一次重启失败问题的解决/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-风控项目交接二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -151,7 +659,7 @@
 
         
         <a href="/2019/09/18/风控项目交接二/" class="archive-article-date">
-  	<time datetime="2019-09-18T08:18:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-18</time>
+  	<time datetime="2019-09-18T20:18:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-18</time>
 </a>
         
       </header>
@@ -243,8 +751,7 @@
 <p>直接修复，直接自己上传文件<br></p>
 <p>核验修复，需先核验，再上传核验过后需要修复的文件.此文件应该我们提供，给个接口，将文件处理成他们想要的格式，提供下载。(是否需要文档)</p>
 <h3 id="3-对接电信页面"><a href="#3-对接电信页面" class="headerlink" title="3.对接电信页面"></a>3.对接电信页面</h3><p>信息不足，暂无.</p>
-<h3 id="4-其它"><a href="#4-其它" class="headerlink" title="4.其它"></a>4.其它</h3><p>有问题，需要扯皮的，找项目经理</p>
-
+<h3 id="4-其它"><a href="#4-其它" class="headerlink" title="4.其它"></a>4.其它</h3>
       
 
       
@@ -310,7 +817,7 @@
 
         
         <a href="/2019/09/18/风控项目交接说明一/" class="archive-article-date">
-  	<time datetime="2019-09-18T03:20:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-18</time>
+  	<time datetime="2019-09-18T15:20:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-18</time>
 </a>
         
       </header>
@@ -441,7 +948,7 @@
 
         
         <a href="/2019/09/17/base/httpandsocket/http了解/" class="archive-article-date">
-  	<time datetime="2019-09-17T08:38:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-17</time>
+  	<time datetime="2019-09-17T20:38:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-17</time>
 </a>
         
       </header>
@@ -501,195 +1008,6 @@
 
 
   
-    <article id="post-algorithm/平衡二叉树了解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/20/algorithm/平衡二叉树了解/">平衡二叉树了解一下</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/20/algorithm/平衡二叉树了解/" class="archive-article-date">
-  	<time datetime="2019-08-20T09:02:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一-什么是平衡二叉树"><a href="#一-什么是平衡二叉树" class="headerlink" title="一.什么是平衡二叉树"></a>一.什么是平衡二叉树</h1><p>平衡二叉树也是一种二叉查找树，有以下特点:</p>
-<ul>
-<li>1.可以是空树。</li>
-<li>2.假如不是空树，任何一个结点的左子树与右子树都是平衡二叉树，并且高度之差的绝对值不超过 1 (即高度要平衡)</li>
-</ul>
-<h1 id="二-为什么要有平衡二叉树，即优缺点"><a href="#二-为什么要有平衡二叉树，即优缺点" class="headerlink" title="二.为什么要有平衡二叉树，即优缺点"></a>二.为什么要有平衡二叉树，即优缺点</h1><ul>
-<li>优</li>
-</ul>
-<p>在树这种数据结构中，树的高度影响着查找速度，层数越少，需要查询的次数越少，效率越高。<br>而平衡二叉树，能减少树的高度，防止出现极端O(N)的情况，使效率稳定为O(logN).</p>
-<ul>
-<li>缺</li>
-</ul>
-<p>当数据量越来越大时，为了保证高度平衡，动态插入和删除的代价也随之增加。<br></p>
-<p>在大数据量查找环境下(如数据库记录查找)，在二叉树结构下(2*N -1),N的层会太大，造成硬盘IO读写次数过多。(使用多路查找树).</p>
-<h1 id="三-怎么实现"><a href="#三-怎么实现" class="headerlink" title="三.怎么实现"></a>三.怎么实现</h1><p>AVL树，平衡二叉树的最早实现之一。以下为AVL树的实现.</p>
-<h3 id="1-原理"><a href="#1-原理" class="headerlink" title="1.原理"></a>1.原理</h3><p>因为平衡二叉树比二叉查找树多了一些性质来保证高度平衡.所以在每一次插入数值之后，树的平衡性都可能被破坏，这时可以通过一个简单的操作来矫正平衡––旋转。<br></p>
-<p>旋转的目的就是减少高度，通过降低整棵树的高度来平衡。哪边的树高，就把那边的树向上旋转。</p>
-<p>四种旋转:<br></p>
-<p>旋转是以失衡的节点为基准的<br><br>LL的解释, 第一个L代表根节点左边，第二个L代表插入的为左节点<br></p>
-<ul>
-<li>LL（左子树的左节点上插入节点而破坏平衡）：右旋转</li>
-</ul>
-<p>第一个 L: <strong>左子树</strong> <br><br>第二个 L: 失衡节点的左孩子的 <strong>左节点</strong>.</p>
-<p><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_LL.webp" alt="LL"></p>
-<ul>
-<li>RR（右子树的右节点上插入节点而破坏平衡）：左旋转</li>
-</ul>
-<p>第一个 R: <strong>右子树</strong> <br><br>第二个 R: 失衡节点的右孩子的 <strong>右节点</strong>.<br><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_RR.webp" alt="RR"></p>
-<ul>
-<li>LR（左子树的右节点上插入节点而破坏平衡）：先左旋后右旋</li>
-</ul>
-<p>第一个 L: <strong>左子树</strong> <br><br>第二个 R: 失衡节点的左孩子的 <strong>右节点</strong>.<br><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_LR.webp" alt="LR"></p>
-<ul>
-<li>RL（右子树的左节点上插入节点而破坏平衡）：先右旋后左旋</li>
-</ul>
-<p>第一个 R: <strong>右子树</strong> <br><br>第二个 L: 失衡节点的右孩子的 <strong>左节点</strong>.<br><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_RL.webp" alt="RL"></p>
-<h3 id="2-实现代码"><a href="#2-实现代码" class="headerlink" title="2.实现代码"></a>2.实现代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line"></span><br><span class="line">    private static class Node&lt;E&gt;&#123;</span><br><span class="line">        E elment;</span><br><span class="line">        Node&lt;E&gt; left;</span><br><span class="line">        Node&lt;E&gt; right;</span><br><span class="line">        int height;</span><br><span class="line"></span><br><span class="line">        Node(E elment)&#123;</span><br><span class="line">            this(elment, null, null);</span><br><span class="line">        &#125;</span><br><span class="line">        Node(E elment, Node left, Node right)&#123;</span><br><span class="line">            this.elment = elment;</span><br><span class="line">            this.left = left;</span><br><span class="line">            this.right = right;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static class AVLTree&lt;E extends Comparable&lt;? super E&gt;&gt;&#123;</span><br><span class="line">        Node root;</span><br><span class="line"></span><br><span class="line">        public AVLTree()&#123;</span><br><span class="line">            this.root = null;</span><br><span class="line">        &#125;</span><br><span class="line">        public void insert(E elment)&#123;</span><br><span class="line">            this.root = insert(this.root, elment);</span><br><span class="line">        &#125;</span><br><span class="line">        //递归找到要插入的位置插入，同时在return中平衡高度</span><br><span class="line">        public Node insert(Node&lt;E&gt; root, E elemet)&#123;</span><br><span class="line">            if( root == null )&#123;</span><br><span class="line">                return new Node(elemet);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if(elemet.compareTo(root.elment) &lt; 0 )&#123;</span><br><span class="line">                //左边插入</span><br><span class="line">                root.left = insert(root.left, elemet);</span><br><span class="line">                //在return后平衡高度,因为是在左边插入，所以如果高度不平衡，只会是左边高于右边</span><br><span class="line">                if(height(root.left) - height(root.right) == 2)&#123;</span><br><span class="line">                    //判断是插在子节点的左边还是右边</span><br><span class="line">                    if(elemet.compareTo(root.left.elment) &lt; 0)&#123;</span><br><span class="line">                        //LL</span><br><span class="line">                        root = nodeLL(root);</span><br><span class="line">                    &#125;else &#123;</span><br><span class="line">                        //LR</span><br><span class="line">                        root = nodeLR(root);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;else if(elemet.compareTo(root.elment) &gt; 0)&#123;</span><br><span class="line">                //右边插入</span><br><span class="line">                root.right = insert(root.right, elemet);</span><br><span class="line">                //在return后平衡高度,因为是在右边插入，所以如果高度不平衡，只会是右边高于左边</span><br><span class="line">                if(height(root.right) - height(root.left) == 2)&#123;</span><br><span class="line">                    //判断是插在子节点的左边还是右边</span><br><span class="line">                    if(elemet.compareTo(root.right.elment) &lt; 0)&#123;</span><br><span class="line">                        //RL</span><br><span class="line">                        root = nodeRL(root);</span><br><span class="line">                    &#125;else &#123;</span><br><span class="line">                        //RR</span><br><span class="line">                        root = nodeRR(root);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            //更新节点高度</span><br><span class="line">            root.height = Math.max(height(root.left),height(root.right)) + 1;</span><br><span class="line">            return root;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //右旋</span><br><span class="line">        private Node nodeLL(Node node)&#123;</span><br><span class="line">            //旋转</span><br><span class="line">            Node newNode = node.left;</span><br><span class="line">            newNode.right = new Node(node.elment);</span><br><span class="line">            //调整高度值</span><br><span class="line">            newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line">        //左旋</span><br><span class="line">        private Node nodeRR(Node node)&#123;</span><br><span class="line">            Node newNode = node.right;</span><br><span class="line">            newNode.left = new Node(node.elment);</span><br><span class="line">            newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line">        //左旋再右旋</span><br><span class="line">        private Node nodeLR(Node node)&#123;</span><br><span class="line">            Node newNode = node.left.right;</span><br><span class="line">            newNode.left = new Node(node.left.elment);</span><br><span class="line">            newNode.right = new Node(node.elment);</span><br><span class="line">            newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line">        //右旋再左旋</span><br><span class="line">        private Node nodeRL(Node node)&#123;</span><br><span class="line">            Node newNode = node.right.left;</span><br><span class="line">            newNode.left = new Node(node.elment);</span><br><span class="line">            newNode.right = new Node(node.right.elment);</span><br><span class="line">            newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        private int height(Node node)&#123;</span><br><span class="line">            return node == null ? -1:node.height;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line"></span><br><span class="line">        AVLTree tree = new AVLTree();</span><br><span class="line">        tree.insert(5);</span><br><span class="line">        tree.insert(4);</span><br><span class="line">        tree.insert(6);</span><br><span class="line">        tree.insert(3);</span><br><span class="line">        tree.insert(2);</span><br><span class="line"></span><br><span class="line">        System.out.println(tree.root.elment);</span><br><span class="line">        System.out.println(tree.root.left.left.elment);</span><br><span class="line">        System.out.println(tree.root.left.right.elment);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="3-顺着代码来理一下逻辑"><a href="#3-顺着代码来理一下逻辑" class="headerlink" title="3.顺着代码来理一下逻辑"></a>3.顺着代码来理一下逻辑</h3><p>1.定义节点类Node,其中height记录当前节点的高度，用来判断是否失衡</p>
-<p>2.定义AVL树，其实就一个root节点</p>
-<p>3.提供四种旋转方法，以失衡的节点为参</p>
-<p>4.通过insert() 不断插入来构建一棵AVL树</p>
-<p>主要注意insert(Node<e> root, E elemet)方法.<br>通过递归，找到新节点的插入点，并插入，然后在一层层的返回结果中判断是否失衡，并调整。</e></p>
-<p>如图:<br><br><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_insert1.PNG" alt="insert"></p>
-<p>已有一棵平衡二叉树，再插入一个节点，节点值为2.<br><br>根据代码，相应流程如下:</p>
-<ul>
-<li>1.递归找到插入点</li>
-<li>2.在return中判断是否打破平衡，并进行调整.</li>
-</ul>
-<p><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_insert2.PNG" alt="insert2"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1.insert(Node(5), 2);</span><br><span class="line">2.    insert(Node(4), 2);</span><br><span class="line">3.        insert(Node(3), 2);</span><br><span class="line">4.            insert(null, 2);</span><br><span class="line">5.            return Node(2);</span><br><span class="line">6.        Node(3).left = Node(2); return Node(3);</span><br><span class="line">7.    Node(4).left = Node(3); height == 2;</span><br><span class="line">      旋转调整 Node(4) = LL(Node(4)); return Node(4);</span><br><span class="line">8.Node(5).left = Node(4); return Node(5);</span><br><span class="line"></span><br><span class="line">Node(5).right 即根节点的右子树，在本例中无变化</span><br></pre></td></tr></table></figure></p>
-<h2 id="四-节点删除操作"><a href="#四-节点删除操作" class="headerlink" title="四.节点删除操作"></a>四.节点删除操作</h2><p>节点删除分为 删除节点 和 调整平衡两步.</p>
-<h3 id="1-删除节点"><a href="#1-删除节点" class="headerlink" title="1.删除节点"></a>1.删除节点</h3><p>删除节点后 要保证剩下还是一棵二叉查找树(有序)。为了保证此条件，我们对删除的三种情况进行分析。<br></p>
-<ul>
-<li>删除的节点为叶子节点</li>
-</ul>
-<p>此时可以直接删除。</p>
-<ul>
-<li>删除对的节点有一个子节点</li>
-</ul>
-<p>此时，无论是有左子节点还是右子节点，可以直接将要删除的节点直接用子节点进行替换。</p>
-<ul>
-<li>删除的节点有两个子节点</li>
-</ul>
-<p>此时判断下要删除的节点的左右子树高度， 若 height(left) &gt;= height(right), 则取 左子树的最大值节点， 如 height(left) &lt; height(right), 则取 右子树的最小值节点. 同时删除该取值的节点。<br></p>
-<p>不管是最大值还是最小值节点，肯定都是叶子节点。<br></p>
-<h3 id="2-调整平衡"><a href="#2-调整平衡" class="headerlink" title="2.调整平衡"></a>2.调整平衡</h3><h4 id="1-情况分析"><a href="#1-情况分析" class="headerlink" title="(1)情况分析"></a>(1)情况分析</h4><p>不同于插入, 如图:</p>
-<p><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_LL_02.png" alt="LL2"></p>
-<p>如上图中图一，新增的时候，只会有节点1 和 节点3 中的一个，不可能同时出现两个的情况，因为，当第一个出现时，节点4就已经失衡，进行调整了。<br></p>
-<p>如上图中图二，当删除时，删除节点5， 会出现节点4失衡， 但是会出现 节点1和节点3 同时存在的情况。此时，将失衡类型 归入 LL 里面.<br></p>
-<p>同理，会出现两个子树同时存在的 RR 情况.<br></p>
-<p>在删除时，可能会出现失衡节点的子节点同时有左右子节点情况。所以，在调整平衡时，于插入有点不一样。如下图， 此时将 1，3 作为 LL, 将 2 作为 LR.<br></p>
-<p><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_LL_04.png" alt="LL4"></p>
-<ul>
-<li>LL：右旋转</li>
-</ul>
-<p>第一个 L: <strong>左子树</strong> <br><br>第二个 L: 失衡节点的左孩子的 <strong>左节点</strong>, <font color="#A52A2A">或 <strong>同时有左右节点</strong> </font>.</p>
-<ul>
-<li>RR：左旋转</li>
-</ul>
-<p>第一个 R: <strong>右子树</strong> <br><br>第二个 R: 失衡节点的右孩子的 <strong>右节点</strong>,<font color="#A52A2A">或 <strong>同时有左右节点</strong> </font>.</p>
-<ul>
-<li>LR：先左旋后右旋</li>
-</ul>
-<p>第一个 L: <strong>左子树</strong> <br><br>第二个 R: 失衡节点的左孩子的 <strong>右节点</strong>.</p>
-<ul>
-<li>RL）：先右旋后左旋</li>
-</ul>
-<p>第一个 R: <strong>右子树</strong> <br><br>第二个 L: 失衡节点的右孩子的 <strong>左节点</strong>.</p>
-<h4 id="2-具体变化"><a href="#2-具体变化" class="headerlink" title="(2)具体变化"></a>(2)具体变化</h4><ul>
-<li>LL</li>
-</ul>
-<p>LL 为右旋， 所以按照右旋的步骤：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//右旋</span><br><span class="line">private Node nodeLL(Node node)&#123;</span><br><span class="line">    //1.将失衡节点的左节点提升</span><br><span class="line">    Node newNode = node.left;</span><br><span class="line">    //2.将失衡节点下降</span><br><span class="line">    newNode.right = new Node(node.elment);</span><br><span class="line">    //调整高度值</span><br><span class="line">    newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">    return newNode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>此时，失衡节点的左子节点的右子节点还未处理,将该右子节点作为失衡节点左节点改变代码为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//右旋</span><br><span class="line">private Node nodeLL(Node node)&#123;</span><br><span class="line">    //1.将失衡节点的左节点提升</span><br><span class="line">    Node newNode = node.left;</span><br><span class="line">    //2.将失衡节点下降</span><br><span class="line">    newNode.right = new Node(node.elment);</span><br><span class="line">    //3.失衡节点的左子节点的右子节点处理</span><br><span class="line">    newNode.right.left = node.left.right;</span><br><span class="line">    //调整高度值</span><br><span class="line">    newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">    return newNode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>如图:<br><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_LL_03.png" alt="LL3"></p>
-<p>当失衡节点的左子节点的右子节点 不存在， 即为null,时，这样处理无影响。此时就和插入的平衡处理一个效果。</p>
-<ul>
-<li>RR</li>
-</ul>
-<p>参照 LL, RR进行左旋操作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//左旋</span><br><span class="line">private Node nodeRR(Node node)&#123;</span><br><span class="line">    //1.将失衡节点的右子节点提升</span><br><span class="line">    Node newNode = node.right;</span><br><span class="line">    //2.将失衡节点下沉</span><br><span class="line">    newNode.left = new Node(node.elment);</span><br><span class="line">    //3.失衡节点的右节点的左孩子处理</span><br><span class="line">    newNode.left.right = node.right.left;</span><br><span class="line">    //调整高度</span><br><span class="line">    newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">    return newNode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>此时，插入和删除的代码可以合并.</p>
-<h4 id="3-性能"><a href="#3-性能" class="headerlink" title="(3)性能"></a>(3)性能</h4><ul>
-<li>查找</li>
-</ul>
-<p>O(logn).</p>
-<ul>
-<li>插入</li>
-</ul>
-<p>O(logn) + 旋转。</p>
-<p>插入时，最多需要旋转1次(单旋转或双旋转).</p>
-<ul>
-<li>删除</li>
-</ul>
-<p>O(logn) + 旋转.</p>
-<p>删除之后必须检查从删除结点开始到根结点路径上的所有结点的平衡因子。每一次删除操作最多需要O(logN)次旋转。因此，删除操作的时间复杂度为O(logN)+O(logN)=O(2logN)</p>
-<h3 id="3-完整代码"><a href="#3-完整代码" class="headerlink" title="3.完整代码"></a>3.完整代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br></pre></td><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private static class Node&lt;E&gt;&#123;</span><br><span class="line">        E elment;</span><br><span class="line">        Node&lt;E&gt; left;</span><br><span class="line">        Node&lt;E&gt; right;</span><br><span class="line">        int height;</span><br><span class="line"></span><br><span class="line">        Node(E elment)&#123;</span><br><span class="line">            this(elment, null, null);</span><br><span class="line">        &#125;</span><br><span class="line">        Node(E elment, Node left, Node right)&#123;</span><br><span class="line">            this.elment = elment;</span><br><span class="line">            this.left = left;</span><br><span class="line">            this.right = right;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static class AVLTree&lt;E extends Comparable&lt;? super E&gt;&gt;&#123;</span><br><span class="line">        Node root;</span><br><span class="line"></span><br><span class="line">        public AVLTree()&#123;</span><br><span class="line">            this.root = null;</span><br><span class="line">        &#125;</span><br><span class="line">        public void insert(E elment)&#123;</span><br><span class="line">            this.root = insert(this.root, elment);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void delete(E elment)&#123;</span><br><span class="line">            if (elment != null)&#123;</span><br><span class="line">                this.root = delete(this.root, elment);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //递归找到要插入的位置插入，同时在return中平衡高度</span><br><span class="line">        public Node insert(Node&lt;E&gt; root, E elemet)&#123;</span><br><span class="line">            if( root == null )&#123;</span><br><span class="line">                return new Node(elemet);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if(elemet.compareTo(root.elment) &lt; 0 )&#123;</span><br><span class="line">                //左边插入</span><br><span class="line">                root.left = insert(root.left, elemet);</span><br><span class="line">                //在return后平衡高度,因为是在左边插入，所以如果高度不平衡，只会是左边高于右边</span><br><span class="line">                if(height(root.left) - height(root.right) == 2)&#123;</span><br><span class="line">                    //判断是插在子节点的左边还是右边</span><br><span class="line">                    if(elemet.compareTo(root.left.elment) &lt; 0)&#123;</span><br><span class="line">                        //LL</span><br><span class="line">                        root = nodeLL(root);</span><br><span class="line">                    &#125;else &#123;</span><br><span class="line">                        //LR</span><br><span class="line">                        root = nodeLR(root);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;else if(elemet.compareTo(root.elment) &gt; 0)&#123;</span><br><span class="line">                //右边插入</span><br><span class="line">                root.right = insert(root.right, elemet);</span><br><span class="line">                //在return后平衡高度,因为是在右边插入，所以如果高度不平衡，只会是右边高于左边</span><br><span class="line">                if(height(root.right) - height(root.left) == 2)&#123;</span><br><span class="line">                    //判断是插在子节点的左边还是右边</span><br><span class="line">                    if(elemet.compareTo(root.right.elment) &lt; 0)&#123;</span><br><span class="line">                        //RL</span><br><span class="line">                        root = nodeRL(root);</span><br><span class="line">                    &#125;else &#123;</span><br><span class="line">                        //RR</span><br><span class="line">                        root = nodeRR(root);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            //更新节点高度</span><br><span class="line">            root.height = Math.max(height(root.left),height(root.right)) + 1;</span><br><span class="line">            return root;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //右旋</span><br><span class="line">        private Node nodeLL(Node node)&#123;</span><br><span class="line">            //1.将失衡节点的左节点提升</span><br><span class="line">            Node newNode = node.left;</span><br><span class="line">            //2.将失衡节点下降</span><br><span class="line">            newNode.right = new Node(node.elment);</span><br><span class="line">            //3.失衡节点的左子节点的右子节点处理</span><br><span class="line">            newNode.right.left = node.left.right;</span><br><span class="line">            //调整高度值</span><br><span class="line">            newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line">        //左旋</span><br><span class="line">        private Node nodeRR(Node node)&#123;</span><br><span class="line">            //1.将失衡节点的右子节点提升</span><br><span class="line">            Node newNode = node.right;</span><br><span class="line">            //2.将失衡节点下沉</span><br><span class="line">            newNode.left = new Node(node.elment);</span><br><span class="line">            //3.失衡节点的右节点的左孩子处理</span><br><span class="line">            newNode.left.right = node.right.left;</span><br><span class="line">            //调整高度</span><br><span class="line">            newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line">        //左旋再右旋</span><br><span class="line">        private Node nodeLR(Node node)&#123;</span><br><span class="line">            Node newNode = node.left.right;</span><br><span class="line">            newNode.left = new Node(node.left.elment);</span><br><span class="line">            newNode.right = new Node(node.elment);</span><br><span class="line">            newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line">        //右旋再左旋</span><br><span class="line">        private Node nodeRL(Node node)&#123;</span><br><span class="line">            Node newNode = node.right.left;</span><br><span class="line">            newNode.left = new Node(node.elment);</span><br><span class="line">            newNode.right = new Node(node.right.elment);</span><br><span class="line">            newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        private int height(Node node)&#123;</span><br><span class="line">            return node == null ? -1:node.height;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        public Node delete(Node&lt;E&gt; root, E element)&#123;</span><br><span class="line">            if (root == null)&#123;</span><br><span class="line">                return null;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if(element.compareTo(root.elment) &lt; 0)&#123;</span><br><span class="line">                //左递归</span><br><span class="line">                root.left = delete(root.left, element);</span><br><span class="line">                //重新调整平衡，删除左边，调整右边</span><br><span class="line">                if(height(root.left) - height(root.right) == 2 || height(root.left) - height(root.right) == -2)&#123;</span><br><span class="line">                    //判断是哪种调整方式</span><br><span class="line">                    // 只有失衡节点的右子树的左节点</span><br><span class="line">                    if(root.right.right == null)&#123;</span><br><span class="line">                        //RL</span><br><span class="line">                        root = nodeRL(root);</span><br><span class="line">                    &#125;else &#123;</span><br><span class="line">                        //RR</span><br><span class="line">                        root = nodeRR(root);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;else if(element.compareTo(root.elment) &gt; 0)&#123;</span><br><span class="line">                //右递归</span><br><span class="line">                root.right = delete(root.right, element);</span><br><span class="line">                //重新调整平衡，删除右边，调整左边</span><br><span class="line">                if(height(root.right) - height(root.left) == 2 || height(root.right) - height(root.left) == -2)&#123;</span><br><span class="line">                    //判断调整类型</span><br><span class="line">                    //只有失衡节点的左子树的右节点</span><br><span class="line">                    if(root.left.left == null)&#123;</span><br><span class="line">                        //LR</span><br><span class="line">                        root = nodeLR(root);</span><br><span class="line">                    &#125;else &#123;</span><br><span class="line">                        //LL</span><br><span class="line">                        root = nodeLL(root);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;else &#123;</span><br><span class="line">                //删除</span><br><span class="line">                if(root.left != null &amp;&amp; root.right != null)&#123;</span><br><span class="line">                    //有两个子节点</span><br><span class="line">                    //找到替换得节点，右子树最小值</span><br><span class="line">                    root.elment = findElement(root);</span><br><span class="line">                    //删除替换节点，替换节点一定是叶子节点</span><br><span class="line">                    delete(root.right, root.elment);</span><br><span class="line"></span><br><span class="line">                &#125;else if(root.left == null &amp;&amp; root.right == null)&#123;</span><br><span class="line">                    //无子节点，自己是叶子节点</span><br><span class="line">                    root = null;</span><br><span class="line">                &#125;else &#123;</span><br><span class="line">                    //有一个子节点</span><br><span class="line">                    root = root.left != null ? root.left : root.right;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return root;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //判断替换点为左子树最大还是右子树最小</span><br><span class="line">        private E findElement(Node&lt;E&gt; root)&#123;</span><br><span class="line">            if(height(root.left) &gt;= height(root.right))&#123;</span><br><span class="line">                return findLeftMax(root.left);</span><br><span class="line">            &#125;else &#123;</span><br><span class="line">                return findRightMin(root.right);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        private E findRightMin(Node&lt;E&gt; root)&#123;</span><br><span class="line">            while (root.left != null)&#123;</span><br><span class="line">                root = root.left;</span><br><span class="line">            &#125;</span><br><span class="line">           return root.elment;</span><br><span class="line">        &#125;</span><br><span class="line">        private E findLeftMax(Node&lt;E&gt; root)&#123;</span><br><span class="line">            while (root.right != null)&#123;</span><br><span class="line">                root = root.right;</span><br><span class="line">            &#125;</span><br><span class="line">            return root.elment;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line"></span><br><span class="line">        AVLTree tree = new AVLTree();</span><br><span class="line">        tree.insert(4);</span><br><span class="line">        tree.insert(2);</span><br><span class="line">        tree.insert(5);</span><br><span class="line">        tree.insert(1);</span><br><span class="line">        tree.insert(3);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        System.out.println(tree.root.elment);</span><br><span class="line">        tree.delete(5);</span><br><span class="line">        System.out.println(tree.root.elment);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/20/algorithm/平衡二叉树了解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-algorithm/红黑树初次接触" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -703,7 +1021,7 @@
 
         
         <a href="/2019/08/20/algorithm/红黑树初次接触/" class="archive-article-date">
-  	<time datetime="2019-08-20T09:02:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-20</time>
+  	<time datetime="2019-08-20T21:02:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-20</time>
 </a>
         
       </header>
@@ -745,405 +1063,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/08/20/algorithm/红黑树初次接触/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-algorithm/理解递归" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/20/algorithm/理解递归/">理解递归</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/20/algorithm/理解递归/" class="archive-article-date">
-  	<time datetime="2019-08-20T03:08:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>对递归的理解总是不是很清晰。但是又非常重要，学习记录一下.</p>
-<h2 id="1-经典例子Fibonacc"><a href="#1-经典例子Fibonacc" class="headerlink" title="1.经典例子Fibonacc"></a>1.经典例子Fibonacc</h2><p>斐波那契数列是指1，1，2，3，5，8，13，21…的一个数列，它的规律就是某一个数就是前面两个数的和.</p>
-<h3 id="1-实现"><a href="#1-实现" class="headerlink" title="(1)实现"></a>(1)实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line"></span><br><span class="line">    public int fibonacc(int n)&#123;</span><br><span class="line">        if(n == 0 || n == 1)&#123;</span><br><span class="line">            return 1;</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            //递归</span><br><span class="line">            return fibonacc(n-2) + fibonacc(n-1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        System.out.println(new MyTest().fibonacc(4));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-流程"><a href="#2-流程" class="headerlink" title="(2)流程"></a>(2)流程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1.fi(4)</span><br><span class="line">2.  fi(3)                       +               fi(2)</span><br><span class="line">3.    fi(2)               +   fi(1)      +        fi(1) + fi(0)</span><br><span class="line">4.      fi(1) + fi(0)     +   return     +        return + return</span><br><span class="line">5.      return + return          +              return</span><br><span class="line">6.    return</span><br><span class="line">7.  return</span><br><span class="line">8.return</span><br></pre></td></tr></table></figure>
-<p>如上,当求fi(4)的时候，进入递归，求出fi(3),fi(2),fi(1);</p>
-<h2 id="2-为什么要用递归？"><a href="#2-为什么要用递归？" class="headerlink" title="2.为什么要用递归？"></a>2.为什么要用递归？</h2><p>在适合的场景下，递归代码非常简洁清晰，描述问题易于理解。<br></p>
-<p>但是，如果调用层数比较深，需要增加额外的堆栈处理（还有可能出现堆栈溢出的情况），比如参数传递需要压栈等操作，会对执行效率有一定影响。</p>
-<h2 id="3-对于递归的理解"><a href="#3-对于递归的理解" class="headerlink" title="3.对于递归的理解"></a>3.对于递归的理解</h2><h3 id="1-通用结构"><a href="#1-通用结构" class="headerlink" title="(1)通用结构"></a>(1)通用结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func()&#123;</span><br><span class="line">  if(结束条件)&#123;</span><br><span class="line">    return;</span><br><span class="line">  &#125;else&#123;</span><br><span class="line">    //递归</span><br><span class="line">    func();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>递归存在一个终止条件，每次递归会越来越接近这个终止条件。</p>
-<h3 id="2-理解"><a href="#2-理解" class="headerlink" title="(2)理解"></a>(2)理解</h3><p>递归类似于循环，有一个繁琐的操作，但是每一步之间有相似性，可以将之拆分为不同层次，循环处理，每个层次都会有自己的返回结果或者操作照成的影响。</p>
-<h3 id="3-树的递归遍历"><a href="#3-树的递归遍历" class="headerlink" title="(3)树的递归遍历"></a>(3)树的递归遍历</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//中序 左中右</span><br><span class="line">public void inOrder(TreeNode root)&#123;</span><br><span class="line">    if(root != null)&#123;</span><br><span class="line">        //遍历它的左下级节点</span><br><span class="line">        inOrder(root.left);</span><br><span class="line">        System.out.println(root.val);</span><br><span class="line">        //左节点完后，遍历右节点</span><br><span class="line">        inOrder(root.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//前序 中左右</span><br><span class="line">public void beforeOrder(TreeNode root)&#123;</span><br><span class="line">    if(root != null)&#123;</span><br><span class="line">        System.out.println(root.val);</span><br><span class="line">        //遍历它的左下级节点</span><br><span class="line">        beforeOrderOrder(root.left);</span><br><span class="line">        //左节点完后，遍历右节点</span><br><span class="line">        beforeOrderOrder(root.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//后续 左右中</span><br><span class="line">public void afterOrder(TreeNode root)&#123;</span><br><span class="line">    if(root != null)&#123;</span><br><span class="line">        //遍历它的左下级节点</span><br><span class="line">        afterOrder(root.left);</span><br><span class="line">        //左节点完后，遍历右节点</span><br><span class="line">        afterOrder(root.right);</span><br><span class="line">        System.out.println(root.val);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>以中序遍历为例: 从根节点开始。<br><br><img src="http://67.216.218.49:8000/file/blogs/algorithm/tree02.png" alt="tree"><br></p>
-<p>如图，要进行中序遍历：</p>
-<p>1.F.left -&gt; B.left -&gt; A.left(无)  return A<br><br>2.return B<br><br>3.B.right -&gt; D.left -&gt; C.left(无) return C<br><br>4.return D<br><br>5.D.right -&gt; E.left(无) return E<br><br>…..</p>
-<p>可以看见，从根节点开始，先 从左节点开始，层层遍历(递归)，找到最左子节点.<br><br>然后会跳出当层循环(最下层),得到B<br><br>然后B查找其右节点，存在，则从右节点开始，查找左节点。<br></p>
-<p>总结，一层遍历分为查找左节点(如果存在) -&gt; 找到自己 -&gt; 查找右节点(如果存在) 三步，所以这三步可以成为一个基本递归单位.</p>
-<p>root == null 为其结束条件。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/20/algorithm/理解递归/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/java集合" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/20/java/java集合/">Java集合</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/20/java/java集合/" class="archive-article-date">
-  	<time datetime="2019-08-20T02:56:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1.<a href="">collection</a></p>
-<p>2.<a href="">Map</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Index2</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/20/java/java集合/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/java基础" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/19/java/java基础/">Java基础</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/19/java/java基础/" class="archive-article-date">
-  	<time datetime="2019-08-19T06:38:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-数据类型"><a href="#1-数据类型" class="headerlink" title="1.数据类型"></a>1.数据类型</h1><p><a href="">基本数据类型</a></p>
-<p><a href="">访问权限</a></p>
-<p><a href="">面向对象</a></p>
-<p><a href="">理解java中参数传递</a></p>
-<p><a href="">杂</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Index2</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/19/java/java基础/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-index" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/19/index/">index 目录结构导航</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/19/index/" class="archive-article-date">
-  	<time datetime="2019-08-19T06:38:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一-算法刷题"><a href="#一-算法刷题" class="headerlink" title="一.算法刷题"></a>一.算法刷题</h1><h1 id="二-Java"><a href="#二-Java" class="headerlink" title="二.Java"></a>二.Java</h1><ul>
-<li><p><a href="">java基础</a></p>
-</li>
-<li><p><a href="">集合</a></p>
-</li>
-</ul>
-<h1 id="三-框架"><a href="#三-框架" class="headerlink" title="三.框架"></a>三.框架</h1><h1 id="四-数据库"><a href="#四-数据库" class="headerlink" title="四.数据库"></a>四.数据库</h1><h1 id="五-操作系统"><a href="#五-操作系统" class="headerlink" title="五.操作系统"></a>五.操作系统</h1><h1 id="六-计算机网络"><a href="#六-计算机网络" class="headerlink" title="六.计算机网络"></a>六.计算机网络</h1><h1 id="七-设计模式"><a href="#七-设计模式" class="headerlink" title="七.设计模式"></a>七.设计模式</h1><h1 id="八-工具"><a href="#八-工具" class="headerlink" title="八.工具"></a>八.工具</h1>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Index</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/19/index/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/base/java面向对象" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/19/java/base/java面向对象/">Java面向对象</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/19/java/base/java面向对象/" class="archive-article-date">
-  	<time datetime="2019-08-19T06:38:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一-三大特征"><a href="#一-三大特征" class="headerlink" title="一.三大特征"></a>一.三大特征</h2><p><strong>java面向对象的三大特征：封装， 继承， 多态 <br></strong></p>
-<h3 id="1-封装"><a href="#1-封装" class="headerlink" title="(1)封装"></a>(1)封装</h3><p>合并特征和行为，进行抽象。将数据和具体细节等隐藏，提供一个统一的外部访问入口。</p>
-<h3 id="2-继承"><a href="#2-继承" class="headerlink" title="(2)继承"></a>(2)继承</h3><p>在已有类的基础上，创建拥有父类属性和方法的子类。子类能进行重写和拓展。允许将对象视为自己本身或基类进行处理。</p>
-<h3 id="3-多态"><a href="#3-多态" class="headerlink" title="(3)多态"></a>(3)多态</h3><p>同一个接口，使用不同的实例会进行不同的操作。<br><br>父类引用子类对象，调用方法时，会调用子类的实现，而不是父类的实现。<br></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/19/java/base/java面向对象/">展开全文 >></a>
         </p>
       
 
@@ -1274,11 +1193,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">tools</a>
+                <a href="javascript:void(0)" class="js-tag color2">others</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">others</a>
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">base</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1290,15 +1213,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Index2</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1306,7 +1221,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">security</a>
+                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1314,11 +1229,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">database</a>
+                <a href="javascript:void(0)" class="js-tag color4">security</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">tools</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1326,11 +1249,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">protocol</a>
+                <a href="javascript:void(0)" class="js-tag color4">database</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">base</a>
+                <a href="javascript:void(0)" class="js-tag color4">protocol</a>
               </li>
              
               <li class="article-tag-list-item">
