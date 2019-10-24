@@ -138,6 +138,181 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-algorithm/sildewindow/manacher" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/29/algorithm/sildewindow/manacher/">滑动窗口解决最长子串问题</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/29/algorithm/sildewindow/manacher/" class="archive-article-date">
+  	<time datetime="2019-05-29T06:25:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h4><p>寻找一个字符串中最长不重复的字符串长度。<br><br>(1)通用做法:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">for(int i=0; i&lt;len; i++)&#123;</span><br><span class="line">    for(int j=i; j&lt;len; j++)&#123;</span><br><span class="line">      //找到以i开头的最长不重复子串</span><br><span class="line">      if()&#123;</span><br><span class="line">        break;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>(2)用滑动窗口来解决<br></p>
+<h4 id="2-滑动窗口"><a href="#2-滑动窗口" class="headerlink" title="2.滑动窗口"></a>2.滑动窗口</h4><p>原理：<br><br>维护一个长度为right-left的窗口，通过左右边界的收缩与拓展来找到最大长度。<br><br>只需一次遍历，时间复杂度O(n).<br></p>
+<h4 id="3-实现"><a href="#3-实现" class="headerlink" title="3.实现"></a>3.实现</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int lengthOfLongestSubstring(String s) &#123;</span><br><span class="line">        //滑动窗口</span><br><span class="line">        int left = 0, right = 0;</span><br><span class="line">        int max = 0;</span><br><span class="line">        Set window = new HashSet();</span><br><span class="line">        while(left&lt;s.length() &amp;&amp; right&lt;s.length())&#123;</span><br><span class="line">            if(!window.contains(s.charAt(right)))&#123;</span><br><span class="line">                window.add(s.charAt(right));</span><br><span class="line">                right++;</span><br><span class="line">                //更新最大值</span><br><span class="line">                max = Math.max(max,right-left);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">              //收缩左边界到没有重复为止，</span><br><span class="line">              //按照顺序收缩，例 abcb-&gt;bcb-&gt;cb</span><br><span class="line">                window.remove(s.charAt(left));</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        return max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/29/algorithm/sildewindow/manacher/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-algorithm/manacher/manacher" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/27/algorithm/manacher/manacher/">马拉车算法</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/27/algorithm/manacher/manacher/" class="archive-article-date">
+  	<time datetime="2019-05-27T07:25:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="manacher算法"><a href="#manacher算法" class="headerlink" title="manacher算法"></a>manacher算法</h3><p>处理回文字符串:<br><br>一搬思路为中心拓展:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//预处理，得到不分奇偶的新串 #a#b#a#c#</span><br><span class="line">for(int i=0; i&lt;len; i++)&#123;</span><br><span class="line">  for (int j = 0; (i-j &gt;= 0) &amp;&amp; (i+j &lt; len); j++)&#123;</span><br><span class="line">		  //在左右j距离拓展匹配</span><br><span class="line">      if (s[i - j] != s[i + j])</span><br><span class="line">				break;</span><br><span class="line">      //纪录最大距离</span><br><span class="line">	&#125;</span><br><span class="line">  //更新最大子串</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Manacher算法，将时间压缩到线性，时间复杂度/空间复杂度都是O(n).</p>
+<h5 id="1-新串"><a href="#1-新串" class="headerlink" title="1.新串"></a>1.新串</h5><p>无论字符串原先为奇数还是偶数长度，通过添加特殊字符都能使之变为奇数，减少判断条件。<br><br>例:</p>
+<ul>
+<li>aba &gt;&gt; #a#b#a#</li>
+<li>abab &gt;&gt; #a#b#a#b#</li>
+</ul>
+<h5 id="2-循环得到p-i"><a href="#2-循环得到p-i" class="headerlink" title="2.循环得到p[i]"></a>2.循环得到p[i]</h5><p>首先定义几个变量: <br></p>
+<ul>
+<li>p[i] 存储对应位置(i)的最大子串的长度,左或右半边(包括了自己本身)</li>
+<li>pos 当前最大子串的中心位置</li>
+<li>mxr 当前最大子串的右边界</li>
+<li>mxl 当前最大字串的左边界</li>
+</ul>
+<p><img src="./manacher01.png" alt="manacher"><br>manacher算法的关键: <br><br>//p[i] = mxr &gt; i ? Math.min(p[2*pos -i], mxr-i):1;<br><br><strong>p[i] = mxr &gt; i ? Math.min(p[2pos -i], mxr-i):0;</strong>  </p>
+<p>如图，i和j关于pos对称，pos-j = i-pos， 即 j = 2*pos-i<br><br>当要计算第i位的p[i]时，i位之前的p[i]都为已知：<br><br>此时:<br></p>
+<h6 id="1-若i在mxr右边"><a href="#1-若i在mxr右边" class="headerlink" title="(1).若i在mxr右边"></a>(1).若i在mxr右边</h6><p>将p[i]置为1(因为mxr的位置必定为#,它的下一位肯定&gt;=1,但是如果mxr==i,则为p[i]肯定为0，所以这里置为0)，进行拓展匹配。<br></p>
+<h6 id="2-若i在当前最大字串范围内："><a href="#2-若i在当前最大字串范围内：" class="headerlink" title="(2).若i在当前最大字串范围内："></a>(2).若i在当前最大字串范围内：<br></h6><p><strong>mxr-i 与 p[j] 的关系，判断以 j 为中心的子串是否完全在以pos为中心的子串内.<br></strong></p>
+<ul>
+<li>若 mxr - i &gt; p[j](例p[10]，p[11],p[12]), 此时可知已j为中心的回文串，包含在以pos为中心的回文串左边部分内，由左右对称可知，以i为中心的回文串p[i] = p[j]<br></li>
+<li>若 mxr -i &lt;= p[j](例p[13]), 此时mxr-i和j-mxl部分是一样的，可以保证如果原理这部分关于j对称的话(又因为mxr-i&lt;=p[j],所以这部分肯定对称，j-mxl是j的字串的一部分)，至少这部分关于i肯定对称，所以p[i]至少有mxr-i的长度,再向右进行拓展匹配<br></li>
+</ul>
+<p>取p[j]和mxr-i中较小的值，再进行拓展匹配<br></p>
+<p>这样循环一次就得到了所有p[i]的值。</p>
+<h5 id="3-具体代码"><a href="#3-具体代码" class="headerlink" title="3.具体代码"></a>3.具体代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public String longestPalindrome(String s) &#123;</span><br><span class="line">        //生成新串</span><br><span class="line">        StringBuffer sb = new StringBuffer();</span><br><span class="line">        for(int i=0; i&lt;s.length()*2+1; i++)&#123;</span><br><span class="line">            if(i%2 == 0)&#123;</span><br><span class="line">                sb.append(&quot;#&quot;);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                sb.append(s.charAt(i/2));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        String ns = sb.toString();</span><br><span class="line">        //处理</span><br><span class="line">        int[] p = new int[ns.length()];</span><br><span class="line">        p[0] = 0;</span><br><span class="line">        int pos = 0, mxr = 0;</span><br><span class="line">        for(int i=0; i&lt;ns.length(); i++)&#123;</span><br><span class="line">            p[i] = mxr&gt;i ? Math.min(p[pos*2-i],mxr-i):0;</span><br><span class="line">            //继续进行拓展</span><br><span class="line">            //是否到达左边界，是否到达右边界，是否对称</span><br><span class="line">            while(i-p[i] &gt;=0</span><br><span class="line">                 &amp;&amp; i+p[i]&lt;= ns.length()-1</span><br><span class="line">                 &amp;&amp; ns.charAt(i+p[i]) == ns.charAt(i-p[i]))&#123;</span><br><span class="line">                p[i]+=1;</span><br><span class="line">            &#125;</span><br><span class="line">            //发现更大的子串，进行调整，如果相等，不调整，取第一个</span><br><span class="line">            if(p[i]&gt; mxr-pos)&#123;</span><br><span class="line">                pos = i;</span><br><span class="line">                mxr = p[i] + i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //因为p[pos]的长度包括了pos自己,所以回文串范围为(pos-p[pos]+1, pos+p[pos]-1)</span><br><span class="line">        //因为substring取值为[a,b)，所以范围为(pos-p[pos]+1, pos+p[pos])</span><br><span class="line">         return ns.substring(pos-p[pos]+1, pos+p[pos]).replace(&quot;#&quot;,&quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/27/algorithm/manacher/manacher/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-java/io/输入输出流" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -618,13 +793,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/21/java/interface/">接口</a>
+      <a class="article-title" href="/2019/01/22/java/interface/">接口</a>
     </h1>
   
 
         
-        <a href="/2019/01/21/java/interface/" class="archive-article-date">
-  	<time datetime="2019-01-21T06:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-21</time>
+        <a href="/2019/01/22/java/interface/" class="archive-article-date">
+  	<time datetime="2019-01-21T19:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-22</time>
 </a>
         
       </header>
@@ -656,7 +831,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/01/21/java/interface/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/01/22/java/interface/">展开全文 >></a>
         </p>
       
 
@@ -693,13 +868,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/17/security/netcat/">netcat</a>
+      <a class="article-title" href="/2019/01/18/security/netcat/">netcat</a>
     </h1>
   
 
         
-        <a href="/2019/01/17/security/netcat/" class="archive-article-date">
-  	<time datetime="2019-01-17T07:19:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-17</time>
+        <a href="/2019/01/18/security/netcat/" class="archive-article-date">
+  	<time datetime="2019-01-17T20:19:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-18</time>
 </a>
         
       </header>
@@ -760,171 +935,7 @@ bash -i 进入交互模式&lt;br&gt;
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/01/17/security/netcat/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-tools/docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/16/tools/docker/">docker</a>
-    </h1>
-  
-
-        
-        <a href="/2019/01/16/tools/docker/" class="archive-article-date">
-  	<time datetime="2019-01-16T09:25:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>docker的本意是希望容器是无状态的，即箱子有什么就用什么，我们外部不做修改，如果我需要改代码则重新build一个image出来。<br><br>镜像与容器，我的理解是将自己的程序做成镜像，放到容器中运行，容器提供运行环境。</p>
-<h4 id="一-install"><a href="#一-install" class="headerlink" title="一.install"></a>一.install</h4><p>ubuntu 16.04 LTS<br></p>
-<h5 id="1-sudo-apt-install-docker-io"><a href="#1-sudo-apt-install-docker-io" class="headerlink" title="1.sudo apt install docker.io"></a>1.sudo apt install docker.io</h5><h5 id="2-阿里镜像加速"><a href="#2-阿里镜像加速" class="headerlink" title="2.阿里镜像加速"></a>2.阿里镜像加速</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&apos;EOF&apos;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://etuznpiq.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-<p>保存为sh,执行</p>
-<h5 id="3-重启"><a href="#3-重启" class="headerlink" title="3.重启"></a>3.重启</h5><p>servie docker restart</p>
-<h5 id="4-登录"><a href="#4-登录" class="headerlink" title="4.登录"></a>4.登录</h5><p>sudo docker login –username=17888824094 registry.cn-hangzhou.aliyuncs.com</p>
-<h5 id="5-拉取远程镜像"><a href="#5-拉取远程镜像" class="headerlink" title="5.拉取远程镜像"></a>5.拉取远程镜像</h5><p>sudo docker pull microsoft/aci-helloworld</p>
-<h5 id="6-启动"><a href="#6-启动" class="headerlink" title="6.启动"></a>6.启动</h5><p>这是启动镜像<br><br>docker run  镜像 (-d deamon模式)<br><br>例: docker run -d -p 8888:80 microsoft/aci-helloworld<br><br>-p：物理机端口，要转发的端口，可以多个端口 -p 8888:8888 8889:8889 3000:3000<br><br>目录挂载:-v $PWD/www:/www  将主机中当前目录下的www挂载到容器的/www</p>
-<h5 id="7-查看"><a href="#7-查看" class="headerlink" title="7.查看"></a>7.查看</h5><p>docker ps 查看容器信息<br><br>docker logs 容器id   查看容器内日志</p>
-<h5 id="8-关闭"><a href="#8-关闭" class="headerlink" title="8.关闭"></a>8.关闭</h5><p>这是操作的容器<br><br>docker stop 容器id<br><br>docker ps -a  查看关闭的容器<br><br>docker restart 容器id    重启容器<br><br>docker rm 容器id  删除容器</p>
-<h5 id="9-进入container"><a href="#9-进入container" class="headerlink" title="9.进入container"></a>9.进入container</h5><p>sudo docker exec  -it 9a8(容器id前三位) /bin/sh<br><br>交互模式， /bin/sh为要使用的$PATH,进入容器内进行操作</p>
-<h5 id="10-保存对容器的修改"><a href="#10-保存对容器的修改" class="headerlink" title="10.保存对容器的修改"></a>10.保存对容器的修改</h5><p>对容器的修改默认是保存的<br><br>docker commit 698 name(生成一个新的版本名)</p>
-<h5 id="11-生成自己的image"><a href="#11-生成自己的image" class="headerlink" title="11.生成自己的image"></a>11.生成自己的image</h5><p>&lt;scr<script>ipt&gt;alert(“XSS”);&lt;/scr<script>ipt&gt;</p>
-</script></p>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tools</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">docker</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/01/16/tools/docker/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-tools/vim" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/16/tools/vim/">vim</a>
-    </h1>
-  
-
-        
-        <a href="/2019/01/16/tools/vim/" class="archive-article-date">
-  	<time datetime="2019-01-16T06:10:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="1-查找替换"><a href="#1-查找替换" class="headerlink" title="1.查找替换"></a>1.查找替换</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">全局替换</span><br><span class="line">:%s/old/new/g</span><br><span class="line">当前行替换</span><br><span class="line">:s/old/new/g</span><br><span class="line">替换当前行第一个</span><br><span class="line">:s/old/new/</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tools</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/01/16/tools/vim/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/01/18/security/netcat/">展开全文 >></a>
         </p>
       
 
@@ -956,7 +967,7 @@ bash -i 进入交互模式&lt;br&gt;
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
     </nav>
   
 
@@ -1067,11 +1078,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1079,11 +1090,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">

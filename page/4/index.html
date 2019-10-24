@@ -138,6 +138,299 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-java/spring/springAsync" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/28/java/spring/springAsync/">spring异步调用</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/28/java/spring/springAsync/" class="archive-article-date">
+  	<time datetime="2019-06-28T03:08:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-快速上手"><a href="#1-快速上手" class="headerlink" title="1.快速上手"></a>1.快速上手</h3><h6 id="1-添加-EnableAsync"><a href="#1-添加-EnableAsync" class="headerlink" title="1.添加@EnableAsync"></a>1.添加@EnableAsync</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@EnableAsync</span><br><span class="line">public class AsyncConfig &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="2-异步方法"><a href="#2-异步方法" class="headerlink" title="2.异步方法"></a>2.异步方法</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 要执行的异步任务</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class AsyncDoThings &#123;</span><br><span class="line"></span><br><span class="line">    public void doThing1() throws Exception&#123;</span><br><span class="line">        System.out.println(&quot;[*] doThing1 Start : &quot; + System.currentTimeMillis());</span><br><span class="line">        Thread.sleep(10000);</span><br><span class="line">        System.out.println(&quot;[*] doThing1 end: &quot; + System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Async</span><br><span class="line">    public void AsyncDoThing1() throws Exception&#123;</span><br><span class="line">        System.out.println(&quot;[*] AsyncDoThing1 Start : &quot; + System.currentTimeMillis());</span><br><span class="line">        Thread.sleep(10000);</span><br><span class="line">        System.out.println(&quot;[*] AsyncDoThing1 end: &quot; + System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h6 id="3-执行"><a href="#3-执行" class="headerlink" title="3.执行"></a>3.执行</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@RunWith(SpringRunner.class)</span><br><span class="line">@SpringBootTest</span><br><span class="line">public class SpringbootDemoApplicationTests &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    AsyncDoThings asyncDoThings;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void contextLoads() throws Exception&#123;</span><br><span class="line">        asyncDoThings.doThing1();</span><br><span class="line">        asyncDoThings.AsyncDoThing1();</span><br><span class="line">        asyncDoThings.doThing1();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="4-结果"><a href="#4-结果" class="headerlink" title="4.结果"></a>4.结果</h6><p>可以看到  异步任务 开始后，下一个任务立即执行，未发生阻塞等待<br><br><img src="http://67.216.218.49:8000/file/blogs/java/spring/Async1.png" alt="Async1"></p>
+<h3 id="2-稍微深入"><a href="#2-稍微深入" class="headerlink" title="2.稍微深入"></a>2.稍微深入</h3><h6 id="1-使用自己的线程池"><a href="#1-使用自己的线程池" class="headerlink" title="1.使用自己的线程池"></a>1.使用自己的线程池</h6><p>实现AsyncConfiguer接口<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 异步任务配置类</span><br><span class="line"> */</span><br><span class="line">@Configuration</span><br><span class="line">@EnableAsync</span><br><span class="line">public class AsyncConfig implements AsyncConfigurer &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 使用自己的线程池</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    public Executor getAsyncExecutor()&#123;</span><br><span class="line">        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();</span><br><span class="line">        executor.setCorePoolSize(5);</span><br><span class="line">        executor.setMaxPoolSize(20);</span><br><span class="line">        executor.setQueueCapacity(200);</span><br><span class="line">        executor.setKeepAliveSeconds(60*30);</span><br><span class="line">        //等待任务在关机时完成--表明等待所有线程执行完</span><br><span class="line">        executor.setWaitForTasksToCompleteOnShutdown(true);</span><br><span class="line">        //线程名前缀</span><br><span class="line">        executor.setThreadNamePrefix(&quot;MyAsync-&quot;);</span><br><span class="line">        executor.initialize();</span><br><span class="line">        return executor;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 处理异步任务中发生的异常</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler()&#123;</span><br><span class="line">        //return new AsyncExecuteExceptionHandler();</span><br><span class="line">        return new SimpleAsyncUncaughtExceptionHandler();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    class AsyncExecuteExceptionHandler implements AsyncUncaughtExceptionHandler&#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void handleUncaughtException(Throwable ex, Method method, Object... params)&#123;</span><br><span class="line">            System.out.println(&quot;[*]: 异步任务发生异常 &quot; + ex.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="2-获取异步任务的返回结果"><a href="#2-获取异步任务的返回结果" class="headerlink" title="2.获取异步任务的返回结果"></a>2.获取异步任务的返回结果</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 要执行的异步任务</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class AsyncDoThings &#123;</span><br><span class="line"></span><br><span class="line">    public void doThing1() throws Exception&#123;</span><br><span class="line">        System.out.println(&quot;[*] doThing1 Start : &quot; + System.currentTimeMillis());</span><br><span class="line">        System.out.println(&quot;[*] threadname &quot; + Thread.currentThread().getName() );</span><br><span class="line">        Thread.sleep(1000);</span><br><span class="line">        System.out.println(&quot;[*] doThing1 end: &quot; + System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Async</span><br><span class="line">    public void AsyncDoThing1() throws Exception&#123;</span><br><span class="line">        System.out.println(&quot;[*] AsyncDoThing1 Start : &quot; + System.currentTimeMillis());</span><br><span class="line">        System.out.println(&quot;[*] threadname &quot; + Thread.currentThread().getName() );</span><br><span class="line">        Thread.sleep(3000);</span><br><span class="line">        System.out.println(&quot;[*] AsyncDoThing1 end: &quot; + System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获取返回结果</span><br><span class="line">    @Async</span><br><span class="line">    public Future&lt;String&gt; AsyncWithResponse(String tips) throws Exception&#123;</span><br><span class="line">        System.out.println(&quot;[*] AsyncWithResponse Start : &quot; + System.currentTimeMillis());</span><br><span class="line">        System.out.println(&quot;[*] threadname &quot; + Thread.currentThread().getName() );</span><br><span class="line">        Thread.sleep(3000);</span><br><span class="line">        System.out.println(&quot;[*] AsyncWithResponse end: &quot; + System.currentTimeMillis());</span><br><span class="line">        return new AsyncResult&lt;&gt;(tips + &quot; : finished! &quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//测试类中</span><br><span class="line">@Test</span><br><span class="line">public void contextLoads() throws Exception&#123;</span><br><span class="line">    asyncDoThings.doThing1();</span><br><span class="line">    asyncDoThings.AsyncDoThing1();</span><br><span class="line">    asyncDoThings.doThing1();</span><br><span class="line"></span><br><span class="line">    Future future = asyncDoThings.AsyncWithResponse(&quot;AsyncWithRes &quot;);</span><br><span class="line">    System.out.println(&quot;[*]: &quot;  + Thread.currentThread().getName() + &quot; &quot; + future.get());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="3-结果"><a href="#3-结果" class="headerlink" title="3.结果"></a>3.结果</h6><p><img src="http://67.216.218.49:8000/file/blogs/java/spring/Async2.png" alt="Async2"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/28/java/spring/springAsync/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/spring/spring基础1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/23/java/spring/spring基础1/">spring基础一 bean</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/23/java/spring/spring基础1/" class="archive-article-date">
+  	<time datetime="2019-06-22T16:58:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-Bean的属性"><a href="#1-Bean的属性" class="headerlink" title="1.Bean的属性"></a>1.Bean的属性</h3><p>bean的 .xml 文件<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">xsi:schemaLocation=&quot;</span><br><span class="line">http://www.springframework.org/schema/beans</span><br><span class="line">http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 自己的bean --&gt;</span><br><span class="line">&lt;bean&gt;&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure></p>
+<p>将bean交给spring:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@ImportResource(locations = &#123;&quot;classpath:xxxx.xml&quot;&#125;)</span><br></pre></td></tr></table></figure></p>
+<h6 id="1-自身属性"><a href="#1-自身属性" class="headerlink" title="(1).自身属性"></a>(1).自身属性</h6><ul>
+<li>id</li>
+</ul>
+<p>id为bean的唯一标识名，也就是beanName.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;userEntity&quot; class=&quot;com.bonc.apimanage.test.UserEntity&quot;&gt;</span><br><span class="line">      &lt;!-- 通过setter注入属性值 --&gt;</span><br><span class="line">       &lt;property name=&quot;id&quot; value=&quot;123&quot;&gt;&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;bean id=&quot;userService&quot; class=&quot;com.bonc.apimanage.test.UserService&quot;&gt;</span><br><span class="line">    &lt;!-- 注入 userEntity 属性对象 --&gt;</span><br><span class="line">    &lt;property name=&quot;userService&quot; ref=&quot;userEntity&quot;&gt;&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>name</li>
+</ul>
+<p>bean的别名。</p>
+<ul>
+<li>class</li>
+</ul>
+<p>bean的类。子类bean不用定义该属性。</p>
+<ul>
+<li>parent</li>
+</ul>
+<p>子类Bean定义它所引用它的父类Bean。这时class属性失效。子类Bean会继承父类Bean的所有属性，子类Bean也可以覆盖父类Bean的属性。注意：子类Bean和父类Bean是同一个Java类</p>
+<ul>
+<li>abstract</li>
+</ul>
+<p>默认为”false”，用来定义Bean是否为抽象Bean。它表示这个Bean将不会被实例化，一般用于父类Bean，因为父类Bean主要是供子类Bean继承使用。</p>
+<ul>
+<li>scope</li>
+</ul>
+<p>默认为singleton（单例）<br></p>
+<p>prototype（原型）状态，BeanFactory将为每次Bean请求创建一个新的Bean实例。<br><br>session：创建对象把创建的对象放到session域里面去<br><br>request：创建对象把创建的对象放到request域里面去<br><br>globalsession：创建对象把创建的对象放到globalsession域里面去<br></p>
+<ul>
+<li>lazy-init</li>
+</ul>
+<p>用来定义这个Bean是否实现懒初始化<br><br>默认为 default  <br><br>如果为 true ，它将在BeanFactory启动时初始化所有的SingletonBean<br><br>如果为 false ,它只在Bean请求时才开始创建SingletonBean。</p>
+<ul>
+<li>autowire</li>
+</ul>
+<p>它定义了Bean的自动装载方式<br><br>no :不使用自动装配功能<br><br>byName :通过Bean的属性名实现自动装配<br><br>byType :通过Bean的类型实现自动装配<br><br>constructor :类似于byType，但它是用于构造函数的参数的自动组装<br><br>default：默认值，自动装配</p>
+<ul>
+<li>depends-on</li>
+</ul>
+<p>Bean在初始化时依赖的对象，这个对象会在这个Bean初始化之前创建<br><br>可以用来控制bean初始化顺序</p>
+<ul>
+<li>init-method</li>
+</ul>
+<p>用来定义Bean的初始化方法，它会在Bean组装之后调用。它必须是一个无参数的方法</p>
+<ul>
+<li>destory-method</li>
+</ul>
+<p>用来定义Bean的销毁方法，它在 BeanFactory 关闭时调用。同样，它也必须是一个无参数的方法。它只能应用于 singletonBean。</p>
+<ul>
+<li>factory-method</li>
+</ul>
+<p>定义创建该Bean对象的工厂方法。它用于下面的 factory-bean ，表示这个Bean是通过工厂方法创建。此时， class 属性失效</p>
+<ul>
+<li>factory-bean</li>
+</ul>
+<p>定义创建该 Bean 对象的工厂类。如果使用了 factory-bean 则 class 属性失效</p>
+<h6 id="2-子属性"><a href="#2-子属性" class="headerlink" title="(2).子属性"></a>(2).子属性</h6><ul>
+<li>meta</li>
+</ul>
+<p>元数据。当需要使用里面的信息时可以通过key获取<br><br>meta 所声明的 key 并不会在 Bean 中体现，只是一个额外的声明，当我们需要使用里面的信息时，通过 BeanDefinition 的 getAttribute() 获取<br></p>
+<ul>
+<li>lookup-method</li>
+</ul>
+<p>获取器注入，是把一个方法声明为返回某种类型的 bean 但实际要返回的 bean 是在配置文件里面配置的。该方法可以用于设计一些可插拔的功能上，解除程序依赖</p>
+<ul>
+<li>replaced-method</li>
+</ul>
+<p>可以在运行时调用新的方法替换现有的方法，还能动态的更新原有方法的逻辑</p>
+<ul>
+<li>constructor-arg</li>
+</ul>
+<p>通过构造函数注入。&lt;br<br>index：指定注入属性的顺序索引(在构造函数中的顺序)，从0开始<br><br>type：指该属性所对应的类型<br><br>ref：引用的依赖对象<br><br>value：当注入的不是依赖对象，而是基本数据类型时，就用value<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;userEntity&quot; class=&quot;com.bonc.apimanage.test.UserEntity&quot;&gt;</span><br><span class="line">      &lt;!-- 通过构造器注入属性值 有参的需要有参的构造函数 --&gt;</span><br><span class="line">      &lt;constructor-arg index=&quot;0&quot; value=&quot;1&quot;&gt;&lt;/constructor-arg&gt;  </span><br><span class="line">      &lt;constructor-arg index=&quot;1&quot; value=&quot;xxl&quot;&gt;&lt;/constructor-arg&gt;</span><br><span class="line">      &lt;!-- 或这样  --&gt;</span><br><span class="line">      &lt;constructor-arg name=&quot;id&quot; value=&quot;1&quot;&gt;&lt;/constructor-arg&gt;  </span><br><span class="line">      &lt;constructor-arg nam=&quot;name&quot; value=&quot;xxl&quot;&gt;&lt;/constructor-arg&gt;   </span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;bean id=&quot;userService&quot; class=&quot;com.bonc.apimanage.test.UserService&quot;&gt;</span><br><span class="line">      &lt;constructor-arg  ref=&quot;userEntity&quot;&gt;&lt;/constructor-arg&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>property</li>
+</ul>
+<p>通过setter对应的方法注入。<br></p>
+<ul>
+<li>qualifier</li>
+</ul>
+<p>明确指定bean的名称进行注入</p>
+<h3 id="2-Bean的生命周期"><a href="#2-Bean的生命周期" class="headerlink" title="2.Bean的生命周期"></a>2.Bean的生命周期</h3><p>Spring 只帮我们管理单例模式 Bean 的完整生命周期，对于 prototype 的 bean ，Spring 在创建好交给使用者之后则不会再管理后续的生命周期。<br></p>
+<p><img src="https://pic3.zhimg.com/80/754a34e03cfaa40008de8e2b9c1b815c_hd.jpg" alt="bean生命周期"></p>
+<ul>
+<li>实例化</li>
+</ul>
+<p>对于BeanFactory容器，当客户向容器请求一个尚未初始化的bean时，或初始化bean的时候需要注入另一个尚未初始化的依赖时，容器就会调用createBean进行实例化。<br><br>对于ApplicationContext容器，当容器启动结束后，便实例化所有的bean。 容器通过获取BeanDefinition对象中的信息进行实例化。并且这一步仅仅是简单的实例化，并未进行依赖注入。<br><br>实例化对象被包装在BeanWrapper对象中，BeanWrapper提供了设置对象属性的接口，从而避免了使用反射机制设置属性。</p>
+<ul>
+<li>填充属性</li>
+</ul>
+<p>Spring将值和Bean的引用注入进Bean对应的属性中(依赖注入).</p>
+<ul>
+<li>Aware相关</li>
+</ul>
+<p>Spring中 特定的Aware接口，提供了对IOC容器的操作.<br></p>
+<ul>
+<li><p>BeanPostProcessor前置处理(postProcessorBeforeInitializion)</p>
+</li>
+<li><p>InitiallizionBean 中 afterProjectSet方法</p>
+</li>
+<li><p>自定义的init-method</p>
+</li>
+<li><p>BeanPostProcessor的后置处理(postProcessorAfterInitializion)</p>
+</li>
+<li><p>Bean就绪</p>
+</li>
+<li><p>DisposableBean的destory方法</p>
+</li>
+<li><p>自定义的destory-method</p>
+</li>
+</ul>
+<h3 id="3-Spring的七个模块"><a href="#3-Spring的七个模块" class="headerlink" title="3.Spring的七个模块"></a>3.Spring的七个模块</h3><ul>
+<li>1.Spring Core</li>
+</ul>
+<p>Core模块是Spring的核心类库，Spring的所有功能都依赖于该类库，Core主要实现IOC功能，Sprign的所有功能都是借助IOC实现的</p>
+<ul>
+<li>2.Spring Aop</li>
+</ul>
+<p>AOP模块是Spring的AOP库，提供了AOP（拦截器）机制，并提供常用的拦截器，供用户自定义和配置</p>
+<ul>
+<li><p>3.Spring ORM</p>
+</li>
+<li><p>4.Spring DAO</p>
+</li>
+<li><p>5.Spring Web</p>
+</li>
+<li><p>6.Spring context</p>
+</li>
+</ul>
+<p>Spring上下文是spring的配置文件，向Spring框架提供上下文信息,可以用来管理bean.</p>
+<ul>
+<li>7.Spring WebMVC</li>
+</ul>
+<p>WEB MVC模块为Spring提供了一套轻量级的MVC实现，在Spring的开发中，我们既可以用Struts也可以用Spring自己的MVC框架，相对于Struts，Spring自己的MVC框架更加简洁和方便  </p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/23/java/spring/spring基础1/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-java/java基础二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -205,6 +498,224 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/06/21/java/java基础二/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/base/理解java中的参数传递" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/17/java/base/理解java中的参数传递/">java参数传递</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/17/java/base/理解java中的参数传递/" class="archive-article-date">
+  	<time datetime="2019-06-17T03:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://blog.csdn.net/jiangnan2014/article/details/22944075" target="_blank" rel="noopener">https://blog.csdn.net/jiangnan2014/article/details/22944075</a></p>
+<p><a href="https://juejin.im/post/5bce68226fb9a05ce46a0476" target="_blank" rel="noopener">https://juejin.im/post/5bce68226fb9a05ce46a0476</a></p>
+<h2 id="1-参数传递"><a href="#1-参数传递" class="headerlink" title="1.参数传递"></a>1.参数传递</h2><p>参数传递分为引用传递和值传递.</p>
+<ul>
+<li>值传递</li>
+</ul>
+<p>方法接收的是调用着提供的值</p>
+<ul>
+<li>引用传递</li>
+</ul>
+<p>方法接收的是调用者提供的变量地址</p>
+<p>这里我们需要注意的是一个方法可以修改 引用传递 所对应的变量值，而不能修改 值传递 所对应的变量值，这是按值调用与引用调用的根本区别。</p>
+<h2 id="2-Java中的参数传递"><a href="#2-Java中的参数传递" class="headerlink" title="2.Java中的参数传递"></a>2.Java中的参数传递</h2><h3 id="1-例子"><a href="#1-例子" class="headerlink" title="1.例子:"></a>1.例子:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line"></span><br><span class="line">    class User&#123;</span><br><span class="line">        private String userName;</span><br><span class="line">        private String userId;</span><br><span class="line"></span><br><span class="line">        public void setUserName(String userName)&#123;</span><br><span class="line">            this.userName = userName;</span><br><span class="line">        &#125;</span><br><span class="line">        public void setUserId(String userId)&#123;</span><br><span class="line">            this.userId = userId;</span><br><span class="line">        &#125;</span><br><span class="line">        public String getUser()&#123;</span><br><span class="line">           return &quot;name: &quot; + this.userName + &quot;  id: &quot; + this.userId;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void transTest(User user)&#123;</span><br><span class="line">        user.setUserName(&quot;传递&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void transTest2(int value)&#123;</span><br><span class="line">        value = value * 2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void transTest3(String value)&#123;</span><br><span class="line">        value = value  + &quot;-changed&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void transTest4(StringBuffer value)&#123;</span><br><span class="line">        value.append(&quot;-changed&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void transTest5(char ch)&#123;</span><br><span class="line">        ch = &apos;2&apos;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line"></span><br><span class="line">        //测试1</span><br><span class="line">        User user = new MyTest().new User();</span><br><span class="line">        user.setUserId(&quot;01&quot;);</span><br><span class="line">        System.out.println(&quot;传递前的值: &quot; + user.getUser());</span><br><span class="line">        transTest(user);</span><br><span class="line">        System.out.println(&quot;传递后的值: &quot; + user.getUser());</span><br><span class="line"></span><br><span class="line">        //测试2</span><br><span class="line">        System.out.println();</span><br><span class="line">        int num = 2;</span><br><span class="line">        System.out.println(&quot;传递前的值: &quot; + num);</span><br><span class="line">        transTest2(num);</span><br><span class="line">        System.out.println(&quot;传递后的值: &quot; + num);</span><br><span class="line"></span><br><span class="line">        //测试3</span><br><span class="line">        System.out.println();</span><br><span class="line">        String s = &quot;123&quot;;</span><br><span class="line">        System.out.println(&quot;传递前的值: &quot; + s);</span><br><span class="line">        transTest3(s);</span><br><span class="line">        System.out.println(&quot;传递后的值: &quot; + s);</span><br><span class="line"></span><br><span class="line">        //测试4</span><br><span class="line">        System.out.println();</span><br><span class="line">        StringBuffer sb = new StringBuffer(&quot;123&quot;);</span><br><span class="line">        System.out.println(&quot;传递前的值: &quot; + sb.toString());</span><br><span class="line">        transTest4(sb);</span><br><span class="line">        System.out.println(&quot;传递后的值: &quot; + sb);</span><br><span class="line"></span><br><span class="line">        //测试5</span><br><span class="line">        System.out.println();</span><br><span class="line">        char ch = &apos;1&apos;;</span><br><span class="line">        System.out.println(&quot;传递前的值: &quot; + ch);</span><br><span class="line">        transTest5(ch);</span><br><span class="line">        System.out.println(&quot;传递后的值: &quot; + ch);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">传递前的值: name: null  id: 01</span><br><span class="line">传递后的值: name: 传递  id: 01</span><br><span class="line"></span><br><span class="line">传递前的值: 2</span><br><span class="line">传递后的值: 2</span><br><span class="line"></span><br><span class="line">传递前的值: 123</span><br><span class="line">传递后的值: 123</span><br><span class="line"></span><br><span class="line">传递前的值: 123</span><br><span class="line">传递后的值: 123-changed</span><br><span class="line"></span><br><span class="line">传递前的值: 1</span><br><span class="line">传递后的值: 1</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-结论"><a href="#2-结论" class="headerlink" title="2.结论"></a>2.结论</h3><p>先来结论:<br></p>
+<p>1.java的参数传递都是传值，没有传引用.<br></p>
+<p>2.对引用类型的传参，传的是引用类型的值(地址的值).<br></p>
+<h3 id="3-分析"><a href="#3-分析" class="headerlink" title="3.分析"></a>3.分析</h3><p>从结果来看:<br></p>
+<ul>
+<li>测试2和测试5</li>
+</ul>
+<p>参数基本类型参数，传的是实参的值的一个拷贝，所以传递过后，方法内部对拷贝的值进行操作，实参本身值不变。</p>
+<ul>
+<li>测试1和测试4</li>
+</ul>
+<p>参数是引用类型，传的是变量的拷贝(地址)，所以在方法内进行修改，会将对应地址的信息进行修改，在外层打印时，打印的是地址中的信息(已被修改).</p>
+<ul>
+<li>测试3</li>
+</ul>
+<p>参数是引用类型，但是String不可变，对String的修改会新建一个对象.</p>
+<h3 id="4-疑惑-传地址为什么是传值，而不是传引用？"><a href="#4-疑惑-传地址为什么是传值，而不是传引用？" class="headerlink" title="4.疑惑: 传地址为什么是传值，而不是传引用？"></a>4.疑惑: 传地址为什么是传值，而不是传引用？</h3><p><a href="https://www.zhihu.com/question/31203609" target="_blank" rel="noopener">https://www.zhihu.com/question/31203609</a><br>知乎高赞讲解，一看就懂。<br></p>
+<h4 id="1-类型区别"><a href="#1-类型区别" class="headerlink" title="(1)类型区别"></a>(1)类型区别</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int num = 10; //基本类型</span><br><span class="line">String str = &quot;hello&quot;; //引用类型</span><br></pre></td></tr></table></figure>
+<p><img src="http://67.216.218.49:8000/file/blogs/java/base/paramsTransfer1.jpg" alt="transfer1"><br>如图：num是基本类型，值就直接保存在变量中。而str是引用类型，变量中保存的只是实际对象的地址。一般称这种变量为”引用”，引用指向实际对象，实际对象中保存着内容。</p>
+<h4 id="2-赋值的作用"><a href="#2-赋值的作用" class="headerlink" title="(2)= 赋值的作用"></a>(2)= 赋值的作用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">num = 20;</span><br><span class="line">str = &quot;java&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="http://67.216.218.49:8000/file/blogs/java/base/paramsTransfer2.jpg" alt="transfer2"><br>对于基本类型 num ，赋值运算符会直接改变变量的值，原来的值被覆盖掉。<br>对于引用类型 str，赋值运算符会改变引用中所保存的地址，原来的地址被覆盖掉。但是原来的对象不会被改变（重要）。</p>
+<h4 id="3-调用方法时的参数传递"><a href="#3-调用方法时的参数传递" class="headerlink" title="(3).调用方法时的参数传递"></a>(3).调用方法时的参数传递</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">StringBuilder sb = new StringBuilder(&quot;iphone&quot;);</span><br><span class="line">void foo(StringBuilder builder) &#123;</span><br><span class="line">    builder.append(&quot;4&quot;);</span><br><span class="line">&#125;</span><br><span class="line">foo(sb); // sb 被改变了，变成了&quot;iphone4&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">StringBuilder sb = new StringBuilder(&quot;iphone&quot;);</span><br><span class="line">void foo(StringBuilder builder) &#123;</span><br><span class="line">    builder = new StringBuilder(&quot;ipad&quot;);</span><br><span class="line">&#125;</span><br><span class="line">foo(sb); // sb 没有被改变，还是 &quot;iphone&quot;。</span><br></pre></td></tr></table></figure>
+<p><img src="http://67.216.218.49:8000/file/blogs/java/base/paramsTransfer3.jpg" alt="transfer3"><br>引用类型时，传递了变量的一份拷贝，(存储着地址的值)，然后进行修改操作后，修改了地址中的信息.</p>
+<p><img src="http://67.216.218.49:8000/file/blogs/java/base/paramsTransfer4.jpg" alt="transfer4"><br>new StringBuilder()时，创建了一个新的地址，原地址信息还是没有改变.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/17/java/base/理解java中的参数传递/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/base/java访问权限" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/17/java/base/java访问权限/">java访问权限</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/17/java/base/java访问权限/" class="archive-article-date">
+  	<time datetime="2019-06-17T03:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-权限"><a href="#1-权限" class="headerlink" title="1.权限"></a>1.权限</h3><p>private,default,protected,public<br><br>protected 用于修饰成员，表示在继承体系中成员对于子类可见，但是这个访问修饰符对于类没有意义。<br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">同一个类</th>
+<th style="text-align:center">同一个包</th>
+<th style="text-align:center">不同包的子类</th>
+<th style="text-align:center">不同包的非子类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">private</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">default</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">protected</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">public</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-意义"><a href="#2-意义" class="headerlink" title="2.意义"></a>2.意义</h3><p>设计良好的模块会隐藏所有的实现细节，把它的 API 与它的实现清晰地隔离开来。模块之间只通过它们的 API 进行通信，一个模块不需要知道其他模块的内部工作情况，这个概念被称为信息隐藏或封装。因此访问权限应当尽可能地使每个类或者成员不被外界访问。</p>
+<p>如果子类的方法重写了父类的方法，那么子类中该方法的访问级别不允许低于父类的访问级别。这是为了确保可以使用父类实例的地方都可以使用子类实例，也就是确保满足里氏替换原则。</p>
+<p>字段决不能是公有的，因为这么做的话就失去了对这个字段修改行为的控制，客户端可以对其随意修改。例如下面的例子中，AccessExample 拥有 id 公有字段，如果在某个时刻，我们想要使用 int 存储 id 字段，那么就需要修改所有的客户端代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public class Example &#123;</span><br><span class="line">    //public String id;  false</span><br><span class="line">    private String id;   true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/17/java/base/java访问权限/">展开全文 >></a>
         </p>
       
 
@@ -386,224 +897,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/06/17/java/base/java基本数据类型/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/base/java访问权限" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/17/java/base/java访问权限/">java访问权限</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/17/java/base/java访问权限/" class="archive-article-date">
-  	<time datetime="2019-06-17T03:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="1-权限"><a href="#1-权限" class="headerlink" title="1.权限"></a>1.权限</h3><p>private,default,protected,public<br><br>protected 用于修饰成员，表示在继承体系中成员对于子类可见，但是这个访问修饰符对于类没有意义。<br></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center"></th>
-<th style="text-align:center">同一个类</th>
-<th style="text-align:center">同一个包</th>
-<th style="text-align:center">不同包的子类</th>
-<th style="text-align:center">不同包的非子类</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">private</td>
-<td style="text-align:center">√</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">default</td>
-<td style="text-align:center">√</td>
-<td style="text-align:center">√</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">protected</td>
-<td style="text-align:center">√</td>
-<td style="text-align:center">√</td>
-<td style="text-align:center">√</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">public</td>
-<td style="text-align:center">√</td>
-<td style="text-align:center">√</td>
-<td style="text-align:center">√</td>
-<td style="text-align:center">√</td>
-</tr>
-</tbody>
-</table>
-<h3 id="2-意义"><a href="#2-意义" class="headerlink" title="2.意义"></a>2.意义</h3><p>设计良好的模块会隐藏所有的实现细节，把它的 API 与它的实现清晰地隔离开来。模块之间只通过它们的 API 进行通信，一个模块不需要知道其他模块的内部工作情况，这个概念被称为信息隐藏或封装。因此访问权限应当尽可能地使每个类或者成员不被外界访问。</p>
-<p>如果子类的方法重写了父类的方法，那么子类中该方法的访问级别不允许低于父类的访问级别。这是为了确保可以使用父类实例的地方都可以使用子类实例，也就是确保满足里氏替换原则。</p>
-<p>字段决不能是公有的，因为这么做的话就失去了对这个字段修改行为的控制，客户端可以对其随意修改。例如下面的例子中，AccessExample 拥有 id 公有字段，如果在某个时刻，我们想要使用 int 存储 id 字段，那么就需要修改所有的客户端代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public class Example &#123;</span><br><span class="line">    //public String id;  false</span><br><span class="line">    private String id;   true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/17/java/base/java访问权限/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/base/理解java中的参数传递" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/17/java/base/理解java中的参数传递/">java参数传递</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/17/java/base/理解java中的参数传递/" class="archive-article-date">
-  	<time datetime="2019-06-17T03:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://blog.csdn.net/jiangnan2014/article/details/22944075" target="_blank" rel="noopener">https://blog.csdn.net/jiangnan2014/article/details/22944075</a></p>
-<p><a href="https://juejin.im/post/5bce68226fb9a05ce46a0476" target="_blank" rel="noopener">https://juejin.im/post/5bce68226fb9a05ce46a0476</a></p>
-<h2 id="1-参数传递"><a href="#1-参数传递" class="headerlink" title="1.参数传递"></a>1.参数传递</h2><p>参数传递分为引用传递和值传递.</p>
-<ul>
-<li>值传递</li>
-</ul>
-<p>方法接收的是调用着提供的值</p>
-<ul>
-<li>引用传递</li>
-</ul>
-<p>方法接收的是调用者提供的变量地址</p>
-<p>这里我们需要注意的是一个方法可以修改 引用传递 所对应的变量值，而不能修改 值传递 所对应的变量值，这是按值调用与引用调用的根本区别。</p>
-<h2 id="2-Java中的参数传递"><a href="#2-Java中的参数传递" class="headerlink" title="2.Java中的参数传递"></a>2.Java中的参数传递</h2><h3 id="1-例子"><a href="#1-例子" class="headerlink" title="1.例子:"></a>1.例子:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line"></span><br><span class="line">    class User&#123;</span><br><span class="line">        private String userName;</span><br><span class="line">        private String userId;</span><br><span class="line"></span><br><span class="line">        public void setUserName(String userName)&#123;</span><br><span class="line">            this.userName = userName;</span><br><span class="line">        &#125;</span><br><span class="line">        public void setUserId(String userId)&#123;</span><br><span class="line">            this.userId = userId;</span><br><span class="line">        &#125;</span><br><span class="line">        public String getUser()&#123;</span><br><span class="line">           return &quot;name: &quot; + this.userName + &quot;  id: &quot; + this.userId;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void transTest(User user)&#123;</span><br><span class="line">        user.setUserName(&quot;传递&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void transTest2(int value)&#123;</span><br><span class="line">        value = value * 2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void transTest3(String value)&#123;</span><br><span class="line">        value = value  + &quot;-changed&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void transTest4(StringBuffer value)&#123;</span><br><span class="line">        value.append(&quot;-changed&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void transTest5(char ch)&#123;</span><br><span class="line">        ch = &apos;2&apos;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line"></span><br><span class="line">        //测试1</span><br><span class="line">        User user = new MyTest().new User();</span><br><span class="line">        user.setUserId(&quot;01&quot;);</span><br><span class="line">        System.out.println(&quot;传递前的值: &quot; + user.getUser());</span><br><span class="line">        transTest(user);</span><br><span class="line">        System.out.println(&quot;传递后的值: &quot; + user.getUser());</span><br><span class="line"></span><br><span class="line">        //测试2</span><br><span class="line">        System.out.println();</span><br><span class="line">        int num = 2;</span><br><span class="line">        System.out.println(&quot;传递前的值: &quot; + num);</span><br><span class="line">        transTest2(num);</span><br><span class="line">        System.out.println(&quot;传递后的值: &quot; + num);</span><br><span class="line"></span><br><span class="line">        //测试3</span><br><span class="line">        System.out.println();</span><br><span class="line">        String s = &quot;123&quot;;</span><br><span class="line">        System.out.println(&quot;传递前的值: &quot; + s);</span><br><span class="line">        transTest3(s);</span><br><span class="line">        System.out.println(&quot;传递后的值: &quot; + s);</span><br><span class="line"></span><br><span class="line">        //测试4</span><br><span class="line">        System.out.println();</span><br><span class="line">        StringBuffer sb = new StringBuffer(&quot;123&quot;);</span><br><span class="line">        System.out.println(&quot;传递前的值: &quot; + sb.toString());</span><br><span class="line">        transTest4(sb);</span><br><span class="line">        System.out.println(&quot;传递后的值: &quot; + sb);</span><br><span class="line"></span><br><span class="line">        //测试5</span><br><span class="line">        System.out.println();</span><br><span class="line">        char ch = &apos;1&apos;;</span><br><span class="line">        System.out.println(&quot;传递前的值: &quot; + ch);</span><br><span class="line">        transTest5(ch);</span><br><span class="line">        System.out.println(&quot;传递后的值: &quot; + ch);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>结果:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">传递前的值: name: null  id: 01</span><br><span class="line">传递后的值: name: 传递  id: 01</span><br><span class="line"></span><br><span class="line">传递前的值: 2</span><br><span class="line">传递后的值: 2</span><br><span class="line"></span><br><span class="line">传递前的值: 123</span><br><span class="line">传递后的值: 123</span><br><span class="line"></span><br><span class="line">传递前的值: 123</span><br><span class="line">传递后的值: 123-changed</span><br><span class="line"></span><br><span class="line">传递前的值: 1</span><br><span class="line">传递后的值: 1</span><br></pre></td></tr></table></figure></p>
-<h3 id="2-结论"><a href="#2-结论" class="headerlink" title="2.结论"></a>2.结论</h3><p>先来结论:<br></p>
-<p>1.java的参数传递都是传值，没有传引用.<br></p>
-<p>2.对引用类型的传参，传的是引用类型的值(地址的值).<br></p>
-<h3 id="3-分析"><a href="#3-分析" class="headerlink" title="3.分析"></a>3.分析</h3><p>从结果来看:<br></p>
-<ul>
-<li>测试2和测试5</li>
-</ul>
-<p>参数基本类型参数，传的是实参的值的一个拷贝，所以传递过后，方法内部对拷贝的值进行操作，实参本身值不变。</p>
-<ul>
-<li>测试1和测试4</li>
-</ul>
-<p>参数是引用类型，传的是变量的拷贝(地址)，所以在方法内进行修改，会将对应地址的信息进行修改，在外层打印时，打印的是地址中的信息(已被修改).</p>
-<ul>
-<li>测试3</li>
-</ul>
-<p>参数是引用类型，但是String不可变，对String的修改会新建一个对象.</p>
-<h3 id="4-疑惑-传地址为什么是传值，而不是传引用？"><a href="#4-疑惑-传地址为什么是传值，而不是传引用？" class="headerlink" title="4.疑惑: 传地址为什么是传值，而不是传引用？"></a>4.疑惑: 传地址为什么是传值，而不是传引用？</h3><p><a href="https://www.zhihu.com/question/31203609" target="_blank" rel="noopener">https://www.zhihu.com/question/31203609</a><br>知乎高赞讲解，一看就懂。<br></p>
-<h4 id="1-类型区别"><a href="#1-类型区别" class="headerlink" title="(1)类型区别"></a>(1)类型区别</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int num = 10; //基本类型</span><br><span class="line">String str = &quot;hello&quot;; //引用类型</span><br></pre></td></tr></table></figure>
-<p><img src="http://67.216.218.49:8000/file/blogs/java/base/paramsTransfer1.jpg" alt="transfer1"><br>如图：num是基本类型，值就直接保存在变量中。而str是引用类型，变量中保存的只是实际对象的地址。一般称这种变量为”引用”，引用指向实际对象，实际对象中保存着内容。</p>
-<h4 id="2-赋值的作用"><a href="#2-赋值的作用" class="headerlink" title="(2)= 赋值的作用"></a>(2)= 赋值的作用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">num = 20;</span><br><span class="line">str = &quot;java&quot;;</span><br></pre></td></tr></table></figure>
-<p><img src="http://67.216.218.49:8000/file/blogs/java/base/paramsTransfer2.jpg" alt="transfer2"><br>对于基本类型 num ，赋值运算符会直接改变变量的值，原来的值被覆盖掉。<br>对于引用类型 str，赋值运算符会改变引用中所保存的地址，原来的地址被覆盖掉。但是原来的对象不会被改变（重要）。</p>
-<h4 id="3-调用方法时的参数传递"><a href="#3-调用方法时的参数传递" class="headerlink" title="(3).调用方法时的参数传递"></a>(3).调用方法时的参数传递</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">StringBuilder sb = new StringBuilder(&quot;iphone&quot;);</span><br><span class="line">void foo(StringBuilder builder) &#123;</span><br><span class="line">    builder.append(&quot;4&quot;);</span><br><span class="line">&#125;</span><br><span class="line">foo(sb); // sb 被改变了，变成了&quot;iphone4&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">StringBuilder sb = new StringBuilder(&quot;iphone&quot;);</span><br><span class="line">void foo(StringBuilder builder) &#123;</span><br><span class="line">    builder = new StringBuilder(&quot;ipad&quot;);</span><br><span class="line">&#125;</span><br><span class="line">foo(sb); // sb 没有被改变，还是 &quot;iphone&quot;。</span><br></pre></td></tr></table></figure>
-<p><img src="http://67.216.218.49:8000/file/blogs/java/base/paramsTransfer3.jpg" alt="transfer3"><br>引用类型时，传递了变量的一份拷贝，(存储着地址的值)，然后进行修改操作后，修改了地址中的信息.</p>
-<p><img src="http://67.216.218.49:8000/file/blogs/java/base/paramsTransfer4.jpg" alt="transfer4"><br>new StringBuilder()时，创建了一个新的地址，原地址信息还是没有改变.</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/17/java/base/理解java中的参数传递/">展开全文 >></a>
         </p>
       
 
@@ -973,184 +1266,9 @@
 
 
   
-    <article id="post-algorithm/sildewindow/manacher" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/29/algorithm/sildewindow/manacher/">滑动窗口解决最长子串问题</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/29/algorithm/sildewindow/manacher/" class="archive-article-date">
-  	<time datetime="2019-05-29T06:25:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h4><p>寻找一个字符串中最长不重复的字符串长度。<br><br>(1)通用做法:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">for(int i=0; i&lt;len; i++)&#123;</span><br><span class="line">    for(int j=i; j&lt;len; j++)&#123;</span><br><span class="line">      //找到以i开头的最长不重复子串</span><br><span class="line">      if()&#123;</span><br><span class="line">        break;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>(2)用滑动窗口来解决<br></p>
-<h4 id="2-滑动窗口"><a href="#2-滑动窗口" class="headerlink" title="2.滑动窗口"></a>2.滑动窗口</h4><p>原理：<br><br>维护一个长度为right-left的窗口，通过左右边界的收缩与拓展来找到最大长度。<br><br>只需一次遍历，时间复杂度O(n).<br></p>
-<h4 id="3-实现"><a href="#3-实现" class="headerlink" title="3.实现"></a>3.实现</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int lengthOfLongestSubstring(String s) &#123;</span><br><span class="line">        //滑动窗口</span><br><span class="line">        int left = 0, right = 0;</span><br><span class="line">        int max = 0;</span><br><span class="line">        Set window = new HashSet();</span><br><span class="line">        while(left&lt;s.length() &amp;&amp; right&lt;s.length())&#123;</span><br><span class="line">            if(!window.contains(s.charAt(right)))&#123;</span><br><span class="line">                window.add(s.charAt(right));</span><br><span class="line">                right++;</span><br><span class="line">                //更新最大值</span><br><span class="line">                max = Math.max(max,right-left);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">              //收缩左边界到没有重复为止，</span><br><span class="line">              //按照顺序收缩，例 abcb-&gt;bcb-&gt;cb</span><br><span class="line">                window.remove(s.charAt(left));</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        return max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/29/algorithm/sildewindow/manacher/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-algorithm/manacher/manacher" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/27/algorithm/manacher/manacher/">马拉车算法</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/27/algorithm/manacher/manacher/" class="archive-article-date">
-  	<time datetime="2019-05-27T07:25:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="manacher算法"><a href="#manacher算法" class="headerlink" title="manacher算法"></a>manacher算法</h3><p>处理回文字符串:<br><br>一搬思路为中心拓展:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//预处理，得到不分奇偶的新串 #a#b#a#c#</span><br><span class="line">for(int i=0; i&lt;len; i++)&#123;</span><br><span class="line">  for (int j = 0; (i-j &gt;= 0) &amp;&amp; (i+j &lt; len); j++)&#123;</span><br><span class="line">		  //在左右j距离拓展匹配</span><br><span class="line">      if (s[i - j] != s[i + j])</span><br><span class="line">				break;</span><br><span class="line">      //纪录最大距离</span><br><span class="line">	&#125;</span><br><span class="line">  //更新最大子串</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Manacher算法，将时间压缩到线性，时间复杂度/空间复杂度都是O(n).</p>
-<h5 id="1-新串"><a href="#1-新串" class="headerlink" title="1.新串"></a>1.新串</h5><p>无论字符串原先为奇数还是偶数长度，通过添加特殊字符都能使之变为奇数，减少判断条件。<br><br>例:</p>
-<ul>
-<li>aba &gt;&gt; #a#b#a#</li>
-<li>abab &gt;&gt; #a#b#a#b#</li>
-</ul>
-<h5 id="2-循环得到p-i"><a href="#2-循环得到p-i" class="headerlink" title="2.循环得到p[i]"></a>2.循环得到p[i]</h5><p>首先定义几个变量: <br></p>
-<ul>
-<li>p[i] 存储对应位置(i)的最大子串的长度,左或右半边(包括了自己本身)</li>
-<li>pos 当前最大子串的中心位置</li>
-<li>mxr 当前最大子串的右边界</li>
-<li>mxl 当前最大字串的左边界</li>
-</ul>
-<p><img src="./manacher01.png" alt="manacher"><br>manacher算法的关键: <br><br>//p[i] = mxr &gt; i ? Math.min(p[2*pos -i], mxr-i):1;<br><br><strong>p[i] = mxr &gt; i ? Math.min(p[2pos -i], mxr-i):0;</strong>  </p>
-<p>如图，i和j关于pos对称，pos-j = i-pos， 即 j = 2*pos-i<br><br>当要计算第i位的p[i]时，i位之前的p[i]都为已知：<br><br>此时:<br></p>
-<h6 id="1-若i在mxr右边"><a href="#1-若i在mxr右边" class="headerlink" title="(1).若i在mxr右边"></a>(1).若i在mxr右边</h6><p>将p[i]置为1(因为mxr的位置必定为#,它的下一位肯定&gt;=1,但是如果mxr==i,则为p[i]肯定为0，所以这里置为0)，进行拓展匹配。<br></p>
-<h6 id="2-若i在当前最大字串范围内："><a href="#2-若i在当前最大字串范围内：" class="headerlink" title="(2).若i在当前最大字串范围内："></a>(2).若i在当前最大字串范围内：<br></h6><p><strong>mxr-i 与 p[j] 的关系，判断以 j 为中心的子串是否完全在以pos为中心的子串内.<br></strong></p>
-<ul>
-<li>若 mxr - i &gt; p[j](例p[10]，p[11],p[12]), 此时可知已j为中心的回文串，包含在以pos为中心的回文串左边部分内，由左右对称可知，以i为中心的回文串p[i] = p[j]<br></li>
-<li>若 mxr -i &lt;= p[j](例p[13]), 此时mxr-i和j-mxl部分是一样的，可以保证如果原理这部分关于j对称的话(又因为mxr-i&lt;=p[j],所以这部分肯定对称，j-mxl是j的字串的一部分)，至少这部分关于i肯定对称，所以p[i]至少有mxr-i的长度,再向右进行拓展匹配<br></li>
-</ul>
-<p>取p[j]和mxr-i中较小的值，再进行拓展匹配<br></p>
-<p>这样循环一次就得到了所有p[i]的值。</p>
-<h5 id="3-具体代码"><a href="#3-具体代码" class="headerlink" title="3.具体代码"></a>3.具体代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public String longestPalindrome(String s) &#123;</span><br><span class="line">        //生成新串</span><br><span class="line">        StringBuffer sb = new StringBuffer();</span><br><span class="line">        for(int i=0; i&lt;s.length()*2+1; i++)&#123;</span><br><span class="line">            if(i%2 == 0)&#123;</span><br><span class="line">                sb.append(&quot;#&quot;);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                sb.append(s.charAt(i/2));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        String ns = sb.toString();</span><br><span class="line">        //处理</span><br><span class="line">        int[] p = new int[ns.length()];</span><br><span class="line">        p[0] = 0;</span><br><span class="line">        int pos = 0, mxr = 0;</span><br><span class="line">        for(int i=0; i&lt;ns.length(); i++)&#123;</span><br><span class="line">            p[i] = mxr&gt;i ? Math.min(p[pos*2-i],mxr-i):0;</span><br><span class="line">            //继续进行拓展</span><br><span class="line">            //是否到达左边界，是否到达右边界，是否对称</span><br><span class="line">            while(i-p[i] &gt;=0</span><br><span class="line">                 &amp;&amp; i+p[i]&lt;= ns.length()-1</span><br><span class="line">                 &amp;&amp; ns.charAt(i+p[i]) == ns.charAt(i-p[i]))&#123;</span><br><span class="line">                p[i]+=1;</span><br><span class="line">            &#125;</span><br><span class="line">            //发现更大的子串，进行调整，如果相等，不调整，取第一个</span><br><span class="line">            if(p[i]&gt; mxr-pos)&#123;</span><br><span class="line">                pos = i;</span><br><span class="line">                mxr = p[i] + i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //因为p[pos]的长度包括了pos自己,所以回文串范围为(pos-p[pos]+1, pos+p[pos]-1)</span><br><span class="line">        //因为substring取值为[a,b)，所以范围为(pos-p[pos]+1, pos+p[pos])</span><br><span class="line">         return ns.substring(pos-p[pos]+1, pos+p[pos]).replace(&quot;#&quot;,&quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/27/algorithm/manacher/manacher/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
     </nav>
   
 
@@ -1261,11 +1379,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1273,11 +1391,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">

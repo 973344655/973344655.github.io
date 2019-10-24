@@ -40,6 +40,7 @@ Broker/Topic/Partition/Producer/Consumer/Consumer Group
   Parition是物理上的概念，每个Topic包含一个或多个Partition
 zookeeper在该体系中的作用
 
+<<<<<<< HEAD
 
 
 
@@ -56,3 +57,6 @@ zookeeper在该体系中的作用
 
 
 iframe 可以跨域加载页面  但是不能访问页面内容，window和document对象， 如果同源则可以
+=======
+apt和dpkg
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
