@@ -40,7 +40,6 @@ Broker/Topic/Partition/Producer/Consumer/Consumer Group
   Parition是物理上的概念，每个Topic包含一个或多个Partition
 zookeeper在该体系中的作用
 
-pub/sub模式和观察者模式的异同？
 
 
 
@@ -49,37 +48,11 @@ pub/sub模式和观察者模式的异同？
 
 
 
+同源策略为什么要限制ajax?
 
-同源策略
- 跨域只存在于浏览器端，不存在于安卓/ios/Node.js/python/ java等其它环境
- 跨域请求能发出去，服务端能收到请求并正常返回结果，只是结果被浏览器拦截了
-1.ajax请求
-$.ajax("https://www.baidu.com");
-Access to XMLHttpRequest at 'https://www.baidu.com/' from origin 'https://www.oschina.net'
-has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header
-is present on the requested resource.
+防csrf 用户登录了a.com, 浏览了恶意网站b.com,b.com执行了ajax请求，向a.com发请求，自动带上了cookie等信息，此时拦截返回信息，防止response中的信息泄漏
 
-2.表单提交和内嵌资源访问(image标签等)为什么可以跨域
-因为这些操作是程序员决定的，相信开发人员不会自己去做不安全操作，安全可控。
+（转账这种怎么办,返回信息不是重要数据)
 
-a标签可以跨域写 a标签链接，重定向，表单提交,大多数都允许
 
-3.禁止DOM操作
-防止一个网站操作其它网站数据
-
-4 为什么form可以跨域 ajax 不可以
-为原页面用 form 提交到另一个域名之后，原页面的脚本无法获取新页面中的内容。
-所以浏览器认为这是安全的。
-而 AJAX 是可以读取响应内容的，因此浏览器不能允许你这样做。
-其实请求已经发送出去了，你只是拿不到响应而已，被浏览器拦截。
-所以浏览器这个策略的本质是，一个域名的 JS ，在未经允许的情况下，不得读取另一个域名的内容。但浏览器并不阻止你向另一个域名发送请求。
-
-orm一般都是给别人发请求，而不是拿别人的数据。
-form一般发完后，不需要别人反馈。或者说别人反馈了你也拿不到。 而ajax是一直在等别人的done or faill信息。 这就设计到上面拿别人信息了
-
-传统form表单提交浏览器会发生跳转，这种并不能叫跨域啊！那我还想问为什么a标签跳转到别的域名不存在跨域呢？
-
-5 CORS把请求分为两种，一种是简单请求，另一种是需要触发预检请求，这两者是相对的，怎样才算“不简单”？只要属于下面的其中一种就不是简单请求：
-（1）使用了除GET/POST/HEAD之外的请求方式，如PUT/DELETE
-（2）使用了除Content-Type/Accept等几个常用的http头这个时候就认为需要先发个预检请求
-预检请求使用OPTIONS方式去检查当前请求是否安全
+iframe 可以跨域加载页面  但是不能访问页面内容，window和document对象， 如果同源则可以
