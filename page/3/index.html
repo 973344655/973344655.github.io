@@ -244,112 +244,6 @@
 
 
   
-    <article id="post-java/thread/threadlocal" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/27/java/thread/threadlocal/">ThreadLocal了解</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/27/java/thread/threadlocal/" class="archive-article-date">
-  	<time datetime="2019-07-27T08:43:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="http://www.jasongj.com/java/threadlocal/" target="_blank" rel="noopener">http://www.jasongj.com/java/threadlocal/</a></p>
-<h1 id="一-ThreadLocal作用"><a href="#一-ThreadLocal作用" class="headerlink" title="一.ThreadLocal作用"></a>一.ThreadLocal作用</h1><h2 id="1-作用"><a href="#1-作用" class="headerlink" title="1.作用"></a>1.作用</h2><p>一半都说是实现了变量在线程间隔离,在类或者方法间共享。<br><br>但是看到这句话一脸迷茫，怎么实现的，为什么要实现??</p>
-<h2 id="2-为什么要用"><a href="#2-为什么要用" class="headerlink" title="2.为什么要用"></a>2.为什么要用</h2><p>通常情况下，我们创建的变量是可以被任何一个线程访问并修改的。而使用ThreadLocal创建的变量只能被当前线程访问，其他线程则无法访问和修改(线程间隔离),同时在改线程的类或方法中，都能获取该变量的同一实例(方法间共享)。</p>
-<h2 id="3-例子"><a href="#3-例子" class="headerlink" title="3.例子"></a>3.例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadLocalTest &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        InnerClass innerClass = new InnerClass();</span><br><span class="line">        for(int i = 1; i &lt;= 2; i++) &#123;</span><br><span class="line">            new Thread(() -&gt; &#123;</span><br><span class="line">                for(int j = 0; j &lt; 2; j++) &#123;</span><br><span class="line">                    innerClass.add(String.valueOf(j));</span><br><span class="line">                    innerClass.print();</span><br><span class="line">                &#125;</span><br><span class="line">                innerClass.set(&quot;hello world&quot;);</span><br><span class="line">            &#125;, &quot;thread - &quot; + i).start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static class InnerClass &#123;</span><br><span class="line">        public void add(String newStr) &#123;</span><br><span class="line">            StringBuilder str = Counter.counter.get();</span><br><span class="line">            Counter.counter.set(str.append(newStr));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void print() &#123;</span><br><span class="line">            System.out.printf(&quot;Thread name:%s , ThreadLocal hashcode:%s, Instance hashcode:%s, Value:%s\n&quot;,</span><br><span class="line">                    Thread.currentThread().getName(),</span><br><span class="line">                    Counter.counter.hashCode(),</span><br><span class="line">                    Counter.counter.get().hashCode(),</span><br><span class="line">                    Counter.counter.get().toString());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void set(String words) &#123;</span><br><span class="line">            Counter.counter.set(new StringBuilder(words));</span><br><span class="line">            System.out.printf(&quot;Set, Thread name:%s , ThreadLocal hashcode:%s,  Instance hashcode:%s, Value:%s\n&quot;,</span><br><span class="line">                    Thread.currentThread().getName(),</span><br><span class="line">                    Counter.counter.hashCode(),</span><br><span class="line">                    Counter.counter.get().hashCode(),</span><br><span class="line">                    Counter.counter.get().toString());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static class Counter &#123;</span><br><span class="line">        private static ThreadLocal&lt;StringBuilder&gt; counter = new ThreadLocal&lt;StringBuilder&gt;() &#123;</span><br><span class="line">            //重写 initialValue 为ThreadLocal get()提供初始值</span><br><span class="line">            @Override</span><br><span class="line">            protected StringBuilder initialValue() &#123;</span><br><span class="line">                return new StringBuilder();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1 Thread name:thread - 1 , ThreadLocal hashcode:1101022441, Instance hashcode:1332191917, Value:0</span><br><span class="line">2 Thread name:thread - 1 , ThreadLocal hashcode:1101022441, Instance hashcode:1332191917, Value:01</span><br><span class="line">3 Set, Thread name:thread - 1 , ThreadLocal hashcode:1101022441,  Instance hashcode:1821539951, Value:hello world</span><br><span class="line">4 Thread name:thread - 2 , ThreadLocal hashcode:1101022441, Instance hashcode:831382771, Value:0</span><br><span class="line">5 Thread name:thread - 2 , ThreadLocal hashcode:1101022441, Instance hashcode:831382771, Value:01</span><br><span class="line">6 Set, Thread name:thread - 2 , ThreadLocal hashcode:1101022441,  Instance hashcode:1061821618, Value:hello world</span><br></pre></td></tr></table></figure>
-<p>结果分析：<br><br>在这个例子里面 StringBuilder 为 ThreadLocal中的变量.<br></p>
-<ul>
-<li><p>从结果 1-6 ThreadLocal hashcode可以看到，所有threadlocal都是同一个实例</p>
-</li>
-<li><p>从结果 1,2和4,5  Instance hashcode 和 value可以看到, 在同一个线程中,变量是共享的，在不同线程中，是不同的变量</p>
-</li>
-<li><p>从结果 12和3，45和6中的 Instance hashCode 可以看出，ThreadLocal 的set() 方法，可以改变ThreadLocal中的变量实例</p>
-</li>
-<li><p>从代码中可见， 虽然都是 Counter.counter.get() 得到value再拼接，但是，在不同线程中，有自己的副本，不影响其它现在，这里set()没有改变变量实例，是因为 用的就是当前实例，没有new StringBuilder(words)；</p>
-</li>
-</ul>
-<h1 id="二-原理"><a href="#二-原理" class="headerlink" title="二.原理"></a>二.原理</h1><p>实现</p>
-<h2 id="1-构造方法"><a href="#1-构造方法" class="headerlink" title="1.构造方法"></a>1.构造方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public ThreadLocal() &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//如果想在初始化时设置get()的初始值，需要重写initialValue方法</span><br><span class="line">private static ThreadLocal&lt;StringBuilder&gt; counter = new ThreadLocal&lt;StringBuilder&gt;() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    protected StringBuilder initialValue() &#123;</span><br><span class="line">        return new StringBuilder();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="2-get"><a href="#2-get" class="headerlink" title="2.get()"></a>2.get()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public T get() &#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    if (map != null) &#123;</span><br><span class="line">        ThreadLocalMap.Entry e = map.getEntry(this);</span><br><span class="line">        if (e != null) &#123;</span><br><span class="line">            @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">            T result = (T)e.value;</span><br><span class="line">            return result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return setInitialValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看出，在ThreadLocal中，使用了ThreadLocalMap 来维护变量与线程之间的关系，其中 Thread为key.<br><br>如果不存在，则调用 setInitialValue()初始化，setInitialValue()又调用了initialValue(), 所以，初始化时，需要重写initialValue方法,可以在get()时得到我们相要的值.</p>
-<h2 id="3-ThreadLocalMap"><a href="#3-ThreadLocalMap" class="headerlink" title="3.ThreadLocalMap"></a>3.ThreadLocalMap</h2><p>ThreadLocalMap 为 ThreadLocal 的静态内部类。<br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">static class ThreadLocalMap &#123;</span><br><span class="line"></span><br><span class="line">    static class Entry extends WeakReference&lt;ThreadLocal&lt;?&gt;&gt; &#123;</span><br><span class="line">        /** The value associated with this ThreadLocal. */</span><br><span class="line">        Object value;</span><br><span class="line"></span><br><span class="line">        Entry(ThreadLocal&lt;?&gt; k, Object v) &#123;</span><br><span class="line">            super(k);</span><br><span class="line">            value = v;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在ThreadLocalMap中 Entry是弱引用<br><br>使用ThreadLocal的弱引用作为key<br></p>
-<ul>
-<li>为什么要用弱引用</li>
-</ul>
-<p>弱引用实例不会影响到被应用对象的GC回收行为，什么意思呢？<br><br>如果一个对象通过一串强引用链接可到达(Strongly reachable)，它是不会被回收的。而弱引用不能阻挡垃圾回收器对其回收。<br></p>
-<p>但是由于每个线程访问某 ThreadLocal 变量后，都会在自己的 Map 内维护该 ThreadLocal 变量与具体实例的映射(ThreadLocalMap)，如果不删除这些引用（映射），则这些 ThreadLocal 不能被回收，可能会造成内存泄漏<br></p>
-<p>所以,使用弱引用的原因在于，当没有强引用指向 ThreadLocal 变量时，它可被回收，从而避免上文所述 ThreadLocal 不能被回收而造成的内存泄漏的问题。<br></p>
-<p>但是，因为key为弱引用，当垃圾回收后，可能会形成key为null，value还存在的内存泄露问题。所以，ThreadLocal 会在 get或set时，擦除这种value.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">private Entry getEntry(ThreadLocal&lt;?&gt; key) &#123;</span><br><span class="line">     int i = key.threadLocalHashCode &amp; (table.length - 1);</span><br><span class="line">     Entry e = table[i];</span><br><span class="line">     if (e != null &amp;&amp; e.get() == key)</span><br><span class="line">         return e;</span><br><span class="line">     else</span><br><span class="line">         return getEntryAfterMiss(key, i, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private Entry getEntryAfterMiss(ThreadLocal&lt;?&gt; key, int i, Entry e) &#123;</span><br><span class="line">    Entry[] tab = table;</span><br><span class="line">    int len = tab.length;</span><br><span class="line"></span><br><span class="line">    while (e != null) &#123;</span><br><span class="line">        ThreadLocal&lt;?&gt; k = e.get();</span><br><span class="line">        if (k == key)</span><br><span class="line">            return e;</span><br><span class="line">        if (k == null)</span><br><span class="line">            expungeStaleEntry(i);</span><br><span class="line">        else</span><br><span class="line">            i = nextIndex(i, len);</span><br><span class="line">        e = tab[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//擦除</span><br><span class="line">private int expungeStaleEntry(int staleSlot) &#123;</span><br><span class="line">       Entry[] tab = table;</span><br><span class="line">       int len = tab.length;</span><br><span class="line"></span><br><span class="line">       // expunge entry at staleSlot</span><br><span class="line">       tab[staleSlot].value = null;</span><br><span class="line">       tab[staleSlot] = null;</span><br><span class="line">       size--;</span><br><span class="line"> ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="4-set"><a href="#4-set" class="headerlink" title="4.set()"></a>4.set()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public void set(T value) &#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    if (map != null)</span><br><span class="line">        map.set(this, value);</span><br><span class="line">    else</span><br><span class="line">        createMap(t, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/27/java/thread/threadlocal/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-java/thread/线程池简要了解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -454,6 +348,112 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/07/27/java/thread/线程池简要了解/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/thread/threadlocal" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/27/java/thread/threadlocal/">ThreadLocal了解</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/27/java/thread/threadlocal/" class="archive-article-date">
+  	<time datetime="2019-07-27T08:43:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://www.jasongj.com/java/threadlocal/" target="_blank" rel="noopener">http://www.jasongj.com/java/threadlocal/</a></p>
+<h1 id="一-ThreadLocal作用"><a href="#一-ThreadLocal作用" class="headerlink" title="一.ThreadLocal作用"></a>一.ThreadLocal作用</h1><h2 id="1-作用"><a href="#1-作用" class="headerlink" title="1.作用"></a>1.作用</h2><p>一半都说是实现了变量在线程间隔离,在类或者方法间共享。<br><br>但是看到这句话一脸迷茫，怎么实现的，为什么要实现??</p>
+<h2 id="2-为什么要用"><a href="#2-为什么要用" class="headerlink" title="2.为什么要用"></a>2.为什么要用</h2><p>通常情况下，我们创建的变量是可以被任何一个线程访问并修改的。而使用ThreadLocal创建的变量只能被当前线程访问，其他线程则无法访问和修改(线程间隔离),同时在改线程的类或方法中，都能获取该变量的同一实例(方法间共享)。</p>
+<h2 id="3-例子"><a href="#3-例子" class="headerlink" title="3.例子"></a>3.例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadLocalTest &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        InnerClass innerClass = new InnerClass();</span><br><span class="line">        for(int i = 1; i &lt;= 2; i++) &#123;</span><br><span class="line">            new Thread(() -&gt; &#123;</span><br><span class="line">                for(int j = 0; j &lt; 2; j++) &#123;</span><br><span class="line">                    innerClass.add(String.valueOf(j));</span><br><span class="line">                    innerClass.print();</span><br><span class="line">                &#125;</span><br><span class="line">                innerClass.set(&quot;hello world&quot;);</span><br><span class="line">            &#125;, &quot;thread - &quot; + i).start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static class InnerClass &#123;</span><br><span class="line">        public void add(String newStr) &#123;</span><br><span class="line">            StringBuilder str = Counter.counter.get();</span><br><span class="line">            Counter.counter.set(str.append(newStr));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void print() &#123;</span><br><span class="line">            System.out.printf(&quot;Thread name:%s , ThreadLocal hashcode:%s, Instance hashcode:%s, Value:%s\n&quot;,</span><br><span class="line">                    Thread.currentThread().getName(),</span><br><span class="line">                    Counter.counter.hashCode(),</span><br><span class="line">                    Counter.counter.get().hashCode(),</span><br><span class="line">                    Counter.counter.get().toString());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void set(String words) &#123;</span><br><span class="line">            Counter.counter.set(new StringBuilder(words));</span><br><span class="line">            System.out.printf(&quot;Set, Thread name:%s , ThreadLocal hashcode:%s,  Instance hashcode:%s, Value:%s\n&quot;,</span><br><span class="line">                    Thread.currentThread().getName(),</span><br><span class="line">                    Counter.counter.hashCode(),</span><br><span class="line">                    Counter.counter.get().hashCode(),</span><br><span class="line">                    Counter.counter.get().toString());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static class Counter &#123;</span><br><span class="line">        private static ThreadLocal&lt;StringBuilder&gt; counter = new ThreadLocal&lt;StringBuilder&gt;() &#123;</span><br><span class="line">            //重写 initialValue 为ThreadLocal get()提供初始值</span><br><span class="line">            @Override</span><br><span class="line">            protected StringBuilder initialValue() &#123;</span><br><span class="line">                return new StringBuilder();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1 Thread name:thread - 1 , ThreadLocal hashcode:1101022441, Instance hashcode:1332191917, Value:0</span><br><span class="line">2 Thread name:thread - 1 , ThreadLocal hashcode:1101022441, Instance hashcode:1332191917, Value:01</span><br><span class="line">3 Set, Thread name:thread - 1 , ThreadLocal hashcode:1101022441,  Instance hashcode:1821539951, Value:hello world</span><br><span class="line">4 Thread name:thread - 2 , ThreadLocal hashcode:1101022441, Instance hashcode:831382771, Value:0</span><br><span class="line">5 Thread name:thread - 2 , ThreadLocal hashcode:1101022441, Instance hashcode:831382771, Value:01</span><br><span class="line">6 Set, Thread name:thread - 2 , ThreadLocal hashcode:1101022441,  Instance hashcode:1061821618, Value:hello world</span><br></pre></td></tr></table></figure>
+<p>结果分析：<br><br>在这个例子里面 StringBuilder 为 ThreadLocal中的变量.<br></p>
+<ul>
+<li><p>从结果 1-6 ThreadLocal hashcode可以看到，所有threadlocal都是同一个实例</p>
+</li>
+<li><p>从结果 1,2和4,5  Instance hashcode 和 value可以看到, 在同一个线程中,变量是共享的，在不同线程中，是不同的变量</p>
+</li>
+<li><p>从结果 12和3，45和6中的 Instance hashCode 可以看出，ThreadLocal 的set() 方法，可以改变ThreadLocal中的变量实例</p>
+</li>
+<li><p>从代码中可见， 虽然都是 Counter.counter.get() 得到value再拼接，但是，在不同线程中，有自己的副本，不影响其它现在，这里set()没有改变变量实例，是因为 用的就是当前实例，没有new StringBuilder(words)；</p>
+</li>
+</ul>
+<h1 id="二-原理"><a href="#二-原理" class="headerlink" title="二.原理"></a>二.原理</h1><p>实现</p>
+<h2 id="1-构造方法"><a href="#1-构造方法" class="headerlink" title="1.构造方法"></a>1.构造方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public ThreadLocal() &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//如果想在初始化时设置get()的初始值，需要重写initialValue方法</span><br><span class="line">private static ThreadLocal&lt;StringBuilder&gt; counter = new ThreadLocal&lt;StringBuilder&gt;() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    protected StringBuilder initialValue() &#123;</span><br><span class="line">        return new StringBuilder();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="2-get"><a href="#2-get" class="headerlink" title="2.get()"></a>2.get()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public T get() &#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    if (map != null) &#123;</span><br><span class="line">        ThreadLocalMap.Entry e = map.getEntry(this);</span><br><span class="line">        if (e != null) &#123;</span><br><span class="line">            @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">            T result = (T)e.value;</span><br><span class="line">            return result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return setInitialValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出，在ThreadLocal中，使用了ThreadLocalMap 来维护变量与线程之间的关系，其中 Thread为key.<br><br>如果不存在，则调用 setInitialValue()初始化，setInitialValue()又调用了initialValue(), 所以，初始化时，需要重写initialValue方法,可以在get()时得到我们相要的值.</p>
+<h2 id="3-ThreadLocalMap"><a href="#3-ThreadLocalMap" class="headerlink" title="3.ThreadLocalMap"></a>3.ThreadLocalMap</h2><p>ThreadLocalMap 为 ThreadLocal 的静态内部类。<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">static class ThreadLocalMap &#123;</span><br><span class="line"></span><br><span class="line">    static class Entry extends WeakReference&lt;ThreadLocal&lt;?&gt;&gt; &#123;</span><br><span class="line">        /** The value associated with this ThreadLocal. */</span><br><span class="line">        Object value;</span><br><span class="line"></span><br><span class="line">        Entry(ThreadLocal&lt;?&gt; k, Object v) &#123;</span><br><span class="line">            super(k);</span><br><span class="line">            value = v;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在ThreadLocalMap中 Entry是弱引用<br><br>使用ThreadLocal的弱引用作为key<br></p>
+<ul>
+<li>为什么要用弱引用</li>
+</ul>
+<p>弱引用实例不会影响到被应用对象的GC回收行为，什么意思呢？<br><br>如果一个对象通过一串强引用链接可到达(Strongly reachable)，它是不会被回收的。而弱引用不能阻挡垃圾回收器对其回收。<br></p>
+<p>但是由于每个线程访问某 ThreadLocal 变量后，都会在自己的 Map 内维护该 ThreadLocal 变量与具体实例的映射(ThreadLocalMap)，如果不删除这些引用（映射），则这些 ThreadLocal 不能被回收，可能会造成内存泄漏<br></p>
+<p>所以,使用弱引用的原因在于，当没有强引用指向 ThreadLocal 变量时，它可被回收，从而避免上文所述 ThreadLocal 不能被回收而造成的内存泄漏的问题。<br></p>
+<p>但是，因为key为弱引用，当垃圾回收后，可能会形成key为null，value还存在的内存泄露问题。所以，ThreadLocal 会在 get或set时，擦除这种value.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">private Entry getEntry(ThreadLocal&lt;?&gt; key) &#123;</span><br><span class="line">     int i = key.threadLocalHashCode &amp; (table.length - 1);</span><br><span class="line">     Entry e = table[i];</span><br><span class="line">     if (e != null &amp;&amp; e.get() == key)</span><br><span class="line">         return e;</span><br><span class="line">     else</span><br><span class="line">         return getEntryAfterMiss(key, i, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private Entry getEntryAfterMiss(ThreadLocal&lt;?&gt; key, int i, Entry e) &#123;</span><br><span class="line">    Entry[] tab = table;</span><br><span class="line">    int len = tab.length;</span><br><span class="line"></span><br><span class="line">    while (e != null) &#123;</span><br><span class="line">        ThreadLocal&lt;?&gt; k = e.get();</span><br><span class="line">        if (k == key)</span><br><span class="line">            return e;</span><br><span class="line">        if (k == null)</span><br><span class="line">            expungeStaleEntry(i);</span><br><span class="line">        else</span><br><span class="line">            i = nextIndex(i, len);</span><br><span class="line">        e = tab[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//擦除</span><br><span class="line">private int expungeStaleEntry(int staleSlot) &#123;</span><br><span class="line">       Entry[] tab = table;</span><br><span class="line">       int len = tab.length;</span><br><span class="line"></span><br><span class="line">       // expunge entry at staleSlot</span><br><span class="line">       tab[staleSlot].value = null;</span><br><span class="line">       tab[staleSlot] = null;</span><br><span class="line">       size--;</span><br><span class="line"> ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-set"><a href="#4-set" class="headerlink" title="4.set()"></a>4.set()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public void set(T value) &#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    if (map != null)</span><br><span class="line">        map.set(this, value);</span><br><span class="line">    else</span><br><span class="line">        createMap(t, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/27/java/thread/threadlocal/">展开全文 >></a>
         </p>
       
 
@@ -822,6 +822,127 @@
 
 
   
+    <article id="post-tools/Es基本语法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/16/tools/Es基本语法/">springboot 整合 es 的RestHighLevelClient</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/16/tools/Es基本语法/" class="archive-article-date">
+  	<time datetime="2019-07-16T10:55:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>官方文档: <a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/_most_important_queries.html" target="_blank" rel="noopener">https://www.elastic.co/guide/cn/elasticsearch/guide/current/_most_important_queries.html</a></p>
+<h3 id="一-基本查询方式"><a href="#一-基本查询方式" class="headerlink" title="一.基本查询方式"></a>一.基本查询方式</h3><ul>
+<li>match</li>
+</ul>
+<p>在查询前会用分析器去分析字符串,会进行分词匹配搜索. <br><br>如果在一个精确值的字段上使用它， 例如数字、日期、布尔或者一个 not_analyzed 字符串字段，那么它将会精确匹配给定的值<br></p>
+<ul>
+<li>match_all</li>
+</ul>
+<p>匹配所有文档.<br></p>
+<ul>
+<li>multi_match</li>
+</ul>
+<p>可以在多个fileds上执行匹配<br></p>
+<ul>
+<li>range</li>
+</ul>
+<p>在区间内匹配<br></p>
+<ul>
+<li>term</li>
+</ul>
+<p>精确查询，完全匹配，不会进行分词.<br></p>
+<ul>
+<li>terms</li>
+</ul>
+<p>可以匹配多个值<br></p>
+<ul>
+<li>exists/missing</li>
+</ul>
+<p>exists 和 missing 被用于查找那些指定字段中有值 (exists) 或无值 (missing) 的文档.</p>
+<h3 id="二-组合查询"><a href="#二-组合查询" class="headerlink" title="二.组合查询"></a>二.组合查询</h3><h4 id="1-bool"><a href="#1-bool" class="headerlink" title="1.bool"></a>1.bool</h4><p>接收的参数:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;bool&quot;: &#123;</span><br><span class="line">        &quot;must&quot;:     &#123; &quot;match&quot;: &#123; &quot;title&quot;: &quot;how to make millions&quot; &#125;&#125;,</span><br><span class="line">        &quot;must_not&quot;: &#123; &quot;match&quot;: &#123; &quot;tag&quot;:   &quot;spam&quot; &#125;&#125;,</span><br><span class="line">        &quot;should&quot;: [</span><br><span class="line">            &#123; &quot;match&quot;: &#123; &quot;tag&quot;: &quot;starred&quot; &#125;&#125;</span><br><span class="line">        ],</span><br><span class="line">        &quot;filter&quot;: &#123;</span><br><span class="line">          &quot;range&quot;: &#123; &quot;date&quot;: &#123; &quot;gte&quot;: &quot;2014-01-01&quot; &#125;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>must</li>
+</ul>
+<p>必须匹配</p>
+<ul>
+<li>must_not</li>
+</ul>
+<p>必须不匹配</p>
+<ul>
+<li>should</li>
+</ul>
+<p>如果没有 must 语句，那么至少需要能够匹配其中的一条 should 语句。但，如果存在至少一条 must 语句，则对 should 语句的匹配没有要求<br><br>有 must 时，如果满足这些语句中的任意语句，将增加 _score ，否则，无任何影响。<br><br>用于增加评分<br></p>
+<h4 id="2-constant-score"><a href="#2-constant-score" class="headerlink" title="2.constant_score"></a>2.constant_score</h4><p><strong> 不常用</strong><br><br>constant_score 它将一个不变的常量评分应用于所有匹配的文档。它被经常用于你只需要执行一个 filter 而没有其它查询（例如，评分查询）的情况下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;constant_score&quot;:   &#123;</span><br><span class="line">        &quot;filter&quot;: &#123;</span><br><span class="line">            &quot;term&quot;: &#123; &quot;category&quot;: &quot;ebooks&quot; &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以使用它来取代只有 filter 语句的 bool 查询。在性能上是完全相同的，但对于提高查询简洁性和清晰度有很大帮助。</p>
+<ul>
+<li>filter</li>
+</ul>
+<p>根据过滤标准来排除或包含文档。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tools</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/16/tools/Es基本语法/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-tools/springboot整合es" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1016,127 +1137,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/07/16/tools/elasticserach/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-tools/Es基本语法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/16/tools/Es基本语法/">springboot 整合 es 的RestHighLevelClient</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/16/tools/Es基本语法/" class="archive-article-date">
-  	<time datetime="2019-07-16T10:55:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>官方文档: <a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/_most_important_queries.html" target="_blank" rel="noopener">https://www.elastic.co/guide/cn/elasticsearch/guide/current/_most_important_queries.html</a></p>
-<h3 id="一-基本查询方式"><a href="#一-基本查询方式" class="headerlink" title="一.基本查询方式"></a>一.基本查询方式</h3><ul>
-<li>match</li>
-</ul>
-<p>在查询前会用分析器去分析字符串,会进行分词匹配搜索. <br><br>如果在一个精确值的字段上使用它， 例如数字、日期、布尔或者一个 not_analyzed 字符串字段，那么它将会精确匹配给定的值<br></p>
-<ul>
-<li>match_all</li>
-</ul>
-<p>匹配所有文档.<br></p>
-<ul>
-<li>multi_match</li>
-</ul>
-<p>可以在多个fileds上执行匹配<br></p>
-<ul>
-<li>range</li>
-</ul>
-<p>在区间内匹配<br></p>
-<ul>
-<li>term</li>
-</ul>
-<p>精确查询，完全匹配，不会进行分词.<br></p>
-<ul>
-<li>terms</li>
-</ul>
-<p>可以匹配多个值<br></p>
-<ul>
-<li>exists/missing</li>
-</ul>
-<p>exists 和 missing 被用于查找那些指定字段中有值 (exists) 或无值 (missing) 的文档.</p>
-<h3 id="二-组合查询"><a href="#二-组合查询" class="headerlink" title="二.组合查询"></a>二.组合查询</h3><h4 id="1-bool"><a href="#1-bool" class="headerlink" title="1.bool"></a>1.bool</h4><p>接收的参数:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;bool&quot;: &#123;</span><br><span class="line">        &quot;must&quot;:     &#123; &quot;match&quot;: &#123; &quot;title&quot;: &quot;how to make millions&quot; &#125;&#125;,</span><br><span class="line">        &quot;must_not&quot;: &#123; &quot;match&quot;: &#123; &quot;tag&quot;:   &quot;spam&quot; &#125;&#125;,</span><br><span class="line">        &quot;should&quot;: [</span><br><span class="line">            &#123; &quot;match&quot;: &#123; &quot;tag&quot;: &quot;starred&quot; &#125;&#125;</span><br><span class="line">        ],</span><br><span class="line">        &quot;filter&quot;: &#123;</span><br><span class="line">          &quot;range&quot;: &#123; &quot;date&quot;: &#123; &quot;gte&quot;: &quot;2014-01-01&quot; &#125;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>must</li>
-</ul>
-<p>必须匹配</p>
-<ul>
-<li>must_not</li>
-</ul>
-<p>必须不匹配</p>
-<ul>
-<li>should</li>
-</ul>
-<p>如果没有 must 语句，那么至少需要能够匹配其中的一条 should 语句。但，如果存在至少一条 must 语句，则对 should 语句的匹配没有要求<br><br>有 must 时，如果满足这些语句中的任意语句，将增加 _score ，否则，无任何影响。<br><br>用于增加评分<br></p>
-<h4 id="2-constant-score"><a href="#2-constant-score" class="headerlink" title="2.constant_score"></a>2.constant_score</h4><p><strong> 不常用</strong><br><br>constant_score 它将一个不变的常量评分应用于所有匹配的文档。它被经常用于你只需要执行一个 filter 而没有其它查询（例如，评分查询）的情况下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;constant_score&quot;:   &#123;</span><br><span class="line">        &quot;filter&quot;: &#123;</span><br><span class="line">            &quot;term&quot;: &#123; &quot;category&quot;: &quot;ebooks&quot; &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以使用它来取代只有 filter 语句的 bool 查询。在性能上是完全相同的，但对于提高查询简洁性和清晰度有很大帮助。</p>
-<ul>
-<li>filter</li>
-</ul>
-<p>根据过滤标准来排除或包含文档。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tools</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/16/tools/Es基本语法/">展开全文 >></a>
         </p>
       
 
@@ -1578,11 +1578,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -138,19 +138,19 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-algorithm/平衡二叉树了解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-algorithm/红黑树初次接触" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/20/algorithm/平衡二叉树了解/">平衡二叉树了解一下</a>
+      <a class="article-title" href="/2019/08/20/algorithm/红黑树初次接触/">红黑树初接触</a>
     </h1>
   
 
         
-        <a href="/2019/08/20/algorithm/平衡二叉树了解/" class="archive-article-date">
+        <a href="/2019/08/20/algorithm/红黑树初次接触/" class="archive-article-date">
   	<time datetime="2019-08-20T09:02:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-20</time>
 </a>
         
@@ -158,122 +158,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="一-什么是平衡二叉树"><a href="#一-什么是平衡二叉树" class="headerlink" title="一.什么是平衡二叉树"></a>一.什么是平衡二叉树</h1><p>平衡二叉树也是一种二叉查找树，有以下特点:</p>
-<ul>
-<li>1.可以是空树。</li>
-<li>2.假如不是空树，任何一个结点的左子树与右子树都是平衡二叉树，并且高度之差的绝对值不超过 1 (即高度要平衡)</li>
-</ul>
-<h1 id="二-为什么要有平衡二叉树，即优缺点"><a href="#二-为什么要有平衡二叉树，即优缺点" class="headerlink" title="二.为什么要有平衡二叉树，即优缺点"></a>二.为什么要有平衡二叉树，即优缺点</h1><ul>
-<li>优</li>
-</ul>
-<p>在树这种数据结构中，树的高度影响着查找速度，层数越少，需要查询的次数越少，效率越高。<br>而平衡二叉树，能减少树的高度，防止出现极端O(N)的情况，使效率稳定为O(logN).</p>
-<ul>
-<li>缺</li>
-</ul>
-<p>当数据量越来越大时，为了保证高度平衡，动态插入和删除的代价也随之增加。<br></p>
-<p>在大数据量查找环境下(如数据库记录查找)，在二叉树结构下(2*N -1),N的层会太大，造成硬盘IO读写次数过多。(使用多路查找树).</p>
-<h1 id="三-怎么实现"><a href="#三-怎么实现" class="headerlink" title="三.怎么实现"></a>三.怎么实现</h1><p>AVL树，平衡二叉树的最早实现之一。以下为AVL树的实现.</p>
-<h3 id="1-原理"><a href="#1-原理" class="headerlink" title="1.原理"></a>1.原理</h3><p>因为平衡二叉树比二叉查找树多了一些性质来保证高度平衡.所以在每一次插入数值之后，树的平衡性都可能被破坏，这时可以通过一个简单的操作来矫正平衡––旋转。<br></p>
-<p>旋转的目的就是减少高度，通过降低整棵树的高度来平衡。哪边的树高，就把那边的树向上旋转。</p>
-<p>四种旋转:<br></p>
-<p>旋转是以失衡的节点为基准的<br><br>LL的解释, 第一个L代表根节点左边，第二个L代表插入的为左节点<br></p>
-<ul>
-<li>LL（左子树的左节点上插入节点而破坏平衡）：右旋转</li>
-</ul>
-<p>第一个 L: <strong>左子树</strong> <br><br>第二个 L: 失衡节点的左孩子的 <strong>左节点</strong>.</p>
-<p><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_LL.webp" alt="LL"></p>
-<ul>
-<li>RR（右子树的右节点上插入节点而破坏平衡）：左旋转</li>
-</ul>
-<p>第一个 R: <strong>右子树</strong> <br><br>第二个 R: 失衡节点的右孩子的 <strong>右节点</strong>.<br><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_RR.webp" alt="RR"></p>
-<ul>
-<li>LR（左子树的右节点上插入节点而破坏平衡）：先左旋后右旋</li>
-</ul>
-<p>第一个 L: <strong>左子树</strong> <br><br>第二个 R: 失衡节点的左孩子的 <strong>右节点</strong>.<br><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_LR.webp" alt="LR"></p>
-<ul>
-<li>RL（右子树的左节点上插入节点而破坏平衡）：先右旋后左旋</li>
-</ul>
-<p>第一个 R: <strong>右子树</strong> <br><br>第二个 L: 失衡节点的右孩子的 <strong>左节点</strong>.<br><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_RL.webp" alt="RL"></p>
-<h3 id="2-实现代码"><a href="#2-实现代码" class="headerlink" title="2.实现代码"></a>2.实现代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line"></span><br><span class="line">    private static class Node&lt;E&gt;&#123;</span><br><span class="line">        E elment;</span><br><span class="line">        Node&lt;E&gt; left;</span><br><span class="line">        Node&lt;E&gt; right;</span><br><span class="line">        int height;</span><br><span class="line"></span><br><span class="line">        Node(E elment)&#123;</span><br><span class="line">            this(elment, null, null);</span><br><span class="line">        &#125;</span><br><span class="line">        Node(E elment, Node left, Node right)&#123;</span><br><span class="line">            this.elment = elment;</span><br><span class="line">            this.left = left;</span><br><span class="line">            this.right = right;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static class AVLTree&lt;E extends Comparable&lt;? super E&gt;&gt;&#123;</span><br><span class="line">        Node root;</span><br><span class="line"></span><br><span class="line">        public AVLTree()&#123;</span><br><span class="line">            this.root = null;</span><br><span class="line">        &#125;</span><br><span class="line">        public void insert(E elment)&#123;</span><br><span class="line">            this.root = insert(this.root, elment);</span><br><span class="line">        &#125;</span><br><span class="line">        //递归找到要插入的位置插入，同时在return中平衡高度</span><br><span class="line">        public Node insert(Node&lt;E&gt; root, E elemet)&#123;</span><br><span class="line">            if( root == null )&#123;</span><br><span class="line">                return new Node(elemet);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if(elemet.compareTo(root.elment) &lt; 0 )&#123;</span><br><span class="line">                //左边插入</span><br><span class="line">                root.left = insert(root.left, elemet);</span><br><span class="line">                //在return后平衡高度,因为是在左边插入，所以如果高度不平衡，只会是左边高于右边</span><br><span class="line">                if(height(root.left) - height(root.right) == 2)&#123;</span><br><span class="line">                    //判断是插在子节点的左边还是右边</span><br><span class="line">                    if(elemet.compareTo(root.left.elment) &lt; 0)&#123;</span><br><span class="line">                        //LL</span><br><span class="line">                        root = nodeLL(root);</span><br><span class="line">                    &#125;else &#123;</span><br><span class="line">                        //LR</span><br><span class="line">                        root = nodeLR(root);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;else if(elemet.compareTo(root.elment) &gt; 0)&#123;</span><br><span class="line">                //右边插入</span><br><span class="line">                root.right = insert(root.right, elemet);</span><br><span class="line">                //在return后平衡高度,因为是在右边插入，所以如果高度不平衡，只会是右边高于左边</span><br><span class="line">                if(height(root.right) - height(root.left) == 2)&#123;</span><br><span class="line">                    //判断是插在子节点的左边还是右边</span><br><span class="line">                    if(elemet.compareTo(root.right.elment) &lt; 0)&#123;</span><br><span class="line">                        //RL</span><br><span class="line">                        root = nodeRL(root);</span><br><span class="line">                    &#125;else &#123;</span><br><span class="line">                        //RR</span><br><span class="line">                        root = nodeRR(root);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            //更新节点高度</span><br><span class="line">            root.height = Math.max(height(root.left),height(root.right)) + 1;</span><br><span class="line">            return root;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //右旋</span><br><span class="line">        private Node nodeLL(Node node)&#123;</span><br><span class="line">            //旋转</span><br><span class="line">            Node newNode = node.left;</span><br><span class="line">            newNode.right = new Node(node.elment);</span><br><span class="line">            //调整高度值</span><br><span class="line">            newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line">        //左旋</span><br><span class="line">        private Node nodeRR(Node node)&#123;</span><br><span class="line">            Node newNode = node.right;</span><br><span class="line">            newNode.left = new Node(node.elment);</span><br><span class="line">            newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line">        //左旋再右旋</span><br><span class="line">        private Node nodeLR(Node node)&#123;</span><br><span class="line">            Node newNode = node.left.right;</span><br><span class="line">            newNode.left = new Node(node.left.elment);</span><br><span class="line">            newNode.right = new Node(node.elment);</span><br><span class="line">            newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line">        //右旋再左旋</span><br><span class="line">        private Node nodeRL(Node node)&#123;</span><br><span class="line">            Node newNode = node.right.left;</span><br><span class="line">            newNode.left = new Node(node.elment);</span><br><span class="line">            newNode.right = new Node(node.right.elment);</span><br><span class="line">            newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        private int height(Node node)&#123;</span><br><span class="line">            return node == null ? -1:node.height;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line"></span><br><span class="line">        AVLTree tree = new AVLTree();</span><br><span class="line">        tree.insert(5);</span><br><span class="line">        tree.insert(4);</span><br><span class="line">        tree.insert(6);</span><br><span class="line">        tree.insert(3);</span><br><span class="line">        tree.insert(2);</span><br><span class="line"></span><br><span class="line">        System.out.println(tree.root.elment);</span><br><span class="line">        System.out.println(tree.root.left.left.elment);</span><br><span class="line">        System.out.println(tree.root.left.right.elment);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="3-顺着代码来理一下逻辑"><a href="#3-顺着代码来理一下逻辑" class="headerlink" title="3.顺着代码来理一下逻辑"></a>3.顺着代码来理一下逻辑</h3><p>1.定义节点类Node,其中height记录当前节点的高度，用来判断是否失衡</p>
-<p>2.定义AVL树，其实就一个root节点</p>
-<p>3.提供四种旋转方法，以失衡的节点为参</p>
-<p>4.通过insert() 不断插入来构建一棵AVL树</p>
-<p>主要注意insert(Node<e> root, E elemet)方法.<br>通过递归，找到新节点的插入点，并插入，然后在一层层的返回结果中判断是否失衡，并调整。</e></p>
-<p>如图:<br><br><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_insert1.PNG" alt="insert"></p>
-<p>已有一棵平衡二叉树，再插入一个节点，节点值为2.<br><br>根据代码，相应流程如下:</p>
-<ul>
-<li>1.递归找到插入点</li>
-<li>2.在return中判断是否打破平衡，并进行调整.</li>
-</ul>
-<p><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_insert2.PNG" alt="insert2"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1.insert(Node(5), 2);</span><br><span class="line">2.    insert(Node(4), 2);</span><br><span class="line">3.        insert(Node(3), 2);</span><br><span class="line">4.            insert(null, 2);</span><br><span class="line">5.            return Node(2);</span><br><span class="line">6.        Node(3).left = Node(2); return Node(3);</span><br><span class="line">7.    Node(4).left = Node(3); height == 2;</span><br><span class="line">      旋转调整 Node(4) = LL(Node(4)); return Node(4);</span><br><span class="line">8.Node(5).left = Node(4); return Node(5);</span><br><span class="line"></span><br><span class="line">Node(5).right 即根节点的右子树，在本例中无变化</span><br></pre></td></tr></table></figure></p>
-<h2 id="四-节点删除操作"><a href="#四-节点删除操作" class="headerlink" title="四.节点删除操作"></a>四.节点删除操作</h2><p>节点删除分为 删除节点 和 调整平衡两步.</p>
-<h3 id="1-删除节点"><a href="#1-删除节点" class="headerlink" title="1.删除节点"></a>1.删除节点</h3><p>删除节点后 要保证剩下还是一棵二叉查找树(有序)。为了保证此条件，我们对删除的三种情况进行分析。<br></p>
-<ul>
-<li>删除的节点为叶子节点</li>
-</ul>
-<p>此时可以直接删除。</p>
-<ul>
-<li>删除对的节点有一个子节点</li>
-</ul>
-<p>此时，无论是有左子节点还是右子节点，可以直接将要删除的节点直接用子节点进行替换。</p>
-<ul>
-<li>删除的节点有两个子节点</li>
-</ul>
-<p>此时判断下要删除的节点的左右子树高度， 若 height(left) &gt;= height(right), 则取 左子树的最大值节点， 如 height(left) &lt; height(right), 则取 右子树的最小值节点. 同时删除该取值的节点。<br></p>
-<p>不管是最大值还是最小值节点，肯定都是叶子节点。<br></p>
-<h3 id="2-调整平衡"><a href="#2-调整平衡" class="headerlink" title="2.调整平衡"></a>2.调整平衡</h3><h4 id="1-情况分析"><a href="#1-情况分析" class="headerlink" title="(1)情况分析"></a>(1)情况分析</h4><p>不同于插入, 如图:</p>
-<p><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_LL_02.png" alt="LL2"></p>
-<p>如上图中图一，新增的时候，只会有节点1 和 节点3 中的一个，不可能同时出现两个的情况，因为，当第一个出现时，节点4就已经失衡，进行调整了。<br></p>
-<p>如上图中图二，当删除时，删除节点5， 会出现节点4失衡， 但是会出现 节点1和节点3 同时存在的情况。此时，将失衡类型 归入 LL 里面.<br></p>
-<p>同理，会出现两个子树同时存在的 RR 情况.<br></p>
-<p>在删除时，可能会出现失衡节点的子节点同时有左右子节点情况。所以，在调整平衡时，于插入有点不一样。如下图， 此时将 1，3 作为 LL, 将 2 作为 LR.<br></p>
-<p><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_LL_04.png" alt="LL4"></p>
-<ul>
-<li>LL：右旋转</li>
-</ul>
-<p>第一个 L: <strong>左子树</strong> <br><br>第二个 L: 失衡节点的左孩子的 <strong>左节点</strong>, <font color="#A52A2A">或 <strong>同时有左右节点</strong> </font>.</p>
-<ul>
-<li>RR：左旋转</li>
-</ul>
-<p>第一个 R: <strong>右子树</strong> <br><br>第二个 R: 失衡节点的右孩子的 <strong>右节点</strong>,<font color="#A52A2A">或 <strong>同时有左右节点</strong> </font>.</p>
-<ul>
-<li>LR：先左旋后右旋</li>
-</ul>
-<p>第一个 L: <strong>左子树</strong> <br><br>第二个 R: 失衡节点的左孩子的 <strong>右节点</strong>.</p>
-<ul>
-<li>RL）：先右旋后左旋</li>
-</ul>
-<p>第一个 R: <strong>右子树</strong> <br><br>第二个 L: 失衡节点的右孩子的 <strong>左节点</strong>.</p>
-<h4 id="2-具体变化"><a href="#2-具体变化" class="headerlink" title="(2)具体变化"></a>(2)具体变化</h4><ul>
-<li>LL</li>
-</ul>
-<p>LL 为右旋， 所以按照右旋的步骤：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//右旋</span><br><span class="line">private Node nodeLL(Node node)&#123;</span><br><span class="line">    //1.将失衡节点的左节点提升</span><br><span class="line">    Node newNode = node.left;</span><br><span class="line">    //2.将失衡节点下降</span><br><span class="line">    newNode.right = new Node(node.elment);</span><br><span class="line">    //调整高度值</span><br><span class="line">    newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">    return newNode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>此时，失衡节点的左子节点的右子节点还未处理,将该右子节点作为失衡节点左节点改变代码为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//右旋</span><br><span class="line">private Node nodeLL(Node node)&#123;</span><br><span class="line">    //1.将失衡节点的左节点提升</span><br><span class="line">    Node newNode = node.left;</span><br><span class="line">    //2.将失衡节点下降</span><br><span class="line">    newNode.right = new Node(node.elment);</span><br><span class="line">    //3.失衡节点的左子节点的右子节点处理</span><br><span class="line">    newNode.right.left = node.left.right;</span><br><span class="line">    //调整高度值</span><br><span class="line">    newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">    return newNode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>如图:<br><img src="http://67.216.218.49:8000/file/blogs/algorithm/avl_tree_LL_03.png" alt="LL3"></p>
-<p>当失衡节点的左子节点的右子节点 不存在， 即为null,时，这样处理无影响。此时就和插入的平衡处理一个效果。</p>
-<ul>
-<li>RR</li>
-</ul>
-<p>参照 LL, RR进行左旋操作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//左旋</span><br><span class="line">private Node nodeRR(Node node)&#123;</span><br><span class="line">    //1.将失衡节点的右子节点提升</span><br><span class="line">    Node newNode = node.right;</span><br><span class="line">    //2.将失衡节点下沉</span><br><span class="line">    newNode.left = new Node(node.elment);</span><br><span class="line">    //3.失衡节点的右节点的左孩子处理</span><br><span class="line">    newNode.left.right = node.right.left;</span><br><span class="line">    //调整高度</span><br><span class="line">    newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">    return newNode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>此时，插入和删除的代码可以合并.</p>
-<h4 id="3-性能"><a href="#3-性能" class="headerlink" title="(3)性能"></a>(3)性能</h4><ul>
-<li>查找</li>
-</ul>
-<p>O(logn).</p>
-<ul>
-<li>插入</li>
-</ul>
-<p>O(logn) + 旋转。</p>
-<p>插入时，最多需要旋转1次(单旋转或双旋转).</p>
-<ul>
-<li>删除</li>
-</ul>
-<p>O(logn) + 旋转.</p>
-<p>删除之后必须检查从删除结点开始到根结点路径上的所有结点的平衡因子。每一次删除操作最多需要O(logN)次旋转。因此，删除操作的时间复杂度为O(logN)+O(logN)=O(2logN)</p>
-<h3 id="3-完整代码"><a href="#3-完整代码" class="headerlink" title="3.完整代码"></a>3.完整代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br></pre></td><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private static class Node&lt;E&gt;&#123;</span><br><span class="line">        E elment;</span><br><span class="line">        Node&lt;E&gt; left;</span><br><span class="line">        Node&lt;E&gt; right;</span><br><span class="line">        int height;</span><br><span class="line"></span><br><span class="line">        Node(E elment)&#123;</span><br><span class="line">            this(elment, null, null);</span><br><span class="line">        &#125;</span><br><span class="line">        Node(E elment, Node left, Node right)&#123;</span><br><span class="line">            this.elment = elment;</span><br><span class="line">            this.left = left;</span><br><span class="line">            this.right = right;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static class AVLTree&lt;E extends Comparable&lt;? super E&gt;&gt;&#123;</span><br><span class="line">        Node root;</span><br><span class="line"></span><br><span class="line">        public AVLTree()&#123;</span><br><span class="line">            this.root = null;</span><br><span class="line">        &#125;</span><br><span class="line">        public void insert(E elment)&#123;</span><br><span class="line">            this.root = insert(this.root, elment);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void delete(E elment)&#123;</span><br><span class="line">            if (elment != null)&#123;</span><br><span class="line">                this.root = delete(this.root, elment);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //递归找到要插入的位置插入，同时在return中平衡高度</span><br><span class="line">        public Node insert(Node&lt;E&gt; root, E elemet)&#123;</span><br><span class="line">            if( root == null )&#123;</span><br><span class="line">                return new Node(elemet);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if(elemet.compareTo(root.elment) &lt; 0 )&#123;</span><br><span class="line">                //左边插入</span><br><span class="line">                root.left = insert(root.left, elemet);</span><br><span class="line">                //在return后平衡高度,因为是在左边插入，所以如果高度不平衡，只会是左边高于右边</span><br><span class="line">                if(height(root.left) - height(root.right) == 2)&#123;</span><br><span class="line">                    //判断是插在子节点的左边还是右边</span><br><span class="line">                    if(elemet.compareTo(root.left.elment) &lt; 0)&#123;</span><br><span class="line">                        //LL</span><br><span class="line">                        root = nodeLL(root);</span><br><span class="line">                    &#125;else &#123;</span><br><span class="line">                        //LR</span><br><span class="line">                        root = nodeLR(root);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;else if(elemet.compareTo(root.elment) &gt; 0)&#123;</span><br><span class="line">                //右边插入</span><br><span class="line">                root.right = insert(root.right, elemet);</span><br><span class="line">                //在return后平衡高度,因为是在右边插入，所以如果高度不平衡，只会是右边高于左边</span><br><span class="line">                if(height(root.right) - height(root.left) == 2)&#123;</span><br><span class="line">                    //判断是插在子节点的左边还是右边</span><br><span class="line">                    if(elemet.compareTo(root.right.elment) &lt; 0)&#123;</span><br><span class="line">                        //RL</span><br><span class="line">                        root = nodeRL(root);</span><br><span class="line">                    &#125;else &#123;</span><br><span class="line">                        //RR</span><br><span class="line">                        root = nodeRR(root);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            //更新节点高度</span><br><span class="line">            root.height = Math.max(height(root.left),height(root.right)) + 1;</span><br><span class="line">            return root;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //右旋</span><br><span class="line">        private Node nodeLL(Node node)&#123;</span><br><span class="line">            //1.将失衡节点的左节点提升</span><br><span class="line">            Node newNode = node.left;</span><br><span class="line">            //2.将失衡节点下降</span><br><span class="line">            newNode.right = new Node(node.elment);</span><br><span class="line">            //3.失衡节点的左子节点的右子节点处理</span><br><span class="line">            newNode.right.left = node.left.right;</span><br><span class="line">            //调整高度值</span><br><span class="line">            newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line">        //左旋</span><br><span class="line">        private Node nodeRR(Node node)&#123;</span><br><span class="line">            //1.将失衡节点的右子节点提升</span><br><span class="line">            Node newNode = node.right;</span><br><span class="line">            //2.将失衡节点下沉</span><br><span class="line">            newNode.left = new Node(node.elment);</span><br><span class="line">            //3.失衡节点的右节点的左孩子处理</span><br><span class="line">            newNode.left.right = node.right.left;</span><br><span class="line">            //调整高度</span><br><span class="line">            newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line">        //左旋再右旋</span><br><span class="line">        private Node nodeLR(Node node)&#123;</span><br><span class="line">            Node newNode = node.left.right;</span><br><span class="line">            newNode.left = new Node(node.left.elment);</span><br><span class="line">            newNode.right = new Node(node.elment);</span><br><span class="line">            newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line">        //右旋再左旋</span><br><span class="line">        private Node nodeRL(Node node)&#123;</span><br><span class="line">            Node newNode = node.right.left;</span><br><span class="line">            newNode.left = new Node(node.elment);</span><br><span class="line">            newNode.right = new Node(node.right.elment);</span><br><span class="line">            newNode.height = Math.max(height(newNode.left), height(newNode.right)) + 1;</span><br><span class="line">            return newNode;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        private int height(Node node)&#123;</span><br><span class="line">            return node == null ? -1:node.height;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        public Node delete(Node&lt;E&gt; root, E element)&#123;</span><br><span class="line">            if (root == null)&#123;</span><br><span class="line">                return null;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if(element.compareTo(root.elment) &lt; 0)&#123;</span><br><span class="line">                //左递归</span><br><span class="line">                root.left = delete(root.left, element);</span><br><span class="line">                //重新调整平衡，删除左边，调整右边</span><br><span class="line">                if(height(root.left) - height(root.right) == 2 || height(root.left) - height(root.right) == -2)&#123;</span><br><span class="line">                    //判断是哪种调整方式</span><br><span class="line">                    // 只有失衡节点的右子树的左节点</span><br><span class="line">                    if(root.right.right == null)&#123;</span><br><span class="line">                        //RL</span><br><span class="line">                        root = nodeRL(root);</span><br><span class="line">                    &#125;else &#123;</span><br><span class="line">                        //RR</span><br><span class="line">                        root = nodeRR(root);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;else if(element.compareTo(root.elment) &gt; 0)&#123;</span><br><span class="line">                //右递归</span><br><span class="line">                root.right = delete(root.right, element);</span><br><span class="line">                //重新调整平衡，删除右边，调整左边</span><br><span class="line">                if(height(root.right) - height(root.left) == 2 || height(root.right) - height(root.left) == -2)&#123;</span><br><span class="line">                    //判断调整类型</span><br><span class="line">                    //只有失衡节点的左子树的右节点</span><br><span class="line">                    if(root.left.left == null)&#123;</span><br><span class="line">                        //LR</span><br><span class="line">                        root = nodeLR(root);</span><br><span class="line">                    &#125;else &#123;</span><br><span class="line">                        //LL</span><br><span class="line">                        root = nodeLL(root);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;else &#123;</span><br><span class="line">                //删除</span><br><span class="line">                if(root.left != null &amp;&amp; root.right != null)&#123;</span><br><span class="line">                    //有两个子节点</span><br><span class="line">                    //找到替换得节点，右子树最小值</span><br><span class="line">                    root.elment = findElement(root);</span><br><span class="line">                    //删除替换节点，替换节点一定是叶子节点</span><br><span class="line">                    delete(root.right, root.elment);</span><br><span class="line"></span><br><span class="line">                &#125;else if(root.left == null &amp;&amp; root.right == null)&#123;</span><br><span class="line">                    //无子节点，自己是叶子节点</span><br><span class="line">                    root = null;</span><br><span class="line">                &#125;else &#123;</span><br><span class="line">                    //有一个子节点</span><br><span class="line">                    root = root.left != null ? root.left : root.right;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return root;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //判断替换点为左子树最大还是右子树最小</span><br><span class="line">        private E findElement(Node&lt;E&gt; root)&#123;</span><br><span class="line">            if(height(root.left) &gt;= height(root.right))&#123;</span><br><span class="line">                return findLeftMax(root.left);</span><br><span class="line">            &#125;else &#123;</span><br><span class="line">                return findRightMin(root.right);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        private E findRightMin(Node&lt;E&gt; root)&#123;</span><br><span class="line">            while (root.left != null)&#123;</span><br><span class="line">                root = root.left;</span><br><span class="line">            &#125;</span><br><span class="line">           return root.elment;</span><br><span class="line">        &#125;</span><br><span class="line">        private E findLeftMax(Node&lt;E&gt; root)&#123;</span><br><span class="line">            while (root.right != null)&#123;</span><br><span class="line">                root = root.right;</span><br><span class="line">            &#125;</span><br><span class="line">            return root.elment;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line"></span><br><span class="line">        AVLTree tree = new AVLTree();</span><br><span class="line">        tree.insert(4);</span><br><span class="line">        tree.insert(2);</span><br><span class="line">        tree.insert(5);</span><br><span class="line">        tree.insert(1);</span><br><span class="line">        tree.insert(3);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        System.out.println(tree.root.elment);</span><br><span class="line">        tree.delete(5);</span><br><span class="line">        System.out.println(tree.root.elment);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>要了解红黑树，首先要了解二叉查找树.红黑树是一种有特殊规则的二叉查找树.这些规则使红黑树保证了一种平衡，插入、删除、查找的最坏时间复杂度都为 O(logn)</p>
+<p>红黑树的应用比较广泛，主要是用它来存储有序的数据，它的时间复杂度是O(lgn)，效率非常之高。</p>
+<h2 id="一-红黑树特点"><a href="#一-红黑树特点" class="headerlink" title="一.红黑树特点"></a>一.红黑树特点</h2><p>1.根节点是黑色</p>
+<p>2.每个节点非黑即红</p>
+<p>3.每个叶子节点(即NULL)都是黑</p>
+<p>4.如果一个节点为红色，则它的子节点一定为黑色(没有说黑色节点的子节点一定为黑色)</p>
+<p>5.对于任意节点，其到叶子节点的每条路径都包含相同数目黑节点</p>
+<p>6.红黑树是一种弱平衡二叉树</p>
+<p>2.为什么要有红黑树<br>在插入和删除的过程中，红黑树会采取一定的策略对树的组织形式进行调整，以尽可能的减少树的高度，从而节省查找的时间<br>避免极端情况发生</p>
+<p>为什么要用红黑树就要了解它和AVL树的区别， 在删除时，红黑树最多经过三次旋转，效率更高</p>
+<p>3.怎么实现</p>
 
       
 
@@ -297,7 +192,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/20/algorithm/平衡二叉树了解/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/08/20/algorithm/红黑树初次接触/">展开全文 >></a>
         </p>
       
 
@@ -571,6 +466,83 @@
 
 
   
+    <article id="post-java/base/java面向对象" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/19/java/base/java面向对象/">Java面向对象</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/19/java/base/java面向对象/" class="archive-article-date">
+  	<time datetime="2019-08-19T06:38:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一-三大特征"><a href="#一-三大特征" class="headerlink" title="一.三大特征"></a>一.三大特征</h2><p><strong>java面向对象的三大特征：封装， 继承， 多态 <br></strong></p>
+<h3 id="1-封装"><a href="#1-封装" class="headerlink" title="(1)封装"></a>(1)封装</h3><p>合并特征和行为，进行抽象。将数据和具体细节等隐藏，提供一个统一的外部访问入口。</p>
+<h3 id="2-继承"><a href="#2-继承" class="headerlink" title="(2)继承"></a>(2)继承</h3><p>在已有类的基础上，创建拥有父类属性和方法的子类。子类能进行重写和拓展。允许将对象视为自己本身或基类进行处理。</p>
+<h3 id="3-多态"><a href="#3-多态" class="headerlink" title="(3)多态"></a>(3)多态</h3><p>同一个接口，使用不同的实例会进行不同的操作。<br><br>父类引用子类对象，调用方法时，会调用子类的实现，而不是父类的实现。<br></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/19/java/base/java面向对象/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-java/java基础" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -620,83 +592,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/08/19/java/java基础/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/base/java面向对象" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/19/java/base/java面向对象/">Java面向对象</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/19/java/base/java面向对象/" class="archive-article-date">
-  	<time datetime="2019-08-19T06:38:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一-三大特征"><a href="#一-三大特征" class="headerlink" title="一.三大特征"></a>一.三大特征</h2><p><strong>java面向对象的三大特征：封装， 继承， 多态 <br></strong></p>
-<h3 id="1-封装"><a href="#1-封装" class="headerlink" title="(1)封装"></a>(1)封装</h3><p>合并特征和行为，进行抽象。将数据和具体细节等隐藏，提供一个统一的外部访问入口。</p>
-<h3 id="2-继承"><a href="#2-继承" class="headerlink" title="(2)继承"></a>(2)继承</h3><p>在已有类的基础上，创建拥有父类属性和方法的子类。子类能进行重写和拓展。允许将对象视为自己本身或基类进行处理。</p>
-<h3 id="3-多态"><a href="#3-多态" class="headerlink" title="(3)多态"></a>(3)多态</h3><p>同一个接口，使用不同的实例会进行不同的操作。<br><br>父类引用子类对象，调用方法时，会调用子类的实现，而不是父类的实现。<br></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/19/java/base/java面向对象/">展开全文 >></a>
         </p>
       
 
@@ -1257,11 +1152,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
