@@ -138,26 +138,40 @@
           <div id="js-content" class="content-ll">
             
   
+<<<<<<< HEAD
     <article id="post-java/java基础二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+=======
+    <article id="post-java/spring/springAsync" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
+<<<<<<< HEAD
       <a class="article-title" href="/2019/06/21/java/java基础二/">java基础二</a>
+=======
+      <a class="article-title" href="/2019/06/28/java/spring/springAsync/">spring异步调用</a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
     </h1>
   
 
         
+<<<<<<< HEAD
         <a href="/2019/06/21/java/java基础二/" class="archive-article-date">
   	<time datetime="2019-06-21T07:59:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-21</time>
+=======
+        <a href="/2019/06/28/java/spring/springAsync/" class="archive-article-date">
+  	<time datetime="2019-06-28T15:08:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-28</time>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
+<<<<<<< HEAD
         <h3 id="1-抽象类和接口"><a href="#1-抽象类和接口" class="headerlink" title="1.抽象类和接口"></a>1.抽象类和接口</h3><h6 id="1-为什么要有抽象类"><a href="#1-为什么要有抽象类" class="headerlink" title="(1).为什么要有抽象类"></a>(1).为什么要有抽象类</h6><p>引入抽象方法和抽象类，是Java提供的一种语法工具，对于一些类和方法，引导使用者正确使用它们，减少被误用。<br></p>
 <p>使用抽象方法，而非空方法体，子类就知道他必须要实现该方法，而不可能忽略。<br></p>
 <p>使用抽象类，类的使用者创建对象的时候，就知道他必须要使用某个具体子类，而不可能误用不完整的父类。<br></p>
@@ -192,6 +206,15 @@
 <p>static修饰的属性强调它们只有一个，可以在不new对象的情况下调用，final强调不能修改。static final修饰的属性表示一旦给值，就不可修改，并且可以通过类名访问。<br></p>
 <p>初始化顺序:静态变量和静态语句块优先于实例变量和普通语句块，静态变量和静态语句块的初始化顺序取决于它们在代码中的顺序。<br></p>
 <h3 id="6-反射"><a href="#6-反射" class="headerlink" title="6.反射"></a>6.反射</h3><h5 id="为什么要用反射"><a href="#为什么要用反射" class="headerlink" title="为什么要用反射"></a>为什么要用反射</h5><p>反射的核心是可以在运行时才动态加载类的信息。<br><br>利用这个特性，可以使代码变得灵活，如一开始不知道某个类的信息，不能new,但是可以通过配置文件或者插件等引入，使用反射在运行时加载。利用配置文件时，可以将类描述(属性信息)写在配置文件中，不用每次修改代码<br><br>反射会牺牲一点性能。</p>
+=======
+        <h3 id="1-快速上手"><a href="#1-快速上手" class="headerlink" title="1.快速上手"></a>1.快速上手</h3><h6 id="1-添加-EnableAsync"><a href="#1-添加-EnableAsync" class="headerlink" title="1.添加@EnableAsync"></a>1.添加@EnableAsync</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@EnableAsync</span><br><span class="line">public class AsyncConfig &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="2-异步方法"><a href="#2-异步方法" class="headerlink" title="2.异步方法"></a>2.异步方法</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 要执行的异步任务</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class AsyncDoThings &#123;</span><br><span class="line"></span><br><span class="line">    public void doThing1() throws Exception&#123;</span><br><span class="line">        System.out.println(&quot;[*] doThing1 Start : &quot; + System.currentTimeMillis());</span><br><span class="line">        Thread.sleep(10000);</span><br><span class="line">        System.out.println(&quot;[*] doThing1 end: &quot; + System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Async</span><br><span class="line">    public void AsyncDoThing1() throws Exception&#123;</span><br><span class="line">        System.out.println(&quot;[*] AsyncDoThing1 Start : &quot; + System.currentTimeMillis());</span><br><span class="line">        Thread.sleep(10000);</span><br><span class="line">        System.out.println(&quot;[*] AsyncDoThing1 end: &quot; + System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h6 id="3-执行"><a href="#3-执行" class="headerlink" title="3.执行"></a>3.执行</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@RunWith(SpringRunner.class)</span><br><span class="line">@SpringBootTest</span><br><span class="line">public class SpringbootDemoApplicationTests &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    AsyncDoThings asyncDoThings;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void contextLoads() throws Exception&#123;</span><br><span class="line">        asyncDoThings.doThing1();</span><br><span class="line">        asyncDoThings.AsyncDoThing1();</span><br><span class="line">        asyncDoThings.doThing1();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="4-结果"><a href="#4-结果" class="headerlink" title="4.结果"></a>4.结果</h6><p>可以看到  异步任务 开始后，下一个任务立即执行，未发生阻塞等待<br><br><img src="http://67.216.218.49:8000/file/blogs/java/spring/Async1.png" alt="Async1"></p>
+<h3 id="2-稍微深入"><a href="#2-稍微深入" class="headerlink" title="2.稍微深入"></a>2.稍微深入</h3><h6 id="1-使用自己的线程池"><a href="#1-使用自己的线程池" class="headerlink" title="1.使用自己的线程池"></a>1.使用自己的线程池</h6><p>实现AsyncConfiguer接口<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 异步任务配置类</span><br><span class="line"> */</span><br><span class="line">@Configuration</span><br><span class="line">@EnableAsync</span><br><span class="line">public class AsyncConfig implements AsyncConfigurer &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 使用自己的线程池</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    public Executor getAsyncExecutor()&#123;</span><br><span class="line">        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();</span><br><span class="line">        executor.setCorePoolSize(5);</span><br><span class="line">        executor.setMaxPoolSize(20);</span><br><span class="line">        executor.setQueueCapacity(200);</span><br><span class="line">        executor.setKeepAliveSeconds(60*30);</span><br><span class="line">        //等待任务在关机时完成--表明等待所有线程执行完</span><br><span class="line">        executor.setWaitForTasksToCompleteOnShutdown(true);</span><br><span class="line">        //线程名前缀</span><br><span class="line">        executor.setThreadNamePrefix(&quot;MyAsync-&quot;);</span><br><span class="line">        executor.initialize();</span><br><span class="line">        return executor;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 处理异步任务中发生的异常</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler()&#123;</span><br><span class="line">        //return new AsyncExecuteExceptionHandler();</span><br><span class="line">        return new SimpleAsyncUncaughtExceptionHandler();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    class AsyncExecuteExceptionHandler implements AsyncUncaughtExceptionHandler&#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void handleUncaughtException(Throwable ex, Method method, Object... params)&#123;</span><br><span class="line">            System.out.println(&quot;[*]: 异步任务发生异常 &quot; + ex.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h6 id="2-获取异步任务的返回结果"><a href="#2-获取异步任务的返回结果" class="headerlink" title="2.获取异步任务的返回结果"></a>2.获取异步任务的返回结果</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 要执行的异步任务</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class AsyncDoThings &#123;</span><br><span class="line"></span><br><span class="line">    public void doThing1() throws Exception&#123;</span><br><span class="line">        System.out.println(&quot;[*] doThing1 Start : &quot; + System.currentTimeMillis());</span><br><span class="line">        System.out.println(&quot;[*] threadname &quot; + Thread.currentThread().getName() );</span><br><span class="line">        Thread.sleep(1000);</span><br><span class="line">        System.out.println(&quot;[*] doThing1 end: &quot; + System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Async</span><br><span class="line">    public void AsyncDoThing1() throws Exception&#123;</span><br><span class="line">        System.out.println(&quot;[*] AsyncDoThing1 Start : &quot; + System.currentTimeMillis());</span><br><span class="line">        System.out.println(&quot;[*] threadname &quot; + Thread.currentThread().getName() );</span><br><span class="line">        Thread.sleep(3000);</span><br><span class="line">        System.out.println(&quot;[*] AsyncDoThing1 end: &quot; + System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获取返回结果</span><br><span class="line">    @Async</span><br><span class="line">    public Future&lt;String&gt; AsyncWithResponse(String tips) throws Exception&#123;</span><br><span class="line">        System.out.println(&quot;[*] AsyncWithResponse Start : &quot; + System.currentTimeMillis());</span><br><span class="line">        System.out.println(&quot;[*] threadname &quot; + Thread.currentThread().getName() );</span><br><span class="line">        Thread.sleep(3000);</span><br><span class="line">        System.out.println(&quot;[*] AsyncWithResponse end: &quot; + System.currentTimeMillis());</span><br><span class="line">        return new AsyncResult&lt;&gt;(tips + &quot; : finished! &quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//测试类中</span><br><span class="line">@Test</span><br><span class="line">public void contextLoads() throws Exception&#123;</span><br><span class="line">    asyncDoThings.doThing1();</span><br><span class="line">    asyncDoThings.AsyncDoThing1();</span><br><span class="line">    asyncDoThings.doThing1();</span><br><span class="line"></span><br><span class="line">    Future future = asyncDoThings.AsyncWithResponse(&quot;AsyncWithRes &quot;);</span><br><span class="line">    System.out.println(&quot;[*]: &quot;  + Thread.currentThread().getName() + &quot; &quot; + future.get());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="3-结果"><a href="#3-结果" class="headerlink" title="3.结果"></a>3.结果</h6><p><img src="http://67.216.218.49:8000/file/blogs/java/spring/Async2.png" alt="Async2"></p>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 
       
 
@@ -200,11 +223,33 @@
     <div class="article-info article-info-index">
       
       
+<<<<<<< HEAD
+=======
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
       
 
       
         <p class="article-more-link">
+<<<<<<< HEAD
           <a class="article-more-a" href="/2019/06/21/java/java基础二/">展开全文 >></a>
+=======
+          <a class="article-more-a" href="/2019/06/28/java/spring/springAsync/">展开全文 >></a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
         </p>
       
 
@@ -234,26 +279,40 @@
 
 
   
+<<<<<<< HEAD
     <article id="post-java/base/java基本数据类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+=======
+    <article id="post-java/spring/spring基础1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
+<<<<<<< HEAD
       <a class="article-title" href="/2019/06/17/java/base/java基本数据类型/">java数据类型</a>
+=======
+      <a class="article-title" href="/2019/06/23/java/spring/spring基础1/">spring基础一 bean</a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
     </h1>
   
 
         
+<<<<<<< HEAD
         <a href="/2019/06/17/java/base/java基本数据类型/" class="archive-article-date">
   	<time datetime="2019-06-17T03:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
+=======
+        <a href="/2019/06/23/java/spring/spring基础1/" class="archive-article-date">
+  	<time datetime="2019-06-23T04:58:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-23</time>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
+<<<<<<< HEAD
         <h2 id="一-8种基本数据类型"><a href="#一-8种基本数据类型" class="headerlink" title="一.8种基本数据类型"></a>一.8种基本数据类型</h2><h3 id="1-大小"><a href="#1-大小" class="headerlink" title="1.大小"></a>1.大小</h3><ul>
 <li>位 bit(b)  </li>
 <li>字节 Byte(B) = 8b</li>
@@ -362,6 +421,140 @@
 <p>如果是采用 “bbb” 这种字面量的形式创建字符串，会自动地将字符串放入 String Pool 中。<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String s5 = &quot;bbb&quot;;//不存在，创建</span><br><span class="line">String s6 = &quot;bbb&quot;;//已存在，获得引用</span><br><span class="line">System.out.println(s5 == s6);  // true</span><br></pre></td></tr></table></figure></p>
 <p>4.方便其它对象使用<br></p>
 <p>如一个Set中存着String类型的值，要保证Set中的值不可变。如下，按照原则，Set中的值应该不可变，如果a的值改变了，明显违反了规则。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HashSet&lt;String&gt; set = new HashSet&lt;String&gt;();</span><br><span class="line">set.add(new String(&quot;a&quot;));</span><br><span class="line">set.add(new String(&quot;b&quot;));</span><br><span class="line">set.add(new String(&quot;c&quot;));</span><br><span class="line"></span><br><span class="line">for(String a: set)</span><br><span class="line">	a.value = &quot;a&quot;;</span><br></pre></td></tr></table></figure></p>
+=======
+        <h3 id="1-Bean的属性"><a href="#1-Bean的属性" class="headerlink" title="1.Bean的属性"></a>1.Bean的属性</h3><p>bean的 .xml 文件<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">xsi:schemaLocation=&quot;</span><br><span class="line">http://www.springframework.org/schema/beans</span><br><span class="line">http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 自己的bean --&gt;</span><br><span class="line">&lt;bean&gt;&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure></p>
+<p>将bean交给spring:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@ImportResource(locations = &#123;&quot;classpath:xxxx.xml&quot;&#125;)</span><br></pre></td></tr></table></figure></p>
+<h6 id="1-自身属性"><a href="#1-自身属性" class="headerlink" title="(1).自身属性"></a>(1).自身属性</h6><ul>
+<li>id</li>
+</ul>
+<p>id为bean的唯一标识名，也就是beanName.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;userEntity&quot; class=&quot;com.bonc.apimanage.test.UserEntity&quot;&gt;</span><br><span class="line">      &lt;!-- 通过setter注入属性值 --&gt;</span><br><span class="line">       &lt;property name=&quot;id&quot; value=&quot;123&quot;&gt;&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;bean id=&quot;userService&quot; class=&quot;com.bonc.apimanage.test.UserService&quot;&gt;</span><br><span class="line">    &lt;!-- 注入 userEntity 属性对象 --&gt;</span><br><span class="line">    &lt;property name=&quot;userService&quot; ref=&quot;userEntity&quot;&gt;&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>name</li>
+</ul>
+<p>bean的别名。</p>
+<ul>
+<li>class</li>
+</ul>
+<p>bean的类。子类bean不用定义该属性。</p>
+<ul>
+<li>parent</li>
+</ul>
+<p>子类Bean定义它所引用它的父类Bean。这时class属性失效。子类Bean会继承父类Bean的所有属性，子类Bean也可以覆盖父类Bean的属性。注意：子类Bean和父类Bean是同一个Java类</p>
+<ul>
+<li>abstract</li>
+</ul>
+<p>默认为”false”，用来定义Bean是否为抽象Bean。它表示这个Bean将不会被实例化，一般用于父类Bean，因为父类Bean主要是供子类Bean继承使用。</p>
+<ul>
+<li>scope</li>
+</ul>
+<p>默认为singleton（单例）<br></p>
+<p>prototype（原型）状态，BeanFactory将为每次Bean请求创建一个新的Bean实例。<br><br>session：创建对象把创建的对象放到session域里面去<br><br>request：创建对象把创建的对象放到request域里面去<br><br>globalsession：创建对象把创建的对象放到globalsession域里面去<br></p>
+<ul>
+<li>lazy-init</li>
+</ul>
+<p>用来定义这个Bean是否实现懒初始化<br><br>默认为 default  <br><br>如果为 true ，它将在BeanFactory启动时初始化所有的SingletonBean<br><br>如果为 false ,它只在Bean请求时才开始创建SingletonBean。</p>
+<ul>
+<li>autowire</li>
+</ul>
+<p>它定义了Bean的自动装载方式<br><br>no :不使用自动装配功能<br><br>byName :通过Bean的属性名实现自动装配<br><br>byType :通过Bean的类型实现自动装配<br><br>constructor :类似于byType，但它是用于构造函数的参数的自动组装<br><br>default：默认值，自动装配</p>
+<ul>
+<li>depends-on</li>
+</ul>
+<p>Bean在初始化时依赖的对象，这个对象会在这个Bean初始化之前创建<br><br>可以用来控制bean初始化顺序</p>
+<ul>
+<li>init-method</li>
+</ul>
+<p>用来定义Bean的初始化方法，它会在Bean组装之后调用。它必须是一个无参数的方法</p>
+<ul>
+<li>destory-method</li>
+</ul>
+<p>用来定义Bean的销毁方法，它在 BeanFactory 关闭时调用。同样，它也必须是一个无参数的方法。它只能应用于 singletonBean。</p>
+<ul>
+<li>factory-method</li>
+</ul>
+<p>定义创建该Bean对象的工厂方法。它用于下面的 factory-bean ，表示这个Bean是通过工厂方法创建。此时， class 属性失效</p>
+<ul>
+<li>factory-bean</li>
+</ul>
+<p>定义创建该 Bean 对象的工厂类。如果使用了 factory-bean 则 class 属性失效</p>
+<h6 id="2-子属性"><a href="#2-子属性" class="headerlink" title="(2).子属性"></a>(2).子属性</h6><ul>
+<li>meta</li>
+</ul>
+<p>元数据。当需要使用里面的信息时可以通过key获取<br><br>meta 所声明的 key 并不会在 Bean 中体现，只是一个额外的声明，当我们需要使用里面的信息时，通过 BeanDefinition 的 getAttribute() 获取<br></p>
+<ul>
+<li>lookup-method</li>
+</ul>
+<p>获取器注入，是把一个方法声明为返回某种类型的 bean 但实际要返回的 bean 是在配置文件里面配置的。该方法可以用于设计一些可插拔的功能上，解除程序依赖</p>
+<ul>
+<li>replaced-method</li>
+</ul>
+<p>可以在运行时调用新的方法替换现有的方法，还能动态的更新原有方法的逻辑</p>
+<ul>
+<li>constructor-arg</li>
+</ul>
+<p>通过构造函数注入。&lt;br<br>index：指定注入属性的顺序索引(在构造函数中的顺序)，从0开始<br><br>type：指该属性所对应的类型<br><br>ref：引用的依赖对象<br><br>value：当注入的不是依赖对象，而是基本数据类型时，就用value<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;userEntity&quot; class=&quot;com.bonc.apimanage.test.UserEntity&quot;&gt;</span><br><span class="line">      &lt;!-- 通过构造器注入属性值 有参的需要有参的构造函数 --&gt;</span><br><span class="line">      &lt;constructor-arg index=&quot;0&quot; value=&quot;1&quot;&gt;&lt;/constructor-arg&gt;  </span><br><span class="line">      &lt;constructor-arg index=&quot;1&quot; value=&quot;xxl&quot;&gt;&lt;/constructor-arg&gt;</span><br><span class="line">      &lt;!-- 或这样  --&gt;</span><br><span class="line">      &lt;constructor-arg name=&quot;id&quot; value=&quot;1&quot;&gt;&lt;/constructor-arg&gt;  </span><br><span class="line">      &lt;constructor-arg nam=&quot;name&quot; value=&quot;xxl&quot;&gt;&lt;/constructor-arg&gt;   </span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;bean id=&quot;userService&quot; class=&quot;com.bonc.apimanage.test.UserService&quot;&gt;</span><br><span class="line">      &lt;constructor-arg  ref=&quot;userEntity&quot;&gt;&lt;/constructor-arg&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>property</li>
+</ul>
+<p>通过setter对应的方法注入。<br></p>
+<ul>
+<li>qualifier</li>
+</ul>
+<p>明确指定bean的名称进行注入</p>
+<h3 id="2-Bean的生命周期"><a href="#2-Bean的生命周期" class="headerlink" title="2.Bean的生命周期"></a>2.Bean的生命周期</h3><p>Spring 只帮我们管理单例模式 Bean 的完整生命周期，对于 prototype 的 bean ，Spring 在创建好交给使用者之后则不会再管理后续的生命周期。<br></p>
+<p><img src="https://pic3.zhimg.com/80/754a34e03cfaa40008de8e2b9c1b815c_hd.jpg" alt="bean生命周期"></p>
+<ul>
+<li>实例化</li>
+</ul>
+<p>对于BeanFactory容器，当客户向容器请求一个尚未初始化的bean时，或初始化bean的时候需要注入另一个尚未初始化的依赖时，容器就会调用createBean进行实例化。<br><br>对于ApplicationContext容器，当容器启动结束后，便实例化所有的bean。 容器通过获取BeanDefinition对象中的信息进行实例化。并且这一步仅仅是简单的实例化，并未进行依赖注入。<br><br>实例化对象被包装在BeanWrapper对象中，BeanWrapper提供了设置对象属性的接口，从而避免了使用反射机制设置属性。</p>
+<ul>
+<li>填充属性</li>
+</ul>
+<p>Spring将值和Bean的引用注入进Bean对应的属性中(依赖注入).</p>
+<ul>
+<li>Aware相关</li>
+</ul>
+<p>Spring中 特定的Aware接口，提供了对IOC容器的操作.<br></p>
+<ul>
+<li><p>BeanPostProcessor前置处理(postProcessorBeforeInitializion)</p>
+</li>
+<li><p>InitiallizionBean 中 afterProjectSet方法</p>
+</li>
+<li><p>自定义的init-method</p>
+</li>
+<li><p>BeanPostProcessor的后置处理(postProcessorAfterInitializion)</p>
+</li>
+<li><p>Bean就绪</p>
+</li>
+<li><p>DisposableBean的destory方法</p>
+</li>
+<li><p>自定义的destory-method</p>
+</li>
+</ul>
+<h3 id="3-Spring的七个模块"><a href="#3-Spring的七个模块" class="headerlink" title="3.Spring的七个模块"></a>3.Spring的七个模块</h3><ul>
+<li>1.Spring Core</li>
+</ul>
+<p>Core模块是Spring的核心类库，Spring的所有功能都依赖于该类库，Core主要实现IOC功能，Sprign的所有功能都是借助IOC实现的</p>
+<ul>
+<li>2.Spring Aop</li>
+</ul>
+<p>AOP模块是Spring的AOP库，提供了AOP（拦截器）机制，并提供常用的拦截器，供用户自定义和配置</p>
+<ul>
+<li><p>3.Spring ORM</p>
+</li>
+<li><p>4.Spring DAO</p>
+</li>
+<li><p>5.Spring Web</p>
+</li>
+<li><p>6.Spring context</p>
+</li>
+</ul>
+<p>Spring上下文是spring的配置文件，向Spring框架提供上下文信息,可以用来管理bean.</p>
+<ul>
+<li>7.Spring WebMVC</li>
+</ul>
+<p>WEB MVC模块为Spring提供了一套轻量级的MVC实现，在Spring的开发中，我们既可以用Struts也可以用Spring自己的MVC框架，相对于Struts，Spring自己的MVC框架更加简洁和方便  </p>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 
       
 
@@ -376,6 +569,13 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+<<<<<<< HEAD
+=======
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
         		</li>
       		
 		</ul>
@@ -385,7 +585,11 @@
 
       
         <p class="article-more-link">
+<<<<<<< HEAD
           <a class="article-more-a" href="/2019/06/17/java/base/java基本数据类型/">展开全文 >></a>
+=======
+          <a class="article-more-a" href="/2019/06/23/java/spring/spring基础1/">展开全文 >></a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
         </p>
       
 
@@ -415,26 +619,40 @@
 
 
   
+<<<<<<< HEAD
     <article id="post-java/base/java访问权限" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+=======
+    <article id="post-java/java基础二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
+<<<<<<< HEAD
       <a class="article-title" href="/2019/06/17/java/base/java访问权限/">java访问权限</a>
+=======
+      <a class="article-title" href="/2019/06/21/java/java基础二/">java基础二</a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
     </h1>
   
 
         
+<<<<<<< HEAD
         <a href="/2019/06/17/java/base/java访问权限/" class="archive-article-date">
   	<time datetime="2019-06-17T03:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
+=======
+        <a href="/2019/06/21/java/java基础二/" class="archive-article-date">
+  	<time datetime="2019-06-21T19:59:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-21</time>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
+<<<<<<< HEAD
         <h3 id="1-权限"><a href="#1-权限" class="headerlink" title="1.权限"></a>1.权限</h3><p>private,default,protected,public<br><br>protected 用于修饰成员，表示在继承体系中成员对于子类可见，但是这个访问修饰符对于类没有意义。<br></p>
 <table>
 <thead>
@@ -480,6 +698,42 @@
 <h3 id="2-意义"><a href="#2-意义" class="headerlink" title="2.意义"></a>2.意义</h3><p>设计良好的模块会隐藏所有的实现细节，把它的 API 与它的实现清晰地隔离开来。模块之间只通过它们的 API 进行通信，一个模块不需要知道其他模块的内部工作情况，这个概念被称为信息隐藏或封装。因此访问权限应当尽可能地使每个类或者成员不被外界访问。</p>
 <p>如果子类的方法重写了父类的方法，那么子类中该方法的访问级别不允许低于父类的访问级别。这是为了确保可以使用父类实例的地方都可以使用子类实例，也就是确保满足里氏替换原则。</p>
 <p>字段决不能是公有的，因为这么做的话就失去了对这个字段修改行为的控制，客户端可以对其随意修改。例如下面的例子中，AccessExample 拥有 id 公有字段，如果在某个时刻，我们想要使用 int 存储 id 字段，那么就需要修改所有的客户端代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public class Example &#123;</span><br><span class="line">    //public String id;  false</span><br><span class="line">    private String id;   true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+=======
+        <h3 id="1-抽象类和接口"><a href="#1-抽象类和接口" class="headerlink" title="1.抽象类和接口"></a>1.抽象类和接口</h3><h6 id="1-为什么要有抽象类"><a href="#1-为什么要有抽象类" class="headerlink" title="(1).为什么要有抽象类"></a>(1).为什么要有抽象类</h6><p>引入抽象方法和抽象类，是Java提供的一种语法工具，对于一些类和方法，引导使用者正确使用它们，减少被误用。<br></p>
+<p>使用抽象方法，而非空方法体，子类就知道他必须要实现该方法，而不可能忽略。<br></p>
+<p>使用抽象类，类的使用者创建对象的时候，就知道他必须要使用某个具体子类，而不可能误用不完整的父类。<br></p>
+<p>总结，1.规范，2.减少误用。<br></p>
+<h6 id="2-有了抽象类为什么还要接口"><a href="#2-有了抽象类为什么还要接口" class="headerlink" title="(2).有了抽象类为什么还要接口"></a>(2).有了抽象类为什么还要接口</h6><p>抽象类是一个类，Java一个类可以实现多个接口，但只能继承一个类(继承的好处是复用代码)。所以需要接口。<br><br>抽象类和接口是配合而非替代关系，它们经常一起使用，接口声明能力，抽象类提供默认实现，实现全部或部分方法，一个接口经常有一个对应的抽象类。抽象类实现接口部分方法，然后继承于抽象类的类就可以只实现剩下的方法。<br></p>
+<p>Collection接口和对应的AbstractCollection抽象类<br><br>List接口和对应的AbstractList抽象类<br><br>Map接口和对应的AbstractMap抽象类<br></p>
+<h6 id="3-接口和抽象类"><a href="#3-接口和抽象类" class="headerlink" title="(3).接口和抽象类"></a>(3).接口和抽象类</h6><p>抽象类和抽象方法都使用 abstract 关键字进行声明。如果一个类中包含抽象方法，那么这个类必须声明为抽象类。抽象类和普通类最大的区别是，抽象类不能被实例化，需要继承抽象类才能实例化其子类<br></p>
+<p>接口可以类似的看成一个方法全是抽象方法的抽象类。</p>
+<p>接口的字段只能是 static 和 final 类型的，而抽象类的字段没有这种限制。<br><br>接口的成员只能是 public 的，而抽象类的成员可以有多种访问权限。<br></p>
+<p>所以在使用的选择时:</p>
+<ul>
+<li>使用接口：</li>
+</ul>
+<p>需要让不相关的类都实现一个方法<br><br>需要使用多重继承。<br></p>
+<ul>
+<li>使用抽象类：</li>
+</ul>
+<p>需要在几个相关的类中共享代码。(实现部分方法)<br><br>需要能控制继承来的成员的访问权限，而不是都为 public。<br><br>需要继承非静态和非常量字段。<br></p>
+<h3 id="2-重写与重载"><a href="#2-重写与重载" class="headerlink" title="2.重写与重载"></a>2.重写与重载</h3><p>override/overload<br></p>
+<p>为了满足里式替换原则，重写有以下三个限制：<br></p>
+<blockquote>
+<p>子类方法的访问权限必须大于等于父类方法；<br><br>子类方法的返回类型必须是父类方法返回类型或为其子类型。<br><br>子类方法抛出的异常类型必须是父类抛出异常类型或为其子类型。<br></p>
+</blockquote>
+<p>JVM虚拟机中，重载实际上调用 的封装类型，重写实际上调用的实际类型<br></p>
+<h3 id="3-Object"><a href="#3-Object" class="headerlink" title="3.Object"></a>3.Object</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public native int hashCode()</span><br><span class="line"></span><br><span class="line">public boolean equals(Object obj)</span><br><span class="line"></span><br><span class="line">protected native Object clone() throws CloneNotSupportedException</span><br><span class="line"></span><br><span class="line">public String toString()</span><br><span class="line"></span><br><span class="line">public final native Class&lt;?&gt; getClass()</span><br><span class="line"></span><br><span class="line">protected void finalize() throws Throwable &#123;&#125;</span><br><span class="line"></span><br><span class="line">public final native void notify()</span><br><span class="line"></span><br><span class="line">public final native void notifyAll()</span><br><span class="line"></span><br><span class="line">public final native void wait(long timeout) throws InterruptedException</span><br><span class="line"></span><br><span class="line">public final void wait(long timeout, int nanos) throws InterruptedException</span><br><span class="line"></span><br><span class="line">public final void wait() throws InterruptedException</span><br></pre></td></tr></table></figure>
+<h6 id="1-hashCode"><a href="#1-hashCode" class="headerlink" title="(1).hashCode()"></a>(1).hashCode()</h6><p>采用操作系统底层实现的哈希算法,返回对象的hash值。 同一个对象的哈希码值是唯一的。<br></p>
+<h6 id="2-equals"><a href="#2-equals" class="headerlink" title="(2).equals()"></a>(2).equals()</h6><p>equals() 是用来判断两个对象是否等价。等价的两个对象散列值一定相同，但是散列值相同的两个对象不一定等价。<br><br>等价关系：自反性/对称性/传递性/一致性<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">自反：x.equals(x); // true</span><br><span class="line"></span><br><span class="line">对称：x.equals(y) == y.equals(x); // true</span><br><span class="line"></span><br><span class="line">传递：if (x.equals(y) &amp;&amp; y.equals(z))</span><br><span class="line">    x.equals(z); // true;</span><br><span class="line"></span><br><span class="line">一致：x.equals(y) == x.equals(y); // true</span><br></pre></td></tr></table></figure></p>
+<h6 id="3-toString"><a href="#3-toString" class="headerlink" title="(3).toString()"></a>(3).toString()</h6><p>返回 类型(class)@hash的无符号十六进制<br><br>例：ToStringExample@4554617c <br></p>
+<h3 id="4-浅拷贝和深拷贝"><a href="#4-浅拷贝和深拷贝" class="headerlink" title="4.浅拷贝和深拷贝"></a>4.浅拷贝和深拷贝</h3><p>在 Java 中，除了基本数据类型（元类型）之外，还存在 类的实例对象 这个引用数据类型。而一般使用 = 号做赋值操作的时候。对于基本数据类型，实际上是拷贝的它的值，但是对于对象而言，其实赋值的只是这个对象的引用，将原对象的引用传递过去。<br></p>
+<p>而浅拷贝和深拷贝就是在这个基础之上做的区分，如果在拷贝这个对象的时候，对引用数据类型<strong>只是进行了引用的传递</strong>，而没有真实的创建一个新的对象，则认为是浅拷贝。反之，在对引用数据类型进行拷贝的时候，<strong>创建了一个新的对象，并且复制其内的成员变量</strong>，则认为是深拷贝。<br></p>
+<h3 id="5-final与static"><a href="#5-final与static" class="headerlink" title="5.final与static"></a>5.final与static</h3><p>final可以修饰：属性，方法，类，局部变量（方法中的变量）<br><br>static可以修饰：属性，方法，代码段，内部类（静态内部类或嵌套内部类）<br></p>
+<p>static修饰的属性强调它们只有一个，可以在不new对象的情况下调用，final强调不能修改。static final修饰的属性表示一旦给值，就不可修改，并且可以通过类名访问。<br></p>
+<p>初始化顺序:静态变量和静态语句块优先于实例变量和普通语句块，静态变量和静态语句块的初始化顺序取决于它们在代码中的顺序。<br></p>
+<h3 id="6-反射"><a href="#6-反射" class="headerlink" title="6.反射"></a>6.反射</h3><h5 id="为什么要用反射"><a href="#为什么要用反射" class="headerlink" title="为什么要用反射"></a>为什么要用反射</h5><p>反射的核心是可以在运行时才动态加载类的信息。<br><br>利用这个特性，可以使代码变得灵活，如一开始不知道某个类的信息，不能new,但是可以通过配置文件或者插件等引入，使用反射在运行时加载。利用配置文件时，可以将类描述(属性信息)写在配置文件中，不用每次修改代码<br><br>反射会牺牲一点性能。</p>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 
       
 
@@ -488,6 +742,7 @@
     <div class="article-info article-info-index">
       
       
+<<<<<<< HEAD
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -499,11 +754,17 @@
 		</ul>
 	</div>
 
+=======
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
       
 
       
         <p class="article-more-link">
+<<<<<<< HEAD
           <a class="article-more-a" href="/2019/06/17/java/base/java访问权限/">展开全文 >></a>
+=======
+          <a class="article-more-a" href="/2019/06/21/java/java基础二/">展开全文 >></a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
         </p>
       
 
@@ -546,7 +807,11 @@
 
         
         <a href="/2019/06/17/java/base/理解java中的参数传递/" class="archive-article-date">
+<<<<<<< HEAD
   	<time datetime="2019-06-17T03:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
+=======
+  	<time datetime="2019-06-17T15:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 </a>
         
       </header>
@@ -633,29 +898,153 @@
 
 
   
+<<<<<<< HEAD
     <article id="post-java/mysql事务" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+=======
+    <article id="post-java/base/java基本数据类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
+<<<<<<< HEAD
       <a class="article-title" href="/2019/06/10/java/mysql事务/">spring中mysql事务</a>
+=======
+      <a class="article-title" href="/2019/06/17/java/base/java基本数据类型/">java数据类型</a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
     </h1>
   
 
         
+<<<<<<< HEAD
         <a href="/2019/06/10/java/mysql事务/" class="archive-article-date">
   	<time datetime="2019-06-10T07:53:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-10</time>
+=======
+        <a href="/2019/06/17/java/base/java基本数据类型/" class="archive-article-date">
+  	<time datetime="2019-06-17T15:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
+<<<<<<< HEAD
         <h3 id="1-springboot中使用mysql事务"><a href="#1-springboot中使用mysql事务" class="headerlink" title="1.springboot中使用mysql事务"></a>1.springboot中使用mysql事务</h3><h5 id="1-pom-xml"><a href="#1-pom-xml" class="headerlink" title="(1).pom.xml"></a>(1).pom.xml</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- mybatis配置 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.3.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!-- end mybatis --&gt;</span><br><span class="line">&lt;!-- mysql驱动 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!-- end mysql --&gt;</span><br></pre></td></tr></table></figure>
 <h5 id="2-EnableTransactionManagement"><a href="#2-EnableTransactionManagement" class="headerlink" title="(2)@EnableTransactionManagement"></a>(2)@EnableTransactionManagement</h5><p>启动类打开@EnableTransactionManagement注解</p>
 <h5 id="3-使用事务"><a href="#3-使用事务" class="headerlink" title="(3)使用事务"></a>(3)使用事务</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Transactional(rollbackFor = Exception.class)</span><br><span class="line">   public void addData()&#123;</span><br><span class="line">       testMapper.insertData1(1,&quot;111&quot;);</span><br><span class="line">       testMapper.insertData2(1,&quot;012345678910&quot;);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+=======
+        <h2 id="一-8种基本数据类型"><a href="#一-8种基本数据类型" class="headerlink" title="一.8种基本数据类型"></a>一.8种基本数据类型</h2><h3 id="1-大小"><a href="#1-大小" class="headerlink" title="1.大小"></a>1.大小</h3><ul>
+<li>位 bit(b)  </li>
+<li>字节 Byte(B) = 8b</li>
+<li>字  = 18b</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">大小</th>
+<th style="text-align:center">范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">boolean</td>
+<td style="text-align:center">1位</td>
+<td style="text-align:center">ture/false(0/1)</td>
+</tr>
+<tr>
+<td style="text-align:center">byte</td>
+<td style="text-align:center">8位/1字节</td>
+<td style="text-align:center">-128–127</td>
+</tr>
+<tr>
+<td style="text-align:center">short</td>
+<td style="text-align:center">16位/2字节</td>
+<td style="text-align:center">-32768–132767</td>
+</tr>
+<tr>
+<td style="text-align:center">char</td>
+<td style="text-align:center">16位/2字节</td>
+<td style="text-align:center">\u0000–\uffff(一个16unicode字符)</td>
+</tr>
+<tr>
+<td style="text-align:center">int</td>
+<td style="text-align:center">32位/4字节</td>
+<td style="text-align:center">-2^31–2^31-1</td>
+</tr>
+<tr>
+<td style="text-align:center">float</td>
+<td style="text-align:center">32位/4字节</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">long</td>
+<td style="text-align:center">64位/8字节</td>
+<td style="text-align:center">-2^63–2^63</td>
+</tr>
+<tr>
+<td style="text-align:center">double</td>
+<td style="text-align:center">64位/8字节</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-转换"><a href="#2-转换" class="headerlink" title="2.转换"></a>2.转换</h3><ul>
+<li>转换顺序从低级到高级</li>
+</ul>
+<p>byte,short,char—&gt; int —&gt; long—&gt; float —&gt; double</p>
+<ul>
+<li>将大容量强转为小容量，会损失精度</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int i = 128;</span><br><span class="line">(byte) i; // -128</span><br></pre></td></tr></table></figure>
+<ul>
+<li>浮点数转为整数，舍弃小数部分</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">float f = 12.55f;</span><br><span class="line">(int)f; // 12</span><br></pre></td></tr></table></figure>
+<h3 id="3-包装类型"><a href="#3-包装类型" class="headerlink" title="3.包装类型"></a>3.包装类型</h3><p>基本数据类型：byte，int， short， long, boolean，char, float，double等<br></p>
+<p>包装类型： Byte，Integer，Short，Long，Boolean，Character，Float,Double等<br></p>
+<ul>
+<li>为什么要有包装类 ?</li>
+</ul>
+<p>Java语言是一个面向对象的语言,但Java中的基本数据类型却是不面向对象的。例如:集合类中只能存放对象List\&lt;Integer>, 不能存放基本类型数据List\&lt;int>。</p>
+<ul>
+<li>怎么用 ?</li>
+</ul>
+<p>基本类型与其包装类之间转换:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/** 将int类型转换为Integer类型*/</span><br><span class="line">int intNum = 10;</span><br><span class="line">Integer integer = new Integer(intNum);</span><br><span class="line">/** 将Integer类型转换为int类型*/</span><br><span class="line">int intValue = integer.intValue();</span><br></pre></td></tr></table></figure></p>
+<p>实际上Jdk有自动装包/拆包机制，不需要我们手动进行转换.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/** int类型会自动转换为Integer类型*/</span><br><span class="line">int n = 12;</span><br><span class="line">Integer m = n;</span><br></pre></td></tr></table></figure></p>
+<h2 id="二-引用数据类型"><a href="#二-引用数据类型" class="headerlink" title="二.引用数据类型"></a>二.引用数据类型</h2><ul>
+<li>引用数据类型包括: 类/接口和数组.<br></li>
+</ul>
+<p>如 String s = “123”; 类型为 java.lang.String 类<br></p>
+<ul>
+<li>引用类型的默认值为null</li>
+</ul>
+<h2 id="三-其它"><a href="#三-其它" class="headerlink" title="三.其它"></a>三.其它</h2><h3 id="1-关于String不可变"><a href="#1-关于String不可变" class="headerlink" title="1.关于String不可变"></a>1.关于String不可变</h3><ul>
+<li>理解String中的变与不变</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String s = &quot;123&quot;;</span><br><span class="line">System.out.println(System.identityHashCode(s)); //1650967483</span><br><span class="line">s += &quot;456&quot;;</span><br><span class="line">System.out.println(System.identityHashCode(s)); //87285178</span><br></pre></td></tr></table></figure>
+<p>String为不可变，所以创建后 s = “123”,就不再变化。<br><br>那我们为什么能重新给它赋值呢? 实际上是，新建了一个String，s指向了新的地址引用<br>.</p>
+<ul>
+<li>为什么不可变 ?</li>
+</ul>
+<p>String 类为 public <front color="#CB4335">final</front> class String{}<br><br>可见，String类被定义成了final，所以String不可变.<br></p>
+<ul>
+<li>为什么要不可变 ?</li>
+</ul>
+<p>1.用于Hash<br></p>
+<p>因为String的hash值(用来标明不同对象)经常被用到,例如Map的key，不可变的特性使hash值也可保持不变，不用每次都计算hash值.<br></p>
+<p>2.用于线程安全<br></p>
+<p>因为String不可变，天生具备线程安全,无论多少个线程操作，都不会改变其值。<br></p>
+<p>3.用于String pool<br></p>
+<p>JVM （heap中）维护着一个String pool(字符串常量池),保存着所有字符串字面量.<br><br>如果一个 String 对象已经被创建过了，那么就会从 String Pool 中取得引用。只有 String 是不可变的，才可能使用 String Pool。<br></p>
+<p>当一个字符串调用 intern() 方法时，如果 String Pool 中已经存在一个字符串和该字符串值相等（使用 equals() 方法进行确定），那么就会返回 String Pool 中字符串的引用；否则，就会在 String Pool 中添加一个新的字符串，并返回这个新字符串的引用。<br></p>
+<p>下面示例中，s1 和 s2 采用 new String() 的方式新建了两个不同字符串，而 s3 和 s4 是通过 s1.intern() 方法取得一个字符串引用。intern() 首先把 s1 引用的字符串放到 String Pool 中，然后返回这个字符串引用。因此 s3 和 s4 引用的是同一个字符串。<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String s1 = new String(&quot;aaa&quot;);</span><br><span class="line">String s2 = new String(&quot;aaa&quot;);</span><br><span class="line">System.out.println(s1 == s2);           // false</span><br><span class="line">String s3 = s1.intern();</span><br><span class="line">String s4 = s1.intern();</span><br><span class="line">System.out.println(s3 == s4);           // true;</span><br></pre></td></tr></table></figure></p>
+<p>如果是采用 “bbb” 这种字面量的形式创建字符串，会自动地将字符串放入 String Pool 中。<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String s5 = &quot;bbb&quot;;//不存在，创建</span><br><span class="line">String s6 = &quot;bbb&quot;;//已存在，获得引用</span><br><span class="line">System.out.println(s5 == s6);  // true</span><br></pre></td></tr></table></figure></p>
+<p>4.方便其它对象使用<br></p>
+<p>如一个Set中存着String类型的值，要保证Set中的值不可变。如下，按照原则，Set中的值应该不可变，如果a的值改变了，明显违反了规则。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HashSet&lt;String&gt; set = new HashSet&lt;String&gt;();</span><br><span class="line">set.add(new String(&quot;a&quot;));</span><br><span class="line">set.add(new String(&quot;b&quot;));</span><br><span class="line">set.add(new String(&quot;c&quot;));</span><br><span class="line"></span><br><span class="line">for(String a: set)</span><br><span class="line">	a.value = &quot;a&quot;;</span><br></pre></td></tr></table></figure></p>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 
       
 
@@ -669,7 +1058,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
+<<<<<<< HEAD
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+=======
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
         		</li>
       		
 		</ul>
@@ -679,7 +1072,11 @@
 
       
         <p class="article-more-link">
+<<<<<<< HEAD
           <a class="article-more-a" href="/2019/06/10/java/mysql事务/">展开全文 >></a>
+=======
+          <a class="article-more-a" href="/2019/06/17/java/base/java基本数据类型/">展开全文 >></a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
         </p>
       
 
@@ -709,26 +1106,40 @@
 
 
   
+<<<<<<< HEAD
     <article id="post-algorithm/sildewindow/最大面积" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+=======
+    <article id="post-java/base/java访问权限" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
+<<<<<<< HEAD
       <a class="article-title" href="/2019/06/06/algorithm/sildewindow/最大面积/">求最大面积</a>
+=======
+      <a class="article-title" href="/2019/06/17/java/base/java访问权限/">java访问权限</a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
     </h1>
   
 
         
+<<<<<<< HEAD
         <a href="/2019/06/06/algorithm/sildewindow/最大面积/" class="archive-article-date">
   	<time datetime="2019-06-06T07:55:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-06</time>
+=======
+        <a href="/2019/06/17/java/base/java访问权限/" class="archive-article-date">
+  	<time datetime="2019-06-17T15:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
+<<<<<<< HEAD
         <h3 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h3><p><img src="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/17/question_11.jpg" alt="contains"></p>
 <p>假设有一个容器，给定一个输入数组height,数组长度不小于2，height[i]代表第i位的木板高度，找到这个数组内的最大面积（容器最大能装水的方案）.<br></p>
 <h3 id="2-分析"><a href="#2-分析" class="headerlink" title="2.分析"></a>2.分析</h3><p>利用滑动窗口，先将整个视为一个窗口，通过不短缩小窗口边界，记录其中的最大值<br></p>
@@ -739,6 +1150,53 @@
 <li>记录过程中的 Max(area)</li>
 </ul>
 <h3 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int maxArea(int[] height) &#123;</span><br><span class="line">        int right = height.length - 1;</span><br><span class="line">        int left = 0;</span><br><span class="line">        int max = 0;</span><br><span class="line">        while(left &lt; right)&#123;</span><br><span class="line">            int s = Math.min(height[left], height[right]) * (right-left);</span><br><span class="line">            max = Math.max(max,s);</span><br><span class="line">            if(height[left] &gt; height[right])&#123;</span><br><span class="line">                right--;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+=======
+        <h3 id="1-权限"><a href="#1-权限" class="headerlink" title="1.权限"></a>1.权限</h3><p>private,default,protected,public<br><br>protected 用于修饰成员，表示在继承体系中成员对于子类可见，但是这个访问修饰符对于类没有意义。<br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">同一个类</th>
+<th style="text-align:center">同一个包</th>
+<th style="text-align:center">不同包的子类</th>
+<th style="text-align:center">不同包的非子类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">private</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">default</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">protected</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">public</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-意义"><a href="#2-意义" class="headerlink" title="2.意义"></a>2.意义</h3><p>设计良好的模块会隐藏所有的实现细节，把它的 API 与它的实现清晰地隔离开来。模块之间只通过它们的 API 进行通信，一个模块不需要知道其他模块的内部工作情况，这个概念被称为信息隐藏或封装。因此访问权限应当尽可能地使每个类或者成员不被外界访问。</p>
+<p>如果子类的方法重写了父类的方法，那么子类中该方法的访问级别不允许低于父类的访问级别。这是为了确保可以使用父类实例的地方都可以使用子类实例，也就是确保满足里氏替换原则。</p>
+<p>字段决不能是公有的，因为这么做的话就失去了对这个字段修改行为的控制，客户端可以对其随意修改。例如下面的例子中，AccessExample 拥有 id 公有字段，如果在某个时刻，我们想要使用 int 存储 id 字段，那么就需要修改所有的客户端代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public class Example &#123;</span><br><span class="line">    //public String id;  false</span><br><span class="line">    private String id;   true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 
       
 
@@ -752,7 +1210,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		
 		</ul>
@@ -762,7 +1220,11 @@
 
       
         <p class="article-more-link">
+<<<<<<< HEAD
           <a class="article-more-a" href="/2019/06/06/algorithm/sildewindow/最大面积/">展开全文 >></a>
+=======
+          <a class="article-more-a" href="/2019/06/17/java/base/java访问权限/">展开全文 >></a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
         </p>
       
 
@@ -792,27 +1254,46 @@
 
 
   
+<<<<<<< HEAD
     <article id="post-algorithm/动态规划/dynamic-programing" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+=======
+    <article id="post-java/mysql事务" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
+<<<<<<< HEAD
       <a class="article-title" href="/2019/06/05/algorithm/动态规划/dynamic-programing/">动态规划算法</a>
+=======
+      <a class="article-title" href="/2019/06/10/java/mysql事务/">spring中mysql事务</a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
     </h1>
   
 
         
+<<<<<<< HEAD
         <a href="/2019/06/05/algorithm/动态规划/dynamic-programing/" class="archive-article-date">
   	<time datetime="2019-06-05T07:03:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-05</time>
+=======
+        <a href="/2019/06/10/java/mysql事务/" class="archive-article-date">
+  	<time datetime="2019-06-10T19:53:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-10</time>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
+<<<<<<< HEAD
         <h3 id="动态规划原理"><a href="#动态规划原理" class="headerlink" title="动态规划原理"></a>动态规划原理</h3><p>将最终问题分解为多个子问题，先解决子问题，再根据子问题结果解决父问题。</p>
+=======
+        <h3 id="1-springboot中使用mysql事务"><a href="#1-springboot中使用mysql事务" class="headerlink" title="1.springboot中使用mysql事务"></a>1.springboot中使用mysql事务</h3><h5 id="1-pom-xml"><a href="#1-pom-xml" class="headerlink" title="(1).pom.xml"></a>(1).pom.xml</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- mybatis配置 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.3.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!-- end mybatis --&gt;</span><br><span class="line">&lt;!-- mysql驱动 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!-- end mysql --&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="2-EnableTransactionManagement"><a href="#2-EnableTransactionManagement" class="headerlink" title="(2)@EnableTransactionManagement"></a>(2)@EnableTransactionManagement</h5><p>启动类打开@EnableTransactionManagement注解</p>
+<h5 id="3-使用事务"><a href="#3-使用事务" class="headerlink" title="(3)使用事务"></a>(3)使用事务</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Transactional(rollbackFor = Exception.class)</span><br><span class="line">   public void addData()&#123;</span><br><span class="line">       testMapper.insertData1(1,&quot;111&quot;);</span><br><span class="line">       testMapper.insertData2(1,&quot;012345678910&quot;);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 
       
 
@@ -826,7 +1307,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
+<<<<<<< HEAD
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
+=======
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
         		</li>
       		
 		</ul>
@@ -836,7 +1321,11 @@
 
       
         <p class="article-more-link">
+<<<<<<< HEAD
           <a class="article-more-a" href="/2019/06/05/algorithm/动态规划/dynamic-programing/">展开全文 >></a>
+=======
+          <a class="article-more-a" href="/2019/06/10/java/mysql事务/">展开全文 >></a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
         </p>
       
 
@@ -866,26 +1355,40 @@
 
 
   
+<<<<<<< HEAD
     <article id="post-base/cas-sso/cas" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+=======
+    <article id="post-algorithm/sildewindow/最大面积" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
+<<<<<<< HEAD
       <a class="article-title" href="/2019/05/30/base/cas-sso/cas/">Cas 单点登录原理</a>
+=======
+      <a class="article-title" href="/2019/06/06/algorithm/sildewindow/最大面积/">求最大面积</a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
     </h1>
   
 
         
+<<<<<<< HEAD
         <a href="/2019/05/30/base/cas-sso/cas/" class="archive-article-date">
   	<time datetime="2019-05-30T08:30:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-30</time>
+=======
+        <a href="/2019/06/06/algorithm/sildewindow/最大面积/" class="archive-article-date">
+  	<time datetime="2019-06-06T19:55:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-06</time>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
+<<<<<<< HEAD
         <h3 id="单点登录"><a href="#单点登录" class="headerlink" title="单点登录"></a>单点登录</h3><p>单点登录（Single Sign-On ,简称SSO),只用户只需在一个地方登录，就能保持登录状态访问所有相互信任的子系统。</p>
 <h3 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h3><p>CAS 为 Central Authentication Service。<br><br>CAS 分为 CAS Server 和 CAS Client.<br></p>
 <ul>
@@ -920,6 +1423,18 @@
 <li>LT: 定制login页面时候，提交以后还是要提交到cas进行验证，那么参数中需要带lt，这个lt必须在前面获取到，防止重复提交之类的作用。</li>
 <li>TGC:在系统A登录成功后，用户和认证中心之间建立起了全局会话，这个全局会话就是TGT(Ticket Granting Ticket)，TGT位于CAS服务器端，TGT并没有放在Session中，也就是说，CAS全局会话的实现并没有直接使用Session机制，而是利用了Cookie自己实现的，这个Cookie叫做TGC(Ticket Granting Cookie)，它存放了TGT的id(jsessionid),保存在用户浏览器上</li>
 </ul>
+=======
+        <h3 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h3><p><img src="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/17/question_11.jpg" alt="contains"></p>
+<p>假设有一个容器，给定一个输入数组height,数组长度不小于2，height[i]代表第i位的木板高度，找到这个数组内的最大面积（容器最大能装水的方案）.<br></p>
+<h3 id="2-分析"><a href="#2-分析" class="headerlink" title="2.分析"></a>2.分析</h3><p>利用滑动窗口，先将整个视为一个窗口，通过不短缩小窗口边界，记录其中的最大值<br></p>
+<p>因为装水的深度取决于两个木板中较矮的那个。所以，窗口边界左移还是右移，看木板的高度。<br></p>
+<ul>
+<li>若left 高于 right, 则右边界收缩</li>
+<li>若left 低于 right, 则左边界收缩</li>
+<li>记录过程中的 Max(area)</li>
+</ul>
+<h3 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int maxArea(int[] height) &#123;</span><br><span class="line">        int right = height.length - 1;</span><br><span class="line">        int left = 0;</span><br><span class="line">        int max = 0;</span><br><span class="line">        while(left &lt; right)&#123;</span><br><span class="line">            int s = Math.min(height[left], height[right]) * (right-left);</span><br><span class="line">            max = Math.max(max,s);</span><br><span class="line">            if(height[left] &gt; height[right])&#123;</span><br><span class="line">                right--;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 
       
 
@@ -933,7 +1448,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
+<<<<<<< HEAD
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+=======
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
         		</li>
       		
 		</ul>
@@ -943,7 +1462,11 @@
 
       
         <p class="article-more-link">
+<<<<<<< HEAD
           <a class="article-more-a" href="/2019/05/30/base/cas-sso/cas/">展开全文 >></a>
+=======
+          <a class="article-more-a" href="/2019/06/06/algorithm/sildewindow/最大面积/">展开全文 >></a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
         </p>
       
 
@@ -973,30 +1496,47 @@
 
 
   
+<<<<<<< HEAD
     <article id="post-algorithm/sildewindow/manacher" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+=======
+    <article id="post-algorithm/动态规划/dynamic-programing" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
+<<<<<<< HEAD
       <a class="article-title" href="/2019/05/29/algorithm/sildewindow/manacher/">滑动窗口解决最长子串问题</a>
+=======
+      <a class="article-title" href="/2019/06/05/algorithm/动态规划/dynamic-programing/">动态规划算法</a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
     </h1>
   
 
         
+<<<<<<< HEAD
         <a href="/2019/05/29/algorithm/sildewindow/manacher/" class="archive-article-date">
   	<time datetime="2019-05-29T06:25:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-29</time>
+=======
+        <a href="/2019/06/05/algorithm/动态规划/dynamic-programing/" class="archive-article-date">
+  	<time datetime="2019-06-05T19:03:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-05</time>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
+<<<<<<< HEAD
         <h4 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h4><p>寻找一个字符串中最长不重复的字符串长度。<br><br>(1)通用做法:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">for(int i=0; i&lt;len; i++)&#123;</span><br><span class="line">    for(int j=i; j&lt;len; j++)&#123;</span><br><span class="line">      //找到以i开头的最长不重复子串</span><br><span class="line">      if()&#123;</span><br><span class="line">        break;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>(2)用滑动窗口来解决<br></p>
 <h4 id="2-滑动窗口"><a href="#2-滑动窗口" class="headerlink" title="2.滑动窗口"></a>2.滑动窗口</h4><p>原理：<br><br>维护一个长度为right-left的窗口，通过左右边界的收缩与拓展来找到最大长度。<br><br>只需一次遍历，时间复杂度O(n).<br></p>
 <h4 id="3-实现"><a href="#3-实现" class="headerlink" title="3.实现"></a>3.实现</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int lengthOfLongestSubstring(String s) &#123;</span><br><span class="line">        //滑动窗口</span><br><span class="line">        int left = 0, right = 0;</span><br><span class="line">        int max = 0;</span><br><span class="line">        Set window = new HashSet();</span><br><span class="line">        while(left&lt;s.length() &amp;&amp; right&lt;s.length())&#123;</span><br><span class="line">            if(!window.contains(s.charAt(right)))&#123;</span><br><span class="line">                window.add(s.charAt(right));</span><br><span class="line">                right++;</span><br><span class="line">                //更新最大值</span><br><span class="line">                max = Math.max(max,right-left);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">              //收缩左边界到没有重复为止，</span><br><span class="line">              //按照顺序收缩，例 abcb-&gt;bcb-&gt;cb</span><br><span class="line">                window.remove(s.charAt(left));</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        return max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+=======
+        <h3 id="动态规划原理"><a href="#动态规划原理" class="headerlink" title="动态规划原理"></a>动态规划原理</h3><p>将最终问题分解为多个子问题，先解决子问题，再根据子问题结果解决父问题。</p>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 
       
 
@@ -1020,7 +1560,11 @@
 
       
         <p class="article-more-link">
+<<<<<<< HEAD
           <a class="article-more-a" href="/2019/05/29/algorithm/sildewindow/manacher/">展开全文 >></a>
+=======
+          <a class="article-more-a" href="/2019/06/05/algorithm/动态规划/dynamic-programing/">展开全文 >></a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
         </p>
       
 
@@ -1050,26 +1594,40 @@
 
 
   
+<<<<<<< HEAD
     <article id="post-algorithm/manacher/manacher" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+=======
+    <article id="post-base/cas-sso/cas" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
+<<<<<<< HEAD
       <a class="article-title" href="/2019/05/27/algorithm/manacher/manacher/">马拉车算法</a>
+=======
+      <a class="article-title" href="/2019/05/30/base/cas-sso/cas/">Cas 单点登录原理</a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
     </h1>
   
 
         
+<<<<<<< HEAD
         <a href="/2019/05/27/algorithm/manacher/manacher/" class="archive-article-date">
   	<time datetime="2019-05-27T07:25:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-27</time>
+=======
+        <a href="/2019/05/30/base/cas-sso/cas/" class="archive-article-date">
+  	<time datetime="2019-05-30T20:30:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-30</time>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
+<<<<<<< HEAD
         <h3 id="manacher算法"><a href="#manacher算法" class="headerlink" title="manacher算法"></a>manacher算法</h3><p>处理回文字符串:<br><br>一搬思路为中心拓展:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//预处理，得到不分奇偶的新串 #a#b#a#c#</span><br><span class="line">for(int i=0; i&lt;len; i++)&#123;</span><br><span class="line">  for (int j = 0; (i-j &gt;= 0) &amp;&amp; (i+j &lt; len); j++)&#123;</span><br><span class="line">		  //在左右j距离拓展匹配</span><br><span class="line">      if (s[i - j] != s[i + j])</span><br><span class="line">				break;</span><br><span class="line">      //纪录最大距离</span><br><span class="line">	&#125;</span><br><span class="line">  //更新最大子串</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>Manacher算法，将时间压缩到线性，时间复杂度/空间复杂度都是O(n).</p>
 <h5 id="1-新串"><a href="#1-新串" class="headerlink" title="1.新串"></a>1.新串</h5><p>无论字符串原先为奇数还是偶数长度，通过添加特殊字符都能使之变为奇数，减少判断条件。<br><br>例:</p>
@@ -1095,6 +1653,42 @@
 <p>取p[j]和mxr-i中较小的值，再进行拓展匹配<br></p>
 <p>这样循环一次就得到了所有p[i]的值。</p>
 <h5 id="3-具体代码"><a href="#3-具体代码" class="headerlink" title="3.具体代码"></a>3.具体代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public String longestPalindrome(String s) &#123;</span><br><span class="line">        //生成新串</span><br><span class="line">        StringBuffer sb = new StringBuffer();</span><br><span class="line">        for(int i=0; i&lt;s.length()*2+1; i++)&#123;</span><br><span class="line">            if(i%2 == 0)&#123;</span><br><span class="line">                sb.append(&quot;#&quot;);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                sb.append(s.charAt(i/2));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        String ns = sb.toString();</span><br><span class="line">        //处理</span><br><span class="line">        int[] p = new int[ns.length()];</span><br><span class="line">        p[0] = 0;</span><br><span class="line">        int pos = 0, mxr = 0;</span><br><span class="line">        for(int i=0; i&lt;ns.length(); i++)&#123;</span><br><span class="line">            p[i] = mxr&gt;i ? Math.min(p[pos*2-i],mxr-i):0;</span><br><span class="line">            //继续进行拓展</span><br><span class="line">            //是否到达左边界，是否到达右边界，是否对称</span><br><span class="line">            while(i-p[i] &gt;=0</span><br><span class="line">                 &amp;&amp; i+p[i]&lt;= ns.length()-1</span><br><span class="line">                 &amp;&amp; ns.charAt(i+p[i]) == ns.charAt(i-p[i]))&#123;</span><br><span class="line">                p[i]+=1;</span><br><span class="line">            &#125;</span><br><span class="line">            //发现更大的子串，进行调整，如果相等，不调整，取第一个</span><br><span class="line">            if(p[i]&gt; mxr-pos)&#123;</span><br><span class="line">                pos = i;</span><br><span class="line">                mxr = p[i] + i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //因为p[pos]的长度包括了pos自己,所以回文串范围为(pos-p[pos]+1, pos+p[pos]-1)</span><br><span class="line">        //因为substring取值为[a,b)，所以范围为(pos-p[pos]+1, pos+p[pos])</span><br><span class="line">         return ns.substring(pos-p[pos]+1, pos+p[pos]).replace(&quot;#&quot;,&quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+=======
+        <h3 id="单点登录"><a href="#单点登录" class="headerlink" title="单点登录"></a>单点登录</h3><p>单点登录（Single Sign-On ,简称SSO),只用户只需在一个地方登录，就能保持登录状态访问所有相互信任的子系统。</p>
+<h3 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h3><p>CAS 为 Central Authentication Service。<br><br>CAS 分为 CAS Server 和 CAS Client.<br></p>
+<ul>
+<li>CAS Server 负责用户的认证和授权</li>
+<li>CAS Client 与受保护的客户端应用部署在一起，负责认证用户是否登录,同时负责处理对客户端受保护资源的访问请求，需要登录时，重定向到CAS Server，以Filter方式保护受保护的资源。</li>
+</ul>
+<h4 id="一-授权与登录操作"><a href="#一-授权与登录操作" class="headerlink" title="一.授权与登录操作"></a>一.授权与登录操作</h4><h6 id="1-未登录时"><a href="#1-未登录时" class="headerlink" title="1.未登录时"></a>1.未登录时</h6><p><img src="http://67.216.218.49:8000/file/blogs/base/cas/cas01.png" alt="cas01"><br>如图:<br></p>
+<ul>
+<li>(1)客户端(即浏览器)请求资源(需要登录的受限资源)，CAS Client发现无权限(未登录，通过cookies中JSESSIONID判断是否登录)，尝试获取ticket(未获取到)。</li>
+<li>(2)CAS Client 返回重定向(CAS Server 登录地址)并在请求地址中带上原本要请求的资源地址，客户端请求该地址(重定向自动请求)获取ticket，此时ticket不存在(未登录)，返回登录页面。</li>
+<li>(3)客户端进行登录(带上认证信息，原本的请求资源地址，sessionid,sessionid为CAS Client生成)，CAS Server 验证通过，生成与sessionid进行关联的TGT与ST,将请求的cookie中jsessionid设置为传过来的sessionid，并返回重定向(要请求的资源地址，带上ticket(ST))<br><img src="http://67.216.218.49:8000/file/blogs/base/cas/cas_sessionid01.png" alt="cas_session01"><br>将会话的jsessionid设置为图中1.</li>
+<li>(4)此时，CAS Client发现请求无权限(未登录)，尝试获取ticket(获取到),CAS Client拿着ticket去CAS Server 进行认证</li>
+<li>(5)此时，CAS Server 发现该ticket认证通过，返回登录成功的信息，CAS Client(可以理解为服务端) 利用前面设置的JSESSIONID为该用户创建session会话，维护登录状态(JSESSIONID)，并返回原本受限的请求资源</li>
+</ul>
+<h6 id="2-已登录时"><a href="#2-已登录时" class="headerlink" title="2.已登录时"></a>2.已登录时</h6><p>当已登录的用户第一次访问其它互相信任的系统时：<br></p>
+<ul>
+<li>(1)客户端请求资源(需要登录的受限资源)，CAS Client发现无权限(此时该系统还未登录过，session会话未创建)，尝试获取ticket(未获取到)。</li>
+<li>(2)CAS Client 返回重定向(CAS Server 登录地址)并在请求地址中带上原本要请求的资源地址，客户端请求该地址(重定向自动请求)根据session获取ticket，此时ticket已存在,重定向请求。</li>
+<li>(3)此时，CAS Client发现请求无权限(未登录)，尝试获取ticket(获取到),CAS Client拿着ticket去CAS Server 进行认证，认证成功后设置该域的session.</li>
+<li>(4)此时，CAS Server 发现该ticket认证通过，返回登录成功的信息，CAS Client 为该用户创建session会话，保存在域下的登录状态，返回原本受限的请求资源。</li>
+</ul>
+<h4 id="二-登录状态判断"><a href="#二-登录状态判断" class="headerlink" title="二.登录状态判断"></a>二.登录状态判断</h4><p>已登录的用户在再次请求受限资源时，不能每次都去认证中心(CAS Server)判断是否登录(效率低)。<br><br><img src="http://67.216.218.49:8000/file/blogs/base/cas/cas_cookie01.png" alt="cas01"><br>当一个已经登录过的用户，再次请求该系统资源时，CAS Client会去session中查找用户信息(通过请求头的cookie中JSESSIONID字段的值)，判断是否登录。不用再去CAS Server认证。<br><br>不同的域，各自维护自己的session.<br></p>
+<h4 id="三-退出"><a href="#三-退出" class="headerlink" title="三.退出"></a>三.退出</h4><ul>
+<li>(1)客户端向当前web应用发起退出请求。</li>
+<li>(2)应用取消本地会话session，同时通知CAS Server，用户已登出，清除TGT。</li>
+<li>(3)应用返回客户端登出请求。</li>
+<li>(4)CAS Server 通知所有用户登录访问的应用，用户已登出。</li>
+</ul>
+<h4 id="四-CAS中的ticket"><a href="#四-CAS中的ticket" class="headerlink" title="四.CAS中的ticket"></a>四.CAS中的ticket</h4><ul>
+<li>TGT：TGT是CAS为用户签发的登录票据，拥有了TGT，用户就可以证明自己在CAS成功登录过。TGT封装了Cookie值以及此Cookie值对应的用户信息。用户在CAS 认证成功后，CAS生成cookie，写入浏览器，同时生成一个TGT对象，放入自己的缓存，TGT对象的ID就是cookie的值。当HTTP再次请求到来时，如果传过来的有CAS生成的cookie，则CAS以此cookie值为key查询缓存中有无TGT ，如果有的话，则说明用户之前登录过，如果没有，则用户需要重新登录。</li>
+<li>ST：服务票据，ST是CAS为用户签发的访问某一service的票据。用户访问service时，service发现用户没有ST，则要求用户去CAS获取ST。用户向CAS发出获取ST的请求，如果用户的请求中包含cookie，则CAS会以此cookie值为key查询缓存中有无TGT，如果存在TGT，则用此TGT签发一个ST，返回给用户。用户凭借ST去访问service，service拿ST去CAS验证，验证通过后，允许用户访问资源。</li>
+<li>LT: 定制login页面时候，提交以后还是要提交到cas进行验证，那么参数中需要带lt，这个lt必须在前面获取到，防止重复提交之类的作用。</li>
+<li>TGC:在系统A登录成功后，用户和认证中心之间建立起了全局会话，这个全局会话就是TGT(Ticket Granting Ticket)，TGT位于CAS服务器端，TGT并没有放在Session中，也就是说，CAS全局会话的实现并没有直接使用Session机制，而是利用了Cookie自己实现的，这个Cookie叫做TGC(Ticket Granting Cookie)，它存放了TGT的id(jsessionid),保存在用户浏览器上</li>
+</ul>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
 
       
 
@@ -1108,7 +1702,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
+<<<<<<< HEAD
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
+=======
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
         		</li>
       		
 		</ul>
@@ -1118,7 +1716,11 @@
 
       
         <p class="article-more-link">
+<<<<<<< HEAD
           <a class="article-more-a" href="/2019/05/27/algorithm/manacher/manacher/">展开全文 >></a>
+=======
+          <a class="article-more-a" href="/2019/05/30/base/cas-sso/cas/">展开全文 >></a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
         </p>
       
 
@@ -1261,11 +1863,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
+<<<<<<< HEAD
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
+=======
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
               </li>
              
               <li class="article-tag-list-item">
@@ -1273,7 +1879,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+<<<<<<< HEAD
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
+=======
+                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
               </li>
              
               <li class="article-tag-list-item">
