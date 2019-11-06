@@ -40,7 +40,6 @@ Broker/Topic/Partition/Producer/Consumer/Consumer Group
   Parition是物理上的概念，每个Topic包含一个或多个Partition
 zookeeper在该体系中的作用
 
-<<<<<<< HEAD
 
 
 
@@ -51,12 +50,14 @@ zookeeper在该体系中的作用
 
 同源策略为什么要限制ajax?
 
-防csrf 用户登录了a.com, 浏览了恶意网站b.com,b.com执行了ajax请求，向a.com发请求，自动带上了cookie等信息，此时拦截返回信息，防止response中的信息泄漏
+防csrf 用户登录了a.com, 浏览了恶意网站b.com,b.com执行了ajax请求，向a.com发请求，自动带上了cookie等信息，此时拦截返回信息，防止response中的信息泄漏，因为返回信息是在浏览器中才能得到
 
 （转账这种怎么办,返回信息不是重要数据)
 
 
+
+
 iframe 可以跨域加载页面  但是不能访问页面内容，window和document对象， 如果同源则可以
-=======
-apt和dpkg
->>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
+
+
+出于安全原因，浏览器限制从     脚本内发起     的跨源HTTP请求

