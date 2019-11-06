@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>hashutil | xiong&#39;s blogs</title>
+  <title>一次sql慢查询 | xiong&#39;s blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465package util;import java.io.UnsupportedEncodingException;import java.security.M">
-<meta name="keywords" content="java,wheels">
+  <meta name="description" content="今天发现一个页面，打开后卡死，发现是sql执行时间太长导致。 1.原sql 原sql 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859&amp;lt;e:case value=&amp;quot;getParentNodes&amp;quot;&amp;gt;">
+<meta name="keywords" content="others">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hashutil">
-<meta property="og:url" content="http://yoursite.com/2019/01/16/wheels/java/hashutil/index.html">
+<meta property="og:title" content="一次sql慢查询">
+<meta property="og:url" content="http://yoursite.com/2019/01/21/一次sql慢查询/index.html">
 <meta property="og:site_name" content="xiong&#39;s blogs">
-<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465package util;import java.io.UnsupportedEncodingException;import java.security.M">
+<meta property="og:description" content="今天发现一个页面，打开后卡死，发现是sql执行时间太长导致。 1.原sql 原sql 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859&amp;lt;e:case value=&amp;quot;getParentNodes&amp;quot;&amp;gt;">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-10-13T12:15:12.184Z">
+<meta property="og:updated_time" content="2019-11-06T07:38:42.473Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hashutil">
-<meta name="twitter:description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465package util;import java.io.UnsupportedEncodingException;import java.security.M">
+<meta name="twitter:title" content="一次sql慢查询">
+<meta name="twitter:description" content="今天发现一个页面，打开后卡死，发现是sql执行时间太长导致。 1.原sql 原sql 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859&amp;lt;e:case value=&amp;quot;getParentNodes&amp;quot;&amp;gt;">
   
     <link rel="alternative" href="/atom.xml" title="xiong&#39;s blogs" type="application/atom+xml">
   
@@ -141,27 +141,36 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-wheels/java/hashutil" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-一次sql慢查询" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      hashutil
+      一次sql慢查询
     </h1>
   
 
         
-        <a href="/2019/01/16/wheels/java/hashutil/" class="archive-article-date">
-  	<time datetime="2019-01-15T21:22:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-16</time>
+        <a href="/2019/01/21/一次sql慢查询/" class="archive-article-date">
+  	<time datetime="2019-01-21T06:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-21</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">package util;</span><br><span class="line"></span><br><span class="line">import java.io.UnsupportedEncodingException;</span><br><span class="line">import java.security.MessageDigest;</span><br><span class="line">import java.security.NoSuchAlgorithmException;</span><br><span class="line">import java.util.Random;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * hash(散列),把一些不同长度的输入，转换成相同长度的输出。不可逆，且高度离散性（改变一点点，结果相差很大），导致不可预测.</span><br><span class="line"> * 生成的hash值称为 摘要 ， 摘要 不等于 加密。 加密是通过加密算法将明文转成密文，密文可以通过解密算法还原成明文。</span><br><span class="line"> */</span><br><span class="line">public class HashUtil &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 生成六位随机数</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public String creatRandom()&#123;</span><br><span class="line">        Random random = new Random();</span><br><span class="line">        String result=&quot;&quot;;</span><br><span class="line">        for (int i=0;i&lt;6;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            result+=random.nextInt(10);</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //通过getInstance()传入MD5,SHA-1,SHA-256,SHA-512等来选择不同算法</span><br><span class="line">    public static  String getMd5(String str, String... type)&#123;</span><br><span class="line">        MessageDigest messageDigest = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            //返回指定算法的MessageDigest对象 抛出NoSuchAlgorithmException</span><br><span class="line">            //messageDigest = MessageDigest.getInstance(&quot;SHA-512&quot;);</span><br><span class="line">            //messageDigest = MessageDigest.getInstance(&quot;MD5&quot;);</span><br><span class="line">            messageDigest = (type.length == 0) ? MessageDigest.getInstance(&quot;MD5&quot;) : MessageDigest.getInstance(type[0]);</span><br><span class="line">            //重置摘要</span><br><span class="line">            messageDigest.reset();</span><br><span class="line">            //使用指定的字节数组或buffer更新摘要,抛出UnsupportEncodingException</span><br><span class="line">            messageDigest.update(str.getBytes(&quot;UTF-8&quot;));</span><br><span class="line">        &#125;catch (NoSuchAlgorithmException e1)&#123;</span><br><span class="line">            e1.printStackTrace();</span><br><span class="line">        &#125;catch (UnsupportedEncodingException e2)&#123;</span><br><span class="line">            e2.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        //进行hash计算,byte为8位二进制补码表示的，有符号整数(127到-128)</span><br><span class="line">        byte[] md5byte = messageDigest.digest();</span><br><span class="line"></span><br><span class="line">        StringBuffer md5Str = new StringBuffer();</span><br><span class="line">        for(int i=0; i&lt;md5byte.length; i++)&#123;</span><br><span class="line">            //int类型为32位，byte为8位（byte转int时高24位为1），用0xFF（高24位全补0）进行与运算，保持其补码不变</span><br><span class="line">            if(Integer.toHexString(0xFF &amp; md5byte[i]).length() == 1)&#123;</span><br><span class="line">                //位运算后为1位十六进制情况,前面补0</span><br><span class="line">                md5Str.append(&quot;0&quot;).append(Integer.toHexString(0xFF &amp; md5byte[i]));</span><br><span class="line">            &#125;else &#123;</span><br><span class="line">                //位运算后为2位十六进制情况，直接append</span><br><span class="line">                md5Str.append(Integer.toHexString(0xFF &amp; md5byte[i]));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return md5Str.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static  void main(String[] args)&#123;</span><br><span class="line">        System.out.println(getMd5(&quot;adminbonc123&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>今天发现一个页面，打开后卡死，发现是sql执行时间太长导致。</p>
+<h2 id="1-原sql"><a href="#1-原sql" class="headerlink" title="1.原sql"></a>1.原sql</h2><details><br><summary> 原sql </summary><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">&lt;e:case value=&quot;getParentNodes&quot;&gt;</span><br><span class="line">    &lt;e:description&gt;获取满足条件的所有父节点&lt;/e:description&gt;</span><br><span class="line">    &lt;e:q4l var=&quot;parentNodeList&quot;&gt;</span><br><span class="line">        select</span><br><span class="line">            t.CUSTOMER_NO</span><br><span class="line">        from (</span><br><span class="line">            select</span><br><span class="line">                t1.customer_no,t1.parent_no</span><br><span class="line">            from</span><br><span class="line">                $&#123;gis_user&#125;.T_CUSTOMER_BASE_INFO t1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t2 on T1.customer_no=T2.CUSTOM_NO AND T2.TYPE=1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t3 on T1.customer_no=T3.CUSTOM_NO AND T3.TYPE=2</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t4 on T1.customer_no=T4.CUSTOM_NO AND T3.TYPE=3</span><br><span class="line">            LEFT JOIN V_CMCODE_BRANCH v1 on t1.substation_code = v1.branch_no</span><br><span class="line">            LEFT JOIN V_CMCODE_AREA v2 on v1.area_no = v2.area_no</span><br><span class="line">            LEFT JOIN V_CMCODE_CITY v3 on v1.city_no = v3.city_no</span><br><span class="line">            where 1 = 1</span><br><span class="line">                and customer_no in (</span><br><span class="line">                    select</span><br><span class="line">                        t1.customer_no</span><br><span class="line">                    from</span><br><span class="line">                    $&#123;gis_user&#125;.T_CUSTOMER_BASE_INFO t1</span><br><span class="line">                    LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t2 on T1.customer_no=T2.CUSTOM_NO AND T2.TYPE=1</span><br><span class="line">                    LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t3 on T1.customer_no=T3.CUSTOM_NO AND T3.TYPE=2</span><br><span class="line">                    LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t4 on T1.customer_no=T4.CUSTOM_NO AND T3.TYPE=3</span><br><span class="line">                    LEFT JOIN V_CMCODE_BRANCH v1 on t1.substation_code = v1.branch_no</span><br><span class="line">                    LEFT JOIN V_CMCODE_AREA v2 on v1.area_no = v2.area_no</span><br><span class="line">                    LEFT JOIN V_CMCODE_CITY v3 on v1.city_no = v3.city_no</span><br><span class="line">                    where 1 = 1</span><br><span class="line">                    &lt;e:if condition=&quot;$&#123;sessionScope.UserInfo.AREA_NO !=&apos;-1&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=&apos;&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=null&#125;&quot;&gt;</span><br><span class="line">                        AND v2.AREA_NO = &apos;$&#123;sessionScope.UserInfo.AREA_NO&#125;&apos;</span><br><span class="line">                    &lt;/e:if&gt;</span><br><span class="line">                    //其它条件</span><br><span class="line">                )</span><br><span class="line">            &lt;e:if condition=&quot;$&#123;sessionScope.UserInfo.AREA_NO !=&apos;-1&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=&apos;&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=null&#125;&quot;&gt;</span><br><span class="line">                AND v2.AREA_NO = &apos;$&#123;sessionScope.UserInfo.AREA_NO&#125;&apos;</span><br><span class="line">            &lt;/e:if&gt;</span><br><span class="line">            //其它条件</span><br><span class="line">            ) t</span><br><span class="line">        where t.PARENT_NO not in (</span><br><span class="line">            select</span><br><span class="line">                t1.customer_no</span><br><span class="line">            from</span><br><span class="line">            $&#123;gis_user&#125;.T_CUSTOMER_BASE_INFO t1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t2 on T1.customer_no=T2.CUSTOM_NO AND T2.TYPE=1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t3 on T1.customer_no=T3.CUSTOM_NO AND T3.TYPE=2</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t4 on T1.customer_no=T4.CUSTOM_NO AND T3.TYPE=3</span><br><span class="line">            LEFT JOIN V_CMCODE_BRANCH v1 on t1.substation_code = v1.branch_no</span><br><span class="line">            LEFT JOIN V_CMCODE_AREA v2 on v1.area_no = v2.area_no</span><br><span class="line">            LEFT JOIN V_CMCODE_CITY v3 on v1.city_no = v3.city_no</span><br><span class="line">            where 1 = 1</span><br><span class="line">            &lt;e:if condition=&quot;$&#123;!empty(param.customerType) &amp;&amp; param.customerType ne &apos;&apos;&#125;&quot;&gt;</span><br><span class="line">                and C_TYPE = &apos;$&#123;param.customerType&#125;&apos;</span><br><span class="line">            &lt;/e:if&gt;</span><br><span class="line">            //其它条件</span><br><span class="line">         )</span><br><span class="line"></span><br><span class="line">    &lt;/e:q4l&gt;$&#123;e:java2json(parentNodeList.list)&#125;</span><br><span class="line">&lt;/e:case&gt;</span><br></pre></td></tr></table></figure><br><br></details>
+
+<p>简化下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">select</span><br><span class="line">  t.a</span><br><span class="line">from ( select xxx from xx t1 where t1.a in (xxx) ) t</span><br><span class="line">where t.b not in (select xxx from xxx)</span><br></pre></td></tr></table></figure>
+<h2 id="2-原因"><a href="#2-原因" class="headerlink" title="2.原因"></a>2.原因</h2><p>in 和 not in 操作效率低， 非常耗时，在数据量大点时，页面直接一直等待它.</p>
+<h2 id="3-解决"><a href="#3-解决" class="headerlink" title="3.解决"></a>3.解决</h2><p>参考:<a href="https://www.cnblogs.com/phoenixfling/archive/2012/05/09/2492006.html" target="_blank" rel="noopener">https://www.cnblogs.com/phoenixfling/archive/2012/05/09/2492006.html</a></p>
+<p>这里使用了第二种</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;e:case value=&quot;getParentNodes&quot;&gt;</span><br><span class="line">        &lt;e:description&gt;获取满足条件的所有父节点&lt;/e:description&gt;</span><br><span class="line">        &lt;e:q4l var=&quot;parentNodeList&quot;&gt;</span><br><span class="line"></span><br><span class="line">            select</span><br><span class="line">            t1.customer_no</span><br><span class="line">            from</span><br><span class="line">            $&#123;gis_user&#125;.T_CUSTOMER_BASE_INFO t1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t2 on T1.customer_no=T2.CUSTOM_NO AND T2.TYPE=1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t3 on T1.customer_no=T3.CUSTOM_NO AND T3.TYPE=2</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t4 on T1.customer_no=T4.CUSTOM_NO AND T3.TYPE=3</span><br><span class="line">            LEFT JOIN V_CMCODE_BRANCH v1 on t1.substation_code = v1.branch_no</span><br><span class="line">            LEFT JOIN V_CMCODE_AREA v2 on v1.area_no = v2.area_no</span><br><span class="line">            LEFT JOIN V_CMCODE_CITY v3 on v1.city_no = v3.city_no</span><br><span class="line">            LEFT JOIN (select</span><br><span class="line">                        t1.customer_no</span><br><span class="line">                        from</span><br><span class="line">                        $&#123;gis_user&#125;.T_CUSTOMER_BASE_INFO t1</span><br><span class="line">                        LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t2 on T1.customer_no=T2.CUSTOM_NO AND T2.TYPE=1</span><br><span class="line">                        LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t3 on T1.customer_no=T3.CUSTOM_NO AND T3.TYPE=2</span><br><span class="line">                        LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t4 on T1.customer_no=T4.CUSTOM_NO AND T3.TYPE=3</span><br><span class="line">                        LEFT JOIN V_CMCODE_BRANCH v1 on t1.substation_code = v1.branch_no</span><br><span class="line">                        LEFT JOIN V_CMCODE_AREA v2 on v1.area_no = v2.area_no</span><br><span class="line">                        LEFT JOIN V_CMCODE_CITY v3 on v1.city_no = v3.city_no</span><br><span class="line">                        where 1 = 1</span><br><span class="line">                        &lt;e:if condition=&quot;$&#123;!empty(param.customerType) &amp;&amp; param.customerType ne &apos;&apos;&#125;&quot;&gt;</span><br><span class="line">                            and C_TYPE = &apos;$&#123;param.customerType&#125;&apos;</span><br><span class="line">                        &lt;/e:if&gt;</span><br><span class="line">                        //其它条件</span><br><span class="line"></span><br><span class="line">            where 1 = 1  and tmp.customer_no is NULL</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &lt;e:if condition=&quot;$&#123;sessionScope.UserInfo.AREA_NO !=&apos;-1&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=&apos;&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=null&#125;&quot;&gt;</span><br><span class="line">                AND v2.AREA_NO = &apos;$&#123;sessionScope.UserInfo.AREA_NO&#125;&apos;</span><br><span class="line">            &lt;/e:if&gt;</span><br><span class="line">            //其它条件</span><br><span class="line"></span><br><span class="line">        &lt;/e:q4l&gt;$&#123;e:java2json(parentNodeList.list)&#125;</span><br><span class="line">    &lt;/e:case&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4.总结"></a>4.总结</h2><p>in 和 not in操作,能不用就不用，尽量少用.</p>
 
       
 
@@ -196,11 +205,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wheels</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">others</a>
         		</li>
       		
 		</ul>
@@ -256,7 +261,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/01/16/wheels/java/hashutil/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/01/21/一次sql慢查询/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -270,18 +275,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/01/17/tools/vim/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/02/14/tools/docker_vulner_install/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          vim
+          docker搭建漏洞环境
         
       </div>
     </a>
   
   
-    <a href="/2019/01/16/wheels/java/httpclient/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">httpclient</div>
+    <a href="/2019/01/21/java/interface/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">接口</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -308,7 +313,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录，不存在的…
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-原sql"><span class="toc-number">1.</span> <span class="toc-text">1.原sql</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-原因"><span class="toc-number">2.</span> <span class="toc-text">2.原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-解决"><span class="toc-number">3.</span> <span class="toc-text">3.解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-总结"><span class="toc-number">4.</span> <span class="toc-text">4.总结</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -420,15 +425,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Index</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">others</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
+                <a href="javascript:void(0)" class="js-tag color1">Index</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -441,6 +442,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">springboot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -38,8 +38,22 @@ Broker/Topic/Partition/Producer/Consumer/Consumer Group
   每条发布到Kafka集群的消息都有一个类别，这个类别被称为Topic（物理上不同Topic的消息分开存储[表现于日志落地]，
   逻辑上一个Topic的消息虽然保存于一个或多个broker上但用户只需指定消息的Topic即可生产或消费数据而不必关心数据存于何处）
   Parition是物理上的概念，每个Topic包含一个或多个Partition
+
+
 zookeeper在该体系中的作用
 
+<<<<<<< HEAD
+
+网卡相关操作
+ifconfig 查看网卡信息
+
+一次性 kill所有符合条件的进程
+ps -ef | grep xxx | cut -c 9-15 | xargs kill -9
+
+
+块元素，选择器，属性，模仿一个静态页面
+=======
+<<<<<<< HEAD
 
 
 
@@ -50,14 +64,13 @@ zookeeper在该体系中的作用
 
 同源策略为什么要限制ajax?
 
-防csrf 用户登录了a.com, 浏览了恶意网站b.com,b.com执行了ajax请求，向a.com发请求，自动带上了cookie等信息，此时拦截返回信息，防止response中的信息泄漏，因为返回信息是在浏览器中才能得到
+防csrf 用户登录了a.com, 浏览了恶意网站b.com,b.com执行了ajax请求，向a.com发请求，自动带上了cookie等信息，此时拦截返回信息，防止response中的信息泄漏
 
 （转账这种怎么办,返回信息不是重要数据)
 
 
-
-
 iframe 可以跨域加载页面  但是不能访问页面内容，window和document对象， 如果同源则可以
-
-
-出于安全原因，浏览器限制从     脚本内发起     的跨源HTTP请求
+=======
+apt和dpkg
+>>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
+>>>>>>> 9f0936ee54e254f6b6ba86d252079ba65b945324
