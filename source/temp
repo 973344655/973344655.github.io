@@ -42,7 +42,7 @@ Broker/Topic/Partition/Producer/Consumer/Consumer Group
 
 zookeeper在该体系中的作用
 
-<<<<<<< HEAD
+
 
 网卡相关操作
 ifconfig 查看网卡信息
@@ -52,8 +52,7 @@ ps -ef | grep xxx | cut -c 9-15 | xargs kill -9
 
 
 块元素，选择器，属性，模仿一个静态页面
-=======
-<<<<<<< HEAD
+
 
 
 
@@ -70,7 +69,5 @@ ps -ef | grep xxx | cut -c 9-15 | xargs kill -9
 
 
 iframe 可以跨域加载页面  但是不能访问页面内容，window和document对象， 如果同源则可以
-=======
+
 apt和dpkg
->>>>>>> 877a4918f3fd147cdacebc88f8ad9b4d973d6d62
->>>>>>> 9f0936ee54e254f6b6ba86d252079ba65b945324
