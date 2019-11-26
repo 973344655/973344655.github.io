@@ -138,6 +138,324 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-tools/vim" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/16/tools/vim/">vim</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/16/tools/vim/" class="archive-article-date">
+  	<time datetime="2019-01-16T06:10:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-查找替换"><a href="#1-查找替换" class="headerlink" title="1.查找替换"></a>1.查找替换</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">全局替换</span><br><span class="line">:%s/old/new/g</span><br><span class="line">当前行替换</span><br><span class="line">:s/old/new/g</span><br><span class="line">替换当前行第一个</span><br><span class="line">:s/old/new/</span><br></pre></td></tr></table></figure>
+<h3 id="2-保存只读文件"><a href="#2-保存只读文件" class="headerlink" title="2.保存只读文件"></a>2.保存只读文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:w !sudo tee %</span><br></pre></td></tr></table></figure>
+<h3 id="3-块操作"><a href="#3-块操作" class="headerlink" title="3.块操作"></a>3.块操作</h3><p>列<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ctrl + v 进入可视块模式</span><br><span class="line">选择要操作的列</span><br><span class="line">shift + i 输入要操作内容</span><br><span class="line">esc 按两次</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tools</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/16/tools/vim/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-wheels/java/hashutil" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/15/wheels/java/hashutil/">hashutil</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/15/wheels/java/hashutil/" class="archive-article-date">
+  	<time datetime="2019-01-15T08:22:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">package util;</span><br><span class="line"></span><br><span class="line">import java.io.UnsupportedEncodingException;</span><br><span class="line">import java.security.MessageDigest;</span><br><span class="line">import java.security.NoSuchAlgorithmException;</span><br><span class="line">import java.util.Random;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * hash(散列),把一些不同长度的输入，转换成相同长度的输出。不可逆，且高度离散性（改变一点点，结果相差很大），导致不可预测.</span><br><span class="line"> * 生成的hash值称为 摘要 ， 摘要 不等于 加密。 加密是通过加密算法将明文转成密文，密文可以通过解密算法还原成明文。</span><br><span class="line"> */</span><br><span class="line">public class HashUtil &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 生成六位随机数</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public String creatRandom()&#123;</span><br><span class="line">        Random random = new Random();</span><br><span class="line">        String result=&quot;&quot;;</span><br><span class="line">        for (int i=0;i&lt;6;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            result+=random.nextInt(10);</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //通过getInstance()传入MD5,SHA-1,SHA-256,SHA-512等来选择不同算法</span><br><span class="line">    public static  String getMd5(String str, String... type)&#123;</span><br><span class="line">        MessageDigest messageDigest = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            //返回指定算法的MessageDigest对象 抛出NoSuchAlgorithmException</span><br><span class="line">            //messageDigest = MessageDigest.getInstance(&quot;SHA-512&quot;);</span><br><span class="line">            //messageDigest = MessageDigest.getInstance(&quot;MD5&quot;);</span><br><span class="line">            messageDigest = (type.length == 0) ? MessageDigest.getInstance(&quot;MD5&quot;) : MessageDigest.getInstance(type[0]);</span><br><span class="line">            //重置摘要</span><br><span class="line">            messageDigest.reset();</span><br><span class="line">            //使用指定的字节数组或buffer更新摘要,抛出UnsupportEncodingException</span><br><span class="line">            messageDigest.update(str.getBytes(&quot;UTF-8&quot;));</span><br><span class="line">        &#125;catch (NoSuchAlgorithmException e1)&#123;</span><br><span class="line">            e1.printStackTrace();</span><br><span class="line">        &#125;catch (UnsupportedEncodingException e2)&#123;</span><br><span class="line">            e2.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        //进行hash计算,byte为8位二进制补码表示的，有符号整数(127到-128)</span><br><span class="line">        byte[] md5byte = messageDigest.digest();</span><br><span class="line"></span><br><span class="line">        StringBuffer md5Str = new StringBuffer();</span><br><span class="line">        for(int i=0; i&lt;md5byte.length; i++)&#123;</span><br><span class="line">            //int类型为32位，byte为8位（byte转int时高24位为1），用0xFF（高24位全补0）进行与运算，保持其补码不变</span><br><span class="line">            if(Integer.toHexString(0xFF &amp; md5byte[i]).length() == 1)&#123;</span><br><span class="line">                //位运算后为1位十六进制情况,前面补0</span><br><span class="line">                md5Str.append(&quot;0&quot;).append(Integer.toHexString(0xFF &amp; md5byte[i]));</span><br><span class="line">            &#125;else &#123;</span><br><span class="line">                //位运算后为2位十六进制情况，直接append</span><br><span class="line">                md5Str.append(Integer.toHexString(0xFF &amp; md5byte[i]));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return md5Str.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static  void main(String[] args)&#123;</span><br><span class="line">        System.out.println(getMd5(&quot;adminbonc123&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wheels</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/15/wheels/java/hashutil/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-wheels/java/httpclient" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/15/wheels/java/httpclient/">httpclient</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/15/wheels/java/httpclient/" class="archive-article-date">
+  	<time datetime="2019-01-15T08:21:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line">package util;</span><br><span class="line"></span><br><span class="line">import org.omg.CORBA.portable.OutputStream;</span><br><span class="line"></span><br><span class="line">import java.io.*;</span><br><span class="line">import java.net.HttpURLConnection;</span><br><span class="line">import java.net.URL;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 发送与接收都是String  接收到String类型的返回后自己用fastJson转一下</span><br><span class="line"> */</span><br><span class="line">public class HttpClientUtil &#123;</span><br><span class="line">    /**</span><br><span class="line">     * url为地址，params 为请求参数 如 id=1&amp;name=xx</span><br><span class="line">     * @param url</span><br><span class="line">     * @param params</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private static  Map get(String url, String params)&#123;</span><br><span class="line">        HttpURLConnection connection = null;</span><br><span class="line">        BufferedReader br = null;</span><br><span class="line">        Map&lt;String,Object&gt; res = new HashMap&lt;&gt;();</span><br><span class="line">        StringBuffer sb = new StringBuffer();</span><br><span class="line">        Map&lt;String,List&lt;String&gt;&gt; headers;</span><br><span class="line"></span><br><span class="line">        try&#123;</span><br><span class="line">            URL send_url = params.equals(&quot;&quot;) ? new URL(url) : new URL(url + &quot;?&quot; + params);</span><br><span class="line">            connection = (HttpURLConnection) send_url.openConnection();</span><br><span class="line">            connection.setRequestMethod(&quot;GET&quot;);</span><br><span class="line">            //一些设置</span><br><span class="line">            connection.setRequestProperty(&quot;Connection&quot;,&quot;keep-alive&quot;);</span><br><span class="line">            connection.setRequestProperty(&quot;Accept-Charset&quot;,&quot;utf8, gbk; q=0.6&quot;);</span><br><span class="line">            //content-type浏览器会自动解析</span><br><span class="line">            //connection.setRequestProperty(&quot;Content-Type&quot;,&quot;application/json&quot;);</span><br><span class="line">            //connection.setDoOutput(true);</span><br><span class="line">            connection.setUseCaches(false);</span><br><span class="line"></span><br><span class="line">            connection.connect();</span><br><span class="line">            headers = connection.getHeaderFields();</span><br><span class="line"></span><br><span class="line">            br = new BufferedReader(new InputStreamReader(connection.getInputStream(),&quot;UTF-8&quot;));</span><br><span class="line">            String line = &quot;&quot;;</span><br><span class="line">            while ((line = br.readLine()) != null)&#123;</span><br><span class="line">                sb.append(line);</span><br><span class="line">            &#125;</span><br><span class="line">            res.put(&quot;headers&quot;,headers);</span><br><span class="line">            res.put(&quot;response&quot;, sb);</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            System.out.println(&quot;http_get 异常！&quot;);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;finally &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                if(connection != null)&#123;</span><br><span class="line">                    connection.disconnect();</span><br><span class="line">                &#125;</span><br><span class="line">                if(br != null)&#123;</span><br><span class="line">                    br.close();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;catch (Exception e2)&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * params为postc参数</span><br><span class="line">     * @param url</span><br><span class="line">     * @param params</span><br><span class="line">     */</span><br><span class="line">    private static  Map post(String url, String params)&#123;</span><br><span class="line">        HttpURLConnection connection = null;</span><br><span class="line">        BufferedReader br = null;</span><br><span class="line">        OutputStreamWriter out = null;</span><br><span class="line">        Map&lt;String,Object&gt; res = new HashMap&lt;&gt;();</span><br><span class="line">        StringBuffer sb = new StringBuffer();</span><br><span class="line">        Map&lt;String,List&lt;String&gt;&gt; headers;</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">            URL send_url = new URL(url);</span><br><span class="line">            connection = (HttpURLConnection)send_url.openConnection();</span><br><span class="line"></span><br><span class="line">            connection.setRequestMethod(&quot;POST&quot;);</span><br><span class="line">            connection.setRequestProperty(&quot;Content-Type&quot;, &quot;application/json&quot;);</span><br><span class="line">            connection.setRequestProperty(&quot;Connection&quot;, &quot;Keep-Alive&quot;);</span><br><span class="line">            connection.setUseCaches(false);</span><br><span class="line">            //以后就可以使用conn.getOutputStream().write()</span><br><span class="line">            connection.setDoOutput(true);</span><br><span class="line">            //以后就可以使用conn.getInputStream().read();</span><br><span class="line">            connection.setDoInput(true);</span><br><span class="line"></span><br><span class="line">            out = new OutputStreamWriter(connection.getOutputStream(),&quot;UTF-8&quot;);</span><br><span class="line">            out.write(params);</span><br><span class="line">            out.flush();</span><br><span class="line"></span><br><span class="line">            headers = connection.getHeaderFields();</span><br><span class="line">            br = new BufferedReader(new InputStreamReader(connection.getInputStream()));</span><br><span class="line">            String line;</span><br><span class="line">            while ((line = br.readLine()) != null)&#123;</span><br><span class="line">                sb.append(line);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            res.put(&quot;headers&quot;,headers);</span><br><span class="line">            res.put(&quot;response&quot;,sb.toString());</span><br><span class="line">        &#125;catch (Exception e1)&#123;</span><br><span class="line">            e1.printStackTrace();</span><br><span class="line">        &#125;finally &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                if(connection != null)&#123;</span><br><span class="line">                    connection.disconnect();</span><br><span class="line">                &#125;</span><br><span class="line">                if(br != null)&#123;</span><br><span class="line">                    br.close();</span><br><span class="line">                &#125;</span><br><span class="line">                if(out != null)&#123;</span><br><span class="line">                    out.close();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;catch (Exception e2)&#123;</span><br><span class="line">                e2.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void xxxx()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String args[])&#123;</span><br><span class="line">//        Map&lt;String,Object&gt; res = get(&quot;http://127.0.0.1:8080/test1&quot;,&quot;&quot;);</span><br><span class="line">//        System.out.println(res.get(&quot;response&quot;));</span><br><span class="line">//        System.out.println(res.get(&quot;headers&quot;));</span><br><span class="line">//        Map&lt;String,List&lt;String&gt;&gt; headers  = (Map&lt;String, List&lt;String&gt;&gt;)res.get(&quot;headers&quot;);</span><br><span class="line">//        System.out.println(headers.get(&quot;Content-Type&quot;));</span><br><span class="line"></span><br><span class="line">        String params = &quot;&#123;\n&quot; +</span><br><span class="line">                &quot;    \&quot;status\&quot;: 0,\n&quot; +</span><br><span class="line">                &quot;    \&quot;data\&quot;: \&quot;hello world!\&quot;\n&quot; +</span><br><span class="line">                &quot;&#125;&quot;;</span><br><span class="line">        Map&lt;String,Object&gt; res = post(&quot;http://127.0.0.1:8080/test2&quot;,params);</span><br><span class="line">        System.out.println(res.get(&quot;response&quot;));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wheels</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/15/wheels/java/httpclient/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-tools/awk" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/31/tools/awk/">awk用法</a>
+    </h1>
+  
+
+        
+        <a href="/2018/12/31/tools/awk/" class="archive-article-date">
+  	<time datetime="2018-12-31T03:55:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-awk"><a href="#1-awk" class="headerlink" title="1.awk"></a>1.awk</h4><p>用于处理文本</p>
+<h4 id="2-用法"><a href="#2-用法" class="headerlink" title="2.用法"></a>2.用法</h4><p>参考<a href="http://www.runoob.com/linux/linux-comm-awk.html" target="_blank" rel="noopener">菜鸟教程</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">awk [选项参数] &apos;script&apos; var=value file(s)</span><br><span class="line">或</span><br><span class="line">awk [选项参数] -f scriptfile var=value file(s)</span><br></pre></td></tr></table></figure></p>
+<h6 id="1-选项参数"><a href="#1-选项参数" class="headerlink" title="1.选项参数"></a>1.选项参数</h6><ul>
+<li>-F fs or –field-separator fs<br><br>指定输入文件折分隔符，fs是一个字符串或者是一个正则表达式，如-F,。<br></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">awk -F, &apos;&#123;print $1,$2&#125;&apos; xxx.txt</span><br><span class="line">以逗号为分隔符，打印第一第二列</span><br></pre></td></tr></table></figure>
+<ul>
+<li>-v var=value or –asign var=value<br>赋值一个用户定义变量。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">awk -va=1 &apos;&#123;print $1,$1+a&#125;&apos; xxx.txt</span><br><span class="line">设置a为变量，打印第一和a+1列</span><br></pre></td></tr></table></figure>
+<h6 id="2-运算符"><a href="#2-运算符" class="headerlink" title="2.运算符"></a>2.运算符</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">= += -= *= /= %= ^= **=	赋值</span><br><span class="line">?:	C条件表达式</span><br><span class="line">||	逻辑或</span><br><span class="line">&amp;&amp;	逻辑与</span><br><span class="line">~ ~!	匹配正则表达式和不匹配正则表达式</span><br><span class="line">&lt; &lt;= &gt; &gt;= != ==	关系运算符</span><br><span class="line">空格	连接</span><br><span class="line">+ -	加，减</span><br><span class="line">* / %	乘，除与求余</span><br><span class="line">+ - !	一元加，减和逻辑非</span><br><span class="line">^ ***	求幂</span><br><span class="line">++ --	增加或减少，作为前缀或后缀</span><br><span class="line">$	字段引用</span><br><span class="line">in	数组成员</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">awk &apos;$1&gt;2&apos; xxx.txt</span><br><span class="line">输出第一列大于2的行</span><br><span class="line">awk -F, &apos;$1&gt;2&apos; xxx.txt</span><br><span class="line">输出第一列大于2的行(字符串也会进行比较 例:value1-2 &gt; 2)</span><br><span class="line">value1-1 + value1-2 = 0?</span><br><span class="line">awk -F, &apos;$1=2&apos; xxx.txt</span><br><span class="line">将第一列赋值为2</span><br><span class="line">awk &apos;$1&gt;2 &amp;&amp; $2==&quot;Are&quot; &#123;print $1,$2,$3&#125;&apos; xxx.txt</span><br><span class="line">第一列大于2并且第二列等于&apos;Are&apos;的行,输出第一二三列</span><br></pre></td></tr></table></figure>
+<h6 id="3-内建变量"><a href="#3-内建变量" class="headerlink" title="3.内建变量"></a>3.内建变量</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$n	当前记录的第n个字段，字段间由FS分隔</span><br><span class="line">$0	完整的输入记录</span><br><span class="line">ARGC	命令行参数的数目</span><br><span class="line">ARGIND	命令行中当前文件的位置(从0开始算)</span><br><span class="line">ARGV	包含命令行参数的数组</span><br><span class="line">CONVFMT	数字转换格式(默认值为%.6g)ENVIRON环境变量关联数组</span><br><span class="line">ERRNO	最后一个系统错误的描述</span><br><span class="line">FIELDWIDTHS	字段宽度列表(用空格键分隔)</span><br><span class="line">FILENAME	当前文件名</span><br><span class="line">FNR	各文件分别计数的行号</span><br><span class="line">FS	字段分隔符(默认是任何空格)</span><br><span class="line">IGNORECASE	如果为真，则进行忽略大小写的匹配</span><br><span class="line">NF	一条记录的字段的数目</span><br><span class="line">NR	已经读出的记录数，就是行号，从1开始</span><br><span class="line">OFMT	数字的输出格式(默认值是%.6g)</span><br><span class="line">OFS	输出记录分隔符（输出换行符），输出时用指定的符号代替换行符</span><br><span class="line">ORS	输出记录分隔符(默认值是一个换行符)</span><br><span class="line">RLENGTH	由match函数所匹配的字符串的长度</span><br><span class="line">RS	记录分隔符(默认是一个换行符)</span><br><span class="line">RSTART	由match函数所匹配的字符串的第一个位置</span><br><span class="line">SUBSEP	数组下标分隔符(默认值是/034)</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/12/31/tools/awk/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-base/httpandsocket/http与socket" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -712,322 +1030,6 @@
 
 
   
-    <article id="post-java/泛型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/15/java/泛型/">泛型</a>
-    </h1>
-  
-
-        
-        <a href="/2018/11/15/java/泛型/" class="archive-article-date">
-  	<time datetime="2018-11-15T03:41:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-lt-T"><a href="#1-lt-T" class="headerlink" title="1. &lt;T>"></a>1. &lt;T></h4><p>泛型<t> T可以为任意大写字母<br><br>可以多泛型&lt;T,U&gt;等<br><br>单独的<t>表示T为Object下的子类。<br></t></t></p>
-<p>类型绑定: <t extends="" xxx=""> 表示T为继承XXX类型的子类<br></t></p>
-<h4 id="2-例子"><a href="#2-例子" class="headerlink" title="2.例子"></a>2.例子</h4><h6 id="1-泛型类"><a href="#1-泛型类" class="headerlink" title="1.泛型类"></a>1.泛型类</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class GenericDemo &lt;T&gt;&#123;</span><br><span class="line">    public   T test(T t)&#123;</span><br><span class="line">        return t;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        GenericDemo&lt;String&gt; genericDemo = new GenericDemo&lt;&gt;();</span><br><span class="line">        System.out.println(genericDemo.test(&quot;aa&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h6 id="2-泛型方法"><a href="#2-泛型方法" class="headerlink" title="2.泛型方法"></a>2.泛型方法</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class GenericMethod &#123;</span><br><span class="line">    public static &lt;T&gt; T test(T t) &#123;</span><br><span class="line">        return t;</span><br><span class="line">    &#125;</span><br><span class="line">    public static  void  main(String[] args) &#123;</span><br><span class="line">        System.out.println(test(&quot;aa&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h6 id="3-泛型接口"><a href="#3-泛型接口" class="headerlink" title="3.泛型接口"></a>3.泛型接口</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public interface GenericInterface &lt;T,U&gt; &#123;</span><br><span class="line">    T test(U u);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class GenericInterfaceClass implements GenericInterface&lt;String,String&gt;&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public String test(String a)&#123;</span><br><span class="line">        return a;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/11/15/java/泛型/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/reflect" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/07/java/reflect/">Java反射</a>
-    </h1>
-  
-
-        
-        <a href="/2018/11/07/java/reflect/" class="archive-article-date">
-  	<time datetime="2018-11-07T02:30:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>详见:<a href="https://www.sczyh30.com/posts/Java/java-reflection-1/" target="_blank" rel="noopener">https://www.sczyh30.com/posts/Java/java-reflection-1/</a><br><br><a href="https://blog.csdn.net/ljphhj/article/details/12858767" target="_blank" rel="noopener">https://blog.csdn.net/ljphhj/article/details/12858767</a></p>
-<h4 id="1-什么是反射"><a href="#1-什么是反射" class="headerlink" title="1.什么是反射"></a>1.什么是反射</h4><blockquote>
-<p>Reflection enables Java code to discover information about the fields, methods and constructors of loaded classes, and to use reflected fields, methods, and constructors to operate on their underlying counterparts, within security restrictions.<br>The API accommodates applications that need access to either the public members of a target object (based on its runtime class) or the members declared by a given class. It also allows programs to suppress default reflective access control</p>
-</blockquote>
-<p>反射机制允许运行中的 Java 程序获取自身的信息，并且可以操作类或对象的内部属性。<br><br>反射的核心是 JVM 在运行时才动态加载类或调用方法/访问属性，它不需要事先（写代码的时候或编译期）知道运行对象是谁。<br><br>Java 反射主要提供以下功能：</p>
-<ul>
-<li>在运行时判断任意一个对象所属的类；</li>
-<li>在运行时构造任意一个类的对象；</li>
-<li>在运行时判断任意一个类所具有的成员变量和方法（通过反射甚至可以调用private方法）；</li>
-<li>在运行时调用任意一个对象的方法</li>
-</ul>
-<p><strong>在运行时，而不是编译时.</strong></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/11/07/java/reflect/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-security/xss" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/06/security/xss/">xss</a>
-    </h1>
-  
-
-        
-        <a href="/2018/11/06/security/xss/" class="archive-article-date">
-  	<time datetime="2018-11-06T06:43:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1.印象笔记6.14客户端版本<br>存储型xss,上传的图片保存时为用户输入名字，(某个属性，src属性或者value属性?)未过滤编码等。<br>src属性或者value属性?<br><img ..="" src="图片路径 + 图片名"><br><img ..="" src="图片路径 + " onclick="xss">.jpg “&gt;</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">security</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/11/06/security/xss/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/java单例" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/31/java/java单例/">单例模式</a>
-    </h1>
-  
-
-        
-        <a href="/2018/10/31/java/java单例/" class="archive-article-date">
-  	<time datetime="2018-10-31T08:43:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-用途"><a href="#1-用途" class="headerlink" title="1.用途"></a>1.用途</h4><p>用来维护一个全局的类，保存某些常用数据，减少资源消耗。</p>
-<h4 id="2-原理"><a href="#2-原理" class="headerlink" title="2.原理"></a>2.原理</h4><p>维护一个类，确保只有单一的对象被创建（创建一次），提供一个唯一的访问接口。私有的构造函数确保外部不能进行访问。</p>
-<h4 id="3-两种常用实现"><a href="#3-两种常用实现" class="headerlink" title="3.两种常用实现"></a>3.两种常用实现</h4><p>1.饿汉式<br>线程安全，非懒加载<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line">    //这句饿汉式的关键，类加载时初始化</span><br><span class="line">    private static  final Singleton instance = new Singleton();</span><br><span class="line">    //维护的数据</span><br><span class="line">    private Map&lt;String,Map&gt; data;</span><br><span class="line">    //构造函数,初始化一次</span><br><span class="line">    private Singleton()&#123;</span><br><span class="line">        this.data = new HashMap&lt;String, Map&gt;();</span><br><span class="line">    &#125;;</span><br><span class="line">    //获取实例</span><br><span class="line">    public static final Singleton getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //全局获取维护的数据</span><br><span class="line">    public  Map&lt;String, Map&gt; getData()&#123;</span><br><span class="line">        return this.data;</span><br><span class="line">    &#125;</span><br><span class="line">    //修改数据</span><br><span class="line">    public void setData(Map&lt;String, Map&gt; data) &#123;</span><br><span class="line">        this.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>2.静态内部类<br>可用调用时再初始化加载(lazyLoad)。<br><br>线程安全，懒加载</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line">    //静态内部类</span><br><span class="line">    private static class SingletonHolder&#123;</span><br><span class="line">        private static  final Singleton instance = new Singleton();</span><br><span class="line">    &#125;</span><br><span class="line">    //维护的数据</span><br><span class="line">    private Map&lt;String,Map&gt; data;</span><br><span class="line">    //构造函数,初始化一次</span><br><span class="line">    private Singleton()&#123;</span><br><span class="line">        this.data = new HashMap&lt;String, Map&gt;();</span><br><span class="line">    &#125;;</span><br><span class="line">    //获取实例</span><br><span class="line">    public static final Singleton getInstance()&#123;</span><br><span class="line">        return SingletonHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //全局获取维护的数据</span><br><span class="line">    public  Map&lt;String, Map&gt; getData()&#123;</span><br><span class="line">        return this.data;</span><br><span class="line">    &#125;</span><br><span class="line">    //修改数据</span><br><span class="line">    public void setData(Map&lt;String, Map&gt; data) &#123;</span><br><span class="line">        this.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">package com.bonc.sms.controller;</span><br><span class="line"></span><br><span class="line">import com.bonc.sms.entity.PlatformChannelSpEntity;</span><br><span class="line">import com.bonc.sms.entity.PlatformEntity;</span><br><span class="line">import com.bonc.sms.service.PlatformService;</span><br><span class="line">import com.bonc.sms.util.Singleton;</span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.boot.CommandLineRunner;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">@Component</span><br><span class="line">public class InitDid implements CommandLineRunner &#123;</span><br><span class="line">    private static final Logger logger = LoggerFactory.getLogger(InitDid.class);</span><br><span class="line">    @Autowired</span><br><span class="line">    PlatformService platformService;</span><br><span class="line">    @Override</span><br><span class="line">    public void run(String... strings) &#123;</span><br><span class="line">        Map data = new HashMap&lt;String,Map&gt;();</span><br><span class="line">        System.out.println(&quot;**************************platform*************initdid&quot;);</span><br><span class="line">        List&lt;PlatformEntity&gt; platform = platformService.getPlatformAll();</span><br><span class="line">        System.out.println(&quot;***:&quot;+ platform.size());</span><br><span class="line">        for(PlatformEntity platformEntity: platform)&#123;</span><br><span class="line">//            String url = platformService.getSpUrl(platformEntity.getSp_number()).getUrl();</span><br><span class="line">            Map value = new HashMap&lt;String, String&gt;();</span><br><span class="line">            value.put(&quot;platform_name&quot;, platformEntity.getPlatform_name());</span><br><span class="line">            value.put(&quot;platform_address&quot;, platformEntity.getPlatform_address());</span><br><span class="line">            value.put(&quot;platform_type&quot;, platformEntity.getPlatform_type());</span><br><span class="line">            value.put(&quot;platform_key&quot;,platformEntity.getPlatform_key());</span><br><span class="line">            List&lt;PlatformChannelSpEntity&gt; platformChannelSpEntities = platformService.getPlatformChannelSp(platformEntity.getPlatform_id());</span><br><span class="line">            List&lt;String&gt; channel = new ArrayList&lt;String&gt;();</span><br><span class="line">            Map&lt;String,String&gt; channel_sp = new HashMap&lt;String, String&gt;();</span><br><span class="line">            Map&lt;String,String&gt; channel_url = new HashMap&lt;String, String&gt;();</span><br><span class="line">            for(PlatformChannelSpEntity platformChannelSpEntity: platformChannelSpEntities)&#123;</span><br><span class="line">                channel.add(platformChannelSpEntity.getChannel_id());</span><br><span class="line">                channel_sp.put(platformChannelSpEntity.getChannel_id(),platformChannelSpEntity.getSp_number());</span><br><span class="line">                String url = platformService.getSpUrl(platformChannelSpEntity.getChannel_id());</span><br><span class="line">                channel_url.put(platformChannelSpEntity.getChannel_id(),url);</span><br><span class="line">            &#125;</span><br><span class="line">            value.put(&quot;channel&quot;,channel);</span><br><span class="line">            value.put(&quot;channel_sp&quot;,channel_sp);</span><br><span class="line">            value.put(&quot;channel_url&quot;, channel_url);</span><br><span class="line">            data.put(platformEntity.getPlatform_id(), value);</span><br><span class="line">        &#125;</span><br><span class="line">        Singleton.getInstance().setData(data);</span><br><span class="line">        logger.info(&quot;需要的平台缓存信息初始化完成&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/31/java/java单例/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
@@ -1125,11 +1127,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Index</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">others</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Index</a>
+                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1145,10 +1151,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">algorithm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Index2</a>
               </li>
              
@@ -1157,11 +1159,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1173,11 +1175,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color1">tools</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">tools</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1186,6 +1188,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">database</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">前端</a>
               </li>
              
               <li class="article-tag-list-item">
