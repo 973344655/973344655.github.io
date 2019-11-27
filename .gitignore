@@ -1,6 +1,5 @@
 node_modules/
 themes/landscape/
-themes/yilia/
 .deploy_git/
 .idea/
 public/
