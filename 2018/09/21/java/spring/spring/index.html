@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>spring基本概念一 | xiong&#39;s blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="2019/6/22重新编辑  1.为什么要有spring根本目的: 简化java应用的开发。  利用容器管理bean 通过依赖注入和面向接口实现松耦合。 使用切面，简化开发  2.Spring一些基本概念 容器  就是一个存放东西还能随时取出来的地方  Bean  即Java对象，交于容器进行管理  Ioc(控制反转)  将对象交给第三方容器( Spring 中的 Ioc 容器)来创建和管理">
+  <meta name="description" content="2019/6/22重新编辑  1.为什么要有spring根本目的: 简化java应用的开发。  利用容器管理bean 通过依赖注入和面向接口实现松耦合。 使用切面，简化开发  2.Spring一些基本概念 容器  就是一个存放东西还能随时取出来的地方  Bean  即Java对象，交于容器进行管理  IOC(控制反转)或 DI(依赖注入)  ———–修改于 2019/12/17———– 一个">
 <meta name="keywords" content="java,spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spring基本概念一">
 <meta property="og:url" content="http://yoursite.com/2018/09/21/java/spring/spring/index.html">
 <meta property="og:site_name" content="xiong&#39;s blogs">
-<meta property="og:description" content="2019/6/22重新编辑  1.为什么要有spring根本目的: 简化java应用的开发。  利用容器管理bean 通过依赖注入和面向接口实现松耦合。 使用切面，简化开发  2.Spring一些基本概念 容器  就是一个存放东西还能随时取出来的地方  Bean  即Java对象，交于容器进行管理  Ioc(控制反转)  将对象交给第三方容器( Spring 中的 Ioc 容器)来创建和管理">
+<meta property="og:description" content="2019/6/22重新编辑  1.为什么要有spring根本目的: 简化java应用的开发。  利用容器管理bean 通过依赖注入和面向接口实现松耦合。 使用切面，简化开发  2.Spring一些基本概念 容器  就是一个存放东西还能随时取出来的地方  Bean  即Java对象，交于容器进行管理  IOC(控制反转)或 DI(依赖注入)  ———–修改于 2019/12/17———– 一个">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-06-27T09:29:29.491Z">
+<meta property="og:updated_time" content="2019-12-17T07:00:02.233Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring基本概念一">
-<meta name="twitter:description" content="2019/6/22重新编辑  1.为什么要有spring根本目的: 简化java应用的开发。  利用容器管理bean 通过依赖注入和面向接口实现松耦合。 使用切面，简化开发  2.Spring一些基本概念 容器  就是一个存放东西还能随时取出来的地方  Bean  即Java对象，交于容器进行管理  Ioc(控制反转)  将对象交给第三方容器( Spring 中的 Ioc 容器)来创建和管理">
+<meta name="twitter:description" content="2019/6/22重新编辑  1.为什么要有spring根本目的: 简化java应用的开发。  利用容器管理bean 通过依赖注入和面向接口实现松耦合。 使用切面，简化开发  2.Spring一些基本概念 容器  就是一个存放东西还能随时取出来的地方  Bean  即Java对象，交于容器进行管理  IOC(控制反转)或 DI(依赖注入)  ———–修改于 2019/12/17———– 一个">
   
     <link rel="alternative" href="/atom.xml" title="xiong&#39;s blogs" type="application/atom+xml">
   
@@ -179,13 +179,10 @@
 </ul>
 <p>即Java对象，交于容器进行管理</p>
 <ul>
-<li>Ioc(控制反转)</li>
+<li>IOC(控制反转)或 DI(依赖注入)</li>
 </ul>
-<p>将对象交给第三方容器( Spring 中的 Ioc 容器)来创建和管理。</p>
-<ul>
-<li>DI(依赖注入)</li>
-</ul>
-<p>依赖注入也是控制反转，将创建某个对象(bean)的权力，反转交给容器，由容器创建，并注入到需要引用的bean中去。</p>
+<p>———–修改于 2019/12/17———–</p>
+<p>一个对象，通过构造器参数，工厂方法参数，或者属性配置文件来定义它的依赖。然后容器在创建bean的时候，再将这些依赖注入进去。<br>而不需要再由对象自己通过直接构造类或依赖项来初始化。</p>
 <ul>
 <li>AOP(切面)</li>
 </ul>
@@ -488,15 +485,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -504,11 +493,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">tools</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+                <a href="javascript:void(0)" class="js-tag color4">database</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -516,7 +509,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">database</a>
+                <a href="javascript:void(0)" class="js-tag color1">other</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -525,6 +518,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">protocol</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
               </li>
              
               <li class="article-tag-list-item">
