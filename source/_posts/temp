@@ -1,8 +1,6 @@
 
 
-分布式系统中，某个功能只在一台机器上执行(即，只执行一次)
-
-redis 等的分布式锁， mysql锁，DB的唯一索引
+分布式系统中，某个功能只在一台机器上执行(即，只执行一次)实现 redis 等的分布式锁， mysql锁，DB的唯一索引
 
 
 注解
@@ -13,6 +11,8 @@ http://www.jiangxinlingdu.com/spring/2019/02/11/annotation.html
 https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html
 内部类方便回调？？
 
+
+
 RFC 2616
 
 NIO适用场景
@@ -22,9 +22,6 @@ BIO适用场景
 适用于连接数目比较小，并且一次发送大量数据的场景，这种方式对服务器资源要求比较高，并发局限于应用中。
 
 
-Collections.copy 深拷贝
-List<String> remain = new ArrayList<>(Arrays.asList(new String[list.size()]));
-Collections.copy(remain, list);
 
 Properties 为什么 继承自 hashtable
 
@@ -43,26 +40,11 @@ Broker/Topic/Partition/Producer/Consumer/Consumer Group
 zookeeper在该体系中的作用
 
 
-
-一次性 kill所有符合条件的进程
-ps -ef | grep xxx | cut -c 9-15 | xargs kill -9
-
-
 块元素，选择器，属性，模仿一个静态页面
-
-位运算专题
 
 大数
 
+BeanFactory 和 ApplicationContext
 
-activiti
 
-核心api之一 RuntimeService runtimeService.startProcessInstanceByxx()
-RepositoryService 流程仓库Service,可以管理流程仓库例如部署删除读取流程资源
-RuntimeService 运行时Service可以处理所有运行状态的流程实例流程控制(开始,暂停,挂起等)
-TaskService 任务Service用于管理、查询任务，例如签收、办理、指派等
-IdentitiServicec 身份Service可以管理查询用户、组之间的关系
-FormService 表单Service用于读取和流程、任务相关的表单数据
-HistoryService 历史Service用于查询所有的历史数据
-ManagementService 引擎管理Service，和具体业务无关，主要查询引擎配置，数据库作业
-DynamicBpmService 动态bpm服务
+几种队列

@@ -1,7 +1,7 @@
 ---
-title: spring-schdule
+title: springboot 定时任务
 date: 2018-11-19 11:18:54
-tags: [java,springboot]
+tags: [springboot]
 ---
 
 #### 1.@Schduled注解
@@ -40,4 +40,23 @@ public class DynamicScheduledTask implements SchedulingConfigurer {
 
 }
 
+```
+
+
+
+
+
+-----------------更新于 2019/12/23-----------
+
+
+### 1.@EnableScheduling
+
+
+### 2.	在方法上加注解
+
+```
+@Scheduled(fixedRate = 5000) ： 表示 每隔 5000 毫秒执行一次
+public void reportCurrentTime() {
+    System.out.println("每隔五秒钟执行一次： " + dateFormat.format(new Date()));
+}
 ```
