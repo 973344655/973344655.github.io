@@ -138,19 +138,112 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-java/java面向对象" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-java/base/java基本类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/21/java/java面向对象/">java面向对象</a>
+      <a class="article-title" href="/2018/09/21/java/base/java基本类型/">java基本类型</a>
     </h1>
   
 
         
-        <a href="/2018/09/21/java/java面向对象/" class="archive-article-date">
+        <a href="/2018/09/21/java/base/java基本类型/" class="archive-article-date">
+  	<time datetime="2018-09-21T08:23:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-基本类型"><a href="#1-基本类型" class="headerlink" title="1.基本类型"></a>1.基本类型</h4><p>位bit/字节byte关系<br><br>bit指01二进制位，例：0000为4位<br><br>byte为8位，即00000000八位二进制为一字节，通常用十六进制表示0x00</p>
+<ul>
+<li>short：16位，最大数据存储量是65536，数据范围是-32768~32767之间。</li>
+<li>int：32位，最大数据存储容量是2的32次方减1，数据范围是负的2的31次方到正的2的31次方减1。</li>
+<li>long：64位，最大数据存储容量是2的64次方减1，数据范围为负的2的63次方到正的2的63次方减1。</li>
+<li>float：32位，数据范围在3.4e-45~1.4e38，直接赋值时必须在数字后加上f或F。</li>
+<li>double：64位，数据范围在4.9e-324~1.8e308，赋值时可以加d或D也可以不加。</li>
+<li>boolean：只有true和false两个取值。</li>
+<li>char：16位，存储Unicode码，用单引号赋值。</li>
+</ul>
+<p>基本类型并不是类对象。<br><br>为了让这8中基本类型也能面向对象，Java为其提供了包装器类型.<br>对应上面顺序为：Byte, Short, Integer, Long, Float, Double, Boolean, Character<br>现在，这些包装器类型都是面向对象的类了，具有对象方法可以进行很多高级的操作，而不是简单的基本类型，都是引用类型了.<br>java提供了自动拆箱/装箱来实现基本类型数据和包装器类型数据之间相互转换、赋值。</p>
+<h4 id="2-引用类型"><a href="#2-引用类型" class="headerlink" title="2.引用类型"></a>2.引用类型</h4><ul>
+<li>强引用<br><br>最常用的引用类型，如Object obj = new Object(); 。只要强引用存在则GC时则必定不被回收。<br><br>其它三个暂时不太理解，以后接触再添加</li>
+<li>软引用</li>
+<li>弱引用</li>
+<li>虚引用</li>
+</ul>
+<h4 id="3-基本类型与引用类型区别"><a href="#3-基本类型与引用类型区别" class="headerlink" title="3.基本类型与引用类型区别"></a>3.基本类型与引用类型区别</h4><p>基本类型就是一个值<br><br>引用类型：它的值是指向内存空间的引用，就是地址，所指向的内存中保存着变量<br><br>
+        
+          <a class="article-more-a" href="/2018/09/21/java/base/java基本类型/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/21/java/base/java基本类型/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/base/java面向对象" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/21/java/base/java面向对象/">java面向对象</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/21/java/base/java面向对象/" class="archive-article-date">
   	<time datetime="2018-09-21T08:09:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-21</time>
 </a>
         
@@ -170,7 +263,7 @@
 <blockquote>
 <p>构造方法<br><br>构造方法是一个特殊的方法。Java 中的每个类都有构造方法，用来初始化该类的一个对象。<br><br>构造方法具有和类名相同的名称，而且不返回任何数据类型。<br><br>重载经常用于构造方法。<br><br>构造方法只能由new运算符调用<br><br>
         
-          <a class="article-more-a" href="/2018/09/21/java/java面向对象/#more">more >></a>
+          <a class="article-more-a" href="/2018/09/21/java/base/java面向对象/#more">more >></a>
         
       
 
@@ -198,7 +291,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/21/java/java面向对象/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/09/21/java/base/java面向对象/">展开全文 >></a>
         </p>
       
 
@@ -1111,7 +1204,7 @@ sqlmap -u &quot;http://127.0.0.1:80/sqli-labs/Less-62/?id=1*&quot; --batch
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 xiong
+    		&copy; 2020 xiong
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1194,10 +1287,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Index</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">others</a>
               </li>
              
@@ -1218,14 +1307,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Index2</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
@@ -1242,10 +1323,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">database</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
@@ -1258,7 +1335,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">database</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">protocol</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Index2</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
               </li>
              
               <li class="article-tag-list-item">

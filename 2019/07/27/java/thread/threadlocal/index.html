@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>ThreadLocal了解 | xiong&#39;s blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="http://www.jasongj.com/java/threadlocal/ 一.ThreadLocal作用1.作用一半都说是实现了变量在线程间隔离,在类或者方法间共享。但是看到这句话一脸迷茫，怎么实现的，为什么要实现?? 2.为什么要用通常情况下，我们创建的变量是可以被任何一个线程访问并修改的。而使用ThreadLocal创建的变量只能被当前线程访问，其他线程则无法访问和修改(线程间隔离),">
+  <meta name="description" content="http://www.jasongj.com/java/threadlocal/  2019/12/30 一个简单易懂的blog:https://benjaminwhx.com/2018/04/28/%E3%80%90%E7%BB%86%E8%B0%88Java%E5%B9%B6%E5%8F%91%E3%80%91%E8%B0%88%E8%B0%88ThreadLocal/ 一.ThreadLoc">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ThreadLocal了解">
 <meta property="og:url" content="http://yoursite.com/2019/07/27/java/thread/threadlocal/index.html">
 <meta property="og:site_name" content="xiong&#39;s blogs">
-<meta property="og:description" content="http://www.jasongj.com/java/threadlocal/ 一.ThreadLocal作用1.作用一半都说是实现了变量在线程间隔离,在类或者方法间共享。但是看到这句话一脸迷茫，怎么实现的，为什么要实现?? 2.为什么要用通常情况下，我们创建的变量是可以被任何一个线程访问并修改的。而使用ThreadLocal创建的变量只能被当前线程访问，其他线程则无法访问和修改(线程间隔离),">
+<meta property="og:description" content="http://www.jasongj.com/java/threadlocal/  2019/12/30 一个简单易懂的blog:https://benjaminwhx.com/2018/04/28/%E3%80%90%E7%BB%86%E8%B0%88Java%E5%B9%B6%E5%8F%91%E3%80%91%E8%B0%88%E8%B0%88ThreadLocal/ 一.ThreadLoc">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-15T10:08:31.457Z">
+<meta property="og:updated_time" content="2019-12-30T09:29:31.653Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ThreadLocal了解">
-<meta name="twitter:description" content="http://www.jasongj.com/java/threadlocal/ 一.ThreadLocal作用1.作用一半都说是实现了变量在线程间隔离,在类或者方法间共享。但是看到这句话一脸迷茫，怎么实现的，为什么要实现?? 2.为什么要用通常情况下，我们创建的变量是可以被任何一个线程访问并修改的。而使用ThreadLocal创建的变量只能被当前线程访问，其他线程则无法访问和修改(线程间隔离),">
+<meta name="twitter:description" content="http://www.jasongj.com/java/threadlocal/  2019/12/30 一个简单易懂的blog:https://benjaminwhx.com/2018/04/28/%E3%80%90%E7%BB%86%E8%B0%88Java%E5%B9%B6%E5%8F%91%E3%80%91%E8%B0%88%E8%B0%88ThreadLocal/ 一.ThreadLoc">
   
     <link rel="alternative" href="/atom.xml" title="xiong&#39;s blogs" type="application/atom+xml">
   
@@ -162,6 +162,9 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><a href="http://www.jasongj.com/java/threadlocal/" target="_blank" rel="noopener">http://www.jasongj.com/java/threadlocal/</a></p>
+<hr>
+<p>2019/12/30</p>
+<p>一个简单易懂的blog:<br><a href="https://benjaminwhx.com/2018/04/28/%E3%80%90%E7%BB%86%E8%B0%88Java%E5%B9%B6%E5%8F%91%E3%80%91%E8%B0%88%E8%B0%88ThreadLocal/" target="_blank" rel="noopener">https://benjaminwhx.com/2018/04/28/%E3%80%90%E7%BB%86%E8%B0%88Java%E5%B9%B6%E5%8F%91%E3%80%91%E8%B0%88%E8%B0%88ThreadLocal/</a></p>
 <h1 id="一-ThreadLocal作用"><a href="#一-ThreadLocal作用" class="headerlink" title="一.ThreadLocal作用"></a>一.ThreadLocal作用</h1><h2 id="1-作用"><a href="#1-作用" class="headerlink" title="1.作用"></a>1.作用</h2><p>一半都说是实现了变量在线程间隔离,在类或者方法间共享。<br><br>但是看到这句话一脸迷茫，怎么实现的，为什么要实现??</p>
 <h2 id="2-为什么要用"><a href="#2-为什么要用" class="headerlink" title="2.为什么要用"></a>2.为什么要用</h2><p>通常情况下，我们创建的变量是可以被任何一个线程访问并修改的。而使用ThreadLocal创建的变量只能被当前线程访问，其他线程则无法访问和修改(线程间隔离),同时在改线程的类或方法中，都能获取该变量的同一实例(方法间共享)。</p>
 <h2 id="3-例子"><a href="#3-例子" class="headerlink" title="3.例子"></a>3.例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadLocalTest &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        InnerClass innerClass = new InnerClass();</span><br><span class="line">        for(int i = 1; i &lt;= 2; i++) &#123;</span><br><span class="line">            new Thread(() -&gt; &#123;</span><br><span class="line">                for(int j = 0; j &lt; 2; j++) &#123;</span><br><span class="line">                    innerClass.add(String.valueOf(j));</span><br><span class="line">                    innerClass.print();</span><br><span class="line">                &#125;</span><br><span class="line">                innerClass.set(&quot;hello world&quot;);</span><br><span class="line">            &#125;, &quot;thread - &quot; + i).start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static class InnerClass &#123;</span><br><span class="line">        public void add(String newStr) &#123;</span><br><span class="line">            StringBuilder str = Counter.counter.get();</span><br><span class="line">            Counter.counter.set(str.append(newStr));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void print() &#123;</span><br><span class="line">            System.out.printf(&quot;Thread name:%s , ThreadLocal hashcode:%s, Instance hashcode:%s, Value:%s\n&quot;,</span><br><span class="line">                    Thread.currentThread().getName(),</span><br><span class="line">                    Counter.counter.hashCode(),</span><br><span class="line">                    Counter.counter.get().hashCode(),</span><br><span class="line">                    Counter.counter.get().toString());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void set(String words) &#123;</span><br><span class="line">            Counter.counter.set(new StringBuilder(words));</span><br><span class="line">            System.out.printf(&quot;Set, Thread name:%s , ThreadLocal hashcode:%s,  Instance hashcode:%s, Value:%s\n&quot;,</span><br><span class="line">                    Thread.currentThread().getName(),</span><br><span class="line">                    Counter.counter.hashCode(),</span><br><span class="line">                    Counter.counter.get().hashCode(),</span><br><span class="line">                    Counter.counter.get().toString());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static class Counter &#123;</span><br><span class="line">        private static ThreadLocal&lt;StringBuilder&gt; counter = new ThreadLocal&lt;StringBuilder&gt;() &#123;</span><br><span class="line">            //重写 initialValue 为ThreadLocal get()提供初始值</span><br><span class="line">            @Override</span><br><span class="line">            protected StringBuilder initialValue() &#123;</span><br><span class="line">                return new StringBuilder();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -192,6 +195,10 @@
 <p>但是由于每个线程访问某 ThreadLocal 变量后，都会在自己的 Map 内维护该 ThreadLocal 变量与具体实例的映射(ThreadLocalMap)，如果不删除这些引用（映射），则这些 ThreadLocal 不能被回收，可能会造成内存泄漏<br></p>
 <p>所以,使用弱引用的原因在于，当没有强引用指向 ThreadLocal 变量时，它可被回收，从而避免上文所述 ThreadLocal 不能被回收而造成的内存泄漏的问题。<br></p>
 <p>但是，因为key为弱引用，当垃圾回收后，可能会形成key为null，value还存在的内存泄露问题。所以，ThreadLocal 会在 get或set时，擦除这种value.</p>
+<hr>
+<p>2019/12/30</p>
+<p> 弱引用只是 key,只有key定义为弱引用，所以GC回收时，回收的是key。</p>
+<p> 那问题来了，value怎么办？  剩下一些key为null,value为entry的对象？？</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">private Entry getEntry(ThreadLocal&lt;?&gt; key) &#123;</span><br><span class="line">     int i = key.threadLocalHashCode &amp; (table.length - 1);</span><br><span class="line">     Entry e = table[i];</span><br><span class="line">     if (e != null &amp;&amp; e.get() == key)</span><br><span class="line">         return e;</span><br><span class="line">     else</span><br><span class="line">         return getEntryAfterMiss(key, i, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private Entry getEntryAfterMiss(ThreadLocal&lt;?&gt; key, int i, Entry e) &#123;</span><br><span class="line">    Entry[] tab = table;</span><br><span class="line">    int len = tab.length;</span><br><span class="line"></span><br><span class="line">    while (e != null) &#123;</span><br><span class="line">        ThreadLocal&lt;?&gt; k = e.get();</span><br><span class="line">        if (k == key)</span><br><span class="line">            return e;</span><br><span class="line">        if (k == null)</span><br><span class="line">            expungeStaleEntry(i);</span><br><span class="line">        else</span><br><span class="line">            i = nextIndex(i, len);</span><br><span class="line">        e = tab[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//擦除</span><br><span class="line">private int expungeStaleEntry(int staleSlot) &#123;</span><br><span class="line">       Entry[] tab = table;</span><br><span class="line">       int len = tab.length;</span><br><span class="line"></span><br><span class="line">       // expunge entry at staleSlot</span><br><span class="line">       tab[staleSlot].value = null;</span><br><span class="line">       tab[staleSlot] = null;</span><br><span class="line">       size--;</span><br><span class="line"> ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="4-set"><a href="#4-set" class="headerlink" title="4.set()"></a>4.set()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public void set(T value) &#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    if (map != null)</span><br><span class="line">        map.set(this, value);</span><br><span class="line">    else</span><br><span class="line">        createMap(t, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -365,7 +372,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 xiong
+    		&copy; 2020 xiong
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -448,10 +455,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Index</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">others</a>
               </li>
              
@@ -472,14 +475,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Index2</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
@@ -496,10 +491,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">database</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
@@ -512,7 +503,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">database</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">protocol</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Index2</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
               </li>
              
               <li class="article-tag-list-item">

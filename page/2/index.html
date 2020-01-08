@@ -138,6 +138,314 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-java/流程引擎activiti入门一" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/28/java/流程引擎activiti入门一/">流程引擎activiti入门 -- 集成</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/28/java/流程引擎activiti入门一/" class="archive-article-date">
+  	<time datetime="2019-11-28T07:26:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h1><p> springboot 2.0.6</p>
+<p> activiti6.0</p>
+<h1 id="一-启动"><a href="#一-启动" class="headerlink" title="一.启动"></a>一.启动</h1><h2 id="1-配置"><a href="#1-配置" class="headerlink" title="1.配置"></a>1.配置</h2><h3 id="pom-xml"><a href="#pom-xml" class="headerlink" title="pom.xml"></a>pom.xml</h3><p> 主要是引入 activiti-spring-boot-starter-basic 和 mysql</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">       xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line">  &lt;parent&gt;</span><br><span class="line">      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;2.0.6.RELEASE&lt;/version&gt;</span><br><span class="line">      &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;</span><br><span class="line">  &lt;/parent&gt;</span><br><span class="line">  &lt;groupId&gt;com.example&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;gae&lt;/artifactId&gt;</span><br><span class="line">  &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">  &lt;packaging&gt;war&lt;/packaging&gt;</span><br><span class="line">  &lt;name&gt;demo&lt;/name&gt;</span><br><span class="line">  &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;</span><br><span class="line"></span><br><span class="line">  &lt;properties&gt;</span><br><span class="line">      &lt;java.version&gt;1.8&lt;/java.version&gt;</span><br><span class="line">  &lt;/properties&gt;</span><br><span class="line"></span><br><span class="line">  &lt;dependencies&gt;</span><br><span class="line">      &lt;dependency&gt;</span><br><span class="line">          &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">          &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">      &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">      &lt;dependency&gt;</span><br><span class="line">          &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;</span><br><span class="line">          &lt;artifactId&gt;lombok&lt;/artifactId&gt;</span><br><span class="line">          &lt;optional&gt;true&lt;/optional&gt;</span><br><span class="line">      &lt;/dependency&gt;</span><br><span class="line">      &lt;dependency&gt;</span><br><span class="line">          &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">          &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</span><br><span class="line">          &lt;!--			&lt;scope&gt;provided&lt;/scope&gt;--&gt;</span><br><span class="line">      &lt;/dependency&gt;</span><br><span class="line">      &lt;dependency&gt;</span><br><span class="line">          &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">          &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">          &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">          &lt;exclusions&gt;</span><br><span class="line">              &lt;exclusion&gt;</span><br><span class="line">                  &lt;groupId&gt;org.junit.vintage&lt;/groupId&gt;</span><br><span class="line">                  &lt;artifactId&gt;junit-vintage-engine&lt;/artifactId&gt;</span><br><span class="line">              &lt;/exclusion&gt;</span><br><span class="line">          &lt;/exclusions&gt;</span><br><span class="line">      &lt;/dependency&gt;</span><br><span class="line">      &lt;!-- activiti --&gt;</span><br><span class="line">      &lt;dependency&gt;</span><br><span class="line">          &lt;groupId&gt;org.activiti&lt;/groupId&gt;</span><br><span class="line">          &lt;artifactId&gt;activiti-spring-boot-starter-basic&lt;/artifactId&gt;</span><br><span class="line">          &lt;version&gt;6.0.0&lt;/version&gt;</span><br><span class="line">      &lt;/dependency&gt;</span><br><span class="line">      &lt;dependency&gt;</span><br><span class="line">          &lt;groupId&gt;org.activiti&lt;/groupId&gt;</span><br><span class="line">          &lt;artifactId&gt;activiti-spring-boot-starter-actuator&lt;/artifactId&gt;</span><br><span class="line">          &lt;version&gt;6.0.0&lt;/version&gt;</span><br><span class="line">      &lt;/dependency&gt;</span><br><span class="line">      &lt;!-- activiti end--&gt;</span><br><span class="line">      &lt;!-- mybaties --&gt;</span><br><span class="line">      &lt;dependency&gt;</span><br><span class="line">          &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span><br><span class="line">          &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">          &lt;version&gt;1.3.0&lt;/version&gt;</span><br><span class="line">      &lt;/dependency&gt;</span><br><span class="line">      &lt;dependency&gt;</span><br><span class="line">          &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">          &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">          &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">      &lt;/dependency&gt;</span><br><span class="line">      &lt;!-- mybaties end --&gt;</span><br><span class="line">      &lt;!--fastjson--&gt;</span><br><span class="line">      &lt;dependency&gt;</span><br><span class="line">          &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">          &lt;artifactId&gt;fastjson&lt;/artifactId&gt;</span><br><span class="line">          &lt;version&gt;1.2.11&lt;/version&gt;</span><br><span class="line">      &lt;/dependency&gt;</span><br><span class="line">      &lt;!-- fastjson end--&gt;</span><br><span class="line">  &lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">  &lt;build&gt;</span><br><span class="line">      &lt;plugins&gt;</span><br><span class="line">          &lt;plugin&gt;</span><br><span class="line">              &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">              &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">          &lt;/plugin&gt;</span><br><span class="line">      &lt;/plugins&gt;</span><br><span class="line">  &lt;/build&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="application-Properties"><a href="#application-Properties" class="headerlink" title="application.Properties"></a>application.Properties</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">spring.datasource.driverClassName = com.mysql.jdbc.Driver</span><br><span class="line">spring.datasource.url = jdbc:mysql://192.168.1.23:3306/activiti_test?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false</span><br><span class="line">spring.datasource.username = root</span><br><span class="line">spring.datasource.password = root123</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 配置如果数据库表不存在，自动创建</span><br><span class="line">spring.activiti.database-schema-update=true</span><br></pre></td></tr></table></figure>
+<h3 id="启动类"><a href="#启动类" class="headerlink" title="启动类"></a>启动类</h3><p>启动类要排除 SecurityAutoConfiguration.class，因为Activiti带的SecurityAutoConfiguratio会和spring的冲突。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import org.activiti.spring.boot.SecurityAutoConfiguration;</span><br><span class="line">import org.springframework.boot.SpringApplication;</span><br><span class="line">import org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@SpringBootApplication(exclude = SecurityAutoConfiguration.class)</span><br><span class="line">public class GaeportalApplication &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(GaeportalApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-流程图"><a href="#2-流程图" class="headerlink" title="2.流程图"></a>2.流程图</h2><p>在resources路径下创建processes文件夹(activiti默认读取该路劲下的流程文件)</p>
+<p>下载idea的插件，actBPM</p>
+<p>新建一个流程，然后将该流程文件改为bpmn20.xml格式。如 流程文件 take-leave.bpmn 创建完成后，改为take-leave.bpmn20.xml, 放在processes目录下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;</span><br><span class="line">&lt;definitions xmlns=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot; xmlns:activiti=&quot;http://activiti.org/bpmn&quot; xmlns:bpmndi=&quot;http://www.omg.org/spec/BPMN/20100524/DI&quot; xmlns:dc=&quot;http://www.omg.org/spec/DD/20100524/DC&quot; xmlns:di=&quot;http://www.omg.org/spec/DD/20100524/DI&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; expressionLanguage=&quot;http://www.w3.org/1999/XPath&quot; id=&quot;m1576030435332&quot; name=&quot;&quot; targetNamespace=&quot;http://www.activiti.org/testm1576030435332&quot; typeLanguage=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;</span><br><span class="line">  &lt;process id=&quot;process_business_opportunities_examine&quot; isClosed=&quot;false&quot; isExecutable=&quot;true&quot; processType=&quot;None&quot;&gt;</span><br><span class="line">    &lt;startEvent id=&quot;_2&quot; name=&quot;StartEvent&quot;/&gt;</span><br><span class="line">    &lt;userTask activiti:assignee=&quot;$&#123;business.leader1&#125;&quot; activiti:exclusive=&quot;true&quot; id=&quot;_4&quot; name=&quot;商机认领&quot;&gt;</span><br><span class="line">      &lt;documentation id=&quot;_4_D_1&quot;&gt;&lt;![CDATA[商机认领]]&gt;&lt;/documentation&gt;</span><br><span class="line">    &lt;/userTask&gt;</span><br><span class="line">    &lt;userTask activiti:assignee=&quot;$&#123;business.leader2&#125;&quot; activiti:exclusive=&quot;true&quot; id=&quot;_5&quot; name=&quot;商机信息完善&quot;/&gt;</span><br><span class="line">    &lt;userTask activiti:assignee=&quot;$&#123;business.leader3&#125;&quot; activiti:exclusive=&quot;true&quot; id=&quot;_6&quot; name=&quot;项目经理审核&quot;/&gt;</span><br><span class="line">    &lt;userTask activiti:assignee=&quot;$&#123;business.leader4&#125;&quot; activiti:exclusive=&quot;true&quot; id=&quot;_7&quot; name=&quot;领导审核&quot;/&gt;</span><br><span class="line">    &lt;endEvent id=&quot;_8&quot; name=&quot;EndEvent&quot;/&gt;</span><br><span class="line">    &lt;sequenceFlow id=&quot;_9&quot; sourceRef=&quot;_2&quot; targetRef=&quot;_4&quot;/&gt;</span><br><span class="line">    &lt;sequenceFlow id=&quot;_10&quot; sourceRef=&quot;_4&quot; targetRef=&quot;_5&quot;/&gt;</span><br><span class="line">    &lt;sequenceFlow id=&quot;_11&quot; sourceRef=&quot;_5&quot; targetRef=&quot;_6&quot;/&gt;</span><br><span class="line">    &lt;sequenceFlow id=&quot;_12&quot; sourceRef=&quot;_6&quot; targetRef=&quot;_7&quot;/&gt;</span><br><span class="line">    &lt;sequenceFlow id=&quot;_13&quot; sourceRef=&quot;_7&quot; targetRef=&quot;_8&quot;/&gt;</span><br><span class="line">  &lt;/process&gt;</span><br><span class="line">  &lt;bpmndi:BPMNDiagram documentation=&quot;background=#3C3F41;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0&quot; id=&quot;Diagram-_1&quot; name=&quot;New Diagram&quot;&gt;</span><br><span class="line">    &lt;bpmndi:BPMNPlane bpmnElement=&quot;process_business_opportunities_examine&quot;&gt;</span><br><span class="line">      &lt;bpmndi:BPMNShape bpmnElement=&quot;_2&quot; id=&quot;Shape-_2&quot;&gt;</span><br><span class="line">        &lt;dc:Bounds height=&quot;32.0&quot; width=&quot;32.0&quot; x=&quot;190.0&quot; y=&quot;55.0&quot;/&gt;</span><br><span class="line">        &lt;bpmndi:BPMNLabel&gt;</span><br><span class="line">          &lt;dc:Bounds height=&quot;32.0&quot; width=&quot;32.0&quot; x=&quot;0.0&quot; y=&quot;0.0&quot;/&gt;</span><br><span class="line">        &lt;/bpmndi:BPMNLabel&gt;</span><br><span class="line">      &lt;/bpmndi:BPMNShape&gt;</span><br><span class="line">      &lt;bpmndi:BPMNShape bpmnElement=&quot;_4&quot; id=&quot;Shape-_4&quot;&gt;</span><br><span class="line">        &lt;dc:Bounds height=&quot;55.0&quot; width=&quot;85.0&quot; x=&quot;160.0&quot; y=&quot;150.0&quot;/&gt;</span><br><span class="line">        &lt;bpmndi:BPMNLabel&gt;</span><br><span class="line">          &lt;dc:Bounds height=&quot;55.0&quot; width=&quot;85.0&quot; x=&quot;0.0&quot; y=&quot;0.0&quot;/&gt;</span><br><span class="line">        &lt;/bpmndi:BPMNLabel&gt;</span><br><span class="line">      &lt;/bpmndi:BPMNShape&gt;</span><br><span class="line">      &lt;bpmndi:BPMNShape bpmnElement=&quot;_5&quot; id=&quot;Shape-_5&quot;&gt;</span><br><span class="line">        &lt;dc:Bounds height=&quot;55.0&quot; width=&quot;85.0&quot; x=&quot;165.0&quot; y=&quot;250.0&quot;/&gt;</span><br><span class="line">        &lt;bpmndi:BPMNLabel&gt;</span><br><span class="line">          &lt;dc:Bounds height=&quot;55.0&quot; width=&quot;85.0&quot; x=&quot;0.0&quot; y=&quot;0.0&quot;/&gt;</span><br><span class="line">        &lt;/bpmndi:BPMNLabel&gt;</span><br><span class="line">      &lt;/bpmndi:BPMNShape&gt;</span><br><span class="line">      &lt;bpmndi:BPMNShape bpmnElement=&quot;_6&quot; id=&quot;Shape-_6&quot;&gt;</span><br><span class="line">        &lt;dc:Bounds height=&quot;55.0&quot; width=&quot;85.0&quot; x=&quot;160.0&quot; y=&quot;350.0&quot;/&gt;</span><br><span class="line">        &lt;bpmndi:BPMNLabel&gt;</span><br><span class="line">          &lt;dc:Bounds height=&quot;55.0&quot; width=&quot;85.0&quot; x=&quot;0.0&quot; y=&quot;0.0&quot;/&gt;</span><br><span class="line">        &lt;/bpmndi:BPMNLabel&gt;</span><br><span class="line">      &lt;/bpmndi:BPMNShape&gt;</span><br><span class="line">      &lt;bpmndi:BPMNShape bpmnElement=&quot;_7&quot; id=&quot;Shape-_7&quot;&gt;</span><br><span class="line">        &lt;dc:Bounds height=&quot;55.0&quot; width=&quot;85.0&quot; x=&quot;160.0&quot; y=&quot;435.0&quot;/&gt;</span><br><span class="line">        &lt;bpmndi:BPMNLabel&gt;</span><br><span class="line">          &lt;dc:Bounds height=&quot;55.0&quot; width=&quot;85.0&quot; x=&quot;0.0&quot; y=&quot;0.0&quot;/&gt;</span><br><span class="line">        &lt;/bpmndi:BPMNLabel&gt;</span><br><span class="line">      &lt;/bpmndi:BPMNShape&gt;</span><br><span class="line">      &lt;bpmndi:BPMNShape bpmnElement=&quot;_8&quot; id=&quot;Shape-_8&quot;&gt;</span><br><span class="line">        &lt;dc:Bounds height=&quot;32.0&quot; width=&quot;32.0&quot; x=&quot;185.0&quot; y=&quot;545.0&quot;/&gt;</span><br><span class="line">        &lt;bpmndi:BPMNLabel&gt;</span><br><span class="line">          &lt;dc:Bounds height=&quot;32.0&quot; width=&quot;32.0&quot; x=&quot;0.0&quot; y=&quot;0.0&quot;/&gt;</span><br><span class="line">        &lt;/bpmndi:BPMNLabel&gt;</span><br><span class="line">      &lt;/bpmndi:BPMNShape&gt;</span><br><span class="line">      &lt;bpmndi:BPMNEdge bpmnElement=&quot;_13&quot; id=&quot;BPMNEdge__13&quot; sourceElement=&quot;_7&quot; targetElement=&quot;_8&quot;&gt;</span><br><span class="line">        &lt;di:waypoint x=&quot;201.0&quot; y=&quot;490.0&quot;/&gt;</span><br><span class="line">        &lt;di:waypoint x=&quot;201.0&quot; y=&quot;545.0&quot;/&gt;</span><br><span class="line">        &lt;bpmndi:BPMNLabel&gt;</span><br><span class="line">          &lt;dc:Bounds height=&quot;0.0&quot; width=&quot;0.0&quot; x=&quot;0.0&quot; y=&quot;0.0&quot;/&gt;</span><br><span class="line">        &lt;/bpmndi:BPMNLabel&gt;</span><br><span class="line">      &lt;/bpmndi:BPMNEdge&gt;</span><br><span class="line">      &lt;bpmndi:BPMNEdge bpmnElement=&quot;_12&quot; id=&quot;BPMNEdge__12&quot; sourceElement=&quot;_6&quot; targetElement=&quot;_7&quot;&gt;</span><br><span class="line">        &lt;di:waypoint x=&quot;202.5&quot; y=&quot;405.0&quot;/&gt;</span><br><span class="line">        &lt;di:waypoint x=&quot;202.5&quot; y=&quot;435.0&quot;/&gt;</span><br><span class="line">        &lt;bpmndi:BPMNLabel&gt;</span><br><span class="line">          &lt;dc:Bounds height=&quot;0.0&quot; width=&quot;0.0&quot; x=&quot;0.0&quot; y=&quot;0.0&quot;/&gt;</span><br><span class="line">        &lt;/bpmndi:BPMNLabel&gt;</span><br><span class="line">      &lt;/bpmndi:BPMNEdge&gt;</span><br><span class="line">      &lt;bpmndi:BPMNEdge bpmnElement=&quot;_9&quot; id=&quot;BPMNEdge__9&quot; sourceElement=&quot;_2&quot; targetElement=&quot;_4&quot;&gt;</span><br><span class="line">        &lt;di:waypoint x=&quot;206.0&quot; y=&quot;87.0&quot;/&gt;</span><br><span class="line">        &lt;di:waypoint x=&quot;206.0&quot; y=&quot;150.0&quot;/&gt;</span><br><span class="line">        &lt;bpmndi:BPMNLabel&gt;</span><br><span class="line">          &lt;dc:Bounds height=&quot;0.0&quot; width=&quot;0.0&quot; x=&quot;0.0&quot; y=&quot;0.0&quot;/&gt;</span><br><span class="line">        &lt;/bpmndi:BPMNLabel&gt;</span><br><span class="line">      &lt;/bpmndi:BPMNEdge&gt;</span><br><span class="line">      &lt;bpmndi:BPMNEdge bpmnElement=&quot;_11&quot; id=&quot;BPMNEdge__11&quot; sourceElement=&quot;_5&quot; targetElement=&quot;_6&quot;&gt;</span><br><span class="line">        &lt;di:waypoint x=&quot;205.0&quot; y=&quot;305.0&quot;/&gt;</span><br><span class="line">        &lt;di:waypoint x=&quot;205.0&quot; y=&quot;350.0&quot;/&gt;</span><br><span class="line">        &lt;bpmndi:BPMNLabel&gt;</span><br><span class="line">          &lt;dc:Bounds height=&quot;0.0&quot; width=&quot;0.0&quot; x=&quot;0.0&quot; y=&quot;0.0&quot;/&gt;</span><br><span class="line">        &lt;/bpmndi:BPMNLabel&gt;</span><br><span class="line">      &lt;/bpmndi:BPMNEdge&gt;</span><br><span class="line">      &lt;bpmndi:BPMNEdge bpmnElement=&quot;_10&quot; id=&quot;BPMNEdge__10&quot; sourceElement=&quot;_4&quot; targetElement=&quot;_5&quot;&gt;</span><br><span class="line">        &lt;di:waypoint x=&quot;205.0&quot; y=&quot;205.0&quot;/&gt;</span><br><span class="line">        &lt;di:waypoint x=&quot;205.0&quot; y=&quot;250.0&quot;/&gt;</span><br><span class="line">        &lt;bpmndi:BPMNLabel&gt;</span><br><span class="line">          &lt;dc:Bounds height=&quot;0.0&quot; width=&quot;0.0&quot; x=&quot;0.0&quot; y=&quot;0.0&quot;/&gt;</span><br><span class="line">        &lt;/bpmndi:BPMNLabel&gt;</span><br><span class="line">      &lt;/bpmndi:BPMNEdge&gt;</span><br><span class="line">    &lt;/bpmndi:BPMNPlane&gt;</span><br><span class="line">  &lt;/bpmndi:BPMNDiagram&gt;</span><br><span class="line">&lt;/definitions&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><p>首次启动，会自动创建28张表，耐心等表创建完。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/28/java/流程引擎activiti入门一/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-algorithm/位运算一" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/26/algorithm/位运算一/">位运算专题一</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/26/algorithm/位运算一/" class="archive-article-date">
+  	<time datetime="2019-11-26T03:39:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>位运算入门: <a href="https://www.jiuzhang.com/tutorial/bit-manipulation/73" target="_blank" rel="noopener">https://www.jiuzhang.com/tutorial/bit-manipulation/73</a></p>
+<h1 id="一-位运算基础"><a href="#一-位运算基础" class="headerlink" title="一.位运算基础"></a>一.位运算基础</h1><h2 id="1-原码、反码、补码"><a href="#1-原码、反码、补码" class="headerlink" title="1.原码、反码、补码"></a>1.原码、反码、补码</h2><p>首先要知道一点，计算机中整数都是用补码存储的。</p>
+<h5 id="计算机为什么要使用补码"><a href="#计算机为什么要使用补码" class="headerlink" title="计算机为什么要使用补码"></a>计算机为什么要使用补码</h5><p>因为减一个数等于加上它的补数<br><a href="https://blog.csdn.net/leonliu06/article/details/78685197" target="_blank" rel="noopener">https://blog.csdn.net/leonliu06/article/details/78685197</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//在十进制中  补数为 x + 补数 = 0</span><br><span class="line">5 - 3 = 5 + (-3)</span><br><span class="line">//在二进制中</span><br><span class="line">0101 - 3 = 0101 - (0011)</span><br><span class="line">         = 0101 + (1100 + 1) //负数的补码等于反码 + 1</span><br><span class="line">         = 0010 = 2</span><br></pre></td></tr></table></figure></p>
+<p>而在计算机中，算数逻辑单元ALU,计算加法最简单，使用补码，可以忽略负数的符号影响</p>
+<h5 id="三码与真值转换"><a href="#三码与真值转换" class="headerlink" title="三码与真值转换"></a>三码与真值转换</h5><ul>
+<li>整数</li>
+</ul>
+<p>整数的原码，反码，补码都一样</p>
+<ul>
+<li>负数</li>
+</ul>
+<p>真值转码：<br><br>反码为除符号位外，每位取反<br><br>补码为，反码加一</p>
+<p>码转真值:<br><br>补码取反，再加1</p>
+<h2 id="2-位运算"><a href="#2-位运算" class="headerlink" title="2.位运算"></a>2.位运算</h2><ul>
+<li>&amp; 与</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 &amp; 1 = 1</span><br><span class="line">1 &amp; 0 = 0</span><br><span class="line">0 &amp; 0 = 0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>| 或</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 | 1 = 1</span><br><span class="line">1 | 0 = 1</span><br><span class="line">0 | 0 = 0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>~ 非</li>
+</ul>
+<p>非操作为取反操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A =   (1)10 = (00000000000000000000000000000001)2</span><br><span class="line">~A = ~ (1)10 = (11111111111111111111111111111110)2 = (-2)10</span><br></pre></td></tr></table></figure></p>
+<p>~1 值为 -2</p>
+<p>解释下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">10000000000000000000000000000001  // -1源码表示</span><br><span class="line">11111111111111111111111111111110  // -1反码</span><br><span class="line">11111111111111111111111111111111  // -1补码</span><br><span class="line"></span><br><span class="line">~A = ~(1)10 = ~(00000000000000000000000000000001)2</span><br><span class="line">   = ~(11111111111111111111111111111110)  // 1的非运算结果</span><br><span class="line">//转化为真值  取反 + 1</span><br><span class="line">10000000000000000000000000000001  //取反</span><br><span class="line">10000000000000000000000000000010  // +1 值为-2</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>^ 异或</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 ^ 1 = 0</span><br><span class="line">1 ^ 0 = 1</span><br><span class="line">0 ^ 0 = 0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>>&gt;     >&gt;&gt; 右移</li>
+</ul>
+<p>带符号右移 &gt;&gt;</p>
+<p>将A的二进制表示的每一位向右移B位，右边超出的位截掉，左边不足的位补符号位的数（比如负数符号位是1则补充1，正数符号位是0则补充0），所以对于算术右移，原来是负数的，结果还是负数，原来是正数的结果还是正数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A = (-127)10 &gt;&gt; 2 = (11111111111111111111111110000001)2 &gt;&gt; 2 = (11111111111111111111111111100000)2 = (-32)10</span><br></pre></td></tr></table></figure></p>
+<p>逻辑右移 &gt;&gt;&gt;</p>
+<p>将A的二进制表示的每一位向右移B位，右边超出的位截掉，左边不足的位补0。所以对于逻辑右移，结果将会是一个正数</p>
+<p>举个例子对于十进制数-127, 已知(-127)10 = (11111111111111111111111110000001)2 , 因为是负数，所以最高位上是1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A = (-127)10 &gt;&gt; 2 = (11111111111111111111111110000001)2 &gt;&gt; 2 = (00111111111111111111111111100000)2 = (1073741792)10</span><br></pre></td></tr></table></figure>
+<ul>
+<li>&lt;&lt;  左移</li>
+</ul>
+<p>将二进制表示的整体向左移 n位，左边超出 32 位的截掉（int类型为32位），右边不足的位补 0<br>比如对于10进制数12，他的二进制表示下，是1100，那么将其左移 2 位，得到的结果是 110000。</p>
+<p>可以发现，在不溢出的情况下，左移n位，相当于 乘了 2的n次方<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A &lt;&lt; B = A * 2^B</span><br></pre></td></tr></table></figure></p>
+<h1 id="为什么要用位运算"><a href="#为什么要用位运算" class="headerlink" title="为什么要用位运算"></a>为什么要用位运算</h1><p>位运算速度快</p>
+<h1 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用"></a>怎么用</h1>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/26/algorithm/位运算一/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-base/工厂模式-抽象工厂模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/13/base/工厂模式-抽象工厂模式/">设计模式--工厂模式三(抽象工厂模式)</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/13/base/工厂模式-抽象工厂模式/" class="archive-article-date">
+  	<time datetime="2019-11-13T05:48:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-抽象工厂模式"><a href="#1-抽象工厂模式" class="headerlink" title="1.抽象工厂模式"></a>1.抽象工厂模式</h2><p>工厂方法模式在大多数情况下已经可以了，但是它每个工厂只能创建一种商品，在某些情况下显得不够用。</p>
+<p>抽象工厂模式，提供一个创建一系列相关对象的接口，而无需指定它们具体的类。我的理解就是，将product再多了一层抽象。每个特定工厂，生产特定类型的product(某个接口或抽象类)。</p>
+<p>实际上多了个产品族的概念。</p>
+<p>同时，工厂也变成了超级工厂，这个超级工厂负责创建其它工厂。</p>
+<p>每个产品族可以包括多种产品。<br><img src="http://67.216.218.49:8000/file/blogs/base/abstract_factory_01.png" alt="abstract_factory"></p>
+<h2 id="2-角色"><a href="#2-角色" class="headerlink" title="2.角色"></a>2.角色</h2><ul>
+<li>factory</li>
+</ul>
+<p>抽象工厂类(超级工厂)。</p>
+<ul>
+<li>concreteFactory</li>
+</ul>
+<p>具体的某种工厂</p>
+<ul>
+<li>product</li>
+</ul>
+<p>抽象产品。</p>
+<ul>
+<li>productFamily</li>
+</ul>
+<p>抽象的产品族</p>
+<ul>
+<li>concerteProduct</li>
+</ul>
+<p>具体的产品</p>
+<h2 id="3-例子"><a href="#3-例子" class="headerlink" title="3.例子"></a>3.例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//超级工厂</span><br><span class="line">interface Factory&#123;</span><br><span class="line"></span><br><span class="line">     ProductFamily1 getProductFamily1(int type);</span><br><span class="line">     ProductFamily2 getProductFamily2(int type);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 负责产品族1的工厂</span><br><span class="line">class Factory1 implements Factory&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public ProductFamily1 getProductFamily1(int type) &#123;</span><br><span class="line">        if(type == 1)&#123;</span><br><span class="line">            return new Product1();</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            return new Product2();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public ProductFamily2 getProductFamily2(int type) &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//负责产品族2的工厂</span><br><span class="line">class Factory2 implements Factory&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public ProductFamily1 getProductFamily1(int type) &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public ProductFamily2 getProductFamily2(int type) &#123;</span><br><span class="line">        switch (type)&#123;</span><br><span class="line">            case 1 : return new Product3();</span><br><span class="line">            case 2 : return new Product4();</span><br><span class="line">            default: return null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//负责选择具体工厂，(不一定需要?)</span><br><span class="line">class SuperFactory&#123;</span><br><span class="line">    public Factory getFactory(int type)&#123;</span><br><span class="line">        switch (type)&#123;</span><br><span class="line">            case 1 : return new Factory1();</span><br><span class="line">            case 2 : return new Factory2();</span><br><span class="line">            default: return null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//产品族1</span><br><span class="line">interface ProductFamily1&#123;</span><br><span class="line">    void print();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Product1 implements ProductFamily1&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void print() &#123;</span><br><span class="line">        System.out.println(&quot;Product1&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Product2 implements ProductFamily1&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void print() &#123;</span><br><span class="line">        System.out.println(&quot;Product2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//产品族2</span><br><span class="line">interface ProductFamily2&#123;</span><br><span class="line">    void draw();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Product3 implements ProductFamily2&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void draw() &#123;</span><br><span class="line">        System.out.println(&quot;Product3&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Product4 implements ProductFamily2&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void draw() &#123;</span><br><span class="line">        System.out.println(&quot;Product4&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//开始生产产品了</span><br><span class="line">public class MyAbstractFactoryDemo &#123;</span><br><span class="line"></span><br><span class="line">    public static void main (String[] args)&#123;</span><br><span class="line">        //要生产产品1</span><br><span class="line">        //需要先得到工厂1</span><br><span class="line">        Factory factory1 = new SuperFactory().getFactory(1);</span><br><span class="line">        //生产</span><br><span class="line">        ProductFamily1 product1 = factory1.getProductFamily1(1);</span><br><span class="line">        product1.print();</span><br><span class="line"></span><br><span class="line">        //生产产品3</span><br><span class="line">        Factory factory2 = new SuperFactory().getFactory(2);</span><br><span class="line">        ProductFamily2 product3 = factory2.getProductFamily2(1);</span><br><span class="line">        product3.draw();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-理解"><a href="#4-理解" class="headerlink" title="4.理解"></a>4.理解</h2><p>写完一遍，清晰多了。</p>
+<p>抽象工厂模式，和工厂方法模式相比，感觉就是一个加大版的超级工厂。可以生产出不同的工厂，不同的工厂再去生产不同的具体产品族。</p>
+<p>而工厂方法模式，就是每个工厂生产其自己不同产品。</p>
+<p>简而言之就是 工厂方法模式的工厂生产产品，抽象工厂方法模式的工厂生产产品族。</p>
+<p>在生产产品族的时候，也有判断，所以也没遵从开闭原则。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/13/base/工厂模式-抽象工厂模式/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-base/工厂模式-工厂方法模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -983,211 +1291,6 @@
 
 
   
-    <article id="post-java/大概了解一下zookeeper" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/24/java/大概了解一下zookeeper/">初步理解zookeeper</a>
-    </h1>
-  
-
-        
-        <a href="/2019/10/24/java/大概了解一下zookeeper/" class="archive-article-date">
-  	<time datetime="2019-10-24T09:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一-zookeeper是什么"><a href="#一-zookeeper是什么" class="headerlink" title="一.zookeeper是什么"></a>一.zookeeper是什么</h1><p>ZooKeeper主要是为分布式系统提供一致性协调(Coordination)服务。简单讲就是，如果某个节点宕机后，Zookeeper会通过选举算法重新选出一个节点，保证它不会由于单一节点的故障而造成问题.<br></p>
-<p>2.在什么地方用</p>
-<p>3.为什么要用，有什么好处</p>
-<p>4.怎么用</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/10/24/java/大概了解一下zookeeper/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-tools/apt和dpkg了解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/23/tools/apt和dpkg了解/">apt和dpkg</a>
-    </h1>
-  
-
-        
-        <a href="/2019/10/23/tools/apt和dpkg了解/" class="archive-article-date">
-  	<time datetime="2019-10-23T09:18:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一-为什么写这篇总结"><a href="#一-为什么写这篇总结" class="headerlink" title="一.为什么写这篇总结"></a>一.为什么写这篇总结</h1><p>经常使用apt和dpkg安装软件，但是从没有详细的看过它们有哪些用法。经常忘记，所以记录一下。</p>
-<h1 id="二-apt"><a href="#二-apt" class="headerlink" title="二.apt"></a>二.apt</h1><h2 id="1-apt是什么"><a href="#1-apt是什么" class="headerlink" title="1.apt是什么"></a>1.apt是什么</h2><p>apt是debian和ubuntu中的包管理工具，适用于deb包，主要为了 便捷的 在软件仓库中搜索,安装,更新和卸载软件.</p>
-<h2 id="2-apt源"><a href="#2-apt源" class="headerlink" title="2.apt源"></a>2.apt源</h2><p>apt 使用的软件源 在 /etc/apt/sources.list 中配置</p>
-<h3 id="2-1-apt"><a href="#2-1-apt" class="headerlink" title="2.1 apt"></a>2.1 apt</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">apt updated 根据配置的源，更新包信息</span><br><span class="line"></span><br><span class="line">apt upgrade 升级已安装的包</span><br><span class="line"></span><br><span class="line">apt dist-upgrade 升级系统</span><br><span class="line"></span><br><span class="line">apt install package  安装包</span><br><span class="line"></span><br><span class="line">apt install package=version 安装（或升级降级到）指定版本</span><br><span class="line"></span><br><span class="line">apt install package --reinstall 安装已经安装，但可能存在问题的包</span><br><span class="line"></span><br><span class="line">apt install -f 修复依赖关系，缺少某些包会自动安装</span><br><span class="line"></span><br><span class="line">apt remove package 删除包</span><br><span class="line"></span><br><span class="line">apt autoremove package 删除包，及其依赖包</span><br><span class="line"></span><br><span class="line">apt remove package --purge 删除包，及其配置文件</span><br><span class="line"></span><br><span class="line">apt autoclean 清理无用的包</span><br></pre></td></tr></table></figure>
-<h3 id="2-2-apt-cache"><a href="#2-2-apt-cache" class="headerlink" title="2.2 apt-cache"></a>2.2 apt-cache</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-cache search reg(正则) 搜索包</span><br><span class="line">apt-cache show package 显示包的相关信息</span><br></pre></td></tr></table></figure>
-<h1 id="三-dpkg"><a href="#三-dpkg" class="headerlink" title="三.dpkg"></a>三.dpkg</h1><p>dpkg用于debian或ubuntu安装.适用于deb包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">dpkg -i package 安装软件包</span><br><span class="line"></span><br><span class="line">dpkg -l 显示已安装软件，太多，可以grep</span><br><span class="line"></span><br><span class="line">dpkg -s package 显示已安装的包的信息</span><br><span class="line"></span><br><span class="line">dpkg -L package 显示已安装包的文件信息(有哪些文件，在哪些目录)</span><br><span class="line"></span><br><span class="line">dpkg -r package 删除包</span><br><span class="line"></span><br><span class="line">dpkg --purge package 纯净删除，包括配置文件</span><br><span class="line"></span><br><span class="line">dpkg -c package 查看一个安装包中包含的文件，及安装后的文件路径</span><br></pre></td></tr></table></figure>
-<h1 id="四-apt和dpkg关系"><a href="#四-apt和dpkg关系" class="headerlink" title="四.apt和dpkg关系"></a>四.apt和dpkg关系</h1><p>因为 apt install 自动安装的也是.deb包。所以，当安装某个包，发现缺失某些依赖包，在apt中找不到，又不想换源，或者换源也找不到，可以在网上将依赖包包(.deb)下载下来，用dpkg 来安装。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tools</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/10/23/tools/apt和dpkg了解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/zookeeper了解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/10/21/java/zookeeper了解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1202,7 +1305,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 xiong
+    		&copy; 2020 xiong
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1285,10 +1388,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Index</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">others</a>
               </li>
              
@@ -1309,14 +1408,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Index2</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
@@ -1333,10 +1424,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">database</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
@@ -1349,7 +1436,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">database</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">protocol</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Index2</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
               </li>
              
               <li class="article-tag-list-item">

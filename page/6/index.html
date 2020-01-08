@@ -138,19 +138,228 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-java/java基础二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-java/spring/spring基础1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/21/java/java基础二/">java基础二</a>
+      <a class="article-title" href="/2019/06/23/java/spring/spring基础1/">spring基础一 bean</a>
     </h1>
   
 
         
-        <a href="/2019/06/21/java/java基础二/" class="archive-article-date">
+        <a href="/2019/06/23/java/spring/spring基础1/" class="archive-article-date">
+  	<time datetime="2019-06-22T16:58:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-Bean的属性"><a href="#1-Bean的属性" class="headerlink" title="1.Bean的属性"></a>1.Bean的属性</h3><p>bean的 .xml 文件<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">xsi:schemaLocation=&quot;</span><br><span class="line">http://www.springframework.org/schema/beans</span><br><span class="line">http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 自己的bean --&gt;</span><br><span class="line">&lt;bean&gt;&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure></p>
+<p>将bean交给spring:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@ImportResource(locations = &#123;&quot;classpath:xxxx.xml&quot;&#125;)</span><br></pre></td></tr></table></figure></p>
+<h6 id="1-自身属性"><a href="#1-自身属性" class="headerlink" title="(1).自身属性"></a>(1).自身属性</h6><ul>
+<li>id</li>
+</ul>
+<p>id为bean的唯一标识名，也就是beanName.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;userEntity&quot; class=&quot;com.bonc.apimanage.test.UserEntity&quot;&gt;</span><br><span class="line">      &lt;!-- 通过setter注入属性值 --&gt;</span><br><span class="line">       &lt;property name=&quot;id&quot; value=&quot;123&quot;&gt;&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;bean id=&quot;userService&quot; class=&quot;com.bonc.apimanage.test.UserService&quot;&gt;</span><br><span class="line">    &lt;!-- 注入 userEntity 属性对象 --&gt;</span><br><span class="line">    &lt;property name=&quot;userService&quot; ref=&quot;userEntity&quot;&gt;&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>name</li>
+</ul>
+<p>bean的别名。</p>
+<ul>
+<li>class</li>
+</ul>
+<p>bean的类。子类bean不用定义该属性。</p>
+<ul>
+<li>parent</li>
+</ul>
+<p>子类Bean定义它所引用它的父类Bean。这时class属性失效。子类Bean会继承父类Bean的所有属性，子类Bean也可以覆盖父类Bean的属性。注意：子类Bean和父类Bean是同一个Java类</p>
+<ul>
+<li>abstract</li>
+</ul>
+<p>默认为”false”，用来定义Bean是否为抽象Bean。它表示这个Bean将不会被实例化，一般用于父类Bean，因为父类Bean主要是供子类Bean继承使用。</p>
+<ul>
+<li>scope</li>
+</ul>
+<p>默认为singleton（单例）<br></p>
+<p>prototype（原型）状态，BeanFactory将为每次Bean请求创建一个新的Bean实例。<br><br>session：创建对象把创建的对象放到session域里面去<br><br>request：创建对象把创建的对象放到request域里面去<br><br>globalsession：创建对象把创建的对象放到globalsession域里面去<br></p>
+<ul>
+<li>lazy-init</li>
+</ul>
+<p>用来定义这个Bean是否实现懒初始化<br><br>默认为 default  <br><br>如果为 true ，它将在BeanFactory启动时初始化所有的SingletonBean<br><br>如果为 false ,它只在Bean请求时才开始创建SingletonBean。</p>
+<ul>
+<li>autowire</li>
+</ul>
+<p>它定义了Bean的自动装载方式<br><br>no :不使用自动装配功能<br><br>byName :通过Bean的属性名实现自动装配<br><br>byType :通过Bean的类型实现自动装配<br><br>constructor :类似于byType，但它是用于构造函数的参数的自动组装<br><br>default：默认值，自动装配</p>
+<ul>
+<li>depends-on</li>
+</ul>
+<p>Bean在初始化时依赖的对象，这个对象会在这个Bean初始化之前创建<br><br>可以用来控制bean初始化顺序</p>
+<ul>
+<li>init-method</li>
+</ul>
+<p>用来定义Bean的初始化方法，它会在Bean组装之后调用。它必须是一个无参数的方法</p>
+<ul>
+<li>destory-method</li>
+</ul>
+<p>用来定义Bean的销毁方法，它在 BeanFactory 关闭时调用。同样，它也必须是一个无参数的方法。它只能应用于 singletonBean。</p>
+<ul>
+<li>factory-method</li>
+</ul>
+<p>定义创建该Bean对象的工厂方法。它用于下面的 factory-bean ，表示这个Bean是通过工厂方法创建。此时， class 属性失效</p>
+<ul>
+<li>factory-bean</li>
+</ul>
+<p>定义创建该 Bean 对象的工厂类。如果使用了 factory-bean 则 class 属性失效</p>
+<h6 id="2-子属性"><a href="#2-子属性" class="headerlink" title="(2).子属性"></a>(2).子属性</h6><ul>
+<li>meta</li>
+</ul>
+<p>元数据。当需要使用里面的信息时可以通过key获取<br><br>meta 所声明的 key 并不会在 Bean 中体现，只是一个额外的声明，当我们需要使用里面的信息时，通过 BeanDefinition 的 getAttribute() 获取<br></p>
+<ul>
+<li>lookup-method</li>
+</ul>
+<p>获取器注入，是把一个方法声明为返回某种类型的 bean 但实际要返回的 bean 是在配置文件里面配置的。该方法可以用于设计一些可插拔的功能上，解除程序依赖</p>
+<ul>
+<li>replaced-method</li>
+</ul>
+<p>可以在运行时调用新的方法替换现有的方法，还能动态的更新原有方法的逻辑</p>
+<ul>
+<li>constructor-arg</li>
+</ul>
+<p>通过构造函数注入。&lt;br<br>index：指定注入属性的顺序索引(在构造函数中的顺序)，从0开始<br><br>type：指该属性所对应的类型<br><br>ref：引用的依赖对象<br><br>value：当注入的不是依赖对象，而是基本数据类型时，就用value<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;userEntity&quot; class=&quot;com.bonc.apimanage.test.UserEntity&quot;&gt;</span><br><span class="line">      &lt;!-- 通过构造器注入属性值 有参的需要有参的构造函数 --&gt;</span><br><span class="line">      &lt;constructor-arg index=&quot;0&quot; value=&quot;1&quot;&gt;&lt;/constructor-arg&gt;  </span><br><span class="line">      &lt;constructor-arg index=&quot;1&quot; value=&quot;xxl&quot;&gt;&lt;/constructor-arg&gt;</span><br><span class="line">      &lt;!-- 或这样  --&gt;</span><br><span class="line">      &lt;constructor-arg name=&quot;id&quot; value=&quot;1&quot;&gt;&lt;/constructor-arg&gt;  </span><br><span class="line">      &lt;constructor-arg nam=&quot;name&quot; value=&quot;xxl&quot;&gt;&lt;/constructor-arg&gt;   </span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;bean id=&quot;userService&quot; class=&quot;com.bonc.apimanage.test.UserService&quot;&gt;</span><br><span class="line">      &lt;constructor-arg  ref=&quot;userEntity&quot;&gt;&lt;/constructor-arg&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>property</li>
+</ul>
+<p>通过setter对应的方法注入。<br></p>
+<ul>
+<li>qualifier</li>
+</ul>
+<p>明确指定bean的名称进行注入</p>
+<h3 id="2-Bean的生命周期"><a href="#2-Bean的生命周期" class="headerlink" title="2.Bean的生命周期"></a>2.Bean的生命周期</h3><p>Spring 只帮我们管理单例模式 Bean 的完整生命周期，对于 prototype 的 bean ，Spring 在创建好交给使用者之后则不会再管理后续的生命周期。<br></p>
+<p><img src="https://pic3.zhimg.com/80/754a34e03cfaa40008de8e2b9c1b815c_hd.jpg" alt="bean生命周期"></p>
+<ul>
+<li>实例化</li>
+</ul>
+<p>对于BeanFactory容器，当客户向容器请求一个尚未初始化的bean时，或初始化bean的时候需要注入另一个尚未初始化的依赖时，容器就会调用createBean进行实例化。<br><br>对于ApplicationContext容器，当容器启动结束后，便实例化所有的bean。 容器通过获取BeanDefinition对象中的信息进行实例化。并且这一步仅仅是简单的实例化，并未进行依赖注入。<br><br>实例化对象被包装在BeanWrapper对象中，BeanWrapper提供了设置对象属性的接口，从而避免了使用反射机制设置属性。</p>
+<ul>
+<li>填充属性</li>
+</ul>
+<p>Spring将值和Bean的引用注入进Bean对应的属性中(依赖注入).</p>
+<ul>
+<li>Aware相关</li>
+</ul>
+<p>Spring中 特定的Aware接口，提供了对IOC容器的操作.<br></p>
+<ul>
+<li><p>BeanPostProcessor前置处理(postProcessorBeforeInitializion)</p>
+</li>
+<li><p>InitiallizionBean 中 afterProjectSet方法</p>
+</li>
+<li><p>自定义的init-method</p>
+</li>
+<li><p>BeanPostProcessor的后置处理(postProcessorAfterInitializion)</p>
+</li>
+<li><p>Bean就绪</p>
+</li>
+<li><p>DisposableBean的destory方法</p>
+</li>
+<li><p>自定义的destory-method</p>
+</li>
+</ul>
+<h3 id="3-Spring的七个模块"><a href="#3-Spring的七个模块" class="headerlink" title="3.Spring的七个模块"></a>3.Spring的七个模块</h3><ul>
+<li>1.Spring Core</li>
+</ul>
+<p>Core模块是Spring的核心类库，Spring的所有功能都依赖于该类库，Core主要实现IOC功能，Sprign的所有功能都是借助IOC实现的</p>
+<ul>
+<li>2.Spring Aop</li>
+</ul>
+<p>AOP模块是Spring的AOP库，提供了AOP（拦截器）机制，并提供常用的拦截器，供用户自定义和配置</p>
+<ul>
+<li><p>3.Spring ORM</p>
+</li>
+<li><p>4.Spring DAO</p>
+</li>
+<li><p>5.Spring Web</p>
+</li>
+<li><p>6.Spring context</p>
+</li>
+</ul>
+<p>Spring上下文是spring的配置文件，向Spring框架提供上下文信息,可以用来管理bean.</p>
+<ul>
+<li>7.Spring WebMVC</li>
+</ul>
+<p>WEB MVC模块为Spring提供了一套轻量级的MVC实现，在Spring的开发中，我们既可以用Struts也可以用Spring自己的MVC框架，相对于Struts，Spring自己的MVC框架更加简洁和方便  </p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/23/java/spring/spring基础1/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/base/java基础二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/21/java/base/java基础二/">java基础二</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/21/java/base/java基础二/" class="archive-article-date">
   	<time datetime="2019-06-21T07:59:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-21</time>
 </a>
         
@@ -204,7 +413,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/21/java/java基础二/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/06/21/java/base/java基础二/">展开全文 >></a>
         </p>
       
 
@@ -1087,104 +1296,6 @@
 
 
   
-    <article id="post-algorithm/manacher/manacher" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/27/algorithm/manacher/manacher/">马拉车算法</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/27/algorithm/manacher/manacher/" class="archive-article-date">
-  	<time datetime="2019-05-27T07:25:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="manacher算法"><a href="#manacher算法" class="headerlink" title="manacher算法"></a>manacher算法</h3><p>处理回文字符串:<br><br>一搬思路为中心拓展:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//预处理，得到不分奇偶的新串 #a#b#a#c#</span><br><span class="line">for(int i=0; i&lt;len; i++)&#123;</span><br><span class="line">  for (int j = 0; (i-j &gt;= 0) &amp;&amp; (i+j &lt; len); j++)&#123;</span><br><span class="line">		  //在左右j距离拓展匹配</span><br><span class="line">      if (s[i - j] != s[i + j])</span><br><span class="line">				break;</span><br><span class="line">      //纪录最大距离</span><br><span class="line">	&#125;</span><br><span class="line">  //更新最大子串</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Manacher算法，将时间压缩到线性，时间复杂度/空间复杂度都是O(n).</p>
-<h5 id="1-新串"><a href="#1-新串" class="headerlink" title="1.新串"></a>1.新串</h5><p>无论字符串原先为奇数还是偶数长度，通过添加特殊字符都能使之变为奇数，减少判断条件。<br><br>例:</p>
-<ul>
-<li>aba &gt;&gt; #a#b#a#</li>
-<li>abab &gt;&gt; #a#b#a#b#</li>
-</ul>
-<h5 id="2-循环得到p-i"><a href="#2-循环得到p-i" class="headerlink" title="2.循环得到p[i]"></a>2.循环得到p[i]</h5><p>首先定义几个变量: <br></p>
-<ul>
-<li>p[i] 存储对应位置(i)的最大子串的长度,左或右半边(包括了自己本身)</li>
-<li>pos 当前最大子串的中心位置</li>
-<li>mxr 当前最大子串的右边界</li>
-<li>mxl 当前最大字串的左边界</li>
-</ul>
-<p><img src="./manacher01.png" alt="manacher"><br>manacher算法的关键: <br><br>//p[i] = mxr &gt; i ? Math.min(p[2*pos -i], mxr-i):1;<br><br><strong>p[i] = mxr &gt; i ? Math.min(p[2pos -i], mxr-i):0;</strong>  </p>
-<p>如图，i和j关于pos对称，pos-j = i-pos， 即 j = 2*pos-i<br><br>当要计算第i位的p[i]时，i位之前的p[i]都为已知：<br><br>此时:<br></p>
-<h6 id="1-若i在mxr右边"><a href="#1-若i在mxr右边" class="headerlink" title="(1).若i在mxr右边"></a>(1).若i在mxr右边</h6><p>将p[i]置为1(因为mxr的位置必定为#,它的下一位肯定&gt;=1,但是如果mxr==i,则为p[i]肯定为0，所以这里置为0)，进行拓展匹配。<br></p>
-<h6 id="2-若i在当前最大字串范围内："><a href="#2-若i在当前最大字串范围内：" class="headerlink" title="(2).若i在当前最大字串范围内："></a>(2).若i在当前最大字串范围内：<br></h6><p><strong>mxr-i 与 p[j] 的关系，判断以 j 为中心的子串是否完全在以pos为中心的子串内.<br></strong></p>
-<ul>
-<li>若 mxr - i &gt; p[j](例p[10]，p[11],p[12]), 此时可知已j为中心的回文串，包含在以pos为中心的回文串左边部分内，由左右对称可知，以i为中心的回文串p[i] = p[j]<br></li>
-<li>若 mxr -i &lt;= p[j](例p[13]), 此时mxr-i和j-mxl部分是一样的，可以保证如果原理这部分关于j对称的话(又因为mxr-i&lt;=p[j],所以这部分肯定对称，j-mxl是j的字串的一部分)，至少这部分关于i肯定对称，所以p[i]至少有mxr-i的长度,再向右进行拓展匹配<br></li>
-</ul>
-<p>取p[j]和mxr-i中较小的值，再进行拓展匹配<br></p>
-<p>这样循环一次就得到了所有p[i]的值。</p>
-<h5 id="3-具体代码"><a href="#3-具体代码" class="headerlink" title="3.具体代码"></a>3.具体代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public String longestPalindrome(String s) &#123;</span><br><span class="line">        //生成新串</span><br><span class="line">        StringBuffer sb = new StringBuffer();</span><br><span class="line">        for(int i=0; i&lt;s.length()*2+1; i++)&#123;</span><br><span class="line">            if(i%2 == 0)&#123;</span><br><span class="line">                sb.append(&quot;#&quot;);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                sb.append(s.charAt(i/2));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        String ns = sb.toString();</span><br><span class="line">        //处理</span><br><span class="line">        int[] p = new int[ns.length()];</span><br><span class="line">        p[0] = 0;</span><br><span class="line">        int pos = 0, mxr = 0;</span><br><span class="line">        for(int i=0; i&lt;ns.length(); i++)&#123;</span><br><span class="line">            p[i] = mxr&gt;i ? Math.min(p[pos*2-i],mxr-i):0;</span><br><span class="line">            //继续进行拓展</span><br><span class="line">            //是否到达左边界，是否到达右边界，是否对称</span><br><span class="line">            while(i-p[i] &gt;=0</span><br><span class="line">                 &amp;&amp; i+p[i]&lt;= ns.length()-1</span><br><span class="line">                 &amp;&amp; ns.charAt(i+p[i]) == ns.charAt(i-p[i]))&#123;</span><br><span class="line">                p[i]+=1;</span><br><span class="line">            &#125;</span><br><span class="line">            //发现更大的子串，进行调整，如果相等，不调整，取第一个</span><br><span class="line">            if(p[i]&gt; mxr-pos)&#123;</span><br><span class="line">                pos = i;</span><br><span class="line">                mxr = p[i] + i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //因为p[pos]的长度包括了pos自己,所以回文串范围为(pos-p[pos]+1, pos+p[pos]-1)</span><br><span class="line">        //因为substring取值为[a,b)，所以范围为(pos-p[pos]+1, pos+p[pos])</span><br><span class="line">         return ns.substring(pos-p[pos]+1, pos+p[pos]).replace(&quot;#&quot;,&quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/27/algorithm/manacher/manacher/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
@@ -1199,7 +1310,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 xiong
+    		&copy; 2020 xiong
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1282,10 +1393,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Index</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">others</a>
               </li>
              
@@ -1306,14 +1413,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Index2</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
@@ -1330,10 +1429,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">database</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
@@ -1346,7 +1441,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">database</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">protocol</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Index2</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">面向对象</a>
               </li>
              
               <li class="article-tag-list-item">
