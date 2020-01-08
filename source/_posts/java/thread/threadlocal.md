@@ -5,12 +5,21 @@ tags: [java]
 ---
 http://www.jasongj.com/java/threadlocal/
 
+------------------
+2019/12/30
+
+一个简单易懂的blog:
+https://benjaminwhx.com/2018/04/28/%E3%80%90%E7%BB%86%E8%B0%88Java%E5%B9%B6%E5%8F%91%E3%80%91%E8%B0%88%E8%B0%88ThreadLocal/
+
 # 一.ThreadLocal作用
 
 ## 1.作用
 
 一半都说是实现了变量在线程间隔离,在类或者方法间共享。<br>
 但是看到这句话一脸迷茫，怎么实现的，为什么要实现??
+
+
+
 
 ## 2.为什么要用
 
@@ -169,6 +178,14 @@ static class ThreadLocalMap {
 所以,使用弱引用的原因在于，当没有强引用指向 ThreadLocal 变量时，它可被回收，从而避免上文所述 ThreadLocal 不能被回收而造成的内存泄漏的问题。<br>
 
 但是，因为key为弱引用，当垃圾回收后，可能会形成key为null，value还存在的内存泄露问题。所以，ThreadLocal 会在 get或set时，擦除这种value.
+
+
+--------------
+2019/12/30
+
+ 弱引用只是 key,只有key定义为弱引用，所以GC回收时，回收的是key。
+
+ 那问题来了，value怎么办？  剩下一些key为null,value为entry的对象？？
 
 ```
 private Entry getEntry(ThreadLocal<?> key) {
