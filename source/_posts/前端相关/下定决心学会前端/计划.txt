@@ -1,0 +1,64 @@
+
+因为不是一直都有时间，但会每天多少弄一点，绝不中断。
+
+重要： 不要进入选择困难。教程那么多，路线那么多，看到一个差不多的就直接上手干！！！！！！！！！
+
+学习，最怕没有计划。
+
+总计划(半年后熟练水平)
+
+现在了解不深，先定个简单规划。
+(一周，今天周三，到下周三晚上)
+htmL + css, 程度，熟练写出一个静态网页。
+
+https://marksheet.io/
+
+1.web
+ 一些互联网基本概念介绍
+
+ A browser is a document viewer ！！！！！
+
+2.html5
+
+
+
+超文本标记语言  html
+HTML stands for HyperText Markup Language:
+
+HyperText means that it uses the HTTP part of the Internet
+Markup means the code you write is annotated with keywords
+Language means it can be read by both a human and a computer
+
+
+
+html 有两种元素
+
+block 和 inLine
+
+
+html 标签很多  不用管太多  够用就行
+
+
+link  三种
+
+anchor targets, to navigate within the same page
+relative URLs, usually to navigate within the same website
+absolute URLs, usually to navigate to another website
+
+<a href="#footer">
+ <a href="contact.html">
+ <a href="https://twitter.com/ireallylovecats">
+
+
+ For example, a blog’s webpage can be divided in 4 parts:
+
+a header that is similar on every page, and is the main navigation of the website
+a main content, that changes for every page: a list of articles, a single article with comments, an about page…
+a sidebar that links to monthly archives and categories
+a footer for additional links to less important page
+
+
+
+3.css3
+ css 语法
+who{ what: how;}
