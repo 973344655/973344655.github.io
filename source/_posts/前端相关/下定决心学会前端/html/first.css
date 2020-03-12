@@ -5,14 +5,14 @@ body {
 
 
 #boot {
-  width: 640px;
-  height: 400px;
-  margin-left: 750px;
-  margin-right: 750px;
-  margin-top: 300px;
-  margin-bottom: 480px;
+  width: 30%;
+  height: 300px;
+  margin-left: 35%;
+  margin-right: 35%;
+  margin-top: 12%;
 
-  background-color: #0e9894;
+  /* background-color: #0e9894; */
+
 }
 
 
@@ -24,15 +24,40 @@ body {
 }
 
 #login-h1 span {
-  font-size: 2em;
+  font-size: 1.67em;
   line-height: 100px;
+  color: #fff;
+  text-shadow: 0 0 10px;
+  font-style: sans-serif;
 }
 
-input {
-  width: 360px;
+.login-form {
+  text-align: center;
+  vertical-align: middle;
+}
+.login-form input {
+  width: 80%;
+  height: 32px;
+  margin: 4px 4px;
+  padding: 2px;
+  background-color: rgb(215,219,219);
+  border-radius: 4px;
+  outline: none;
+  text-shadow: 1px 1px 1px;
+}
+
+#login-button {
   height: 40px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
+  width: 81%;
+  display: block;
+  margin: 4px auto;
+  margin-top: 8px;
+  padding: 2px;
+  background-color: rgb(74,119,222);
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  text-shadow: 0 0 8px;
+  color: rgb(245,248,250);
+  font-style: italic;
 }
