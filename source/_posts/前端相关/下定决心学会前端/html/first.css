@@ -1,0 +1,38 @@
+
+body {
+  background-color: #4a374a
+}
+
+
+#boot {
+  width: 640px;
+  height: 400px;
+  margin-left: 750px;
+  margin-right: 750px;
+  margin-top: 300px;
+  margin-bottom: 480px;
+
+  background-color: #0e9894;
+}
+
+
+#login-h1 {
+  height: 100px;
+  margin: 6px;
+  padding: 4px;
+  text-align: center;
+}
+
+#login-h1 span {
+  font-size: 2em;
+  line-height: 100px;
+}
+
+input {
+  width: 360px;
+  height: 40px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
