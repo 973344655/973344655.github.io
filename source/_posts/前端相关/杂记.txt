@@ -62,3 +62,16 @@ z-index can alter the order in which elements are stacked
 
 
 css动画
+
+
+
+span 无固定表现，当给它设定样式时才出现效果
+
+pre 标签 预格式处理    会保持标签内的格式
+
+sub 和 sub 用来表示次方 或者下标  a^2 或 h2o(水的化学式)这样
+
+image 四要素  alt title  width heigth
+
+
+盒子中 width和heigth 是内容区大小， 增加padding或margin不会改变内容区大小
