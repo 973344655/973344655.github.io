@@ -6,20 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>socket | xiong&#39;s blogs</title>
+  <title>xiong&#39;s blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.java.net.socketserver端代码，使用子线程处理连接. (1)存储消息的队列使用两个队列InMsgQueue和OutMsgueue来存储输入输出数据。12345678910111213141516171819202122232425/** *客户端返回数据队列 */public class InMsgQueue &amp;#123;    /**     * 阻塞队列，存储返回的数据">
-<meta name="keywords" content="java">
+  <meta name="description" content="body {   background-image: url(./back2.jpg);   background-repeat: no-repeat;   background-size: cover; }  #login {   height: 300px;   width: 30%;   margin: 10% 35%;   /* background-color: rgb(118,1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="socket">
-<meta property="og:url" content="http://yoursite.com/2018/09/26/java/socket/javasocket/index.html">
+<meta property="og:title" content="xiong&#39;s blogs">
+<meta property="og:url" content="http://yoursite.com/2020/03/13/前端相关/下定决心学会前端/html/second/index.html">
 <meta property="og:site_name" content="xiong&#39;s blogs">
-<meta property="og:description" content="1.java.net.socketserver端代码，使用子线程处理连接. (1)存储消息的队列使用两个队列InMsgQueue和OutMsgueue来存储输入输出数据。12345678910111213141516171819202122232425/** *客户端返回数据队列 */public class InMsgQueue &amp;#123;    /**     * 阻塞队列，存储返回的数据">
+<meta property="og:description" content="body {   background-image: url(./back2.jpg);   background-repeat: no-repeat;   background-size: cover; }  #login {   height: 300px;   width: 30%;   margin: 10% 35%;   /* background-color: rgb(118,1">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-29T03:55:52.947Z">
+<meta property="og:updated_time" content="2020-03-13T03:01:43.946Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="socket">
-<meta name="twitter:description" content="1.java.net.socketserver端代码，使用子线程处理连接. (1)存储消息的队列使用两个队列InMsgQueue和OutMsgueue来存储输入输出数据。12345678910111213141516171819202122232425/** *客户端返回数据队列 */public class InMsgQueue &amp;#123;    /**     * 阻塞队列，存储返回的数据">
+<meta name="twitter:title" content="xiong&#39;s blogs">
+<meta name="twitter:description" content="body {   background-image: url(./back2.jpg);   background-repeat: no-repeat;   background-size: cover; }  #login {   height: 300px;   width: 30%;   margin: 10% 35%;   /* background-color: rgb(118,1">
   
     <link rel="alternative" href="/atom.xml" title="xiong&#39;s blogs" type="application/atom+xml">
   
@@ -141,33 +140,120 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-java/socket/javasocket" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-前端相关/下定决心学会前端/html/second" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      socket
-    </h1>
-  
-
-        
-        <a href="/2018/09/26/java/socket/javasocket/" class="archive-article-date">
-  	<time datetime="2018-09-26T09:49:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-26</time>
-</a>
-        
-      </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="1-java-net-socket"><a href="#1-java-net-socket" class="headerlink" title="1.java.net.socket"></a>1.java.net.socket</h4><p>server端代码，使用子线程处理连接.</p>
-<h6 id="1-存储消息的队列"><a href="#1-存储消息的队列" class="headerlink" title="(1)存储消息的队列"></a>(1)存储消息的队列</h6><p>使用两个队列InMsgQueue和OutMsgueue来存储输入输出数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *客户端返回数据队列</span><br><span class="line"> */</span><br><span class="line">public class InMsgQueue &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 阻塞队列，存储返回的数据</span><br><span class="line">     */</span><br><span class="line">    private Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; ins ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private static final InMsgQueue instance = new InMsgQueue();</span><br><span class="line"></span><br><span class="line">    private InMsgQueue()&#123;</span><br><span class="line">        ins =  new HashMap&lt;String, LinkedBlockingQueue&lt;String&gt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static final InMsgQueue getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; getDatas()&#123;</span><br><span class="line">        return this.ins;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>OutMsgQueue:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 维护要执行的命令</span><br><span class="line"> */</span><br><span class="line">public class OutMsgQueue &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 阻塞队列，存储页面输入的命令</span><br><span class="line">     */</span><br><span class="line">    private Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; outs ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private static final OutMsgQueue instance = new OutMsgQueue();</span><br><span class="line"></span><br><span class="line">    private OutMsgQueue()&#123;</span><br><span class="line">        outs =  new HashMap&lt;String, LinkedBlockingQueue&lt;String&gt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static final OutMsgQueue getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; getDatas()&#123;</span><br><span class="line">        return this.outs;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h6 id="2-sockerServer"><a href="#2-sockerServer" class="headerlink" title="(2)sockerServer"></a>(2)sockerServer</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 单例创建全局socketserver</span><br><span class="line"> */</span><br><span class="line">public class SocketServer &#123;</span><br><span class="line"></span><br><span class="line">    private ServerSocket server = null;</span><br><span class="line">    private int port = 12354;</span><br><span class="line">    private final static int minPort = 1023;</span><br><span class="line">    private final static int maxPort = 65535;</span><br><span class="line">    private static final  SocketServer instance = new SocketServer();</span><br><span class="line"></span><br><span class="line">    private SocketServer()&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            if(port &gt;= minPort &amp;&amp; port &lt;= maxPort)&#123;</span><br><span class="line">                server = new ServerSocket(port);</span><br><span class="line">            &#125;else &#123;</span><br><span class="line">                server = new ServerSocket(12354);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;catch (IOException e)&#123;</span><br><span class="line">            System.out.println(&quot;sockerserver 创建失败 &quot; + e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static final SocketServer getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public ServerSocket getServer()&#123;</span><br><span class="line">        return this.server;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setPort(int port)&#123;</span><br><span class="line">        this.port = port;</span><br><span class="line">    &#125;</span><br><span class="line">    public int getPort()&#123;</span><br><span class="line">        return this.port;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h6 id="3-处理链接"><a href="#3-处理链接" class="headerlink" title="(3)处理链接"></a>(3)处理链接</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 处理单个socket的服务类</span><br><span class="line"> * 普通的socket消息收发,通过阻塞队列与页面进行交互</span><br><span class="line"> */</span><br><span class="line">public class SocketThread implements Runnable&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private Socket socket = null;</span><br><span class="line">    /**</span><br><span class="line">     * 每个socket的对应id</span><br><span class="line">     */</span><br><span class="line">    private String id;</span><br><span class="line"></span><br><span class="line">    public SocketThread(Socket socket)&#123;</span><br><span class="line">        this.socket = socket;</span><br><span class="line">        this.id = socket.getInetAddress().getHostAddress() + &quot;:&quot; + socket.getPort();</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void run()&#123;</span><br><span class="line">        Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; mapIn = InMsgQueue.getInstance().getDatas();</span><br><span class="line">        Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; mapOut = OutMsgQueue.getInstance().getDatas();</span><br><span class="line">        LinkedBlockingQueue&lt;String&gt; queueOut = mapOut.get(id);</span><br><span class="line">        LinkedBlockingQueue&lt;String&gt; queueIn = mapIn.get(id);</span><br><span class="line">        try &#123;</span><br><span class="line"></span><br><span class="line">            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));</span><br><span class="line">            OutputStream out = socket.getOutputStream();</span><br><span class="line">            String line = null;</span><br><span class="line">            while (true)&#123;</span><br><span class="line">                StringBuilder sb = new StringBuilder();</span><br><span class="line">                // 999999999 结束标志</span><br><span class="line">                while (!(line = in.readLine()).equals(&quot;999999999&quot;))&#123;</span><br><span class="line">                    sb.append(line);</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(&quot;[+]: &quot; + sb.toString());</span><br><span class="line">                if(sb.toString().equals(&quot;exit()&quot;))&#123;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">                try &#123;</span><br><span class="line">                    queueIn.put(sb.toString());</span><br><span class="line">                &#125;catch (InterruptedException e2)&#123;</span><br><span class="line">                    e2.printStackTrace();</span><br><span class="line">                    queueIn.offer(e2.getMessage());</span><br><span class="line">                &#125;</span><br><span class="line">                //读取队列中的命令，send</span><br><span class="line">                try &#123;</span><br><span class="line">                    //阻塞等待页面输入</span><br><span class="line">                    out.write(queueOut.take().getBytes());</span><br><span class="line">                &#125;catch (InterruptedException e1)&#123;</span><br><span class="line">                    e1.printStackTrace();</span><br><span class="line">                    out.write(&quot;whoami&quot;.getBytes());</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">            in.close();</span><br><span class="line">            out.close();</span><br><span class="line">        &#125;catch (IOException e)&#123;</span><br><span class="line">            System.out.println(e.getMessage());</span><br><span class="line">        &#125;finally &#123;</span><br><span class="line">            //删除队列中的连接信息</span><br><span class="line">            mapIn.remove(id);</span><br><span class="line">            mapOut.remove(id);</span><br><span class="line">            try &#123;</span><br><span class="line">                if (socket != null)&#123;</span><br><span class="line">                    socket.close();</span><br><span class="line">                    System.out.println(&quot;[*]: 异常，关闭socket&quot; + id);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;catch (IOException e)&#123;</span><br><span class="line">                System.out.println(&quot;[*]: &quot; + id + &quot; 未正常关闭！ &quot; + e.getMessage());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setSocket(Socket socket)&#123;</span><br><span class="line">        this.socket = socket;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h6 id="4-使用多线程处理不同socket"><a href="#4-使用多线程处理不同socket" class="headerlink" title="(4)使用多线程处理不同socket"></a>(4)使用多线程处理不同socket</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">**</span><br><span class="line"> * 自动启动socket监听</span><br><span class="line"> */</span><br><span class="line">//控制bean的加载顺序  确保不为null</span><br><span class="line">@DependsOn(&#123;&quot;socketLogService&quot;,&quot;springUtil&quot;&#125;)</span><br><span class="line">@Component</span><br><span class="line">public class StartSocket implements ApplicationRunner &#123;</span><br><span class="line"></span><br><span class="line">    SocketLogService socketLogService = (SocketLogService)SpringUtil.getBean(&quot;socketLogService&quot;);</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run(ApplicationArguments args)&#123;</span><br><span class="line">        ServerSocket server = SocketServer.getInstance().getServer();</span><br><span class="line">        ThreadPoolExecutor executor = new ThreadPoolExecutor(4,4,24*60,</span><br><span class="line">                TimeUnit.MINUTES,new LinkedBlockingQueue&lt;&gt;());</span><br><span class="line">        try &#123;</span><br><span class="line">            while (true) &#123;</span><br><span class="line">                Socket socket = server.accept();</span><br><span class="line">                //连接日志</span><br><span class="line">                SocketLogEntity entity = new SocketLogEntity();</span><br><span class="line">                entity.setClientIp(socket.getInetAddress().getHostAddress());</span><br><span class="line">                entity.setClientPort(socket.getPort());</span><br><span class="line">                socketLogService.insertLog(entity);</span><br><span class="line">                //新来一个连接时，更新队列</span><br><span class="line">                Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; mapIn = InMsgQueue.getInstance().getDatas();</span><br><span class="line">                Map&lt;String, LinkedBlockingQueue&lt;String&gt;&gt; mapOut = OutMsgQueue.getInstance().getDatas();</span><br><span class="line">                String ip = socket.getInetAddress().getHostAddress() + &quot;:&quot; + socket.getPort();</span><br><span class="line">                if (!mapIn.containsKey(ip)) &#123;</span><br><span class="line">                    mapOut.put(ip, new LinkedBlockingQueue&lt;String&gt;());</span><br><span class="line">                    mapIn.put(ip, new LinkedBlockingQueue&lt;String&gt;());</span><br><span class="line">                &#125;</span><br><span class="line">                //开单独的线程进行处理连接</span><br><span class="line">                executor.execute(new SocketThread(socket));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;catch (IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="2-nio"><a href="#2-nio" class="headerlink" title="2.nio"></a>2.nio</h4><h4 id="3-netty"><a href="#3-netty" class="headerlink" title="3.netty"></a>3.netty</h4>
+        
+
+
+body {
+  background-image: url(./back2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#login {
+  height: 300px;
+  width: 30%;
+  margin: 10% 35%;
+  /* background-color: rgb(118,156,245); */
+  text-align: center;
+  vertical-align: middle;
+}
+
+
+.logo {
+  height: 130px;
+  width: 90%;
+  /* background-color: rgb(243, 245, 118); */
+  margin: auto;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.logo-image{
+  /* width: 100%;
+  height: 100%; */
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.login-input {
+  height: 100px;
+  width: 90%;
+  /* background-color: rgb(119, 235, 30); */
+  margin: auto;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+.login-input p {
+  display: block;
+  margin: 4px auto;
+  /* width: 90%; */
+  height: 36px;
+  border-radius: 6px;
+  text-align: middle;
+  margin-bottom: 10px;
+
+}
+.login-input p  label {
+  display: inline-block;
+  /* height: 36px; */
+  width: 20%;
+  background-color: rgb(17, 217, 240);
+  margin: 4px auto;
+  text-align: center;
+  line-height: 36px;
+  vertical-align: middle;
+  font-size: 20px;
+  color: #fff;
+  border-radius: 6px  0 0 6px;
+}
+.login-input p input {
+  height: 36px;
+  width: 60%;
+  margin: 4px auto;
+  vertical-align: middle;
+  border: none;
+  border-radius: 0 5px 5px 0;
+}
+.login-button {
+  height: 40px;
+  width: 70%;
+  /* background-color: rgb(189, 62, 26); */
+  margin: auto;
+  margin-top: 4px;
+}
+
+.login-button button {
+  height: 36px;
+  width: 30%;
+  float: left;
+  border-radius: 8px;
+  border: none;
+  background-color: rgb(44, 119, 232);
+  font-size: 24px;
+  font-style: "楷体";
+  text-shadow: 0 0 2px;
+  color: #fff;
+  margin-left: 2px;
+}
+
+.login-button a {
+  text-align: center;
+  line-height: 36px;
+  display: block;
+  float: right;
+  font-size: 20px;
+  font-style: "楷体";
+  margin-right: 20px;
+}
+
       
 
       
@@ -196,17 +282,6 @@
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 
       
@@ -257,7 +332,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/09/26/java/socket/javasocket/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/03/13/前端相关/下定决心学会前端/html/second/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -271,18 +346,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/09/28/java/base/tomcat-session/tomcat-redis-session/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/03/13/前端相关/下定决心学会前端/html/second/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          tomcat利用redis保持session共享
+          (no title)
         
       </div>
     </a>
   
   
-    <a href="/2018/09/21/java/spring/spring/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">spring基本概念一</div>
+    <a href="/2020/03/13/前端相关/下定决心学会前端/html/first/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -309,7 +384,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-java-net-socket"><span class="toc-number">1.</span> <span class="toc-text">1.java.net.socket</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-存储消息的队列"><span class="toc-number">1.0.1.</span> <span class="toc-text">(1)存储消息的队列</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-sockerServer"><span class="toc-number">1.0.2.</span> <span class="toc-text">(2)sockerServer</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-处理链接"><span class="toc-number">1.0.3.</span> <span class="toc-text">(3)处理链接</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#4-使用多线程处理不同socket"><span class="toc-number">1.0.4.</span> <span class="toc-text">(4)使用多线程处理不同socket</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-nio"><span class="toc-number">2.</span> <span class="toc-text">2.nio</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-netty"><span class="toc-number">3.</span> <span class="toc-text">3.netty</span></a></li></ol>
+                    目录，不存在的…
                     </div>
                 </span>
             </div>

@@ -138,6 +138,940 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-tools/maven父子项目" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/01/06/tools/maven父子项目/">创建一个maven聚合项目</a>
+    </h1>
+  
+
+        
+        <a href="/2020/01/06/tools/maven父子项目/" class="archive-article-date">
+  	<time datetime="2020-01-06T08:00:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>目的: 一个系列的项目，创建多个项目，管理起来不方便。同时也是消除重复配置</p>
+<h1 id="一-pom-xml"><a href="#一-pom-xml" class="headerlink" title="一. pom.xml"></a>一. pom.xml</h1><h2 id="1-一个pom-xml-大致结构"><a href="#1-一个pom-xml-大致结构" class="headerlink" title="1.一个pom.xml 大致结构"></a>1.一个pom.xml 大致结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;packaging&gt;pom&lt;/packaging&gt;</span><br><span class="line"></span><br><span class="line">    &lt;groupId&gt;com.demo.example&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mutiplemodulesdemo&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</span><br><span class="line"></span><br><span class="line">    &lt;parent&gt;&lt;/parent&gt;</span><br><span class="line"></span><br><span class="line">    &lt;properties&gt;&lt;/properties&gt;</span><br><span class="line"></span><br><span class="line">    &lt;modules&gt;&lt;/modules&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;&lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencyManagement&gt;&lt;/dependencyManagement&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="2-大概介绍"><a href="#2-大概介绍" class="headerlink" title="2.大概介绍"></a>2.大概介绍</h2><h3 id="2-1-packaging"><a href="#2-1-packaging" class="headerlink" title="2.1 packaging"></a>2.1 packaging</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;packaging&gt;pom&lt;/packaging&gt;</span><br></pre></td></tr></table></figure>
+<p>表示这只是一个引用其它项目的pom, 而不是常用的jar或者war</p>
+<h3 id="2-2-parent"><a href="#2-2-parent" class="headerlink" title="2.2 parent"></a>2.2 parent</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;parent&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.5.17.RELEASE&lt;/version&gt;</span><br><span class="line">    &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;</span><br><span class="line">&lt;/parent&gt;</span><br></pre></td></tr></table></figure>
+<p>parent 表示继承，作用就是复用 里面的内容</p>
+<h3 id="2-3modules"><a href="#2-3modules" class="headerlink" title="2.3modules"></a>2.3modules</h3><p>modules 用来管理各个子模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;modules&gt;</span><br><span class="line">    &lt;module&gt;springcloud-demo&lt;/module&gt;</span><br><span class="line">    &lt;module&gt;springboot-demo&lt;/module&gt;</span><br><span class="line">&lt;/modules&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-4-dependencies"><a href="#2-4-dependencies" class="headerlink" title="2.4 dependencies"></a>2.4 dependencies</h3><p>dependencies 用来放一些公有的依赖，在这里引入后，子模块就不需要再引入了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-5-properties"><a href="#2-5-properties" class="headerlink" title="2.5 properties"></a>2.5 properties</h3><p>通过<properties>元素用户可以自定义一个或多个Maven属性，然后在POM的其他地方使用${属性名}的方式引用该属性，这种做法的最大意义在于消除重复和统一管理。</properties></p>
+<p>Maven总共有6类属性，内置属性、POM属性、自定义属性、Settings属性、java系统属性和环境变量属性.</p>
+<ul>
+<li>内置属性</li>
+</ul>
+<p>两个常用内置属性 ${basedir} 表示项目跟目录，即包含pom.xml文件的目录；${version} 表示项目版本</p>
+<ul>
+<li>pom属性</li>
+</ul>
+<p>用户可以使用该类属性引用POM文件中对应元素的值。如${project.artifactId}就对应了<project> <artifactid>元素的值。</artifactid></project></p>
+<p>常用的POM属性包括：</p>
+<blockquote>
+<p>${project.build.sourceDirectory}:项目的主源码目录，默认为src/main/java/<br>${project.build.testSourceDirectory}:项目的测试源码目录，默认为src/test/java/<br>${project.build.directory} ： 项目构建输出目录，默认为target/<br>${project.outputDirectory} : 项目主代码编译输出目录，默认为target/classes/<br>${project.testOutputDirectory}：项目测试主代码输出目录，默认为target/testclasses/<br>${project.groupId}：项目的groupId<br>${project.artifactId}：项目的artifactId<br>${project.version}：项目的version,与${version} 等价<br>${project.build.finalName}：项目打包输出文件的名称，默认为${project.artifactId}-&gt;${project.version}</p>
+</blockquote>
+<ul>
+<li>自定义属性</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;properties&gt;</span><br><span class="line">   &lt;custom.property&gt;true&lt;/custom.property&gt;</span><br><span class="line">&lt;/properties&gt;</span><br></pre></td></tr></table></figure>
+<p>这样一个自定义属性，可以在其它部分，或者子模块直接引用.引用方式为 : ${custom.property}</p>
+<ul>
+<li>ettings属性</li>
+</ul>
+<p>与POM属性同理，用户使用以settings. 开头的属性引用settings.xml文件中的XML元素的值</p>
+<ul>
+<li><p>ava系统属性<br>所有java系统属性都可以用Maven属性引用，如${user.home}指向了用户目录。</p>
+</li>
+<li><p>环境变量属性<br>所有环境变量属性都可以使用以env. 开头的Maven属性引用，如${env.JAVA_HOME}指代了JAVA_HOME环境变量的的值</p>
+</li>
+</ul>
+<h3 id="2-6-dependencyManagement"><a href="#2-6-dependencyManagement" class="headerlink" title="2.6 dependencyManagement"></a>2.6 dependencyManagement</h3><p>所有在dependencies里的依赖都会自动引入，并默认被所有的子项目继承。</p>
+<p>dependencyManagement里只是声明依赖，并不自动实现引入，因此子项目需要显示的声明需要用的依赖。如果不在子项目中声明依赖，是不会从父项目中继承下来的；只有在子项目中写了该依赖项，并且没有指定具体版本，才会从父项目中继承该项，并且version和scope都读取自父pom;另外如果子项目中指定了版本号，那么会使用子项目中指定的jar版本。</p>
+<p>所以dependecyManagement用来灵活配置。 比如某个模块，在多数子模块中存在，少数子模块中不存在，则可以使用它。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencyManagement&gt;</span><br><span class="line">   &lt;dependencies&gt; &lt;!-- 配置共有依赖 --&gt;</span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">       &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">       &lt;artifactId&gt;spring-core&lt;/artifactId&gt;</span><br><span class="line">       &lt;version&gt;4.0.2.RELEASE&lt;/version&gt;</span><br><span class="line">   &lt;/dependency&gt;</span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">       &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">       &lt;artifactId&gt;spring-beans&lt;/artifactId&gt;</span><br><span class="line">       &lt;version&gt;4.0.2.RELEASE&lt;/version&gt;</span><br><span class="line">   &lt;/dependency&gt;</span><br><span class="line">   &lt;/dependencies&gt;</span><br><span class="line">&lt;/dependencyManagement&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="二-一个具体例子"><a href="#二-一个具体例子" class="headerlink" title="二.一个具体例子"></a>二.一个具体例子</h1><h2 id="1-父级"><a href="#1-父级" class="headerlink" title="1.父级"></a>1.父级</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;packaging&gt;pom&lt;/packaging&gt;</span><br><span class="line"></span><br><span class="line">    &lt;groupId&gt;com.demo.example&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mutiplemodulesdemo&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</span><br><span class="line"></span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;1.5.17.RELEASE&lt;/version&gt;</span><br><span class="line">        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line"></span><br><span class="line">    &lt;properties&gt;</span><br><span class="line">        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</span><br><span class="line">        &lt;java.version&gt;1.8&lt;/java.version&gt;</span><br><span class="line">    &lt;/properties&gt;</span><br><span class="line">    &lt;modules&gt;</span><br><span class="line">        &lt;module&gt;springcloud-demo&lt;/module&gt;</span><br><span class="line">        &lt;module&gt;springcloud-service-demo&lt;/module&gt;</span><br><span class="line">        &lt;module&gt;springcloud-service-demo2&lt;/module&gt;</span><br><span class="line">        &lt;module&gt;springboot-demo&lt;/module&gt;</span><br><span class="line">    &lt;/modules&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;lombok&lt;/artifactId&gt;</span><br><span class="line">            &lt;optional&gt;true&lt;/optional&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="2-子模块"><a href="#2-子模块" class="headerlink" title="2.子模块"></a>2.子模块</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;groupId&gt;com.demo.example&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;mutiplemodulesdemo&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</span><br><span class="line">        &lt;relativePath&gt;../pom.xml&lt;/relativePath&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line"></span><br><span class="line">    &lt;groupId&gt;com.example&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;springboot-demo&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">    &lt;packaging&gt;war&lt;/packaging&gt;</span><br><span class="line">    &lt;name&gt;springboot-demo&lt;/name&gt;</span><br><span class="line">    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- mybaties --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;1.3.0&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;druid-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;1.1.17&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- mybaties end --&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 分页集成 --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.github.pagehelper&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;pagehelper&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;5.1.8&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!-- 分页 end --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;build&gt;</span><br><span class="line">        &lt;plugins&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line">        &lt;/plugins&gt;</span><br><span class="line">    &lt;/build&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tools</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/01/06/tools/maven父子项目/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/others/mysql分布式锁实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/01/06/java/others/mysql分布式锁实现/">mysql分布式锁</a>
+    </h1>
+  
+
+        
+        <a href="/2020/01/06/java/others/mysql分布式锁实现/" class="archive-article-date">
+  	<time datetime="2020-01-06T03:02:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>分布式系统中，某个功能只在一台机器上执行(即，只执行一次)，用分布式锁实现。</p>
+<p>分布式的CAP理论告诉我们“任何一个分布式系统都无法同时满足一致性（Consistency）、可用性（Availability）和分区容错性（Partition tolerance），最多只能同时满足两项。所以，需要对这三者做出取舍.</p>
+<h1 id="一-分布式锁"><a href="#一-分布式锁" class="headerlink" title="一.分布式锁"></a>一.分布式锁</h1><h2 id="1-什么是分布式锁"><a href="#1-什么是分布式锁" class="headerlink" title="1.什么是分布式锁"></a>1.什么是分布式锁</h2><p>分布式锁是控制分布式系统或不同系统之间共同访问共享资源的一种锁实现，如果不同的系统或同一个系统的不同主机之间共享了某个资源时，往往需要互斥来防止彼此干扰来保证一致性。</p>
+<h2 id="2-实现方式"><a href="#2-实现方式" class="headerlink" title="2.实现方式"></a>2.实现方式</h2><ul>
+<li><p>基于数据库</p>
+</li>
+<li><p>基于缓存(redis，memcached等)</p>
+</li>
+<li><p>基于Zookeeper</p>
+</li>
+</ul>
+<h1 id="二-基于Mysql实现分布式锁"><a href="#二-基于Mysql实现分布式锁" class="headerlink" title="二.基于Mysql实现分布式锁"></a>二.基于Mysql实现分布式锁</h1><p><a href="https://www.hollischuang.com/archives/1716" target="_blank" rel="noopener">https://www.hollischuang.com/archives/1716</a></p>
+<h2 id="1-基于数据表"><a href="#1-基于数据表" class="headerlink" title="1.基于数据表"></a>1.基于数据表</h2><h3 id="1-1-实现逻辑"><a href="#1-1-实现逻辑" class="headerlink" title="1.1 实现逻辑"></a>1.1 实现逻辑</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLE IF EXISTS `lock_method_demo`;</span><br><span class="line">CREATE TABLE `lock_method_demo` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT &apos;主键&apos;,</span><br><span class="line">  `lock_method` varchar(255) NOT NULL COMMENT &apos;需要锁住的方法&apos;,</span><br><span class="line">  `desc` varchar(255) DEFAULT NULL COMMENT &apos;备注&apos;,</span><br><span class="line">  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  UNIQUE KEY `lock_method` (`lock_method`) USING BTREE COMMENT &apos;lock_method唯一&apos;</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;</span><br></pre></td></tr></table></figure>
+<p>建一张表，用来判断是否加锁，lock_method 字段为加锁的操作，建个索引，将该字段用unique唯一性进行约束。</p>
+<p>当一台机器要进行操作时，往该表插入一条数据，然后其它机器要进行相同操作时，也会往该表插入一条数据(lock_method)相同，因为lock_method唯一(数据库保证只有一个操作会成功)，其它机器会插入失败。</p>
+<p>代码里面根据插入操作是否成功来决定是否要执行相关功能。当操作成功后,删除该条记录(解锁)。</p>
+<h3 id="1-2-特点"><a href="#1-2-特点" class="headerlink" title="1.2 特点"></a>1.2 特点</h3><p>简单方便</p>
+<h2 id="2-基于数据库排他锁"><a href="#2-基于数据库排他锁" class="headerlink" title="2.基于数据库排他锁"></a>2.基于数据库排他锁</h2><h3 id="2-1-for-update"><a href="#2-1-for-update" class="headerlink" title="2.1.for update"></a>2.1.for update</h3><p>在sql的后面加上 for update 可以进行数据加锁，防止高并发出错.InnoDB引擎在加锁的时候，只有通过索引进行检索的时候才会使用行级锁，否则会使用表级锁。</p>
+<p>for update 仅适用于InnoDB，并且必须开启事务，在begin与commit之间才生效</p>
+<p>详细解释: <a href="https://blog.csdn.net/u011957758/article/details/75212222" target="_blank" rel="noopener">https://blog.csdn.net/u011957758/article/details/75212222</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from table where xxx for update</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-实现"><a href="#2-2-实现" class="headerlink" title="2.2 实现"></a>2.2 实现</h3><p>还是使用上面建的那张表</p>
+<p>sql<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//使用 主键(id)为条件,为行级锁</span><br><span class="line">&lt;select id=&quot;methodName&quot; resultType=&quot;string&quot; parameterType=&quot;int&quot;&gt;</span><br><span class="line">    select lock_method from lock_method_demo where id=#&#123;id&#125; for update</span><br><span class="line">&lt;/select&gt;</span><br><span class="line"></span><br><span class="line">&lt;update id=&quot;updateMethod&quot; &gt;</span><br><span class="line">    update lock_method_demo set lock_method=#&#123;method&#125; where id=#&#123;id&#125;</span><br><span class="line">&lt;/update&gt;</span><br></pre></td></tr></table></figure></p>
+<p>service<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">// Isolation.READ_COMMITTED 保证一个事务修改的数据提交后才能被另外一个事务读取。</span><br><span class="line">@Transactional(isolation = Isolation.READ_COMMITTED,rollbackFor = &#123;Exception.class&#125;)</span><br><span class="line">public String lockMethod2(int id)&#123;</span><br><span class="line"></span><br><span class="line">    System.out.println(&quot;[*]: 线程 1 准备读数据&quot;);</span><br><span class="line">    String method = mysqlLockTestMapper.methodName(id);</span><br><span class="line">    System.out.println(&quot;[*]: 线程 1 读取完数据&quot;);</span><br><span class="line">    try &#123;</span><br><span class="line">        Thread.sleep(5000);</span><br><span class="line"></span><br><span class="line">    &#125;catch (Exception e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    System.out.println(&quot;[*]: 线程 1 更新数据&quot;);</span><br><span class="line">    mysqlLockTestMapper.updateMethod(&quot;newName1&quot;, id);</span><br><span class="line">    return method;</span><br><span class="line">&#125;</span><br><span class="line">@Transactional(isolation = Isolation.READ_COMMITTED,rollbackFor = &#123;Exception.class&#125;)</span><br><span class="line">public String lockMethod3(int id)&#123;</span><br><span class="line">    System.out.println(&quot;[*]: 线程 2 准备读数据&quot;);</span><br><span class="line">    String method = mysqlLockTestMapper.methodName(id);</span><br><span class="line">    System.out.println(&quot;[*]: 线程 2 读取完数据&quot;);</span><br><span class="line">    try &#123;</span><br><span class="line">        Thread.sleep(3000);</span><br><span class="line"></span><br><span class="line">    &#125;catch (Exception e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    System.out.println(&quot;[*]: 线程 2 更新数据&quot;);</span><br><span class="line">    mysqlLockTestMapper.updateMethod(&quot;newName2&quot;, id);</span><br><span class="line">    return method;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class InitDid implements CommandLineRunner &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    MysqlLockTest1Service mysqlLockTest1Service;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run(String... strings) throws Exception &#123;</span><br><span class="line">         Thread thread1 = new Thread()&#123;</span><br><span class="line">             @Override</span><br><span class="line">             public void run() &#123;</span><br><span class="line">                 Long start  = System.currentTimeMillis();</span><br><span class="line">                 System.out.println(&quot;[*]: 线程1&quot; + &quot;: &quot; +  mysqlLockTest1Service.lockMethod2(1));</span><br><span class="line">                 Long end  = System.currentTimeMillis();</span><br><span class="line">                 System.out.println(&quot;[*]: 线程1耗时: &quot; + (end - start));</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;;</span><br><span class="line"></span><br><span class="line">        Thread thread2 = new Thread()&#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                Long start  = System.currentTimeMillis();</span><br><span class="line">                System.out.println(&quot;[*]: 线程2&quot; + &quot;: &quot; +  mysqlLockTest1Service.lockMethod3(1));</span><br><span class="line">                Long end  = System.currentTimeMillis();</span><br><span class="line">                System.out.println(&quot;[*]: 线程2耗时: &quot; + (end - start));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        thread1.start();</span><br><span class="line">        thread2.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果</p>
+<p>不加 for update时，结果如下，实际上数据库更新后值为newName1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[*]: 线程 2 准备读数据</span><br><span class="line">[*]: 线程 1 准备读数据</span><br><span class="line">[*]: 线程 2 读取完数据</span><br><span class="line">[*]: 线程 1 读取完数据</span><br><span class="line">[*]: 线程 2 更新数据</span><br><span class="line">[*]: 线程2: name1</span><br><span class="line">[*]: 线程2耗时: 4836</span><br><span class="line">[*]: 线程 1 更新数据</span><br><span class="line">[*]: 线程1: name1</span><br><span class="line">[*]: 线程1耗时: 6844</span><br></pre></td></tr></table></figure></p>
+<p>加for update<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[*]: 线程 2 准备读数据</span><br><span class="line">[*]: 线程 1 准备读数据</span><br><span class="line">[*]: 线程 1 读取完数据</span><br><span class="line">[*]: 线程 1 更新数据</span><br><span class="line">[*]: 线程 2 读取完数据</span><br><span class="line">[*]: 线程1: name1</span><br><span class="line">[*]: 线程1耗时: 6866</span><br><span class="line">[*]: 线程 2 更新数据</span><br><span class="line">[*]: 线程2: newName1</span><br><span class="line">[*]: 线程2耗时: 10975</span><br></pre></td></tr></table></figure></p>
+<p>因为使用了数据连接池，所以哪个线程先执行sql得看输出。</p>
+<p>如结果，线程1sql先执行，数据被加锁(线程2的sql等待)，线程1sql执行完后，线程2的sql再执行。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/01/06/java/others/mysql分布式锁实现/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/others/redis分布式锁" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/01/06/java/others/redis分布式锁/">redis分布式锁</a>
+    </h1>
+  
+
+        
+        <a href="/2020/01/06/java/others/redis分布式锁/" class="archive-article-date">
+  	<time datetime="2020-01-06T03:02:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>分布式系统中，某个功能只在一台机器上执行(即，只执行一次)，用分布式锁实现。</p>
+<h1 id="一-分布式锁"><a href="#一-分布式锁" class="headerlink" title="一.分布式锁"></a>一.分布式锁</h1><h2 id="1-什么是分布式锁"><a href="#1-什么是分布式锁" class="headerlink" title="1.什么是分布式锁"></a>1.什么是分布式锁</h2><p>分布式锁是控制分布式系统或不同系统之间共同访问共享资源的一种锁实现，如果不同的系统或同一个系统的不同主机之间共享了某个资源时，往往需要互斥来防止彼此干扰来保证一致性。</p>
+<h2 id="2-实现方式"><a href="#2-实现方式" class="headerlink" title="2.实现方式"></a>2.实现方式</h2><ul>
+<li><p>基于数据库</p>
+</li>
+<li><p>基于缓存(redis，memcached等)</p>
+</li>
+<li><p>基于Zookeeper</p>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/01/06/java/others/redis分布式锁/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/java几种队列一" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/27/java/java几种队列一/">java 几种队列，初步有个概念</a>
+    </h1>
+  
+
+        
+        <a href="/2019/12/27/java/java几种队列一/" class="archive-article-date">
+  	<time datetime="2019-12-27T02:31:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>参考:<a href="https://benjaminwhx.com/2018/05/05/%E8%AF%B4%E8%AF%B4%E9%98%9F%E5%88%97Queue/" target="_blank" rel="noopener">https://benjaminwhx.com/2018/05/05/%E8%AF%B4%E8%AF%B4%E9%98%9F%E5%88%97Queue/</a></p>
+<p><img src="http://67.216.218.49:8000/file/blogs/java/collection/queue.png" alt="queue"></p>
+<h2 id="1-Queue-和-Deque"><a href="#1-Queue-和-Deque" class="headerlink" title="1.Queue 和 Deque"></a>1.Queue 和 Deque</h2><ul>
+<li>Queue</li>
+</ul>
+<p>队列 先入先出 (FIFO)</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>说明</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>add</td>
+<td>增加一个元索</td>
+<td>如果队列已满，则抛出一个IIIegaISlabEepeplian异常</td>
+</tr>
+<tr>
+<td>remove</td>
+<td>移除并返回队列头部的元素</td>
+<td>如果队列为空，则抛出一个NoSuchElementException异常</td>
+</tr>
+<tr>
+<td>element</td>
+<td>返回队列头部的元素</td>
+<td>如果队列为空，则抛出一个NoSuchElementException异常</td>
+</tr>
+<tr>
+<td>offer</td>
+<td>添加一个元素并返回true</td>
+<td>如果队列已满，则返回false</td>
+</tr>
+<tr>
+<td>poll</td>
+<td>移除并返问队列头部的元素</td>
+<td>如果队列为空，则返回null</td>
+</tr>
+<tr>
+<td>peek</td>
+<td>返回队列头部的元素</td>
+<td>如果队列为空，则返回null</td>
+</tr>
+<tr>
+<td>put</td>
+<td>添加一个元素</td>
+<td>如果队列满，则阻塞</td>
+</tr>
+<tr>
+<td>take</td>
+<td>移除并返回队列头部的元素</td>
+<td>如果队列为空，则阻塞</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Deque</li>
+</ul>
+<p>双端队列 双端队列是指该队列两端的元素既能入队(offer)也能出队(poll),如果将Deque限制为只能从一端入队和出队，则可实现栈的数据结构</p>
+<table>
+<thead>
+<tr>
+<th>Queue方法</th>
+<th>对应Deque</th>
+<th>分割线</th>
+<th>堆栈</th>
+<th>对应Deque</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>add(e)</td>
+<td>addLast(e)</td>
+<td></td>
+<td>push(e)</td>
+<td>addFirst(e)</td>
+</tr>
+<tr>
+<td>offer(e)</td>
+<td>offerLast(e)</td>
+<td></td>
+<td>pop()</td>
+<td>removeFirst()</td>
+</tr>
+<tr>
+<td>remove</td>
+<td>removeFirst()</td>
+<td></td>
+<td>peek()</td>
+<td>peekFirst()</td>
+</tr>
+<tr>
+<td>poll</td>
+<td>pollFirst()</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>elment</td>
+<td>getFirst()</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>peek</td>
+<td>peekFirst()</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-BlockingQueue-和-Queue"><a href="#2-BlockingQueue-和-Queue" class="headerlink" title="2.BlockingQueue 和 Queue"></a>2.BlockingQueue 和 Queue</h2><p>BlockingQueue 取出时会判断队列是否空，添加时会判断队列是否满了。会造成阻塞。</p>
+<h2 id="3-Linked-和-Array"><a href="#3-Linked-和-Array" class="headerlink" title="3.Linked 和 Array"></a>3.Linked 和 Array</h2><p>链表和数组区别：<a href="https://blog.csdn.net/SNOW_wu/article/details/53172721" target="_blank" rel="noopener">https://blog.csdn.net/SNOW_wu/article/details/53172721</a></p>
+<p>主要考虑 增删改查的效率问题(时间)，和 存储(空间)问题。</p>
+<h2 id="4-SynchronousQueue"><a href="#4-SynchronousQueue" class="headerlink" title="4.SynchronousQueue"></a>4.SynchronousQueue</h2><p>因为SynchronousQueue没有存储功能，因此put和take会一直阻塞，直到有另一个线程已经准备好参与到交付过程中。仅当有足够多的消费者，并且总是有一个消费者准备好获取交付的工作时，才适合使用同步队列。</p>
+<h2 id="5-DelayQueue"><a href="#5-DelayQueue" class="headerlink" title="5.DelayQueue"></a>5.DelayQueue</h2><p>一个无界阻塞队列，只有在延迟期满时才能从中提取元素.</p>
+<p>使用例子:<a href="https://segmentfault.com/a/1190000011266078" target="_blank" rel="noopener">https://segmentfault.com/a/1190000011266078</a></p>
+<h2 id="6-PriorityQueue"><a href="#6-PriorityQueue" class="headerlink" title="6.PriorityQueue"></a>6.PriorityQueue</h2><p>PriorityQueue是不同于先进先出队列的另一种队列，特点是存入其中的每项数据都另外附有一个数值，表示这个像的优先级, 每次从队列中取出的是具有最高优先权的元素。优先队列常用堆来实现.</p>
+<h2 id="7-ConcurrentLinkedQueue"><a href="#7-ConcurrentLinkedQueue" class="headerlink" title="7.ConcurrentLinkedQueue"></a>7.ConcurrentLinkedQueue</h2><p>使用CPU原语Compare-And-Swap(CAS，汇编指令CMPXCHG) 操作来保证线程安全。一种轻量级锁。</p>
+<p>补充:在Java发展初期，java语言是不能够利用硬件提供的这些便利来提升系统的性能的。但随着java不断的发展，Java本地方法(JNI)的出现，使得java程序能够越过JVM直接调用本地方法。CAS也成为java.util.concurrent的基石，CAS实现了区别于synchronouse同步锁的一种乐观锁。</p>
+<h2 id="8-TransferQueue"><a href="#8-TransferQueue" class="headerlink" title="8.TransferQueue"></a>8.TransferQueue</h2><p>TransferQueue对比与BlockingQueue更强大的一点是，生产者会一直阻塞直到所添加到队列的元素被某一个消费者所消费（不仅仅是添加到队列里就完事）.</p>
+<p>TransferQueue 效率高。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/12/27/java/java几种队列一/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/base/CallBack回调了解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/25/java/base/CallBack回调了解/">java CallBack</a>
+    </h1>
+  
+
+        
+        <a href="/2019/12/25/java/base/CallBack回调了解/" class="archive-article-date">
+  	<time datetime="2019-12-25T07:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://www.cnblogs.com/xrq730/p/6424471.html" target="_blank" rel="noopener">https://www.cnblogs.com/xrq730/p/6424471.html</a></p>
+<h1 id="一-调用"><a href="#一-调用" class="headerlink" title="一.调用"></a>一.调用</h1><h2 id="1-同步调用"><a href="#1-同步调用" class="headerlink" title="1.同步调用"></a>1.同步调用</h2><p>同步调用是，类A的方法a()调用类B的方法b()，一直等待b()方法执行完毕，a()方法继续往下走。</p>
+<h2 id="2-异步调用"><a href="#2-异步调用" class="headerlink" title="2.异步调用"></a>2.异步调用</h2><p>类A的方法方法a()通过新起线程的方式调用类B的方法b()，代码接着直接往下执行，这样无论方法b()执行时间多久，都不会阻塞住方法a()的执行。但是这种方式，由于方法a()不等待方法b()的执行完成，在方法a()需要方法b()执行结果的情况下（视具体业务而定，有些业务比如启异步线程发个微信通知、刷新一个缓存这种就没必要），必须通过一定的方式对方法b()的执行结果进行监听。在Java中，可以使用Future+Callable的方式做到这一点。</p>
+<h2 id="3-回调"><a href="#3-回调" class="headerlink" title="3.回调"></a>3.回调</h2><p>回调也分为同步回调和异步回调(待续。。。。。)</p>
+<p>网上理解: 类A的a()方法调用类B的b()方法，类B的b()方法执行完毕主动调用类A的callback()方法</p>
+<p>我的理解: 回调就是，A的某个方法中，有一些操作需要在B中完成，B中操作完成后，需要将结果通知给A(不一定是通知，反正就是一个CallBack)，这个通知操作就是回调。</p>
+<h1 id="二-回调怎么实现"><a href="#二-回调怎么实现" class="headerlink" title="二.回调怎么实现"></a>二.回调怎么实现</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Java 回调机制 Callback</span><br><span class="line"> */</span><br><span class="line">// 回调接口,泛型参数</span><br><span class="line">interface CallBack&lt;T,E&gt;&#123;</span><br><span class="line">    T doSomeThing1();</span><br><span class="line">    void doSomeThing2(E e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// class A 实现回调接口</span><br><span class="line">class A&lt;T,E&gt; implements CallBack&lt;String,E&gt;&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public String doSomeThing1() &#123;</span><br><span class="line">        return &quot;接收到回调&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void doSomeThing2(E e) &#123;</span><br><span class="line">        System.out.println(&quot;接收到回调: &quot; + e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //调用B中的方法，将自己作为回调告诉B,B完成后应该向我返回结果</span><br><span class="line">    public void myFunc(B b)&#123;</span><br><span class="line">        b.excute(this);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//class B</span><br><span class="line">class B&lt;E&gt;&#123;</span><br><span class="line">    private E e;</span><br><span class="line">    //接收一个Callback,知道完成后，向谁汇报完成结果</span><br><span class="line">    public void excute(CallBack callBack)&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            //一些其它操作</span><br><span class="line">            Thread.sleep(3000);</span><br><span class="line">            //结果</span><br><span class="line">            e = (E)&quot;result1&quot;;</span><br><span class="line">        &#125;catch (Exception e1)&#123;</span><br><span class="line">            e1.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //进行回调操作,将结果告诉调用方</span><br><span class="line">        callBack.doSomeThing2(e);</span><br><span class="line"></span><br><span class="line">        //接下来的操作</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class CallBackDemo &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String [] args)&#123;</span><br><span class="line">        B b = new B();</span><br><span class="line">        A a = new A();</span><br><span class="line">        // 方式1，回调</span><br><span class="line">        a.myFunc(b);</span><br><span class="line"></span><br><span class="line">        //方式2，使用匿名函数</span><br><span class="line">        b.excute(new CallBack() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public Object doSomeThing1() &#123;</span><br><span class="line">                return null;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void doSomeThing2(Object o) &#123;</span><br><span class="line">                System.out.println(&quot;匿名函数实现回调&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/12/25/java/base/CallBack回调了解/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-tools/杂记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/13/tools/杂记/">一些零零碎碎</a>
+    </h1>
+  
+
+        
+        <a href="/2019/12/13/tools/杂记/" class="archive-article-date">
+  	<time datetime="2019-12-13T01:38:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>杂记的都是些零零碎碎待整理归纳的东西</p>
+<h4 id="1-一次性-kill所有符合条件的进程"><a href="#1-一次性-kill所有符合条件的进程" class="headerlink" title="1.一次性 kill所有符合条件的进程"></a>1.一次性 kill所有符合条件的进程</h4><p>ps -ef | grep xxx | cut -c 9-15 | xargs kill -9</p>
+<h4 id="2-Collections-copy-深拷贝"><a href="#2-Collections-copy-深拷贝" class="headerlink" title="2.Collections.copy 深拷贝"></a>2.Collections.copy 深拷贝</h4><p>List<string> remain = new ArrayList&lt;&gt;(Arrays.asList(new String[list.size()]));<br>Collections.copy(remain, list);</string></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">other</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/12/13/tools/杂记/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/spring/spring参数验证注解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/12/java/spring/spring参数验证注解/">spring参数验证注解</a>
+    </h1>
+  
+
+        
+        <a href="/2019/12/12/java/spring/spring参数验证注解/" class="archive-article-date">
+  	<time datetime="2019-12-12T06:51:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一-常用注解"><a href="#一-常用注解" class="headerlink" title="一.常用注解"></a>一.常用注解</h1><p>JSR提供的校验注解：  </p>
+<ul>
+<li>@Null   被注释的元素必须为 null    </li>
+<li>@NotNull    被注释的元素必须不为 null     </li>
+<li>@Min(value)     被注释的元素必须是一个数字，其值必须大于等于指定的最小值    </li>
+<li>@Max(value)     被注释的元素必须是一个数字，其值必须小于等于指定的最大值      </li>
+<li>@Size(max=, min=)   被注释的元素的大小必须在指定的范围内      </li>
+<li>@Pattern(regex=,flag=)  被注释的元素必须符合指定的正则表达式    </li>
+</ul>
+<p>Hibernate Validator提供的校验注解：</p>
+<ul>
+<li>@NotBlank(message =)   验证字符串非null，且长度必须大于0    </li>
+<li>@Email  被注释的元素必须是电子邮箱地址    </li>
+<li>@Length(min=,max=)  被注释的字符串的大小必须在指定的范围内    </li>
+<li>@NotEmpty   被注释的字符串的必须非空    </li>
+<li>@Range(min=,max=,message=)  被注释的元素必须在合适的范围内</li>
+</ul>
+<h1 id="二-例子"><a href="#二-例子" class="headerlink" title="二.例子"></a>二.例子</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class User &#123;</span><br><span class="line"></span><br><span class="line">    private String userId;</span><br><span class="line">    private String username;</span><br><span class="line">    @NotBlank(message = &quot;密码不能为空&quot;)</span><br><span class="line">    @Length(min = 6,max = 18,message = &quot;密码长度为6-18&quot;)</span><br><span class="line">    private String password;</span><br><span class="line">    private String userDesc;</span><br><span class="line">    private String avatarUrl;</span><br><span class="line">    @Pattern(regexp = &quot;^1(3|4|5|7|8)\\d&#123;9&#125;$&quot;,message = &quot;手机号码格式错误&quot;)</span><br><span class="line">    @NotBlank(message = &quot;手机号码不能为空&quot;)</span><br><span class="line">    private String mobile;</span><br><span class="line">    @Email(message = &quot;请输入正常的邮箱&quot;)</span><br><span class="line">    private String email;</span><br><span class="line">    private String cityCode;</span><br><span class="line">    private String areaCode;</span><br><span class="line">    private String userAddress;</span><br><span class="line">    private String zoneNum;</span><br><span class="line">    private String connectPhoneNum;</span><br><span class="line">    private String userBak1;</span><br><span class="line">    private String userBak2;</span><br><span class="line">    private String userBak3;</span><br><span class="line">    private String userStatus;</span><br><span class="line">    private String createTime;</span><br><span class="line">    private String updateTime;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="三-使用"><a href="#三-使用" class="headerlink" title="三.使用"></a>三.使用</h1><p>使用时要加上 @Valid 或 @Validated 注解</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@ApiOperation(value = &quot;注册&quot;,notes = &quot;注册&quot;)</span><br><span class="line"> @RequestMapping(value = &quot;register&quot;, method = RequestMethod.POST)</span><br><span class="line"> @ResponseBody</span><br><span class="line"> public Object register(@Valid @RequestBody User user)&#123;</span><br><span class="line"></span><br><span class="line">     return userService.register(user);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/12/12/java/spring/spring参数验证注解/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-wheels/java/GobalException" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/12/wheels/java/GobalException/">全局异常</a>
+    </h1>
+  
+
+        
+        <a href="/2019/12/12/wheels/java/GobalException/" class="archive-article-date">
+  	<time datetime="2019-12-12T06:46:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import com.bonc.zq.bui.configuration.myexception.*;</span><br><span class="line">import org.springframework.http.converter.HttpMessageNotReadableException;</span><br><span class="line">import org.springframework.validation.BindException;</span><br><span class="line">import org.springframework.web.bind.MethodArgumentNotValidException;</span><br><span class="line">import org.springframework.web.bind.annotation.ControllerAdvice;</span><br><span class="line">import org.springframework.web.bind.annotation.ExceptionHandler;</span><br><span class="line">import org.springframework.web.bind.annotation.ResponseBody;</span><br><span class="line">import org.springframework.web.multipart.MultipartException;</span><br><span class="line"></span><br><span class="line">import java.net.ConnectException;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 全局异常处理类，拦截@RequestMapping抛出的异常</span><br><span class="line"> * 只能是controller层抛出的</span><br><span class="line"> * 处理顺序为配置顺序 依次向下</span><br><span class="line"> * @author xxl</span><br><span class="line"> */</span><br><span class="line">@ControllerAdvice</span><br><span class="line">class GlobalExceptionHandler &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     *  拦截MyAuthException类的异常</span><br><span class="line">     *  认证异常</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(MyAuthException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(MyAuthException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.EXCEPTION_DATABASE,e.getErrMsg());</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     *  拦截BindException类的异常 @Valid注解触发</span><br><span class="line">     *  @NotBlank参数非空校验失败的异常</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(BindException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(BindException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.PARAMS_VALID_EXCEPTION,e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     *  拦截MethodArgumentNotValidException类的异常 @Valid注解触发</span><br><span class="line">     *  @NotBlank参数非空校验失败的异常</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(MethodArgumentNotValidException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(MethodArgumentNotValidException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.PARAMS_VALID_EXCEPTION,e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     *  拦截MyDatabaseException类的异常</span><br><span class="line">     *  数据库操作异常</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(MyDatabaseException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(MyDatabaseException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.EXCEPTION_DATABASE,e.getErrMsg());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     *  拦截MyFileException类的异常</span><br><span class="line">     *  文件操作异常</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(MyFileException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(MyFileException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.SERVER_EXCEPTION,e.getErrMsg());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     *  拦截MyHttpException类的异常</span><br><span class="line">     *  http操作异常</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(MyHttpException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(MyHttpException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.SERVER_EXCEPTION,e.getErrMsg());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 拦截MyParamsExxception</span><br><span class="line">     * 参数异常</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(MyParamsException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(MyParamsException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.EXCEPTION_DATABASE,e.getErrMsg());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 文件上传错误</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(MultipartException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(MultipartException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.SERVER_EXCEPTION,&quot;文件上传异常&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 空指针异常拦截</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(NullPointerException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(NullPointerException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return ResultMessage.error(StatusCode.SERVER_EXCEPTION, &quot;空指针异常&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * http异常拦截</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(HttpMessageNotReadableException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(HttpMessageNotReadableException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return ResultMessage.error(StatusCode.SERVER_EXCEPTION, &quot;http参数异常&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 连接异常拦截</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(ConnectException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(ConnectException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return ResultMessage.error(StatusCode.SERVER_EXCEPTION, &quot;net连接异常&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 其它异常,最后拦截，所有没匹配到得异常</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(Exception.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(Exception e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.SERVER_EXCEPTION,&quot;发生异常--&quot; + e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wheels</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/12/12/wheels/java/GobalException/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/流程引擎activiti入门前概念准备" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/28/java/流程引擎activiti入门前概念准备/">流程引擎activiti入门前概念准备</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/28/java/流程引擎activiti入门前概念准备/" class="archive-article-date">
+  	<time datetime="2019-11-28T07:26:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一-核心模块"><a href="#一-核心模块" class="headerlink" title="一.核心模块"></a>一.核心模块</h1><p>慢慢理解这块，需要什么功能，就在对应的块里面去找</p>
+<ul>
+<li><p>RepositoryService 流程仓库Service,可以管理流程仓库例如部署删除读取流程资源</p>
+</li>
+<li><p>RuntimeService 运行时Service可以处理所有运行状态的流程实例流程控制(开始,暂停,挂起等)</p>
+</li>
+<li><p>TaskService 任务Service用于管理、查询任务，例如签收、办理、指派等</p>
+</li>
+<li><p>IdentitiService 身份Service可以管理查询用户、组之间的关系</p>
+</li>
+<li><p>FormService 表单Service用于读取和流程、任务相关的表单数据</p>
+</li>
+<li><p>HistoryService 历史Service用于查询所有的历史数据</p>
+</li>
+<li><p>ManagementService 引擎管理Service，和具体业务无关，主要查询引擎配置，数据库作业</p>
+</li>
+<li><p>DynamicBpmService 动态bpm服务，帮助我们在不重新部署的情况下更改流程中的任何内容</p>
+</li>
+<li><p>BpmnModel bpmn模型对象，可以用于绘制流程图</p>
+</li>
+</ul>
+<h1 id="二-一个流程"><a href="#二-一个流程" class="headerlink" title="二.一个流程"></a>二.一个流程</h1><p>使用流程引擎的一般步骤通常是:</p>
+<p>画流程图，定义其中的变量和条件</p>
+<p>将流程图转为bpmn20.xml文件</p>
+<p>runtimeService.startXXXX() 开始一个流程</p>
+<p>TaskService.complete(leave.getTaskId(), vars); 完善一个流程的基本信息</p>
+<p>taskService.complete(leave.getTaskId(),vars); 根据条件，决定流程走向</p>
+<p>流程完成</p>
+<h1 id="三-查看流程"><a href="#三-查看流程" class="headerlink" title="三.查看流程"></a>三.查看流程</h1><p>查看流程信息</p>
+<p>查看流程信息(流程图形式)<br>processEngineConfiguration.getProcessDiagramGenerator().generateDiagram()</p>
+<h1 id="四-整体感受"><a href="#四-整体感受" class="headerlink" title="四.整体感受"></a>四.整体感受</h1><p><img src="http://67.216.218.49:8000/file/blogs/java/base/activiti.png" alt="activiti"></p>
+<p>activiti.cfg.xml 是流程的配置文件，在springboot中，已经不需要它了，直接用spring的配置。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/28/java/流程引擎activiti入门前概念准备/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-java/流程引擎activiti入门一" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -223,1077 +1157,9 @@
 
 
   
-    <article id="post-algorithm/位运算一" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/26/algorithm/位运算一/">位运算专题一</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/26/algorithm/位运算一/" class="archive-article-date">
-  	<time datetime="2019-11-26T03:39:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>位运算入门: <a href="https://www.jiuzhang.com/tutorial/bit-manipulation/73" target="_blank" rel="noopener">https://www.jiuzhang.com/tutorial/bit-manipulation/73</a></p>
-<h1 id="一-位运算基础"><a href="#一-位运算基础" class="headerlink" title="一.位运算基础"></a>一.位运算基础</h1><h2 id="1-原码、反码、补码"><a href="#1-原码、反码、补码" class="headerlink" title="1.原码、反码、补码"></a>1.原码、反码、补码</h2><p>首先要知道一点，计算机中整数都是用补码存储的。</p>
-<h5 id="计算机为什么要使用补码"><a href="#计算机为什么要使用补码" class="headerlink" title="计算机为什么要使用补码"></a>计算机为什么要使用补码</h5><p>因为减一个数等于加上它的补数<br><a href="https://blog.csdn.net/leonliu06/article/details/78685197" target="_blank" rel="noopener">https://blog.csdn.net/leonliu06/article/details/78685197</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//在十进制中  补数为 x + 补数 = 0</span><br><span class="line">5 - 3 = 5 + (-3)</span><br><span class="line">//在二进制中</span><br><span class="line">0101 - 3 = 0101 - (0011)</span><br><span class="line">         = 0101 + (1100 + 1) //负数的补码等于反码 + 1</span><br><span class="line">         = 0010 = 2</span><br></pre></td></tr></table></figure></p>
-<p>而在计算机中，算数逻辑单元ALU,计算加法最简单，使用补码，可以忽略负数的符号影响</p>
-<h5 id="三码与真值转换"><a href="#三码与真值转换" class="headerlink" title="三码与真值转换"></a>三码与真值转换</h5><ul>
-<li>整数</li>
-</ul>
-<p>整数的原码，反码，补码都一样</p>
-<ul>
-<li>负数</li>
-</ul>
-<p>真值转码：<br><br>反码为除符号位外，每位取反<br><br>补码为，反码加一</p>
-<p>码转真值:<br><br>补码取反，再加1</p>
-<h2 id="2-位运算"><a href="#2-位运算" class="headerlink" title="2.位运算"></a>2.位运算</h2><ul>
-<li>&amp; 与</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 &amp; 1 = 1</span><br><span class="line">1 &amp; 0 = 0</span><br><span class="line">0 &amp; 0 = 0</span><br></pre></td></tr></table></figure>
-<ul>
-<li>| 或</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 | 1 = 1</span><br><span class="line">1 | 0 = 1</span><br><span class="line">0 | 0 = 0</span><br></pre></td></tr></table></figure>
-<ul>
-<li>~ 非</li>
-</ul>
-<p>非操作为取反操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A =   (1)10 = (00000000000000000000000000000001)2</span><br><span class="line">~A = ~ (1)10 = (11111111111111111111111111111110)2 = (-2)10</span><br></pre></td></tr></table></figure></p>
-<p>~1 值为 -2</p>
-<p>解释下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">10000000000000000000000000000001  // -1源码表示</span><br><span class="line">11111111111111111111111111111110  // -1反码</span><br><span class="line">11111111111111111111111111111111  // -1补码</span><br><span class="line"></span><br><span class="line">~A = ~(1)10 = ~(00000000000000000000000000000001)2</span><br><span class="line">   = ~(11111111111111111111111111111110)  // 1的非运算结果</span><br><span class="line">//转化为真值  取反 + 1</span><br><span class="line">10000000000000000000000000000001  //取反</span><br><span class="line">10000000000000000000000000000010  // +1 值为-2</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>^ 异或</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 ^ 1 = 0</span><br><span class="line">1 ^ 0 = 1</span><br><span class="line">0 ^ 0 = 0</span><br></pre></td></tr></table></figure>
-<ul>
-<li>>&gt;     >&gt;&gt; 右移</li>
-</ul>
-<p>带符号右移 &gt;&gt;</p>
-<p>将A的二进制表示的每一位向右移B位，右边超出的位截掉，左边不足的位补符号位的数（比如负数符号位是1则补充1，正数符号位是0则补充0），所以对于算术右移，原来是负数的，结果还是负数，原来是正数的结果还是正数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A = (-127)10 &gt;&gt; 2 = (11111111111111111111111110000001)2 &gt;&gt; 2 = (11111111111111111111111111100000)2 = (-32)10</span><br></pre></td></tr></table></figure></p>
-<p>逻辑右移 &gt;&gt;&gt;</p>
-<p>将A的二进制表示的每一位向右移B位，右边超出的位截掉，左边不足的位补0。所以对于逻辑右移，结果将会是一个正数</p>
-<p>举个例子对于十进制数-127, 已知(-127)10 = (11111111111111111111111110000001)2 , 因为是负数，所以最高位上是1</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A = (-127)10 &gt;&gt; 2 = (11111111111111111111111110000001)2 &gt;&gt; 2 = (00111111111111111111111111100000)2 = (1073741792)10</span><br></pre></td></tr></table></figure>
-<ul>
-<li>&lt;&lt;  左移</li>
-</ul>
-<p>将二进制表示的整体向左移 n位，左边超出 32 位的截掉（int类型为32位），右边不足的位补 0<br>比如对于10进制数12，他的二进制表示下，是1100，那么将其左移 2 位，得到的结果是 110000。</p>
-<p>可以发现，在不溢出的情况下，左移n位，相当于 乘了 2的n次方<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A &lt;&lt; B = A * 2^B</span><br></pre></td></tr></table></figure></p>
-<h1 id="为什么要用位运算"><a href="#为什么要用位运算" class="headerlink" title="为什么要用位运算"></a>为什么要用位运算</h1><p>位运算速度快</p>
-<h1 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用"></a>怎么用</h1>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/26/algorithm/位运算一/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-base/工厂模式-抽象工厂模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/13/base/工厂模式-抽象工厂模式/">设计模式--工厂模式三(抽象工厂模式)</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/13/base/工厂模式-抽象工厂模式/" class="archive-article-date">
-  	<time datetime="2019-11-13T05:48:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1-抽象工厂模式"><a href="#1-抽象工厂模式" class="headerlink" title="1.抽象工厂模式"></a>1.抽象工厂模式</h2><p>工厂方法模式在大多数情况下已经可以了，但是它每个工厂只能创建一种商品，在某些情况下显得不够用。</p>
-<p>抽象工厂模式，提供一个创建一系列相关对象的接口，而无需指定它们具体的类。我的理解就是，将product再多了一层抽象。每个特定工厂，生产特定类型的product(某个接口或抽象类)。</p>
-<p>实际上多了个产品族的概念。</p>
-<p>同时，工厂也变成了超级工厂，这个超级工厂负责创建其它工厂。</p>
-<p>每个产品族可以包括多种产品。<br><img src="http://67.216.218.49:8000/file/blogs/base/abstract_factory_01.png" alt="abstract_factory"></p>
-<h2 id="2-角色"><a href="#2-角色" class="headerlink" title="2.角色"></a>2.角色</h2><ul>
-<li>factory</li>
-</ul>
-<p>抽象工厂类(超级工厂)。</p>
-<ul>
-<li>concreteFactory</li>
-</ul>
-<p>具体的某种工厂</p>
-<ul>
-<li>product</li>
-</ul>
-<p>抽象产品。</p>
-<ul>
-<li>productFamily</li>
-</ul>
-<p>抽象的产品族</p>
-<ul>
-<li>concerteProduct</li>
-</ul>
-<p>具体的产品</p>
-<h2 id="3-例子"><a href="#3-例子" class="headerlink" title="3.例子"></a>3.例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//超级工厂</span><br><span class="line">interface Factory&#123;</span><br><span class="line"></span><br><span class="line">     ProductFamily1 getProductFamily1(int type);</span><br><span class="line">     ProductFamily2 getProductFamily2(int type);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 负责产品族1的工厂</span><br><span class="line">class Factory1 implements Factory&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public ProductFamily1 getProductFamily1(int type) &#123;</span><br><span class="line">        if(type == 1)&#123;</span><br><span class="line">            return new Product1();</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            return new Product2();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public ProductFamily2 getProductFamily2(int type) &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//负责产品族2的工厂</span><br><span class="line">class Factory2 implements Factory&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public ProductFamily1 getProductFamily1(int type) &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public ProductFamily2 getProductFamily2(int type) &#123;</span><br><span class="line">        switch (type)&#123;</span><br><span class="line">            case 1 : return new Product3();</span><br><span class="line">            case 2 : return new Product4();</span><br><span class="line">            default: return null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//负责选择具体工厂，(不一定需要?)</span><br><span class="line">class SuperFactory&#123;</span><br><span class="line">    public Factory getFactory(int type)&#123;</span><br><span class="line">        switch (type)&#123;</span><br><span class="line">            case 1 : return new Factory1();</span><br><span class="line">            case 2 : return new Factory2();</span><br><span class="line">            default: return null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//产品族1</span><br><span class="line">interface ProductFamily1&#123;</span><br><span class="line">    void print();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Product1 implements ProductFamily1&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void print() &#123;</span><br><span class="line">        System.out.println(&quot;Product1&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Product2 implements ProductFamily1&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void print() &#123;</span><br><span class="line">        System.out.println(&quot;Product2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//产品族2</span><br><span class="line">interface ProductFamily2&#123;</span><br><span class="line">    void draw();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Product3 implements ProductFamily2&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void draw() &#123;</span><br><span class="line">        System.out.println(&quot;Product3&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Product4 implements ProductFamily2&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void draw() &#123;</span><br><span class="line">        System.out.println(&quot;Product4&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//开始生产产品了</span><br><span class="line">public class MyAbstractFactoryDemo &#123;</span><br><span class="line"></span><br><span class="line">    public static void main (String[] args)&#123;</span><br><span class="line">        //要生产产品1</span><br><span class="line">        //需要先得到工厂1</span><br><span class="line">        Factory factory1 = new SuperFactory().getFactory(1);</span><br><span class="line">        //生产</span><br><span class="line">        ProductFamily1 product1 = factory1.getProductFamily1(1);</span><br><span class="line">        product1.print();</span><br><span class="line"></span><br><span class="line">        //生产产品3</span><br><span class="line">        Factory factory2 = new SuperFactory().getFactory(2);</span><br><span class="line">        ProductFamily2 product3 = factory2.getProductFamily2(1);</span><br><span class="line">        product3.draw();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="4-理解"><a href="#4-理解" class="headerlink" title="4.理解"></a>4.理解</h2><p>写完一遍，清晰多了。</p>
-<p>抽象工厂模式，和工厂方法模式相比，感觉就是一个加大版的超级工厂。可以生产出不同的工厂，不同的工厂再去生产不同的具体产品族。</p>
-<p>而工厂方法模式，就是每个工厂生产其自己不同产品。</p>
-<p>简而言之就是 工厂方法模式的工厂生产产品，抽象工厂方法模式的工厂生产产品族。</p>
-<p>在生产产品族的时候，也有判断，所以也没遵从开闭原则。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/13/base/工厂模式-抽象工厂模式/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-base/工厂模式-工厂方法模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/13/base/工厂模式-工厂方法模式/">设计模式--工厂模式二(工厂方法模式)</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/13/base/工厂模式-工厂方法模式/" class="archive-article-date">
-  	<time datetime="2019-11-13T02:56:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1-工厂方法模式"><a href="#1-工厂方法模式" class="headerlink" title="1.工厂方法模式"></a>1.工厂方法模式</h2><p>因为简单工厂模式的缺点，如不能太复杂的条件，违反开放-关闭原则(对拓展开放，对修改关闭)等，<br>所以工厂方法模式肯定会避免这些问题。</p>
-<p>工厂方法模式将工厂抽象，提供一个公共生产方法(接口或抽象类)，每种产品有自己的专属生产工厂。<br>这样，当新添加一种产品时，直接新建一个具体的工厂和产品就行，不用改其它代码。对拓展开放，对修改关闭，<br>符合开放-关闭原则。</p>
-<h2 id="2-角色"><a href="#2-角色" class="headerlink" title="2.角色"></a>2.角色</h2><ul>
-<li>抽象工厂</li>
-</ul>
-<p>工厂的父类或接口。</p>
-<ul>
-<li>具体工厂</li>
-</ul>
-<p>具体的每个工厂，不同工厂生产不同产品。</p>
-<ul>
-<li>抽象产品</li>
-</ul>
-<p>产品的父类。</p>
-<ul>
-<li>具体产品</li>
-</ul>
-<p>具体的每种产品。</p>
-<h2 id="3-例子"><a href="#3-例子" class="headerlink" title="3.例子"></a>3.例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">//产品的抽象接口</span><br><span class="line">interface MyProduct &#123;</span><br><span class="line">    void print();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//不同的产品</span><br><span class="line">class ProDuct1 implements MyProduct&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void print()&#123;</span><br><span class="line">        System.out.println(&quot;product1&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class ProDuct2 implements MyProduct&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void print()&#123;</span><br><span class="line">        System.out.println(&quot;product2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//抽象工厂</span><br><span class="line">interface MyFactory&#123;</span><br><span class="line"></span><br><span class="line">    void create();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//具体的生产工厂</span><br><span class="line">class MyFactory1 implements  MyFactory&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void create() &#123;</span><br><span class="line">        new ProDuct1().print();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class MyFactory2 implements  MyFactory&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void create() &#123;</span><br><span class="line">        new ProDuct2().print();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class MyFactoryDemo&#123;</span><br><span class="line">    public static void main(String... args)&#123;</span><br><span class="line">        //根据不同需求(参数)得到不同产品</span><br><span class="line">        MyFactory factory1 = new MyFactory1();</span><br><span class="line">        factory1.create();</span><br><span class="line">        MyFactory factory2 = new MyFactory2();</span><br><span class="line">        factory2.create();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="4-理解"><a href="#4-理解" class="headerlink" title="4.理解"></a>4.理解</h2><p>工厂方法模式和简单工厂模式的区别就是，工厂方法模式将工厂也进行了抽象，每种工厂只生产特定的产品。</p>
-<p>当然，每个工厂只能创建特定产品，有时候还是会觉得不够方便(我觉得已经很好用了)。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/13/base/工厂模式-工厂方法模式/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-base/工厂模式-简单工厂模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/11/base/工厂模式-简单工厂模式/">设计模式--工厂模式一(简单工厂模式)</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/11/base/工厂模式-简单工厂模式/" class="archive-article-date">
-  	<time datetime="2019-11-11T12:51:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>做开发已经一年了，是时候进阶了，就从设计模式开始吧。<br></p>
-<p>说在前面，我理解的设计模式，就是一种种思想，是比较抽象的，与语言无关。设计模式没有好坏之分，只有适用场景之分。<br><br>每种设计模式，都有其蕴涵的思想在其内。不是真的理解了这种思想，是很难真正掌握设计模式的。</p>
-<h2 id="1-什么是工厂模式"><a href="#1-什么是工厂模式" class="headerlink" title="1.什么是工厂模式"></a>1.什么是工厂模式</h2><p>这个问题有点大而全，暂时还不能很好的总结出来。<br></p>
-<p>我现在一个很粗浅的理解就是，工厂模式，就是定义一个，或者不同的多个工厂，每当有需要的时候，直接生产出满足不同要求的产品(实现类)。</p>
-<h2 id="2-工厂模式的分类"><a href="#2-工厂模式的分类" class="headerlink" title="2.工厂模式的分类"></a>2.工厂模式的分类</h2><ul>
-<li><p>简单工厂模式</p>
-</li>
-<li><p>工厂方法模式</p>
-</li>
-<li><p>抽象工厂模式</p>
-</li>
-</ul>
-<h2 id="3-简单工厂模式"><a href="#3-简单工厂模式" class="headerlink" title="3.简单工厂模式"></a>3.简单工厂模式</h2><h3 id="3-1-含义"><a href="#3-1-含义" class="headerlink" title="3.1 含义"></a>3.1 含义</h3><p>定义一个工厂类，根据传入参数不同，返回不同结果。</p>
-<p>简单工厂模式的关键在于，当你需要什么，只需要传入相应的参数，就可以得到对应的创建的对象，而完全不用管工厂的具体创建细节。</p>
-<h3 id="3-2-实现方式"><a href="#3-2-实现方式" class="headerlink" title="3.2 实现方式"></a>3.2 实现方式</h3><p>简单工厂模式，一般有三个角色。</p>
-<ul>
-<li>Factory</li>
-</ul>
-<p>工厂，这是简单工厂模式中的关键类，封装了产品的具体生产过程。</p>
-<ul>
-<li>Product</li>
-</ul>
-<p>产品的父类。如，水果。</p>
-<ul>
-<li>ConcerteProduct</li>
-</ul>
-<p>具体的生产出的产品。如，西瓜。</p>
-<h3 id="3-3-具体例子"><a href="#3-3-具体例子" class="headerlink" title="3.3 具体例子"></a>3.3 具体例子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo;</span><br><span class="line"></span><br><span class="line">//产品的抽象接口</span><br><span class="line">interface MyProduct &#123;</span><br><span class="line">    void print();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//不同的产品</span><br><span class="line">class ProDuct1 implements MyProduct&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void print()&#123;</span><br><span class="line">        System.out.println(&quot;product1&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class ProDuct2 implements MyProduct&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void print()&#123;</span><br><span class="line">        System.out.println(&quot;product2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//工厂类,具体生产过程</span><br><span class="line">class MyFactory &#123;</span><br><span class="line"></span><br><span class="line">    public static void create(String s)&#123;</span><br><span class="line">        switch (s)&#123;</span><br><span class="line">            case &quot;1&quot;:</span><br><span class="line">                new ProDuct1().print();break;</span><br><span class="line">            case &quot;2&quot;:</span><br><span class="line">                new ProDuct2().print();break;</span><br><span class="line">             default:</span><br><span class="line">                 System.out.println(&quot;无此产品！&quot;); break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class MyFactoryDemo&#123;</span><br><span class="line">    public static void main(String... args)&#123;</span><br><span class="line">        //根据不同需求(参数)得到不同产品</span><br><span class="line">        MyFactory.create(&quot;1&quot;);</span><br><span class="line">        MyFactory.create(&quot;2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="3-4-理解"><a href="#3-4-理解" class="headerlink" title="3.4 理解"></a>3.4 理解</h3><p>像设计模式这些，都是比较抽象的思想，思想层面是高于代码语言的，所以不管用什么实现，只要满足这个思想就行。<br><br>我看其它blog中，简单工厂方法都用的静态方法，但是我觉得应该是非必须的，原因如上.</p>
-<p>简单工厂模式，因为具体的生产过程肿有条件判断，所以一般不太适用与有很多条件的情况下。</p>
-<p>为什么要用？<br><br>简单工厂模式的好处是，可以隐藏具体的实现过程，但缺点是新增一个功能时，却还要改代码(switch).</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/11/base/工厂模式-简单工厂模式/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-前端相关/CSS中一些重要概念" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/06/前端相关/CSS中一些重要概念/">CSS 中一些重要知识点</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/06/前端相关/CSS中一些重要概念/" class="archive-article-date">
-  	<time datetime="2019-11-06T07:23:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>为了能马马虎虎的写个页面，学习一下CSS.</p>
-<p>不是专业的，所以写的没逻辑，也没主次，用来自己看看。</p>
-<p>参考：<a href="https://geekplux.com/2014/04/25/several_core_concepts_of_css/" target="_blank" rel="noopener">https://geekplux.com/2014/04/25/several_core_concepts_of_css/</a></p>
-<h1 id="一-盒模型"><a href="#一-盒模型" class="headerlink" title="一.盒模型"></a>一.盒模型</h1><h2 id="1-盒"><a href="#1-盒" class="headerlink" title="1.盒"></a>1.盒</h2><p><img src="http://67.216.218.49:8000/file/blogs/others/css-box-model.png" alt="box"></p>
-<p>如图: 盒模型由 content -&gt; padding -&gt; border -&gt; margin 四部分组成。</p>
-<p>块 和 行内元素 都是包含在盒中的。</p>
-<h2 id="2-块元素"><a href="#2-块元素" class="headerlink" title="2.块元素"></a>2.块元素</h2><p>每个块级元素默认占一行高度，一行内添加一个块级元素后无法一般无法添加其他元素（float浮动后除外）。两个块级元素连续编辑时，会在页面自动换行显示。块级元素一般可嵌套块级元素或行内元素；</p>
-<h2 id="3-行内元素"><a href="#3-行内元素" class="headerlink" title="3.行内元素"></a>3.行内元素</h2><p>和其他元素都在一行上。</p>
-<p>对行内元素，需要注意如下：<br></p>
-<p>设置宽度width 无效。<br><br>设置高度height 无效，可以通过line-height来设置。<br><br>设置margin 只有左右margin有效，上下无效。<br><br>设置padding只有左右padding有效，上下则无效。注意元素范围是增大了，但是对元素周围的内容是没影响的。</p>
-<h2 id="4-位置问题"><a href="#4-位置问题" class="headerlink" title="4.位置问题"></a>4.位置问题</h2><p> position属性：</p>
-<table>
-<thead>
-<tr>
-<th>值</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>absolute</td>
-<td>生成绝对定位的元素，相对于static定位以外的第一个父元素进行定位。元素的位置通过left, right, top, bottom进行规定</td>
-</tr>
-<tr>
-<td>fixed</td>
-<td>生成绝对定位的元素，相对于浏览器窗口进行定位。元素的位置通过left, right, top, bottom进行规定</td>
-</tr>
-<tr>
-<td>relative</td>
-<td>生成相对定位的元素，相对于其正常位置定位。元素的位置通过left, right, top, bottom进行规定</td>
-</tr>
-<tr>
-<td>static</td>
-<td>默认值，忽略 top, bottom, left, right和z-index</td>
-</tr>
-<tr>
-<td>inherit</td>
-<td>从父元素继承该属性的值</td>
-</tr>
-</tbody>
-</table>
-<h2 id="5-float"><a href="#5-float" class="headerlink" title="5.float"></a>5.float</h2><p>自己还一知半解。</p>
-<p>参考人家的：<a href="https://www.jianshu.com/p/07eb19957991" target="_blank" rel="noopener">https://www.jianshu.com/p/07eb19957991</a></p>
-<h1 id="二-选择器"><a href="#二-选择器" class="headerlink" title="二.选择器"></a>二.选择器</h1><p>太多了记不住，选择几个感觉够用的。来自w3school.</p>
-<p>找时间了解一下伪元素。</p>
-<table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>例子</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>.class</td>
-<td>.intro</td>
-<td>选择 class=”intro” 的所有元素。</td>
-</tr>
-<tr>
-<td>#id</td>
-<td>#firstname</td>
-<td>选择 id=”firstname” 的所有元素。</td>
-</tr>
-<tr>
-<td>*</td>
-<td>*</td>
-<td>选择所有元素。</td>
-</tr>
-<tr>
-<td>element</td>
-<td>p</td>
-<td>选择所有 \&lt;p> 元素。</td>
-</tr>
-<tr>
-<td>element,element</td>
-<td>div,p</td>
-<td>选择所有 \&lt;div> 元素和所有 \&lt;p> 元素。</td>
-</tr>
-<tr>
-<td>element element</td>
-<td>div p</td>
-<td>选择 \&lt;div> 元素内部的所有 \&lt;p> 元素。</td>
-</tr>
-<tr>
-<td>element&gt;element</td>
-<td>div&gt;p</td>
-<td>选择父元素为 \&lt;div> 元素的所有 \&lt;p> 元素。</td>
-</tr>
-<tr>
-<td>element+element</td>
-<td>div+p</td>
-<td>选择紧接在 \&lt;div> 元素之后的所有 \&lt;p> 元素。</td>
-</tr>
-<tr>
-<td>[attribute]</td>
-<td>[target]</td>
-<td>选择带有 target 属性所有元素。</td>
-</tr>
-<tr>
-<td>[attribute=value]</td>
-<td>[target=_blank]</td>
-<td>选择 target=”_blank” 的所有元素。</td>
-</tr>
-<tr>
-<td>[attribute~=value]</td>
-<td>[title~=flower]</td>
-<td>选择 title 属性包含单词 “flower” 的所有元素。</td>
-</tr>
-<tr>
-<td>[attribute\</td>
-<td>=value]</td>
-<td>[lang\</td>
-<td>=en]</td>
-<td>选择 lang 属性值以 “en” 开头的所有元素。</td>
-</tr>
-<tr>
-<td>:link</td>
-<td>a:link</td>
-<td>选择所有未被访问的链接。</td>
-</tr>
-<tr>
-<td>:visited</td>
-<td>a:visited</td>
-<td>选择所有已被访问的链接。</td>
-</tr>
-<tr>
-<td>:active</td>
-<td>a:active</td>
-<td>选择活动链接。</td>
-</tr>
-<tr>
-<td>:hover</td>
-<td>a:hover</td>
-<td>选择鼠标指针位于其上的链接。</td>
-</tr>
-<tr>
-<td>:focus</td>
-<td>input:focus</td>
-<td>选择获得焦点的 input 元素。</td>
-</tr>
-<tr>
-<td>:before</td>
-<td>p:before</td>
-<td>在每个 &lt;\p> 元素的内容之前插入内容。</td>
-</tr>
-<tr>
-<td>:after</td>
-<td>p:after</td>
-<td>在每个 &lt;\p> 元素的内容之后插入内容.</td>
-</tr>
-</tbody>
-</table>
-<h1 id="三-重要属性"><a href="#三-重要属性" class="headerlink" title="三.重要属性"></a>三.重要属性</h1><p>原文:<a href="https://www.html.cn/archives/558" target="_blank" rel="noopener">https://www.html.cn/archives/558</a></p>
-<h1 id="四-伪元素和伪类"><a href="#四-伪元素和伪类" class="headerlink" title="四.伪元素和伪类"></a>四.伪元素和伪类</h1><p><a href="https://segmentfault.com/a/1190000000484493" target="_blank" rel="noopener">https://segmentfault.com/a/1190000000484493</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">前端</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/06/前端相关/CSS中一些重要概念/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-一次sql慢查询" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/06/一次sql慢查询/">一次sql慢查询</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/06/一次sql慢查询/" class="archive-article-date">
-  	<time datetime="2019-11-06T06:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天发现一个页面，打开后卡死，发现是sql执行时间太长导致。</p>
-<h2 id="1-原sql"><a href="#1-原sql" class="headerlink" title="1.原sql"></a>1.原sql</h2><details><br><summary> 原sql </summary><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">&lt;e:case value=&quot;getParentNodes&quot;&gt;</span><br><span class="line">    &lt;e:description&gt;获取满足条件的所有父节点&lt;/e:description&gt;</span><br><span class="line">    &lt;e:q4l var=&quot;parentNodeList&quot;&gt;</span><br><span class="line">        select</span><br><span class="line">            t.CUSTOMER_NO</span><br><span class="line">        from (</span><br><span class="line">            select</span><br><span class="line">                t1.customer_no,t1.parent_no</span><br><span class="line">            from</span><br><span class="line">                $&#123;gis_user&#125;.T_CUSTOMER_BASE_INFO t1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t2 on T1.customer_no=T2.CUSTOM_NO AND T2.TYPE=1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t3 on T1.customer_no=T3.CUSTOM_NO AND T3.TYPE=2</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t4 on T1.customer_no=T4.CUSTOM_NO AND T3.TYPE=3</span><br><span class="line">            LEFT JOIN V_CMCODE_BRANCH v1 on t1.substation_code = v1.branch_no</span><br><span class="line">            LEFT JOIN V_CMCODE_AREA v2 on v1.area_no = v2.area_no</span><br><span class="line">            LEFT JOIN V_CMCODE_CITY v3 on v1.city_no = v3.city_no</span><br><span class="line">            where 1 = 1</span><br><span class="line">                and customer_no in (</span><br><span class="line">                    select</span><br><span class="line">                        t1.customer_no</span><br><span class="line">                    from</span><br><span class="line">                    $&#123;gis_user&#125;.T_CUSTOMER_BASE_INFO t1</span><br><span class="line">                    LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t2 on T1.customer_no=T2.CUSTOM_NO AND T2.TYPE=1</span><br><span class="line">                    LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t3 on T1.customer_no=T3.CUSTOM_NO AND T3.TYPE=2</span><br><span class="line">                    LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t4 on T1.customer_no=T4.CUSTOM_NO AND T3.TYPE=3</span><br><span class="line">                    LEFT JOIN V_CMCODE_BRANCH v1 on t1.substation_code = v1.branch_no</span><br><span class="line">                    LEFT JOIN V_CMCODE_AREA v2 on v1.area_no = v2.area_no</span><br><span class="line">                    LEFT JOIN V_CMCODE_CITY v3 on v1.city_no = v3.city_no</span><br><span class="line">                    where 1 = 1</span><br><span class="line">                    &lt;e:if condition=&quot;$&#123;sessionScope.UserInfo.AREA_NO !=&apos;-1&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=&apos;&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=null&#125;&quot;&gt;</span><br><span class="line">                        AND v2.AREA_NO = &apos;$&#123;sessionScope.UserInfo.AREA_NO&#125;&apos;</span><br><span class="line">                    &lt;/e:if&gt;</span><br><span class="line">                    //其它条件</span><br><span class="line">                )</span><br><span class="line">            &lt;e:if condition=&quot;$&#123;sessionScope.UserInfo.AREA_NO !=&apos;-1&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=&apos;&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=null&#125;&quot;&gt;</span><br><span class="line">                AND v2.AREA_NO = &apos;$&#123;sessionScope.UserInfo.AREA_NO&#125;&apos;</span><br><span class="line">            &lt;/e:if&gt;</span><br><span class="line">            //其它条件</span><br><span class="line">            ) t</span><br><span class="line">        where t.PARENT_NO not in (</span><br><span class="line">            select</span><br><span class="line">                t1.customer_no</span><br><span class="line">            from</span><br><span class="line">            $&#123;gis_user&#125;.T_CUSTOMER_BASE_INFO t1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t2 on T1.customer_no=T2.CUSTOM_NO AND T2.TYPE=1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t3 on T1.customer_no=T3.CUSTOM_NO AND T3.TYPE=2</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t4 on T1.customer_no=T4.CUSTOM_NO AND T3.TYPE=3</span><br><span class="line">            LEFT JOIN V_CMCODE_BRANCH v1 on t1.substation_code = v1.branch_no</span><br><span class="line">            LEFT JOIN V_CMCODE_AREA v2 on v1.area_no = v2.area_no</span><br><span class="line">            LEFT JOIN V_CMCODE_CITY v3 on v1.city_no = v3.city_no</span><br><span class="line">            where 1 = 1</span><br><span class="line">            &lt;e:if condition=&quot;$&#123;!empty(param.customerType) &amp;&amp; param.customerType ne &apos;&apos;&#125;&quot;&gt;</span><br><span class="line">                and C_TYPE = &apos;$&#123;param.customerType&#125;&apos;</span><br><span class="line">            &lt;/e:if&gt;</span><br><span class="line">            //其它条件</span><br><span class="line">         )</span><br><span class="line"></span><br><span class="line">    &lt;/e:q4l&gt;$&#123;e:java2json(parentNodeList.list)&#125;</span><br><span class="line">&lt;/e:case&gt;</span><br></pre></td></tr></table></figure><br><br></details>
-
-<p>简化下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">select</span><br><span class="line">  t.a</span><br><span class="line">from ( select xxx from xx t1 where t1.a in (xxx) ) t</span><br><span class="line">where t.b not in (select xxx from xxx)</span><br></pre></td></tr></table></figure>
-<h2 id="2-原因"><a href="#2-原因" class="headerlink" title="2.原因"></a>2.原因</h2><p>in 和 not in 操作效率低， 非常耗时，在数据量大点时，页面直接一直等待它.</p>
-<h2 id="3-解决"><a href="#3-解决" class="headerlink" title="3.解决"></a>3.解决</h2><p>参考:<a href="https://www.cnblogs.com/phoenixfling/archive/2012/05/09/2492006.html" target="_blank" rel="noopener">https://www.cnblogs.com/phoenixfling/archive/2012/05/09/2492006.html</a></p>
-<p>这里使用了第二种</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;e:case value=&quot;getParentNodes&quot;&gt;</span><br><span class="line">        &lt;e:description&gt;获取满足条件的所有父节点&lt;/e:description&gt;</span><br><span class="line">        &lt;e:q4l var=&quot;parentNodeList&quot;&gt;</span><br><span class="line"></span><br><span class="line">            select</span><br><span class="line">            t1.customer_no</span><br><span class="line">            from</span><br><span class="line">            $&#123;gis_user&#125;.T_CUSTOMER_BASE_INFO t1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t2 on T1.customer_no=T2.CUSTOM_NO AND T2.TYPE=1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t3 on T1.customer_no=T3.CUSTOM_NO AND T3.TYPE=2</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t4 on T1.customer_no=T4.CUSTOM_NO AND T3.TYPE=3</span><br><span class="line">            LEFT JOIN V_CMCODE_BRANCH v1 on t1.substation_code = v1.branch_no</span><br><span class="line">            LEFT JOIN V_CMCODE_AREA v2 on v1.area_no = v2.area_no</span><br><span class="line">            LEFT JOIN V_CMCODE_CITY v3 on v1.city_no = v3.city_no</span><br><span class="line">            LEFT JOIN (select</span><br><span class="line">                        t1.customer_no</span><br><span class="line">                        from</span><br><span class="line">                        $&#123;gis_user&#125;.T_CUSTOMER_BASE_INFO t1</span><br><span class="line">                        LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t2 on T1.customer_no=T2.CUSTOM_NO AND T2.TYPE=1</span><br><span class="line">                        LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t3 on T1.customer_no=T3.CUSTOM_NO AND T3.TYPE=2</span><br><span class="line">                        LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t4 on T1.customer_no=T4.CUSTOM_NO AND T3.TYPE=3</span><br><span class="line">                        LEFT JOIN V_CMCODE_BRANCH v1 on t1.substation_code = v1.branch_no</span><br><span class="line">                        LEFT JOIN V_CMCODE_AREA v2 on v1.area_no = v2.area_no</span><br><span class="line">                        LEFT JOIN V_CMCODE_CITY v3 on v1.city_no = v3.city_no</span><br><span class="line">                        where 1 = 1</span><br><span class="line">                        &lt;e:if condition=&quot;$&#123;!empty(param.customerType) &amp;&amp; param.customerType ne &apos;&apos;&#125;&quot;&gt;</span><br><span class="line">                            and C_TYPE = &apos;$&#123;param.customerType&#125;&apos;</span><br><span class="line">                        &lt;/e:if&gt;</span><br><span class="line">                        //其它条件</span><br><span class="line"></span><br><span class="line">            where 1 = 1  and tmp.customer_no is NULL</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &lt;e:if condition=&quot;$&#123;sessionScope.UserInfo.AREA_NO !=&apos;-1&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=&apos;&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=null&#125;&quot;&gt;</span><br><span class="line">                AND v2.AREA_NO = &apos;$&#123;sessionScope.UserInfo.AREA_NO&#125;&apos;</span><br><span class="line">            &lt;/e:if&gt;</span><br><span class="line">            //其它条件</span><br><span class="line"></span><br><span class="line">        &lt;/e:q4l&gt;$&#123;e:java2json(parentNodeList.list)&#125;</span><br><span class="line">    &lt;/e:case&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4.总结"></a>4.总结</h2><p>in 和 not in操作,能不用就不用，尽量少用.</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">others</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/06/一次sql慢查询/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-base/cookie和token" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/31/base/cookie和token/">是时候彻底分清Cookie/Session和Token了</a>
-    </h1>
-  
-
-        
-        <a href="/2019/10/31/base/cookie和token/" class="archive-article-date">
-  	<time datetime="2019-10-31T08:10:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一-Cookie-Session"><a href="#一-Cookie-Session" class="headerlink" title="一.Cookie/Session"></a>一.Cookie/Session</h1><p>Cookie: 因为http是无状态协议，为了保存用户状态，所以Cookie由此产生。</p>
-<p>Session: 存储在服务器端，里面存着用户信息，过期时间以及其它想要的数据。每个session有其唯一的sessionId与之对应。</p>
-<p>Cookie与Session通常都是一起配合使用的。</p>
-<p>cookie存在浏览器端，浏览器第一次请求服务器时，服务器会返回个set-cookie字段，然后以这个cookie作为浏览器和服务器之间的连接凭证，这个cookie多半为sessionId。<br>当下次客户端请求服务器时，浏览器会自动带上cookie,服务端通过该cookie中的信息，去查找判断对应的用户信息。</p>
-<h1 id="二-Token"><a href="#二-Token" class="headerlink" title="二.Token"></a>二.Token</h1><p>有了Cookie和Session, 已经能保存用户状态了，为什么还会出现token呢？</p>
-<p>答案， 为了防止csrf.<br>一个有csrf漏洞的网页，攻击者可以获取用户的cookie去进行危险操作(因为发请求的时候，浏览器自动带上了cookie)，<br>但是，token不同，token是特别设计的令牌，需要手动加到header中，浏览器不会自己往header中增加token字段，攻击者也无法获得token,<br>服务端验证不通过，导致csrf攻击不成功。</p>
-<h1 id="三-一点补充"><a href="#三-一点补充" class="headerlink" title="三.一点补充"></a>三.一点补充</h1><p>session是有状态的，因为需要存放在服务器端(内存或者数据库)，所以当有多个服务器时，会有session共享问题，</p>
-<p>token是一个令牌，无状态，数据都加密保存在token中，服务器拿到后，直接解密就能用，所以没有共享问题。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/10/31/base/cookie和token/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-tools/ifconfig命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/29/tools/ifconfig命令/">网卡相关操作ifconfig</a>
-    </h1>
-  
-
-        
-        <a href="/2019/10/29/tools/ifconfig命令/" class="archive-article-date">
-  	<time datetime="2019-10-29T07:18:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我一直将 ifconfig 简单的用来查看ip信息。有点太不了解它了。<br><br>实际上 ifconfig 工具不仅可以被用来简单地获取网络接口配置信息，还可以修改这些配置。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig - configure a network interface</span><br></pre></td></tr></table></figure>
-<h1 id="一-ifconfig了解"><a href="#一-ifconfig了解" class="headerlink" title="一.ifconfig了解"></a>一.ifconfig了解</h1><h2 id="1-使用"><a href="#1-使用" class="headerlink" title="1.使用"></a>1.使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ifconfig [-v] [-a] [-s] [interface]</span><br><span class="line">ifconfig [-v] interface [aftype] options | address ...</span><br></pre></td></tr></table></figure>
-<p>-v 详细输出</p>
-<p>-s 输出一个简要list,和netstat -i 一个效果</p>
-<p>-a 输出全部接口信息，即使已经down</p>
-<p>address ip地址，可以用来给网卡配置ip地址，如 ifconfig wlan0 192.168.1.65  将wlan0配置为192.168.1.65</p>
-<p>总结下就是： <strong>ifconfig  [interface] [options]</strong></p>
-<h2 id="2-interface"><a href="#2-interface" class="headerlink" title="2.interface"></a>2.interface</h2><p>interface是网络接口设备名，例:wlan0, eth0</p>
-<h2 id="3-options"><a href="#3-options" class="headerlink" title="3.options"></a>3.options</h2><ul>
-<li>up</li>
-</ul>
-<p>开启接口设备</p>
-<ul>
-<li>down</li>
-</ul>
-<p>shutdown 接口设备，这里要特别注意，在服务器上操作时，如果关闭了网卡，就断网了，导致ssh连接断开，就不能打开了，所以要小心(除非有多个网卡，关闭一个，其它的还联网)</p>
-<ul>
-<li>arp</li>
-</ul>
-<p>设置是否支持arp协议</p>
-<ul>
-<li>promisc</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Enable  or  disable  the  promiscuous mode of the interface.  If selected, all packets on the</span><br><span class="line">network  will be received by the interface.</span><br></pre></td></tr></table></figure>
-<p>promiscuous模式，网卡将接收网络中发给它的  所有的数据包。</p>
-<ul>
-<li>allmulti</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Enable or disable all-multicast mode.  If selected, all multicast packets on the network will be</span><br><span class="line">re‐ceived by the interface</span><br></pre></td></tr></table></figure>
-<p>all-multicast模式，网卡将接收网络中的所有组播包。</p>
-<ul>
-<li>mtu N</li>
-</ul>
-<p>设置设置网卡的最大传输单元N,字节数。</p>
-<ul>
-<li>address</li>
-</ul>
-<p>设置绑定的ip地址</p>
-<ul>
-<li>dstaddr addr</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Set the remote IP address for a point-to-point link (such as PPP).  This keyword is now obsolete;</span><br><span class="line">use the pointopoint keyword instead.</span><br></pre></td></tr></table></figure>
-<p>建立点对点通讯，暂时还不太清楚用来干嘛</p>
-<ul>
-<li>add/del addr</li>
-</ul>
-<p>添加/删除 ipv6 地址</p>
-<ul>
-<li>tunnel</li>
-</ul>
-<p>建立IPv4与IPv6之间的隧道通信地址。</p>
-<ul>
-<li>txqueuelen length</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set the length of the transmit queue of the device. It is useful to set this to small values for slower devices with a high latency (modem links, ISDN) to prevent fast bulk transfers from disturbing interactive traffic like telnet too much</span><br></pre></td></tr></table></figure>
-<p>设置传输队列长度。</p>
-<h1 id="二-例子"><a href="#二-例子" class="headerlink" title="二.例子"></a>二.例子</h1><h2 id="1-属性"><a href="#1-属性" class="headerlink" title="1.属性"></a>1.属性</h2><p>ifconfig:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536</span><br><span class="line">        inet 127.0.0.1  netmask 255.0.0.0</span><br><span class="line">        inet6 ::1  prefixlen 128  scopeid 0x10&lt;host&gt;</span><br><span class="line">        loop  txqueuelen 1000  (Local Loopback)</span><br><span class="line">        RX packets 3655  bytes 1594522 (1.5 MiB)</span><br><span class="line">        RX errors 0  dropped 0  overruns 0  frame 0</span><br><span class="line">        TX packets 3655  bytes 1594522 (1.5 MiB)</span><br><span class="line">        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0</span><br><span class="line"></span><br><span class="line">vmnet1: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500</span><br><span class="line">        inet 192.168.84.1  netmask 255.255.255.0  broadcast 192.168.84.255</span><br><span class="line">        inet6 fe80::250:56ff:fec0:1  prefixlen 64  scopeid 0x20&lt;link&gt;</span><br><span class="line">        ether 00:50:56:c0:00:01  txqueuelen 1000  (Ethernet)</span><br><span class="line">        RX packets 0  bytes 0 (0.0 B)</span><br><span class="line">        RX errors 0  dropped 0  overruns 0  frame 0</span><br><span class="line">        TX packets 18  bytes 0 (0.0 B)</span><br><span class="line">        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0</span><br><span class="line"></span><br><span class="line">vmnet8: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500</span><br><span class="line">        inet 192.168.94.1  netmask 255.255.255.0  broadcast 192.168.94.255</span><br><span class="line">        inet6 fe80::250:56ff:fec0:8  prefixlen 64  scopeid 0x20&lt;link&gt;</span><br><span class="line">        ether 00:50:56:c0:00:08  txqueuelen 1000  (Ethernet)</span><br><span class="line">        RX packets 0  bytes 0 (0.0 B)</span><br><span class="line">        RX errors 0  dropped 0  overruns 0  frame 0</span><br><span class="line">        TX packets 18  bytes 0 (0.0 B)</span><br><span class="line">        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0</span><br><span class="line"></span><br><span class="line">wlan0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500</span><br><span class="line">        inet 192.168.1.64  netmask 255.255.255.0  broadcast 192.168.1.255</span><br><span class="line">        inet6 fe80::8702:42e3:d919:f0db  prefixlen 64  scopeid 0x20&lt;link&gt;</span><br><span class="line">        ether 58:a0:23:27:d5:df  txqueuelen 1000  (Ethernet)</span><br><span class="line">        RX packets 1944  bytes 1436200 (1.3 MiB)</span><br><span class="line">        RX errors 0  dropped 0  overruns 0  frame 0</span><br><span class="line">        TX packets 1316  bytes 349665 (341.4 KiB)</span><br><span class="line">        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>flags=4163</li>
-</ul>
-<p>The if.h header says up=0x1, running=0x40, broadcast=0x2, multicast=0x1000</p>
-<p>4163 = 0x1043 = 0x1000 + 0x40 + 0x2 + 0x1</p>
-<ul>
-<li>&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  </li>
-</ul>
-<p>up 网卡开启<br><br>BROADCAST 支持广播<br><br>RUNNING 网卡正在运行<br><br>MULTICAST 支持多播</p>
-<ul>
-<li>mtu  </li>
-</ul>
-<p>传输单元字节数</p>
-<ul>
-<li>txqueuelen</li>
-</ul>
-<p>传输队列大小</p>
-<ul>
-<li>broadcast</li>
-</ul>
-<p>组播地址</p>
-<ul>
-<li>RX packets</li>
-</ul>
-<p>接收的数据包数</p>
-<ul>
-<li>TX packets</li>
-</ul>
-<p>传输即发送的数据包数。</p>
-<h2 id="2-使用例子"><a href="#2-使用例子" class="headerlink" title="2.使用例子"></a>2.使用例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#ARP协议</span><br><span class="line"># ifconfig wlan0 arp  //开启</span><br><span class="line"># ifconfig wlan0 -arp  //关闭</span><br></pre></td></tr></table></figure>
-<h1 id="三-补充"><a href="#三-补充" class="headerlink" title="三.补充"></a>三.补充</h1><p>iwconfig: 用来配置无线接口信息</p>
-<p>iw: 用来连接wifi</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/10/29/tools/ifconfig命令/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-security/lab.pentestit.ru渗透环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/25/security/lab.pentestit.ru渗透环境/">lab.pentestit.ru渗透环境链接</a>
-    </h1>
-  
-
-        
-        <a href="/2019/10/25/security/lab.pentestit.ru渗透环境/" class="archive-article-date">
-  	<time datetime="2019-10-25T02:25:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>之前在windows上下载过openvpn连接lab.pentestit.ru没成功，不知道是什么问题，就没管。今天想起来了，在linux上再尝试了一下，成功。</p>
-<h3 id="1-安装openvpn"><a href="#1-安装openvpn" class="headerlink" title="1.安装openvpn"></a>1.安装openvpn</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install openvpn</span><br></pre></td></tr></table></figure>
-<p>安装成功后，会有/etc/openvpn文件夹，用存放配置文件</p>
-<h3 id="2-下载配置文件"><a href="#2-下载配置文件" class="headerlink" title="2.下载配置文件"></a>2.下载配置文件</h3><p>在 <a href="https://lab.pentestit.ru/how-to-connect" target="_blank" rel="noopener">https://lab.pentestit.ru/how-to-connect</a> 下载 配置文件 ，放入/etc/openvpn/client下。</p>
-<h3 id="3-解决-No-server-certificate-verification-method-has-been-enabled"><a href="#3-解决-No-server-certificate-verification-method-has-been-enabled" class="headerlink" title="3.解决 No server certificate verification method has been enabled."></a>3.解决 No server certificate verification method has been enabled.</h3><p>现在 直接启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openvpn /etc/openvpn/client/lab.pentestit.ru.conf</span><br></pre></td></tr></table></figure></p>
-<p>会报 No server certificate verification method has been enabled. 问题，</p>
-<p>解决:<br><br>打开配置文件，在末尾加入一行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">remote-cert-tls server</span><br></pre></td></tr></table></figure>
-<h3 id="4-解决连接失败"><a href="#4-解决连接失败" class="headerlink" title="4.解决连接失败"></a>4.解决连接失败</h3><p>现在再启动，会出现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Thu Oct 24 22:36:09 2019 TCP/UDP: Preserving recently used remote address: [AF_INET]91.121.71.57:443</span><br><span class="line">Thu Oct 24 22:36:09 2019 Socket Buffers: R=[131072-&gt;131072] S=[16384-&gt;16384]</span><br><span class="line">Thu Oct 24 22:36:09 2019 Attempting to establish TCP connection with [AF_INET]91.121.71.57:443 [nonblock]</span><br><span class="line">Thu Oct 24 22:36:10 2019 TCP connection established with [AF_INET]91.121.71.57:443</span><br><span class="line">Thu Oct 24 22:36:10 2019 TCP_CLIENT link local: (not bound)</span><br><span class="line">Thu Oct 24 22:36:10 2019 TCP_CLIENT link remote: [AF_INET]91.121.71.57:443</span><br><span class="line">Thu Oct 24 22:36:10 2019 Connection reset, restarting [-1]</span><br><span class="line">Thu Oct 24 22:36:10 2019 SIGUSR1[soft,connection-reset] received, process restarting</span><br><span class="line">Thu Oct 24 22:36:10 2019 Restart pause, 5 second(s)</span><br><span class="line">^CThu Oct 24 22:36:12 2019 SIGINT[hard,init_instance] received, process exiting</span><br></pre></td></tr></table></figure></p>
-<p>之前就是在这里不知道是什么问题，后来突然想到我在本地局域网192.168.x.x下，该实验环境的vpn 也是192.168.101.1 会不会是这个原因。</p>
-<p>测试，用代理启动：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains openvpn /etc/openvpn/client/lab.pentestit.ru.conf</span><br></pre></td></tr></table></figure>
-<p>启动成功，成功ping 通 192.168.101.1</p>
-<h3 id="5-简单测试下"><a href="#5-简单测试下" class="headerlink" title="5.简单测试下"></a>5.简单测试下</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/Downloads# nmap 192.168.101.1/24</span><br><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2019-10-24 22:55 EDT</span><br><span class="line">Nmap scan report for 192.168.101.1</span><br><span class="line">Host is up (0.49s latency).</span><br><span class="line">All 1000 scanned ports on 192.168.101.1 are filtered</span><br><span class="line"></span><br><span class="line">Nmap scan report for 192.168.101.12</span><br><span class="line">Host is up (0.45s latency).</span><br><span class="line">Not shown: 996 filtered ports</span><br><span class="line">PORT     STATE SERVICE</span><br><span class="line">25/tcp   open  smtp</span><br><span class="line">80/tcp   open  http</span><br><span class="line">143/tcp  open  imap</span><br><span class="line">8080/tcp open  http-proxy</span><br><span class="line"></span><br><span class="line">Nmap scan report for 192.168.101.13</span><br><span class="line">Host is up (0.41s latency).</span><br><span class="line">All 1000 scanned ports on 192.168.101.13 are filtered</span><br><span class="line"></span><br><span class="line">Nmap done: 256 IP addresses (3 hosts up) scanned in 145.16 seconds</span><br></pre></td></tr></table></figure>
-<p>看到192.168.101.12 有http</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/Downloads# wget 192.168.101.12</span><br><span class="line">--2019-10-24 23:14:04--  http://192.168.101.12/</span><br><span class="line">Connecting to 192.168.101.12:80... connected.</span><br><span class="line">HTTP request sent, awaiting response... 301 Moved Permanently</span><br><span class="line">Location: http://site.test.lab [following]</span><br><span class="line">--2019-10-24 23:14:04--  http://site.test.lab/</span><br><span class="line">Resolving site.test.lab (site.test.lab)... failed: Name or service not known.</span><br><span class="line">wget: unable to resolve host address ‘site.test.lab’</span><br></pre></td></tr></table></figure>
-<p>在/etc/hosts中添加一条<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.101.12 site.test.lab</span><br></pre></td></tr></table></figure></p>
-<p>再次wget,成功得到index.html</p>
-<p>环境有了，后续测试，现在水平不够，知识积累不足，以后再说。渗透是纯业余爱好。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">security</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/10/25/security/lab.pentestit.ru渗透环境/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 

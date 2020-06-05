@@ -138,69 +138,71 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-tools/maven父子项目" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-前端相关/下定决心学会前端/html/培训内容测试" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/06/tools/maven父子项目/">创建一个maven聚合项目</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/06/tools/maven父子项目/" class="archive-article-date">
-  	<time datetime="2020-01-06T08:00:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-06</time>
-</a>
-        
-      </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>目的: 一个系列的项目，创建多个项目，管理起来不方便。同时也是消除重复配置</p>
-<h1 id="一-pom-xml"><a href="#一-pom-xml" class="headerlink" title="一. pom.xml"></a>一. pom.xml</h1><h2 id="1-一个pom-xml-大致结构"><a href="#1-一个pom-xml-大致结构" class="headerlink" title="1.一个pom.xml 大致结构"></a>1.一个pom.xml 大致结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;packaging&gt;pom&lt;/packaging&gt;</span><br><span class="line"></span><br><span class="line">    &lt;groupId&gt;com.demo.example&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mutiplemodulesdemo&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</span><br><span class="line"></span><br><span class="line">    &lt;parent&gt;&lt;/parent&gt;</span><br><span class="line"></span><br><span class="line">    &lt;properties&gt;&lt;/properties&gt;</span><br><span class="line"></span><br><span class="line">    &lt;modules&gt;&lt;/modules&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;&lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencyManagement&gt;&lt;/dependencyManagement&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="2-大概介绍"><a href="#2-大概介绍" class="headerlink" title="2.大概介绍"></a>2.大概介绍</h2><h3 id="2-1-packaging"><a href="#2-1-packaging" class="headerlink" title="2.1 packaging"></a>2.1 packaging</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;packaging&gt;pom&lt;/packaging&gt;</span><br></pre></td></tr></table></figure>
-<p>表示这只是一个引用其它项目的pom, 而不是常用的jar或者war</p>
-<h3 id="2-2-parent"><a href="#2-2-parent" class="headerlink" title="2.2 parent"></a>2.2 parent</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;parent&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.5.17.RELEASE&lt;/version&gt;</span><br><span class="line">    &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;</span><br><span class="line">&lt;/parent&gt;</span><br></pre></td></tr></table></figure>
-<p>parent 表示继承，作用就是复用 里面的内容</p>
-<h3 id="2-3modules"><a href="#2-3modules" class="headerlink" title="2.3modules"></a>2.3modules</h3><p>modules 用来管理各个子模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;modules&gt;</span><br><span class="line">    &lt;module&gt;springcloud-demo&lt;/module&gt;</span><br><span class="line">    &lt;module&gt;springboot-demo&lt;/module&gt;</span><br><span class="line">&lt;/modules&gt;</span><br></pre></td></tr></table></figure></p>
-<h3 id="2-4-dependencies"><a href="#2-4-dependencies" class="headerlink" title="2.4 dependencies"></a>2.4 dependencies</h3><p>dependencies 用来放一些公有的依赖，在这里引入后，子模块就不需要再引入了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure></p>
-<h3 id="2-5-properties"><a href="#2-5-properties" class="headerlink" title="2.5 properties"></a>2.5 properties</h3><p>通过<properties>元素用户可以自定义一个或多个Maven属性，然后在POM的其他地方使用${属性名}的方式引用该属性，这种做法的最大意义在于消除重复和统一管理。</properties></p>
-<p>Maven总共有6类属性，内置属性、POM属性、自定义属性、Settings属性、java系统属性和环境变量属性.</p>
-<ul>
-<li>内置属性</li>
-</ul>
-<p>两个常用内置属性 ${basedir} 表示项目跟目录，即包含pom.xml文件的目录；${version} 表示项目版本</p>
-<ul>
-<li>pom属性</li>
-</ul>
-<p>用户可以使用该类属性引用POM文件中对应元素的值。如${project.artifactId}就对应了<project> <artifactid>元素的值。</artifactid></project></p>
-<p>常用的POM属性包括：</p>
-<blockquote>
-<p>${project.build.sourceDirectory}:项目的主源码目录，默认为src/main/java/<br>${project.build.testSourceDirectory}:项目的测试源码目录，默认为src/test/java/<br>${project.build.directory} ： 项目构建输出目录，默认为target/<br>${project.outputDirectory} : 项目主代码编译输出目录，默认为target/classes/<br>${project.testOutputDirectory}：项目测试主代码输出目录，默认为target/testclasses/<br>${project.groupId}：项目的groupId<br>${project.artifactId}：项目的artifactId<br>${project.version}：项目的version,与${version} 等价<br>${project.build.finalName}：项目打包输出文件的名称，默认为${project.artifactId}-&gt;${project.version}</p>
-</blockquote>
-<ul>
-<li>自定义属性</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;properties&gt;</span><br><span class="line">   &lt;custom.property&gt;true&lt;/custom.property&gt;</span><br><span class="line">&lt;/properties&gt;</span><br></pre></td></tr></table></figure>
-<p>这样一个自定义属性，可以在其它部分，或者子模块直接引用.引用方式为 : ${custom.property}</p>
-<ul>
-<li>ettings属性</li>
-</ul>
-<p>与POM属性同理，用户使用以settings. 开头的属性引用settings.xml文件中的XML元素的值</p>
-<ul>
-<li><p>ava系统属性<br>所有java系统属性都可以用Maven属性引用，如${user.home}指向了用户目录。</p>
-</li>
-<li><p>环境变量属性<br>所有环境变量属性都可以使用以env. 开头的Maven属性引用，如${env.JAVA_HOME}指代了JAVA_HOME环境变量的的值</p>
-</li>
-</ul>
-<h3 id="2-6-dependencyManagement"><a href="#2-6-dependencyManagement" class="headerlink" title="2.6 dependencyManagement"></a>2.6 dependencyManagement</h3><p>所有在dependencies里的依赖都会自动引入，并默认被所有的子项目继承。</p>
-<p>dependencyManagement里只是声明依赖，并不自动实现引入，因此子项目需要显示的声明需要用的依赖。如果不在子项目中声明依赖，是不会从父项目中继承下来的；只有在子项目中写了该依赖项，并且没有指定具体版本，才会从父项目中继承该项，并且version和scope都读取自父pom;另外如果子项目中指定了版本号，那么会使用子项目中指定的jar版本。</p>
-<p>所以dependecyManagement用来灵活配置。 比如某个模块，在多数子模块中存在，少数子模块中不存在，则可以使用它。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencyManagement&gt;</span><br><span class="line">   &lt;dependencies&gt; &lt;!-- 配置共有依赖 --&gt;</span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">       &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">       &lt;artifactId&gt;spring-core&lt;/artifactId&gt;</span><br><span class="line">       &lt;version&gt;4.0.2.RELEASE&lt;/version&gt;</span><br><span class="line">   &lt;/dependency&gt;</span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">       &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">       &lt;artifactId&gt;spring-beans&lt;/artifactId&gt;</span><br><span class="line">       &lt;version&gt;4.0.2.RELEASE&lt;/version&gt;</span><br><span class="line">   &lt;/dependency&gt;</span><br><span class="line">   &lt;/dependencies&gt;</span><br><span class="line">&lt;/dependencyManagement&gt;</span><br></pre></td></tr></table></figure>
-<h1 id="二-一个具体例子"><a href="#二-一个具体例子" class="headerlink" title="二.一个具体例子"></a>二.一个具体例子</h1><h2 id="1-父级"><a href="#1-父级" class="headerlink" title="1.父级"></a>1.父级</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;packaging&gt;pom&lt;/packaging&gt;</span><br><span class="line"></span><br><span class="line">    &lt;groupId&gt;com.demo.example&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mutiplemodulesdemo&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</span><br><span class="line"></span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;1.5.17.RELEASE&lt;/version&gt;</span><br><span class="line">        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line"></span><br><span class="line">    &lt;properties&gt;</span><br><span class="line">        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</span><br><span class="line">        &lt;java.version&gt;1.8&lt;/java.version&gt;</span><br><span class="line">    &lt;/properties&gt;</span><br><span class="line">    &lt;modules&gt;</span><br><span class="line">        &lt;module&gt;springcloud-demo&lt;/module&gt;</span><br><span class="line">        &lt;module&gt;springcloud-service-demo&lt;/module&gt;</span><br><span class="line">        &lt;module&gt;springcloud-service-demo2&lt;/module&gt;</span><br><span class="line">        &lt;module&gt;springboot-demo&lt;/module&gt;</span><br><span class="line">    &lt;/modules&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;lombok&lt;/artifactId&gt;</span><br><span class="line">            &lt;optional&gt;true&lt;/optional&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="2-子模块"><a href="#2-子模块" class="headerlink" title="2.子模块"></a>2.子模块</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;groupId&gt;com.demo.example&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;mutiplemodulesdemo&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</span><br><span class="line">        &lt;relativePath&gt;../pom.xml&lt;/relativePath&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line"></span><br><span class="line">    &lt;groupId&gt;com.example&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;springboot-demo&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">    &lt;packaging&gt;war&lt;/packaging&gt;</span><br><span class="line">    &lt;name&gt;springboot-demo&lt;/name&gt;</span><br><span class="line">    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- mybaties --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;1.3.0&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;druid-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;1.1.17&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- mybaties end --&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- 分页集成 --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.github.pagehelper&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;pagehelper&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;5.1.8&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!-- 分页 end --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;build&gt;</span><br><span class="line">        &lt;plugins&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line">        &lt;/plugins&gt;</span><br><span class="line">    &lt;/build&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+        <!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="关键词，用于搜索">
+    <meta name="description" content="描述">
+    <title>啊哈 太极</title>
+
+    <style media="screen">
+      * {
+        margin: 0px;
+        padding: 0px;
+      }
+      body {
+        background-color: grey;
+      }
+
+      div {
+        width: 0px;
+        height: 200px;
+        border: 100px solid black;
+        border-top: none;
+        border-bottom: none;
+        border-left-color: black;
+        border-right-color: #fff;
+        margin: 50px auto;
+        border-radius: 100%;
+        position: relative;
+        box-shadow: 0px 0px 50px rgb(0,0,0);
+      }
+
+      div::after, div::before {
+        display: block;
+        width: 40px;
+        height: 40px;
+        content: "";
+        border-radius: 100%;
+        position: absolute;
+      }
+      div:after {
+        background-color: #fff;
+        border: 30px solid #000;
+        top: 0px;
+        left: -50px;
+      }
+      div:before {
+        background-color: #000;
+        border: 30px solid #fff;
+        top: 100px;
+        left: -50px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="">
+
+    </div>
+  </body>
+</html>
 
       
 
@@ -209,22 +211,11 @@
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tools</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/06/tools/maven父子项目/">展开全文 >></a>
+          <a class="article-more-a" href="/2020/03/13/前端相关/下定决心学会前端/html/培训内容测试/">展开全文 >></a>
         </p>
       
 
@@ -254,56 +245,641 @@
 
 
   
-    <article id="post-java/others/mysql分布式锁实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-前端相关/下定决心学会前端/html/third" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+.boot {
+  height: 575px;
+  width: 1200px;
+  /* background-color: rgb(171, 181, 196); */
+  margin: 5% auto;
+}
+
+
+.boot a {
+  display: block;
+  float: left;
+  /* height: 100px; */
+  width: 300px;
+  background: rgb(143, 199, 97);
+  text-align: center;
+  line-height: 80px;
+  text-decoration: none;
+  color: #fff;
+  background: url(/root/Documents/web/素材和工具/images/bg1.png) no-repeat center;
+}
+
+.boot a:hover {
+  background: url(/root/Documents/web/素材和工具/images/bg2.png) no-repeat center;
+  color: rgb(242, 207, 7);
+}
+
+.boot a:nth-child(1):hover ~ .pic{
+  background: url(/root/Documents/web/素材和工具/images/p1.png);
+  transition: 1s;
+}
+.boot a:nth-child(2):hover ~ .pic{
+  background: url(/root/Documents/web/素材和工具/images/p2.png);
+  transition: 1s;
+}
+.boot a:nth-child(3):hover ~ .pic{
+  background: url(/root/Documents/web/素材和工具/images/p3.png);
+  transition: 1s;
+}
+.boot a:nth-child(4):hover ~ .pic{
+  background: url(/root/Documents/web/素材和工具/images/p4.jpg);
+  transition: 1s;
+}
+.pic {
+  width: 100%;
+  height: 575px;
+  background: url(/root/Documents/web/素材和工具/images/p1.png);
+}
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/13/前端相关/下定决心学会前端/html/third/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-前端相关/下定决心学会前端/html/选项卡切换" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./third.css">
+    <title>天下3-点击切换(培训案例)</title>
+  </head>
+  <body>
+
+    <div class="boot">
+      <a href="#">全新剧情</a>
+      <a href="#">全新动态地图</a>
+      <a href="#">全新战场</a>
+      <a href="#">全新社交</a>
+      <div class="pic">
+
+      </div>
+    </div>
+
+  </body>
+</html>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/13/前端相关/下定决心学会前端/html/选项卡切换/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-前端相关/下定决心学会前端/html/second" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>例2-登录界面2</title>
+    <link rel="stylesheet" href="./second.css">
+  </head>
+  <body>
+
+    <div class="login" id="login">
+        <div class="logo">
+          <img class="logo-image" src="./avator.png" alt="">
+        </div>
+        <div class="login-input">
+          <form class="login-form" action="index.html" method="post">
+            <p><label class="login-label" for="">用户名</label><input type="text" name="" value="" placeholder="用户名"></p>
+            <p><label class="login-label" for="">密码</label><input type="password" name="" value="" placeholder="密码"></p>
+          </form>
+        </div>
+        <div class="login-button">
+          <button type="button" name="button">登录</button>
+          <a href="#">忘记密码</a>
+        </div>
+    </div>
+  </body>
+</html>
+
+<!--
+背景图片不够大  重复显示  background-repeat: no-repeat; 只显示一次
+
+图片太小  不能占满整个block   background-size: cover; 把背景图像扩展至足够大，以使背景图像完全覆盖背景区域
+
+block内子block居中
+  text-align: center;
+  vertical-align: middle;
+  子block中 设置margin: auto(不一定是auto)
+
+
+商标图片比block大  设置  max-width: 100%; max-height: 100%;进行约束
+
+
+label和input 对齐，设置label的width无效， display: inline-block;
+
+将文字水平居中text-align: middle;
+将文字垂直居中 line-height: 36px; (设置line-height等于当前块高度) -->
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/13/前端相关/下定决心学会前端/html/second/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-前端相关/下定决心学会前端/html/second" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+
+
+body {
+  background-image: url(./back2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#login {
+  height: 300px;
+  width: 30%;
+  margin: 10% 35%;
+  /* background-color: rgb(118,156,245); */
+  text-align: center;
+  vertical-align: middle;
+}
+
+
+.logo {
+  height: 130px;
+  width: 90%;
+  /* background-color: rgb(243, 245, 118); */
+  margin: auto;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.logo-image{
+  /* width: 100%;
+  height: 100%; */
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.login-input {
+  height: 100px;
+  width: 90%;
+  /* background-color: rgb(119, 235, 30); */
+  margin: auto;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+.login-input p {
+  display: block;
+  margin: 4px auto;
+  /* width: 90%; */
+  height: 36px;
+  border-radius: 6px;
+  text-align: middle;
+  margin-bottom: 10px;
+
+}
+.login-input p  label {
+  display: inline-block;
+  /* height: 36px; */
+  width: 20%;
+  background-color: rgb(17, 217, 240);
+  margin: 4px auto;
+  text-align: center;
+  line-height: 36px;
+  vertical-align: middle;
+  font-size: 20px;
+  color: #fff;
+  border-radius: 6px  0 0 6px;
+}
+.login-input p input {
+  height: 36px;
+  width: 60%;
+  margin: 4px auto;
+  vertical-align: middle;
+  border: none;
+  border-radius: 0 5px 5px 0;
+}
+.login-button {
+  height: 40px;
+  width: 70%;
+  /* background-color: rgb(189, 62, 26); */
+  margin: auto;
+  margin-top: 4px;
+}
+
+.login-button button {
+  height: 36px;
+  width: 30%;
+  float: left;
+  border-radius: 8px;
+  border: none;
+  background-color: rgb(44, 119, 232);
+  font-size: 24px;
+  font-style: "楷体";
+  text-shadow: 0 0 2px;
+  color: #fff;
+  margin-left: 2px;
+}
+
+.login-button a {
+  text-align: center;
+  line-height: 36px;
+  display: block;
+  float: right;
+  font-size: 20px;
+  font-style: "楷体";
+  margin-right: 20px;
+}
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/13/前端相关/下定决心学会前端/html/second/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-前端相关/下定决心学会前端/html/first" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- html5  不需要版本号 直接html就行 -->
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./first.css">
+    <title>例1-登录界面</title>
+  </head>
+  <body>
+    <div id="boot" class="boot">
+
+      <div class="login">
+        <h1 id="login-h1">
+          <span>Login</span>
+        </h1>
+        <form class="login-form" action="index.html" method="post">
+          <input type="text" name="username" value="" placeholder="用户名">
+          <input type="password" name="password" value="" placeholder="密码">
+        </form>
+        <button id="login-button" type="button" name="button">登录</button>
+      </div>
+
+    </div>
+  </body>
+</html>
+
+
+<!--
+
+布局时使用百分比
+
+文字水平居中 text-align: center;
+竖直居中 line-height: 100px; (这里100px为父元素高度)
+
+form中 input居中  实际上是设置form中元素居中   text-align: center; vertical-align: middle;
+
+
+给字体加阴影 text-shadow
+
+ -->
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/13/前端相关/下定决心学会前端/html/first/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-前端相关/下定决心学会前端/html/first" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+body {
+  background-color: #4a374a
+}
+
+
+#boot {
+  width: 30%;
+  height: 300px;
+  margin-left: 35%;
+  margin-right: 35%;
+  margin-top: 12%;
+
+  /* background-color: #0e9894; */
+
+}
+
+
+#login-h1 {
+  height: 100px;
+  margin: 6px;
+  padding: 4px;
+  text-align: center;
+}
+
+#login-h1 span {
+  font-size: 1.67em;
+  line-height: 100px;
+  color: #fff;
+  text-shadow: 0 0 10px;
+  font-style: sans-serif;
+}
+
+.login-form {
+  text-align: center;
+  vertical-align: middle;
+}
+.login-form input {
+  width: 80%;
+  height: 32px;
+  margin: 4px 4px;
+  padding: 2px;
+  background-color: rgb(215,219,219);
+  border-radius: 4px;
+  outline: none;
+  text-shadow: 1px 1px 1px;
+}
+
+#login-button {
+  height: 40px;
+  width: 81%;
+  display: block;
+  margin: 4px auto;
+  margin-top: 8px;
+  padding: 2px;
+  background-color: rgb(74,119,222);
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  text-shadow: 0 0 8px;
+  color: rgb(245,248,250);
+  font-style: italic;
+}
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/12/前端相关/下定决心学会前端/html/first/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/io/javaNIO" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/06/java/others/mysql分布式锁实现/">mysql分布式锁</a>
+      <a class="article-title" href="/2020/01/17/java/io/javaNIO/">java中NIO</a>
     </h1>
   
 
         
-        <a href="/2020/01/06/java/others/mysql分布式锁实现/" class="archive-article-date">
-  	<time datetime="2020-01-06T03:02:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-06</time>
+        <a href="/2020/01/17/java/io/javaNIO/" class="archive-article-date">
+  	<time datetime="2020-01-17T08:55:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-17</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>分布式系统中，某个功能只在一台机器上执行(即，只执行一次)，用分布式锁实现。</p>
-<p>分布式的CAP理论告诉我们“任何一个分布式系统都无法同时满足一致性（Consistency）、可用性（Availability）和分区容错性（Partition tolerance），最多只能同时满足两项。所以，需要对这三者做出取舍.</p>
-<h1 id="一-分布式锁"><a href="#一-分布式锁" class="headerlink" title="一.分布式锁"></a>一.分布式锁</h1><h2 id="1-什么是分布式锁"><a href="#1-什么是分布式锁" class="headerlink" title="1.什么是分布式锁"></a>1.什么是分布式锁</h2><p>分布式锁是控制分布式系统或不同系统之间共同访问共享资源的一种锁实现，如果不同的系统或同一个系统的不同主机之间共享了某个资源时，往往需要互斥来防止彼此干扰来保证一致性。</p>
-<h2 id="2-实现方式"><a href="#2-实现方式" class="headerlink" title="2.实现方式"></a>2.实现方式</h2><ul>
-<li><p>基于数据库</p>
-</li>
-<li><p>基于缓存(redis，memcached等)</p>
-</li>
-<li><p>基于Zookeeper</p>
-</li>
-</ul>
-<h1 id="二-基于Mysql实现分布式锁"><a href="#二-基于Mysql实现分布式锁" class="headerlink" title="二.基于Mysql实现分布式锁"></a>二.基于Mysql实现分布式锁</h1><p><a href="https://www.hollischuang.com/archives/1716" target="_blank" rel="noopener">https://www.hollischuang.com/archives/1716</a></p>
-<h2 id="1-基于数据表"><a href="#1-基于数据表" class="headerlink" title="1.基于数据表"></a>1.基于数据表</h2><h3 id="1-1-实现逻辑"><a href="#1-1-实现逻辑" class="headerlink" title="1.1 实现逻辑"></a>1.1 实现逻辑</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLE IF EXISTS `lock_method_demo`;</span><br><span class="line">CREATE TABLE `lock_method_demo` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT &apos;主键&apos;,</span><br><span class="line">  `lock_method` varchar(255) NOT NULL COMMENT &apos;需要锁住的方法&apos;,</span><br><span class="line">  `desc` varchar(255) DEFAULT NULL COMMENT &apos;备注&apos;,</span><br><span class="line">  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  UNIQUE KEY `lock_method` (`lock_method`) USING BTREE COMMENT &apos;lock_method唯一&apos;</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;</span><br></pre></td></tr></table></figure>
-<p>建一张表，用来判断是否加锁，lock_method 字段为加锁的操作，建个索引，将该字段用unique唯一性进行约束。</p>
-<p>当一台机器要进行操作时，往该表插入一条数据，然后其它机器要进行相同操作时，也会往该表插入一条数据(lock_method)相同，因为lock_method唯一(数据库保证只有一个操作会成功)，其它机器会插入失败。</p>
-<p>代码里面根据插入操作是否成功来决定是否要执行相关功能。当操作成功后,删除该条记录(解锁)。</p>
-<h3 id="1-2-特点"><a href="#1-2-特点" class="headerlink" title="1.2 特点"></a>1.2 特点</h3><p>简单方便</p>
-<h2 id="2-基于数据库排他锁"><a href="#2-基于数据库排他锁" class="headerlink" title="2.基于数据库排他锁"></a>2.基于数据库排他锁</h2><h3 id="2-1-for-update"><a href="#2-1-for-update" class="headerlink" title="2.1.for update"></a>2.1.for update</h3><p>在sql的后面加上 for update 可以进行数据加锁，防止高并发出错.InnoDB引擎在加锁的时候，只有通过索引进行检索的时候才会使用行级锁，否则会使用表级锁。</p>
-<p>for update 仅适用于InnoDB，并且必须开启事务，在begin与commit之间才生效</p>
-<p>详细解释: <a href="https://blog.csdn.net/u011957758/article/details/75212222" target="_blank" rel="noopener">https://blog.csdn.net/u011957758/article/details/75212222</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from table where xxx for update</span><br></pre></td></tr></table></figure>
-<h3 id="2-2-实现"><a href="#2-2-实现" class="headerlink" title="2.2 实现"></a>2.2 实现</h3><p>还是使用上面建的那张表</p>
-<p>sql<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//使用 主键(id)为条件,为行级锁</span><br><span class="line">&lt;select id=&quot;methodName&quot; resultType=&quot;string&quot; parameterType=&quot;int&quot;&gt;</span><br><span class="line">    select lock_method from lock_method_demo where id=#&#123;id&#125; for update</span><br><span class="line">&lt;/select&gt;</span><br><span class="line"></span><br><span class="line">&lt;update id=&quot;updateMethod&quot; &gt;</span><br><span class="line">    update lock_method_demo set lock_method=#&#123;method&#125; where id=#&#123;id&#125;</span><br><span class="line">&lt;/update&gt;</span><br></pre></td></tr></table></figure></p>
-<p>service<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">// Isolation.READ_COMMITTED 保证一个事务修改的数据提交后才能被另外一个事务读取。</span><br><span class="line">@Transactional(isolation = Isolation.READ_COMMITTED,rollbackFor = &#123;Exception.class&#125;)</span><br><span class="line">public String lockMethod2(int id)&#123;</span><br><span class="line"></span><br><span class="line">    System.out.println(&quot;[*]: 线程 1 准备读数据&quot;);</span><br><span class="line">    String method = mysqlLockTestMapper.methodName(id);</span><br><span class="line">    System.out.println(&quot;[*]: 线程 1 读取完数据&quot;);</span><br><span class="line">    try &#123;</span><br><span class="line">        Thread.sleep(5000);</span><br><span class="line"></span><br><span class="line">    &#125;catch (Exception e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    System.out.println(&quot;[*]: 线程 1 更新数据&quot;);</span><br><span class="line">    mysqlLockTestMapper.updateMethod(&quot;newName1&quot;, id);</span><br><span class="line">    return method;</span><br><span class="line">&#125;</span><br><span class="line">@Transactional(isolation = Isolation.READ_COMMITTED,rollbackFor = &#123;Exception.class&#125;)</span><br><span class="line">public String lockMethod3(int id)&#123;</span><br><span class="line">    System.out.println(&quot;[*]: 线程 2 准备读数据&quot;);</span><br><span class="line">    String method = mysqlLockTestMapper.methodName(id);</span><br><span class="line">    System.out.println(&quot;[*]: 线程 2 读取完数据&quot;);</span><br><span class="line">    try &#123;</span><br><span class="line">        Thread.sleep(3000);</span><br><span class="line"></span><br><span class="line">    &#125;catch (Exception e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    System.out.println(&quot;[*]: 线程 2 更新数据&quot;);</span><br><span class="line">    mysqlLockTestMapper.updateMethod(&quot;newName2&quot;, id);</span><br><span class="line">    return method;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>测试<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class InitDid implements CommandLineRunner &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    MysqlLockTest1Service mysqlLockTest1Service;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run(String... strings) throws Exception &#123;</span><br><span class="line">         Thread thread1 = new Thread()&#123;</span><br><span class="line">             @Override</span><br><span class="line">             public void run() &#123;</span><br><span class="line">                 Long start  = System.currentTimeMillis();</span><br><span class="line">                 System.out.println(&quot;[*]: 线程1&quot; + &quot;: &quot; +  mysqlLockTest1Service.lockMethod2(1));</span><br><span class="line">                 Long end  = System.currentTimeMillis();</span><br><span class="line">                 System.out.println(&quot;[*]: 线程1耗时: &quot; + (end - start));</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;;</span><br><span class="line"></span><br><span class="line">        Thread thread2 = new Thread()&#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                Long start  = System.currentTimeMillis();</span><br><span class="line">                System.out.println(&quot;[*]: 线程2&quot; + &quot;: &quot; +  mysqlLockTest1Service.lockMethod3(1));</span><br><span class="line">                Long end  = System.currentTimeMillis();</span><br><span class="line">                System.out.println(&quot;[*]: 线程2耗时: &quot; + (end - start));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        thread1.start();</span><br><span class="line">        thread2.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>结果</p>
-<p>不加 for update时，结果如下，实际上数据库更新后值为newName1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[*]: 线程 2 准备读数据</span><br><span class="line">[*]: 线程 1 准备读数据</span><br><span class="line">[*]: 线程 2 读取完数据</span><br><span class="line">[*]: 线程 1 读取完数据</span><br><span class="line">[*]: 线程 2 更新数据</span><br><span class="line">[*]: 线程2: name1</span><br><span class="line">[*]: 线程2耗时: 4836</span><br><span class="line">[*]: 线程 1 更新数据</span><br><span class="line">[*]: 线程1: name1</span><br><span class="line">[*]: 线程1耗时: 6844</span><br></pre></td></tr></table></figure></p>
-<p>加for update<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[*]: 线程 2 准备读数据</span><br><span class="line">[*]: 线程 1 准备读数据</span><br><span class="line">[*]: 线程 1 读取完数据</span><br><span class="line">[*]: 线程 1 更新数据</span><br><span class="line">[*]: 线程 2 读取完数据</span><br><span class="line">[*]: 线程1: name1</span><br><span class="line">[*]: 线程1耗时: 6866</span><br><span class="line">[*]: 线程 2 更新数据</span><br><span class="line">[*]: 线程2: newName1</span><br><span class="line">[*]: 线程2耗时: 10975</span><br></pre></td></tr></table></figure></p>
-<p>因为使用了数据连接池，所以哪个线程先执行sql得看输出。</p>
-<p>如结果，线程1sql先执行，数据被加锁(线程2的sql等待)，线程1sql执行完后，线程2的sql再执行。</p>
+        <p>Java NIO（New IO） 是从Java 1.4版本开始引入的一个新的IO API，可以替代标准的Java IO API。NIO与原来的IO有同样的作用和目的，但是使用的方式完全不同， NIO支持面向缓冲区的、基于通道的IO操作。 NIO将以更加高效的方式进行文件的读写操作。</p>
+<p>1.java.nio.Buffer</p>
+<p>IO是以流的方式处理数据，而NIO是以块的方式处理数据</p>
+<p>2.java.nio.channels Interface Channel</p>
+<p>Channel是一个对象，可以通过它读取和写入数据。可以把它看做IO中的流。但是它和流相比还有一些不同</p>
+<p>Channel是双向的，既可以读又可以写，而流是单向的</p>
+<p>Channel可以进行异步的读写</p>
+<p>对Channel的读写必须通过buffer对象 ( 应用程序不能直接对 Channel 进行读写操作，而必须通过 Buffer 来进行，即 Channel 是通过 Buffer 来读写数据的。)</p>
 
       
 
@@ -327,7 +903,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/06/java/others/mysql分布式锁实现/">展开全文 >></a>
+          <a class="article-more-a" href="/2020/01/17/java/io/javaNIO/">展开全文 >></a>
         </p>
       
 
@@ -357,36 +933,61 @@
 
 
   
-    <article id="post-java/others/redis分布式锁" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-java/io/java中io简要了解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/06/java/others/redis分布式锁/">redis分布式锁</a>
+      <a class="article-title" href="/2020/01/17/java/io/java中io简要了解/">几种IO模型简要了解</a>
     </h1>
   
 
         
-        <a href="/2020/01/06/java/others/redis分布式锁/" class="archive-article-date">
-  	<time datetime="2020-01-06T03:02:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-06</time>
+        <a href="/2020/01/17/java/io/java中io简要了解/" class="archive-article-date">
+  	<time datetime="2020-01-17T06:54:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-17</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>分布式系统中，某个功能只在一台机器上执行(即，只执行一次)，用分布式锁实现。</p>
-<h1 id="一-分布式锁"><a href="#一-分布式锁" class="headerlink" title="一.分布式锁"></a>一.分布式锁</h1><h2 id="1-什么是分布式锁"><a href="#1-什么是分布式锁" class="headerlink" title="1.什么是分布式锁"></a>1.什么是分布式锁</h2><p>分布式锁是控制分布式系统或不同系统之间共同访问共享资源的一种锁实现，如果不同的系统或同一个系统的不同主机之间共享了某个资源时，往往需要互斥来防止彼此干扰来保证一致性。</p>
-<h2 id="2-实现方式"><a href="#2-实现方式" class="headerlink" title="2.实现方式"></a>2.实现方式</h2><ul>
-<li><p>基于数据库</p>
-</li>
-<li><p>基于缓存(redis，memcached等)</p>
-</li>
-<li><p>基于Zookeeper</p>
-</li>
+        <p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/BIO-NIO-AIO.md" target="_blank" rel="noopener">https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/BIO-NIO-AIO.md</a></p>
+<p><a href="https://www.cnblogs.com/crazymakercircle/p/10225159.html" target="_blank" rel="noopener">https://www.cnblogs.com/crazymakercircle/p/10225159.html</a></p>
+<p>一般对服务器来说，io有文件io和网络io.</p>
+<p>一个io 实际可以分成两个部分 (1).发起io 和 (2).实际io操作</p>
+<h1 id="一-提前准备"><a href="#一-提前准备" class="headerlink" title="一.提前准备"></a>一.提前准备</h1><p>下面所有的阻塞/非阻塞/同步/异步只针对于io而言。</p>
+<h2 id="1-阻塞和非阻塞理解"><a href="#1-阻塞和非阻塞理解" class="headerlink" title="1.阻塞和非阻塞理解"></a>1.阻塞和非阻塞理解</h2><p>阻塞IO和非阻塞IO的区别在于第一步，发起IO请求是否会被阻塞，如果阻塞直到完成那么就是传统的阻塞IO，如果不阻塞，那么就是非阻塞IO。</p>
+<ul>
+<li>阻塞</li>
 </ul>
+<p>一个事件的发生和响应，都得在一个线程内完成。如果这个过程很慢，则这个线程挂起，不能去干其它的事。</p>
+<p>以socket为例，read()方法,会一直阻塞，等到输入输出流中的数据。</p>
+<ul>
+<li>非阻塞</li>
+</ul>
+<p>体现在，这个线程可以去干别的，不需要一直在这等着。</p>
+<p>同样以socket为例，一个线程请求read()，但是发现当前流中没有数据，该线程不用一直等待可以去干其它事(发起读的请求后，就可以去干其它事)。<br>但是，这个线程(或者单开一个专门判读数据是否准备好的线程)，仍要定时的去读一下，看数据是否准备好了，如果没准备好，就继续去干其它事。</p>
+<h2 id="2-同步和异步理解"><a href="#2-同步和异步理解" class="headerlink" title="2.同步和异步理解"></a>2.同步和异步理解</h2><p>同步IO和异步IO的区别就在于第二个步骤是否阻塞。<br>如果实际的IO读写阻塞请求进程，那么就是同步IO，因此阻塞IO、非阻塞IO、IO复用、信号驱动IO都是同步IO，<br>如果不阻塞，而是操作系统帮你做完IO操作再将结果返回给你，那么就是异步IO。</p>
+<ul>
+<li>同步</li>
+</ul>
+<p>所谓同步，就是在发出一个功能调用时，在没有得到结果之前，该调用就不返回</p>
+<ul>
+<li>异步</li>
+</ul>
+<p>异步的概念和同步相对。当一个异步过程调用发出后，调用者不能立刻得到结果。实际处理这个调用的部件在完成后，通过状态、通知和回调来通知调用者。</p>
+<h1 id="二-几种IO模型了解"><a href="#二-几种IO模型了解" class="headerlink" title="二.几种IO模型了解"></a>二.几种IO模型了解</h1><h2 id="1-同步阻塞IO"><a href="#1-同步阻塞IO" class="headerlink" title="1.同步阻塞IO"></a>1.同步阻塞IO</h2><p>传统的io是阻塞io(blocking-io)，通常一个事件的发生和响应，都得在一个线程内完成。<br>如果想要有多个操作，就得结合多线程使用。然而线程资源宝贵，线程切换开销大。</p>
+<h2 id="2-同步非阻塞NIO"><a href="#2-同步非阻塞NIO" class="headerlink" title="2.同步非阻塞NIO"></a>2.同步非阻塞NIO</h2><p>non-blocking-io,同步非阻塞IO.</p>
+<p>用户进程发起一个 IO 操作以后 边可 返回做其它事情，但是用户进程需要时不时的询问 IO 操作是否就绪，这就要求用户进程不停的去询问，从而引入不必要的 CPU 资源浪费。</p>
+<p>注意:这里所说的NIO（同步非阻塞IO）模型，并非Java的NIO（New IO）库。</p>
+<h2 id="3-IO多路复用（Multiplexing"><a href="#3-IO多路复用（Multiplexing" class="headerlink" title="3.IO多路复用（Multiplexing)"></a>3.IO多路复用（Multiplexing)</h2><p>多路复用，事件驱动模型之一。</p>
+<p>每收到一个请求，放入一个事件列表，让主进程通过非阻塞I/O方式来处理请求</p>
+<p>就是很多网络连接(多路)，共(复)用少数几个(甚至是一个)线程。连接很多的时候，不能每个连接一个线程，会耗尽系统内存的。线程也不能阻塞在任何一个连接上，等新的数据来，这样就不能及时响应其他连接发来的数据了；也不能用非阻塞方式，轮询所有的连接，这会浪费掉大量CPU时间；只能告诉系统，我对哪些连接感兴趣，有消息来的时候，通知我处理。</p>
+<p>I/O多路复用实际上就是用select, poll, epoll监听多个io对象，当io对象有变化（有数据）的时候就通知用户进程。好处就是单个进程可以处理多个socket。</p>
+<p>举例: 我们有很多个socket连接，但是并不是所有连接都要一直阻塞读取写入，因为实际上很多时间都是无意义等待。这时候就可以有一个或多个专门的线程，来处理这些socket,当有新的消息时，通知对应得线程进行处理。</p>
+<h2 id="4-异步非阻塞AIO"><a href="#4-异步非阻塞AIO" class="headerlink" title="4.异步非阻塞AIO"></a>4.异步非阻塞AIO</h2><p>用户线程发起一个调用之后无须等待, 可以处理别的事情. 由操作系统等待接收内容, 接收后把数据拷贝到用户进程中, 最后通知用户程序(回调)已经可以使用数据了。</p>
 
       
 
@@ -410,7 +1011,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/06/java/others/redis分布式锁/">展开全文 >></a>
+          <a class="article-more-a" href="/2020/01/17/java/io/java中io简要了解/">展开全文 >></a>
         </p>
       
 
@@ -440,403 +1041,28 @@
 
 
   
-    <article id="post-java/java几种队列一" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-java/spring/读取配置文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/27/java/java几种队列一/">java 几种队列，初步有个概念</a>
+      <a class="article-title" href="/2020/01/17/java/spring/读取配置文件/">读取配置文件</a>
     </h1>
   
 
         
-        <a href="/2019/12/27/java/java几种队列一/" class="archive-article-date">
-  	<time datetime="2019-12-27T02:31:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-27</time>
+        <a href="/2020/01/17/java/spring/读取配置文件/" class="archive-article-date">
+  	<time datetime="2020-01-17T06:36:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-17</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>参考:<a href="https://benjaminwhx.com/2018/05/05/%E8%AF%B4%E8%AF%B4%E9%98%9F%E5%88%97Queue/" target="_blank" rel="noopener">https://benjaminwhx.com/2018/05/05/%E8%AF%B4%E8%AF%B4%E9%98%9F%E5%88%97Queue/</a></p>
-<p><img src="http://67.216.218.49:8000/file/blogs/java/collection/queue.png" alt="queue"></p>
-<h2 id="1-Queue-和-Deque"><a href="#1-Queue-和-Deque" class="headerlink" title="1.Queue 和 Deque"></a>1.Queue 和 Deque</h2><ul>
-<li>Queue</li>
-</ul>
-<p>队列 先入先出 (FIFO)</p>
-<table>
-<thead>
-<tr>
-<th>操作</th>
-<th>说明</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>add</td>
-<td>增加一个元索</td>
-<td>如果队列已满，则抛出一个IIIegaISlabEepeplian异常</td>
-</tr>
-<tr>
-<td>remove</td>
-<td>移除并返回队列头部的元素</td>
-<td>如果队列为空，则抛出一个NoSuchElementException异常</td>
-</tr>
-<tr>
-<td>element</td>
-<td>返回队列头部的元素</td>
-<td>如果队列为空，则抛出一个NoSuchElementException异常</td>
-</tr>
-<tr>
-<td>offer</td>
-<td>添加一个元素并返回true</td>
-<td>如果队列已满，则返回false</td>
-</tr>
-<tr>
-<td>poll</td>
-<td>移除并返问队列头部的元素</td>
-<td>如果队列为空，则返回null</td>
-</tr>
-<tr>
-<td>peek</td>
-<td>返回队列头部的元素</td>
-<td>如果队列为空，则返回null</td>
-</tr>
-<tr>
-<td>put</td>
-<td>添加一个元素</td>
-<td>如果队列满，则阻塞</td>
-</tr>
-<tr>
-<td>take</td>
-<td>移除并返回队列头部的元素</td>
-<td>如果队列为空，则阻塞</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>Deque</li>
-</ul>
-<p>双端队列 双端队列是指该队列两端的元素既能入队(offer)也能出队(poll),如果将Deque限制为只能从一端入队和出队，则可实现栈的数据结构</p>
-<table>
-<thead>
-<tr>
-<th>Queue方法</th>
-<th>对应Deque</th>
-<th>分割线</th>
-<th>堆栈</th>
-<th>对应Deque</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>add(e)</td>
-<td>addLast(e)</td>
-<td></td>
-<td>push(e)</td>
-<td>addFirst(e)</td>
-</tr>
-<tr>
-<td>offer(e)</td>
-<td>offerLast(e)</td>
-<td></td>
-<td>pop()</td>
-<td>removeFirst()</td>
-</tr>
-<tr>
-<td>remove</td>
-<td>removeFirst()</td>
-<td></td>
-<td>peek()</td>
-<td>peekFirst()</td>
-</tr>
-<tr>
-<td>poll</td>
-<td>pollFirst()</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>elment</td>
-<td>getFirst()</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>peek</td>
-<td>peekFirst()</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="2-BlockingQueue-和-Queue"><a href="#2-BlockingQueue-和-Queue" class="headerlink" title="2.BlockingQueue 和 Queue"></a>2.BlockingQueue 和 Queue</h2><p>BlockingQueue 取出时会判断队列是否空，添加时会判断队列是否满了。会造成阻塞。</p>
-<h2 id="3-Linked-和-Array"><a href="#3-Linked-和-Array" class="headerlink" title="3.Linked 和 Array"></a>3.Linked 和 Array</h2><p>链表和数组区别：<a href="https://blog.csdn.net/SNOW_wu/article/details/53172721" target="_blank" rel="noopener">https://blog.csdn.net/SNOW_wu/article/details/53172721</a></p>
-<p>主要考虑 增删改查的效率问题(时间)，和 存储(空间)问题。</p>
-<h2 id="4-SynchronousQueue"><a href="#4-SynchronousQueue" class="headerlink" title="4.SynchronousQueue"></a>4.SynchronousQueue</h2><p>因为SynchronousQueue没有存储功能，因此put和take会一直阻塞，直到有另一个线程已经准备好参与到交付过程中。仅当有足够多的消费者，并且总是有一个消费者准备好获取交付的工作时，才适合使用同步队列。</p>
-<h2 id="5-DelayQueue"><a href="#5-DelayQueue" class="headerlink" title="5.DelayQueue"></a>5.DelayQueue</h2><p>一个无界阻塞队列，只有在延迟期满时才能从中提取元素.</p>
-<p>使用例子:<a href="https://segmentfault.com/a/1190000011266078" target="_blank" rel="noopener">https://segmentfault.com/a/1190000011266078</a></p>
-<h2 id="6-PriorityQueue"><a href="#6-PriorityQueue" class="headerlink" title="6.PriorityQueue"></a>6.PriorityQueue</h2><p>PriorityQueue是不同于先进先出队列的另一种队列，特点是存入其中的每项数据都另外附有一个数值，表示这个像的优先级, 每次从队列中取出的是具有最高优先权的元素。优先队列常用堆来实现.</p>
-<h2 id="7-ConcurrentLinkedQueue"><a href="#7-ConcurrentLinkedQueue" class="headerlink" title="7.ConcurrentLinkedQueue"></a>7.ConcurrentLinkedQueue</h2><p>使用CPU原语Compare-And-Swap(CAS，汇编指令CMPXCHG) 操作来保证线程安全。一种轻量级锁。</p>
-<p>补充:在Java发展初期，java语言是不能够利用硬件提供的这些便利来提升系统的性能的。但随着java不断的发展，Java本地方法(JNI)的出现，使得java程序能够越过JVM直接调用本地方法。CAS也成为java.util.concurrent的基石，CAS实现了区别于synchronouse同步锁的一种乐观锁。</p>
-<h2 id="8-TransferQueue"><a href="#8-TransferQueue" class="headerlink" title="8.TransferQueue"></a>8.TransferQueue</h2><p>TransferQueue对比与BlockingQueue更强大的一点是，生产者会一直阻塞直到所添加到队列的元素被某一个消费者所消费（不仅仅是添加到队列里就完事）.</p>
-<p>TransferQueue 效率高。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/12/27/java/java几种队列一/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/base/CallBack回调了解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/25/java/base/CallBack回调了解/">java CallBack</a>
-    </h1>
-  
-
-        
-        <a href="/2019/12/25/java/base/CallBack回调了解/" class="archive-article-date">
-  	<time datetime="2019-12-25T07:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://www.cnblogs.com/xrq730/p/6424471.html" target="_blank" rel="noopener">https://www.cnblogs.com/xrq730/p/6424471.html</a></p>
-<h1 id="一-调用"><a href="#一-调用" class="headerlink" title="一.调用"></a>一.调用</h1><h2 id="1-同步调用"><a href="#1-同步调用" class="headerlink" title="1.同步调用"></a>1.同步调用</h2><p>同步调用是，类A的方法a()调用类B的方法b()，一直等待b()方法执行完毕，a()方法继续往下走。</p>
-<h2 id="2-异步调用"><a href="#2-异步调用" class="headerlink" title="2.异步调用"></a>2.异步调用</h2><p>类A的方法方法a()通过新起线程的方式调用类B的方法b()，代码接着直接往下执行，这样无论方法b()执行时间多久，都不会阻塞住方法a()的执行。但是这种方式，由于方法a()不等待方法b()的执行完成，在方法a()需要方法b()执行结果的情况下（视具体业务而定，有些业务比如启异步线程发个微信通知、刷新一个缓存这种就没必要），必须通过一定的方式对方法b()的执行结果进行监听。在Java中，可以使用Future+Callable的方式做到这一点。</p>
-<h2 id="3-回调"><a href="#3-回调" class="headerlink" title="3.回调"></a>3.回调</h2><p>回调也分为同步回调和异步回调(待续。。。。。)</p>
-<p>网上理解: 类A的a()方法调用类B的b()方法，类B的b()方法执行完毕主动调用类A的callback()方法</p>
-<p>我的理解: 回调就是，A的某个方法中，有一些操作需要在B中完成，B中操作完成后，需要将结果通知给A(不一定是通知，反正就是一个CallBack)，这个通知操作就是回调。</p>
-<h1 id="二-回调怎么实现"><a href="#二-回调怎么实现" class="headerlink" title="二.回调怎么实现"></a>二.回调怎么实现</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Java 回调机制 Callback</span><br><span class="line"> */</span><br><span class="line">// 回调接口,泛型参数</span><br><span class="line">interface CallBack&lt;T,E&gt;&#123;</span><br><span class="line">    T doSomeThing1();</span><br><span class="line">    void doSomeThing2(E e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// class A 实现回调接口</span><br><span class="line">class A&lt;T,E&gt; implements CallBack&lt;String,E&gt;&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public String doSomeThing1() &#123;</span><br><span class="line">        return &quot;接收到回调&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void doSomeThing2(E e) &#123;</span><br><span class="line">        System.out.println(&quot;接收到回调: &quot; + e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //调用B中的方法，将自己作为回调告诉B,B完成后应该向我返回结果</span><br><span class="line">    public void myFunc(B b)&#123;</span><br><span class="line">        b.excute(this);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//class B</span><br><span class="line">class B&lt;E&gt;&#123;</span><br><span class="line">    private E e;</span><br><span class="line">    //接收一个Callback,知道完成后，向谁汇报完成结果</span><br><span class="line">    public void excute(CallBack callBack)&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            //一些其它操作</span><br><span class="line">            Thread.sleep(3000);</span><br><span class="line">            //结果</span><br><span class="line">            e = (E)&quot;result1&quot;;</span><br><span class="line">        &#125;catch (Exception e1)&#123;</span><br><span class="line">            e1.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //进行回调操作,将结果告诉调用方</span><br><span class="line">        callBack.doSomeThing2(e);</span><br><span class="line"></span><br><span class="line">        //接下来的操作</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class CallBackDemo &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String [] args)&#123;</span><br><span class="line">        B b = new B();</span><br><span class="line">        A a = new A();</span><br><span class="line">        // 方式1，回调</span><br><span class="line">        a.myFunc(b);</span><br><span class="line"></span><br><span class="line">        //方式2，使用匿名函数</span><br><span class="line">        b.excute(new CallBack() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public Object doSomeThing1() &#123;</span><br><span class="line">                return null;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void doSomeThing2(Object o) &#123;</span><br><span class="line">                System.out.println(&quot;匿名函数实现回调&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/12/25/java/base/CallBack回调了解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-tools/杂记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/13/tools/杂记/">一些零零碎碎</a>
-    </h1>
-  
-
-        
-        <a href="/2019/12/13/tools/杂记/" class="archive-article-date">
-  	<time datetime="2019-12-13T01:38:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>杂记的都是些零零碎碎待整理归纳的东西</p>
-<h4 id="1-一次性-kill所有符合条件的进程"><a href="#1-一次性-kill所有符合条件的进程" class="headerlink" title="1.一次性 kill所有符合条件的进程"></a>1.一次性 kill所有符合条件的进程</h4><p>ps -ef | grep xxx | cut -c 9-15 | xargs kill -9</p>
-<h4 id="2-Collections-copy-深拷贝"><a href="#2-Collections-copy-深拷贝" class="headerlink" title="2.Collections.copy 深拷贝"></a>2.Collections.copy 深拷贝</h4><p>List<string> remain = new ArrayList&lt;&gt;(Arrays.asList(new String[list.size()]));<br>Collections.copy(remain, list);</string></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">other</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/12/13/tools/杂记/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/spring/spring参数验证注解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/12/java/spring/spring参数验证注解/">spring参数验证注解</a>
-    </h1>
-  
-
-        
-        <a href="/2019/12/12/java/spring/spring参数验证注解/" class="archive-article-date">
-  	<time datetime="2019-12-12T06:51:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一-常用注解"><a href="#一-常用注解" class="headerlink" title="一.常用注解"></a>一.常用注解</h1><p>JSR提供的校验注解：  </p>
-<ul>
-<li>@Null   被注释的元素必须为 null    </li>
-<li>@NotNull    被注释的元素必须不为 null     </li>
-<li>@Min(value)     被注释的元素必须是一个数字，其值必须大于等于指定的最小值    </li>
-<li>@Max(value)     被注释的元素必须是一个数字，其值必须小于等于指定的最大值      </li>
-<li>@Size(max=, min=)   被注释的元素的大小必须在指定的范围内      </li>
-<li>@Pattern(regex=,flag=)  被注释的元素必须符合指定的正则表达式    </li>
-</ul>
-<p>Hibernate Validator提供的校验注解：</p>
-<ul>
-<li>@NotBlank(message =)   验证字符串非null，且长度必须大于0    </li>
-<li>@Email  被注释的元素必须是电子邮箱地址    </li>
-<li>@Length(min=,max=)  被注释的字符串的大小必须在指定的范围内    </li>
-<li>@NotEmpty   被注释的字符串的必须非空    </li>
-<li>@Range(min=,max=,message=)  被注释的元素必须在合适的范围内</li>
-</ul>
-<h1 id="二-例子"><a href="#二-例子" class="headerlink" title="二.例子"></a>二.例子</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class User &#123;</span><br><span class="line"></span><br><span class="line">    private String userId;</span><br><span class="line">    private String username;</span><br><span class="line">    @NotBlank(message = &quot;密码不能为空&quot;)</span><br><span class="line">    @Length(min = 6,max = 18,message = &quot;密码长度为6-18&quot;)</span><br><span class="line">    private String password;</span><br><span class="line">    private String userDesc;</span><br><span class="line">    private String avatarUrl;</span><br><span class="line">    @Pattern(regexp = &quot;^1(3|4|5|7|8)\\d&#123;9&#125;$&quot;,message = &quot;手机号码格式错误&quot;)</span><br><span class="line">    @NotBlank(message = &quot;手机号码不能为空&quot;)</span><br><span class="line">    private String mobile;</span><br><span class="line">    @Email(message = &quot;请输入正常的邮箱&quot;)</span><br><span class="line">    private String email;</span><br><span class="line">    private String cityCode;</span><br><span class="line">    private String areaCode;</span><br><span class="line">    private String userAddress;</span><br><span class="line">    private String zoneNum;</span><br><span class="line">    private String connectPhoneNum;</span><br><span class="line">    private String userBak1;</span><br><span class="line">    private String userBak2;</span><br><span class="line">    private String userBak3;</span><br><span class="line">    private String userStatus;</span><br><span class="line">    private String createTime;</span><br><span class="line">    private String updateTime;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="三-使用"><a href="#三-使用" class="headerlink" title="三.使用"></a>三.使用</h1><p>使用时要加上 @Valid 或 @Validated 注解</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@ApiOperation(value = &quot;注册&quot;,notes = &quot;注册&quot;)</span><br><span class="line"> @RequestMapping(value = &quot;register&quot;, method = RequestMethod.POST)</span><br><span class="line"> @ResponseBody</span><br><span class="line"> public Object register(@Valid @RequestBody User user)&#123;</span><br><span class="line"></span><br><span class="line">     return userService.register(user);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import java.io.InputStream;</span><br><span class="line">import java.nio.file.Files;</span><br><span class="line">import java.nio.file.Paths;</span><br><span class="line">import java.util.Properties;</span><br><span class="line"></span><br><span class="line">public class ProperGet &#123;</span><br><span class="line">    public static final String defaultPath = &quot;configs.properties&quot;;</span><br><span class="line">    private static Logger log = LoggerFactory.getLogger(ProperGet.class);</span><br><span class="line"></span><br><span class="line">    public static Properties getProper(String propertyPath) &#123;</span><br><span class="line">        Properties properties = new Properties();</span><br><span class="line">        try &#123;</span><br><span class="line">            properties.load(Files.newInputStream(Paths.get(propertyPath)));</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            log.error(&quot;读取配置文件失败&#123;&#125;&quot;,e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        return properties;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static Properties getProper() &#123;</span><br><span class="line">        Properties properties = new Properties();</span><br><span class="line">        try &#123;</span><br><span class="line">            InputStream in = ProperGet.class.getClassLoader().getResourceAsStream(defaultPath);</span><br><span class="line">            properties.load(in);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            log.error(&quot;读取配置文件失败&#123;&#125;&quot;,e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        return properties;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="后续补充"><a href="#后续补充" class="headerlink" title="后续补充"></a>后续补充</h2>
       
 
       
@@ -859,269 +1085,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/12/12/java/spring/spring参数验证注解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-wheels/java/GobalException" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/12/wheels/java/GobalException/">全局异常</a>
-    </h1>
-  
-
-        
-        <a href="/2019/12/12/wheels/java/GobalException/" class="archive-article-date">
-  	<time datetime="2019-12-12T06:46:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import com.bonc.zq.bui.configuration.myexception.*;</span><br><span class="line">import org.springframework.http.converter.HttpMessageNotReadableException;</span><br><span class="line">import org.springframework.validation.BindException;</span><br><span class="line">import org.springframework.web.bind.MethodArgumentNotValidException;</span><br><span class="line">import org.springframework.web.bind.annotation.ControllerAdvice;</span><br><span class="line">import org.springframework.web.bind.annotation.ExceptionHandler;</span><br><span class="line">import org.springframework.web.bind.annotation.ResponseBody;</span><br><span class="line">import org.springframework.web.multipart.MultipartException;</span><br><span class="line"></span><br><span class="line">import java.net.ConnectException;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 全局异常处理类，拦截@RequestMapping抛出的异常</span><br><span class="line"> * 只能是controller层抛出的</span><br><span class="line"> * 处理顺序为配置顺序 依次向下</span><br><span class="line"> * @author xxl</span><br><span class="line"> */</span><br><span class="line">@ControllerAdvice</span><br><span class="line">class GlobalExceptionHandler &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     *  拦截MyAuthException类的异常</span><br><span class="line">     *  认证异常</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(MyAuthException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(MyAuthException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.EXCEPTION_DATABASE,e.getErrMsg());</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     *  拦截BindException类的异常 @Valid注解触发</span><br><span class="line">     *  @NotBlank参数非空校验失败的异常</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(BindException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(BindException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.PARAMS_VALID_EXCEPTION,e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     *  拦截MethodArgumentNotValidException类的异常 @Valid注解触发</span><br><span class="line">     *  @NotBlank参数非空校验失败的异常</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(MethodArgumentNotValidException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(MethodArgumentNotValidException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.PARAMS_VALID_EXCEPTION,e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     *  拦截MyDatabaseException类的异常</span><br><span class="line">     *  数据库操作异常</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(MyDatabaseException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(MyDatabaseException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.EXCEPTION_DATABASE,e.getErrMsg());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     *  拦截MyFileException类的异常</span><br><span class="line">     *  文件操作异常</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(MyFileException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(MyFileException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.SERVER_EXCEPTION,e.getErrMsg());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     *  拦截MyHttpException类的异常</span><br><span class="line">     *  http操作异常</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(MyHttpException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(MyHttpException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.SERVER_EXCEPTION,e.getErrMsg());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 拦截MyParamsExxception</span><br><span class="line">     * 参数异常</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(MyParamsException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(MyParamsException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.EXCEPTION_DATABASE,e.getErrMsg());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 文件上传错误</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(MultipartException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(MultipartException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.SERVER_EXCEPTION,&quot;文件上传异常&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 空指针异常拦截</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(NullPointerException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(NullPointerException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return ResultMessage.error(StatusCode.SERVER_EXCEPTION, &quot;空指针异常&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * http异常拦截</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(HttpMessageNotReadableException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(HttpMessageNotReadableException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return ResultMessage.error(StatusCode.SERVER_EXCEPTION, &quot;http参数异常&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 连接异常拦截</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(ConnectException.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(ConnectException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return ResultMessage.error(StatusCode.SERVER_EXCEPTION, &quot;net连接异常&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 其它异常,最后拦截，所有没匹配到得异常</span><br><span class="line">     * @param e</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @ExceptionHandler(Exception.class)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public ResultMessage exceptionHandler(Exception e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return  ResultMessage.error(StatusCode.SERVER_EXCEPTION,&quot;发生异常--&quot; + e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wheels</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/12/12/wheels/java/GobalException/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/流程引擎activiti入门二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/28/java/流程引擎activiti入门二/">流程引擎activiti入门 -- 使用</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/28/java/流程引擎activiti入门二/" class="archive-article-date">
-  	<time datetime="2019-11-28T07:26:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>接上文的take-leave.bpmn20.xml流程。</p>
-<h1 id="一-流程信息实体类"><a href="#一-流程信息实体类" class="headerlink" title="一.流程信息实体类"></a>一.流程信息实体类</h1><p>流程过程中需要的一些信息。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class BusinessEntity implements Serializable &#123;</span><br><span class="line"></span><br><span class="line">    @NotNull(message = &quot;审核人员1不能为空&quot;)</span><br><span class="line">    private String leader1;</span><br><span class="line">    private boolean agree1;</span><br><span class="line">    private String desc1;</span><br><span class="line"></span><br><span class="line">    @NotNull(message = &quot;审核人员2不能为空&quot;)</span><br><span class="line">    private String leader2;</span><br><span class="line">    private boolean agree2;</span><br><span class="line">    private String desc2;</span><br><span class="line"></span><br><span class="line">    @NotNull(message = &quot;审核人员3不能为空&quot;)</span><br><span class="line">    private String leader3;</span><br><span class="line">    private boolean agree3;</span><br><span class="line">    private String desc3;</span><br><span class="line"></span><br><span class="line">    @NotNull(message = &quot;审核人员4不能为空&quot;)</span><br><span class="line">    private String leader4;</span><br><span class="line">    private boolean agree4;</span><br><span class="line">    private String desc4;</span><br><span class="line"></span><br><span class="line">    private TaskInfoEntity taskInfo;</span><br><span class="line">    private String processId;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class TaskInfoEntity  &#123;</span><br><span class="line"></span><br><span class="line">    private String taskId;</span><br><span class="line">    private String taskName;</span><br><span class="line">    private String processInstanceId;</span><br><span class="line">    private String assignee;</span><br><span class="line"></span><br><span class="line">    public TaskInfoEntity(Task task)&#123;</span><br><span class="line"></span><br><span class="line">        this.assignee = task.getAssignee();</span><br><span class="line">        this.processInstanceId  = task.getProcessInstanceId();</span><br><span class="line">        this.taskId = task.getId();</span><br><span class="line">        this.taskName = task.getName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="二-一个简单流程"><a href="#二-一个简单流程" class="headerlink" title="二.一个简单流程"></a>二.一个简单流程</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">@RequestMapping(value = &quot;/business&quot;)</span><br><span class="line">public class BusinessController &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    BusinessService businessService;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &quot;/start&quot;,method = RequestMethod.POST)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public Object start(@RequestBody BusinessEntity entity)&#123;</span><br><span class="line">      return ResultMessage.success(businessService.start(entity));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &quot;/approve1&quot;,method = RequestMethod.POST)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public Object approve1(@RequestBody BusinessEntity entity)&#123;</span><br><span class="line">        return businessService.approve1(entity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &quot;/approve2&quot;,method = RequestMethod.POST)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public Object approve2(@RequestBody BusinessEntity entity)&#123;</span><br><span class="line">        return businessService.approve2(entity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &quot;/approve3&quot;,method = RequestMethod.POST)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public Object approve3(@RequestBody BusinessEntity entity)&#123;</span><br><span class="line">        return businessService.approve3(entity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &quot;/approve4&quot;,method = RequestMethod.POST)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public Object approve4(@RequestBody BusinessEntity entity)&#123;</span><br><span class="line">        return businessService.approve4(entity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class BusinessService &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private RuntimeService runtimeService;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private TaskService taskService;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private ProcessEngine processEngine;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public Object start(BusinessEntity entity)&#123;</span><br><span class="line"></span><br><span class="line">        Map&lt;String, Object&gt; vars = new HashMap&lt;&gt;();</span><br><span class="line">        vars.put(&quot;business&quot;,entity);</span><br><span class="line">        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(&quot;process_business_opportunities_examine&quot;,vars);</span><br><span class="line"></span><br><span class="line">        entity.setProcessId(processInstance.getProcessInstanceId());</span><br><span class="line">        System.out.println(&quot;processId: &quot; + entity.getProcessId());</span><br><span class="line">        List&lt;Task&gt; list = taskService.createTaskQuery().processInstanceId(processInstance.getProcessInstanceId()).list();</span><br><span class="line">        if(list == null || list.size() &lt;= 0)&#123;</span><br><span class="line">            return &quot;task生成错误&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        entity.setTaskInfo(new TaskInfoEntity(list.get(0)));</span><br><span class="line"></span><br><span class="line">        return entity;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Object approve1(BusinessEntity entity)&#123;</span><br><span class="line"></span><br><span class="line">        if(!entity.isAgree1())&#123;</span><br><span class="line">            return &quot;审批不通过&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String taskId1 = entity.getTaskInfo().getTaskId();</span><br><span class="line">        taskService.complete(taskId1);</span><br><span class="line"></span><br><span class="line">        List&lt;Task&gt; list = taskService.createTaskQuery().processInstanceId(entity.getProcessId()).list();</span><br><span class="line">        if(list == null || list.size() &lt;= 0)&#123;</span><br><span class="line">            return &quot;task生成错误&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        entity.setTaskInfo(new TaskInfoEntity(list.get(0)));</span><br><span class="line"></span><br><span class="line">        return entity;</span><br><span class="line">    &#125;</span><br><span class="line">    public Object approve2(BusinessEntity entity)&#123;</span><br><span class="line"></span><br><span class="line">        if(!entity.isAgree2())&#123;</span><br><span class="line">            return &quot;审批不通过&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String taskId1 = entity.getTaskInfo().getTaskId();</span><br><span class="line">        taskService.complete(taskId1);</span><br><span class="line"></span><br><span class="line">        List&lt;Task&gt; list = taskService.createTaskQuery().processInstanceId(entity.getProcessId()).list();</span><br><span class="line">        if(list == null || list.size() &lt;= 0)&#123;</span><br><span class="line">            return &quot;task生成错误&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        entity.setTaskInfo(new TaskInfoEntity(list.get(0)));</span><br><span class="line"></span><br><span class="line">        return entity;</span><br><span class="line">    &#125;</span><br><span class="line">    public Object approve3(BusinessEntity entity)&#123;</span><br><span class="line"></span><br><span class="line">        if(!entity.isAgree3())&#123;</span><br><span class="line">            return &quot;审批不通过&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String taskId1 = entity.getTaskInfo().getTaskId();</span><br><span class="line">        taskService.complete(taskId1);</span><br><span class="line"></span><br><span class="line">        List&lt;Task&gt; list = taskService.createTaskQuery().processInstanceId(entity.getProcessId()).list();</span><br><span class="line">        if(list == null || list.size() &lt;= 0)&#123;</span><br><span class="line">            return &quot;task生成错误&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        entity.setTaskInfo(new TaskInfoEntity(list.get(0)));</span><br><span class="line"></span><br><span class="line">        return entity;</span><br><span class="line">    &#125;</span><br><span class="line">    public Object approve4(BusinessEntity entity)&#123;</span><br><span class="line"></span><br><span class="line">        if(!entity.isAgree4())&#123;</span><br><span class="line">            return &quot;审批不通过&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String taskId1 = entity.getTaskInfo().getTaskId();</span><br><span class="line">        taskService.complete(taskId1);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        return &quot;流程: &quot; + entity.getProcessId() + &quot;  已完成&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/28/java/流程引擎activiti入门二/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/流程引擎activiti入门前概念准备" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/28/java/流程引擎activiti入门前概念准备/">流程引擎activiti入门前概念准备</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/28/java/流程引擎activiti入门前概念准备/" class="archive-article-date">
-  	<time datetime="2019-11-28T07:26:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一-核心模块"><a href="#一-核心模块" class="headerlink" title="一.核心模块"></a>一.核心模块</h1><p>慢慢理解这块，需要什么功能，就在对应的块里面去找</p>
-<ul>
-<li><p>RepositoryService 流程仓库Service,可以管理流程仓库例如部署删除读取流程资源</p>
-</li>
-<li><p>RuntimeService 运行时Service可以处理所有运行状态的流程实例流程控制(开始,暂停,挂起等)</p>
-</li>
-<li><p>TaskService 任务Service用于管理、查询任务，例如签收、办理、指派等</p>
-</li>
-<li><p>IdentitiService 身份Service可以管理查询用户、组之间的关系</p>
-</li>
-<li><p>FormService 表单Service用于读取和流程、任务相关的表单数据</p>
-</li>
-<li><p>HistoryService 历史Service用于查询所有的历史数据</p>
-</li>
-<li><p>ManagementService 引擎管理Service，和具体业务无关，主要查询引擎配置，数据库作业</p>
-</li>
-<li><p>DynamicBpmService 动态bpm服务，帮助我们在不重新部署的情况下更改流程中的任何内容</p>
-</li>
-<li><p>BpmnModel bpmn模型对象，可以用于绘制流程图</p>
-</li>
-</ul>
-<h1 id="二-一个流程"><a href="#二-一个流程" class="headerlink" title="二.一个流程"></a>二.一个流程</h1><p>使用流程引擎的一般步骤通常是:</p>
-<p>画流程图，定义其中的变量和条件</p>
-<p>将流程图转为bpmn20.xml文件</p>
-<p>runtimeService.startXXXX() 开始一个流程</p>
-<p>TaskService.complete(leave.getTaskId(), vars); 完善一个流程的基本信息</p>
-<p>taskService.complete(leave.getTaskId(),vars); 根据条件，决定流程走向</p>
-<p>流程完成</p>
-<h1 id="三-查看流程"><a href="#三-查看流程" class="headerlink" title="三.查看流程"></a>三.查看流程</h1><p>查看流程信息</p>
-<p>查看流程信息(流程图形式)<br>processEngineConfiguration.getProcessDiagramGenerator().generateDiagram()</p>
-<h1 id="四-整体感受"><a href="#四-整体感受" class="headerlink" title="四.整体感受"></a>四.整体感受</h1><p><img src="http://67.216.218.49:8000/file/blogs/java/base/activiti.png" alt="activiti"></p>
-<p>activiti.cfg.xml 是流程的配置文件，在springboot中，已经不需要它了，直接用spring的配置。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/28/java/流程引擎activiti入门前概念准备/">展开全文 >></a>
+          <a class="article-more-a" href="/2020/01/17/java/spring/读取配置文件/">展开全文 >></a>
         </p>
       
 
@@ -1153,7 +1117,7 @@
   
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 

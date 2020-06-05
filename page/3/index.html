@@ -138,30 +138,32 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-java/大概了解一下zookeeper" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-java/流程引擎activiti入门二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/24/java/大概了解一下zookeeper/">初步理解zookeeper</a>
+      <a class="article-title" href="/2019/11/28/java/流程引擎activiti入门二/">流程引擎activiti入门 -- 使用</a>
     </h1>
   
 
         
-        <a href="/2019/10/24/java/大概了解一下zookeeper/" class="archive-article-date">
-  	<time datetime="2019-10-24T09:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-24</time>
+        <a href="/2019/11/28/java/流程引擎activiti入门二/" class="archive-article-date">
+  	<time datetime="2019-11-28T07:26:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="一-zookeeper是什么"><a href="#一-zookeeper是什么" class="headerlink" title="一.zookeeper是什么"></a>一.zookeeper是什么</h1><p>ZooKeeper主要是为分布式系统提供一致性协调(Coordination)服务。简单讲就是，如果某个节点宕机后，Zookeeper会通过选举算法重新选出一个节点，保证它不会由于单一节点的故障而造成问题.<br></p>
-<p>2.在什么地方用</p>
-<p>3.为什么要用，有什么好处</p>
-<p>4.怎么用</p>
+        <p>接上文的take-leave.bpmn20.xml流程。</p>
+<h1 id="一-流程信息实体类"><a href="#一-流程信息实体类" class="headerlink" title="一.流程信息实体类"></a>一.流程信息实体类</h1><p>流程过程中需要的一些信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class BusinessEntity implements Serializable &#123;</span><br><span class="line"></span><br><span class="line">    @NotNull(message = &quot;审核人员1不能为空&quot;)</span><br><span class="line">    private String leader1;</span><br><span class="line">    private boolean agree1;</span><br><span class="line">    private String desc1;</span><br><span class="line"></span><br><span class="line">    @NotNull(message = &quot;审核人员2不能为空&quot;)</span><br><span class="line">    private String leader2;</span><br><span class="line">    private boolean agree2;</span><br><span class="line">    private String desc2;</span><br><span class="line"></span><br><span class="line">    @NotNull(message = &quot;审核人员3不能为空&quot;)</span><br><span class="line">    private String leader3;</span><br><span class="line">    private boolean agree3;</span><br><span class="line">    private String desc3;</span><br><span class="line"></span><br><span class="line">    @NotNull(message = &quot;审核人员4不能为空&quot;)</span><br><span class="line">    private String leader4;</span><br><span class="line">    private boolean agree4;</span><br><span class="line">    private String desc4;</span><br><span class="line"></span><br><span class="line">    private TaskInfoEntity taskInfo;</span><br><span class="line">    private String processId;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class TaskInfoEntity  &#123;</span><br><span class="line"></span><br><span class="line">    private String taskId;</span><br><span class="line">    private String taskName;</span><br><span class="line">    private String processInstanceId;</span><br><span class="line">    private String assignee;</span><br><span class="line"></span><br><span class="line">    public TaskInfoEntity(Task task)&#123;</span><br><span class="line"></span><br><span class="line">        this.assignee = task.getAssignee();</span><br><span class="line">        this.processInstanceId  = task.getProcessInstanceId();</span><br><span class="line">        this.taskId = task.getId();</span><br><span class="line">        this.taskName = task.getName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="二-一个简单流程"><a href="#二-一个简单流程" class="headerlink" title="二.一个简单流程"></a>二.一个简单流程</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">@Controller</span><br><span class="line">@RequestMapping(value = &quot;/business&quot;)</span><br><span class="line">public class BusinessController &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    BusinessService businessService;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &quot;/start&quot;,method = RequestMethod.POST)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public Object start(@RequestBody BusinessEntity entity)&#123;</span><br><span class="line">      return ResultMessage.success(businessService.start(entity));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &quot;/approve1&quot;,method = RequestMethod.POST)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public Object approve1(@RequestBody BusinessEntity entity)&#123;</span><br><span class="line">        return businessService.approve1(entity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &quot;/approve2&quot;,method = RequestMethod.POST)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public Object approve2(@RequestBody BusinessEntity entity)&#123;</span><br><span class="line">        return businessService.approve2(entity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &quot;/approve3&quot;,method = RequestMethod.POST)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public Object approve3(@RequestBody BusinessEntity entity)&#123;</span><br><span class="line">        return businessService.approve3(entity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &quot;/approve4&quot;,method = RequestMethod.POST)</span><br><span class="line">    @ResponseBody</span><br><span class="line">    public Object approve4(@RequestBody BusinessEntity entity)&#123;</span><br><span class="line">        return businessService.approve4(entity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class BusinessService &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private RuntimeService runtimeService;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private TaskService taskService;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private ProcessEngine processEngine;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public Object start(BusinessEntity entity)&#123;</span><br><span class="line"></span><br><span class="line">        Map&lt;String, Object&gt; vars = new HashMap&lt;&gt;();</span><br><span class="line">        vars.put(&quot;business&quot;,entity);</span><br><span class="line">        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(&quot;process_business_opportunities_examine&quot;,vars);</span><br><span class="line"></span><br><span class="line">        entity.setProcessId(processInstance.getProcessInstanceId());</span><br><span class="line">        System.out.println(&quot;processId: &quot; + entity.getProcessId());</span><br><span class="line">        List&lt;Task&gt; list = taskService.createTaskQuery().processInstanceId(processInstance.getProcessInstanceId()).list();</span><br><span class="line">        if(list == null || list.size() &lt;= 0)&#123;</span><br><span class="line">            return &quot;task生成错误&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        entity.setTaskInfo(new TaskInfoEntity(list.get(0)));</span><br><span class="line"></span><br><span class="line">        return entity;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Object approve1(BusinessEntity entity)&#123;</span><br><span class="line"></span><br><span class="line">        if(!entity.isAgree1())&#123;</span><br><span class="line">            return &quot;审批不通过&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String taskId1 = entity.getTaskInfo().getTaskId();</span><br><span class="line">        taskService.complete(taskId1);</span><br><span class="line"></span><br><span class="line">        List&lt;Task&gt; list = taskService.createTaskQuery().processInstanceId(entity.getProcessId()).list();</span><br><span class="line">        if(list == null || list.size() &lt;= 0)&#123;</span><br><span class="line">            return &quot;task生成错误&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        entity.setTaskInfo(new TaskInfoEntity(list.get(0)));</span><br><span class="line"></span><br><span class="line">        return entity;</span><br><span class="line">    &#125;</span><br><span class="line">    public Object approve2(BusinessEntity entity)&#123;</span><br><span class="line"></span><br><span class="line">        if(!entity.isAgree2())&#123;</span><br><span class="line">            return &quot;审批不通过&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String taskId1 = entity.getTaskInfo().getTaskId();</span><br><span class="line">        taskService.complete(taskId1);</span><br><span class="line"></span><br><span class="line">        List&lt;Task&gt; list = taskService.createTaskQuery().processInstanceId(entity.getProcessId()).list();</span><br><span class="line">        if(list == null || list.size() &lt;= 0)&#123;</span><br><span class="line">            return &quot;task生成错误&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        entity.setTaskInfo(new TaskInfoEntity(list.get(0)));</span><br><span class="line"></span><br><span class="line">        return entity;</span><br><span class="line">    &#125;</span><br><span class="line">    public Object approve3(BusinessEntity entity)&#123;</span><br><span class="line"></span><br><span class="line">        if(!entity.isAgree3())&#123;</span><br><span class="line">            return &quot;审批不通过&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String taskId1 = entity.getTaskInfo().getTaskId();</span><br><span class="line">        taskService.complete(taskId1);</span><br><span class="line"></span><br><span class="line">        List&lt;Task&gt; list = taskService.createTaskQuery().processInstanceId(entity.getProcessId()).list();</span><br><span class="line">        if(list == null || list.size() &lt;= 0)&#123;</span><br><span class="line">            return &quot;task生成错误&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        entity.setTaskInfo(new TaskInfoEntity(list.get(0)));</span><br><span class="line"></span><br><span class="line">        return entity;</span><br><span class="line">    &#125;</span><br><span class="line">    public Object approve4(BusinessEntity entity)&#123;</span><br><span class="line"></span><br><span class="line">        if(!entity.isAgree4())&#123;</span><br><span class="line">            return &quot;审批不通过&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String taskId1 = entity.getTaskInfo().getTaskId();</span><br><span class="line">        taskService.complete(taskId1);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        return &quot;流程: &quot; + entity.getProcessId() + &quot;  已完成&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
 
@@ -185,7 +187,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/10/24/java/大概了解一下zookeeper/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/11/28/java/流程引擎activiti入门二/">展开全文 >></a>
         </p>
       
 
@@ -215,204 +217,73 @@
 
 
   
-    <article id="post-tools/apt和dpkg了解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-algorithm/位运算一" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/23/tools/apt和dpkg了解/">apt和dpkg</a>
+      <a class="article-title" href="/2019/11/26/algorithm/位运算一/">位运算专题一</a>
     </h1>
   
 
         
-        <a href="/2019/10/23/tools/apt和dpkg了解/" class="archive-article-date">
-  	<time datetime="2019-10-23T09:18:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-23</time>
+        <a href="/2019/11/26/algorithm/位运算一/" class="archive-article-date">
+  	<time datetime="2019-11-26T03:39:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-26</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="一-为什么写这篇总结"><a href="#一-为什么写这篇总结" class="headerlink" title="一.为什么写这篇总结"></a>一.为什么写这篇总结</h1><p>经常使用apt和dpkg安装软件，但是从没有详细的看过它们有哪些用法。经常忘记，所以记录一下。</p>
-<h1 id="二-apt"><a href="#二-apt" class="headerlink" title="二.apt"></a>二.apt</h1><h2 id="1-apt是什么"><a href="#1-apt是什么" class="headerlink" title="1.apt是什么"></a>1.apt是什么</h2><p>apt是debian和ubuntu中的包管理工具，适用于deb包，主要为了 便捷的 在软件仓库中搜索,安装,更新和卸载软件.</p>
-<h2 id="2-apt源"><a href="#2-apt源" class="headerlink" title="2.apt源"></a>2.apt源</h2><p>apt 使用的软件源 在 /etc/apt/sources.list 中配置</p>
-<h3 id="2-1-apt"><a href="#2-1-apt" class="headerlink" title="2.1 apt"></a>2.1 apt</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">apt updated 根据配置的源，更新包信息</span><br><span class="line"></span><br><span class="line">apt upgrade 升级已安装的包</span><br><span class="line"></span><br><span class="line">apt dist-upgrade 升级系统</span><br><span class="line"></span><br><span class="line">apt install package  安装包</span><br><span class="line"></span><br><span class="line">apt install package=version 安装（或升级降级到）指定版本</span><br><span class="line"></span><br><span class="line">apt install package --reinstall 安装已经安装，但可能存在问题的包</span><br><span class="line"></span><br><span class="line">apt install -f 修复依赖关系，缺少某些包会自动安装</span><br><span class="line"></span><br><span class="line">apt remove package 删除包</span><br><span class="line"></span><br><span class="line">apt autoremove package 删除包，及其依赖包</span><br><span class="line"></span><br><span class="line">apt remove package --purge 删除包，及其配置文件</span><br><span class="line"></span><br><span class="line">apt autoclean 清理无用的包</span><br></pre></td></tr></table></figure>
-<h3 id="2-2-apt-cache"><a href="#2-2-apt-cache" class="headerlink" title="2.2 apt-cache"></a>2.2 apt-cache</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-cache search reg(正则) 搜索包</span><br><span class="line">apt-cache show package 显示包的相关信息</span><br></pre></td></tr></table></figure>
-<h1 id="三-dpkg"><a href="#三-dpkg" class="headerlink" title="三.dpkg"></a>三.dpkg</h1><p>dpkg用于debian或ubuntu安装.适用于deb包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">dpkg -i package 安装软件包</span><br><span class="line"></span><br><span class="line">dpkg -l 显示已安装软件，太多，可以grep</span><br><span class="line"></span><br><span class="line">dpkg -s package 显示已安装的包的信息</span><br><span class="line"></span><br><span class="line">dpkg -L package 显示已安装包的文件信息(有哪些文件，在哪些目录)</span><br><span class="line"></span><br><span class="line">dpkg -r package 删除包</span><br><span class="line"></span><br><span class="line">dpkg --purge package 纯净删除，包括配置文件</span><br><span class="line"></span><br><span class="line">dpkg -c package 查看一个安装包中包含的文件，及安装后的文件路径</span><br></pre></td></tr></table></figure>
-<h1 id="四-apt和dpkg关系"><a href="#四-apt和dpkg关系" class="headerlink" title="四.apt和dpkg关系"></a>四.apt和dpkg关系</h1><p>因为 apt install 自动安装的也是.deb包。所以，当安装某个包，发现缺失某些依赖包，在apt中找不到，又不想换源，或者换源也找不到，可以在网上将依赖包包(.deb)下载下来，用dpkg 来安装。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tools</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/10/23/tools/apt和dpkg了解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/zookeeper了解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/10/21/java/zookeeper了解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-base/浏览器同源策略" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/14/base/浏览器同源策略/">浏览器同源策略</a>
-    </h1>
-  
-
-        
-        <a href="/2019/10/14/base/浏览器同源策略/" class="archive-article-date">
-  	<time datetime="2019-10-14T13:16:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一-什么是同源策略"><a href="#一-什么是同源策略" class="headerlink" title="一.什么是同源策略"></a>一.什么是同源策略</h1><p>首先，同源策略是浏览器端的，不存在于安卓，ios,node或java等其他环境.</p>
-<h2 id="1-什么是同源"><a href="#1-什么是同源" class="headerlink" title="1.什么是同源"></a>1.什么是同源</h2><p><img src="http://67.216.218.49:8000/file/blogs/base/origin_01.png" alt="origin"></p>
-<p>即,协议,ip，port 共同构成源.</p>
-<h2 id="2-同源协议内容"><a href="#2-同源协议内容" class="headerlink" title="2.同源协议内容"></a>2.同源协议内容</h2><ul>
-<li><p>(1).不能读取非同源的Cookie,LocalStorage,IndexDB</p>
-</li>
-<li><p>(2).不能获取非同源的DOM,Window</p>
-</li>
-<li><p>(3).跨域AJAX请求返回不能接收，被浏览器拦截</p>
-</li>
+        <p>位运算入门: <a href="https://www.jiuzhang.com/tutorial/bit-manipulation/73" target="_blank" rel="noopener">https://www.jiuzhang.com/tutorial/bit-manipulation/73</a></p>
+<h1 id="一-位运算基础"><a href="#一-位运算基础" class="headerlink" title="一.位运算基础"></a>一.位运算基础</h1><h2 id="1-原码、反码、补码"><a href="#1-原码、反码、补码" class="headerlink" title="1.原码、反码、补码"></a>1.原码、反码、补码</h2><p>首先要知道一点，计算机中整数都是用补码存储的。</p>
+<h5 id="计算机为什么要使用补码"><a href="#计算机为什么要使用补码" class="headerlink" title="计算机为什么要使用补码"></a>计算机为什么要使用补码</h5><p>因为减一个数等于加上它的补数<br><a href="https://blog.csdn.net/leonliu06/article/details/78685197" target="_blank" rel="noopener">https://blog.csdn.net/leonliu06/article/details/78685197</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//在十进制中  补数为 x + 补数 = 0</span><br><span class="line">5 - 3 = 5 + (-3)</span><br><span class="line">//在二进制中</span><br><span class="line">0101 - 3 = 0101 - (0011)</span><br><span class="line">         = 0101 + (1100 + 1) //负数的补码等于反码 + 1</span><br><span class="line">         = 0010 = 2</span><br></pre></td></tr></table></figure></p>
+<p>而在计算机中，算数逻辑单元ALU,计算加法最简单，使用补码，可以忽略负数的符号影响</p>
+<h5 id="三码与真值转换"><a href="#三码与真值转换" class="headerlink" title="三码与真值转换"></a>三码与真值转换</h5><ul>
+<li>整数</li>
 </ul>
-<h2 id="3-一些可以跨域"><a href="#3-一些可以跨域" class="headerlink" title="3.一些可以跨域"></a>3.一些可以跨域</h2><ul>
-<li>Form表单</li>
-</ul>
-<p>form表单提交，一般会进行页面跳转</p>
+<p>整数的原码，反码，补码都一样</p>
 <ul>
-<li>\<image>,\<a>,\<script>,\<iframe>等拥有的src，href属性可以跨域</li>
+<li>负数</li>
 </ul>
-<p>在127.0.0.1的地址的页面中，可以用iframe加载baidu.com的页面，但是不能读取baidu.com中的内容(window对象和document对象),但是如果加载自己域名下其他页面(同源)，是可以读取的</p>
-<h1 id="二-为什么"><a href="#二-为什么" class="headerlink" title="二.为什么"></a>二.为什么</h1><h2 id="1-为什么需要同源策略"><a href="#1-为什么需要同源策略" class="headerlink" title="1.为什么需要同源策略"></a>1.为什么需要同源策略</h2><p>反证：如果没有同源策略会怎样?</p>
-<p>如果没有同源策略，一个页面可以任意读取其它页面的信息(页面内容，cookie等)，不用说都知道这样肯定不行。会导致CSRF等.</p>
-<h1 id="三-怎么解决"><a href="#三-怎么解决" class="headerlink" title="三.怎么解决"></a>三.怎么解决</h1><h2 id="1-JSONP"><a href="#1-JSONP" class="headerlink" title="1.JSONP"></a>1.JSONP</h2><p>jsonp实现跨域是因为\<script>,所以，它也只能发get请求，毕竟从没见过post方式的\<script></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function addScriptTag(src) &#123;  </span><br><span class="line">  var script = document.createElement(&apos;script&apos;);  </span><br><span class="line">  script.setAttribute(&quot;type&quot;,&quot;text/javascript&quot;);  </span><br><span class="line">  script.src = src;  </span><br><span class="line">  document.body.appendChild(script);  </span><br><span class="line">&#125;</span><br><span class="line">window.onload = function () &#123;  </span><br><span class="line">  addScriptTag(&apos;http://example.com/ip?callback=foo&apos;);  </span><br><span class="line">&#125;</span><br><span class="line">function foo(data) &#123;  </span><br><span class="line">  console.log(&apos;Your public IP address is: &apos; + data.ip);  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="2-WebSocket"><a href="#2-WebSocket" class="headerlink" title="2.WebSocket"></a>2.WebSocket</h2><p>首先WebSocket是一个协议.WebSocket 可以由服务端主动向客户端推送消息，是双全工方式。<br><br>而http，只能由客户端发起，是单向请求。<br></p>
-<p>具体可看:<a href="https://www.ruanyifeng.com/blog/2017/05/websocket.html">https://www.ruanyifeng.com/blog/2017/05/websocket.html</a></p>
-<h2 id="3-CORS"><a href="#3-CORS" class="headerlink" title="3.CORS"></a>3.CORS</h2><p>(原文) <a href="http://www.ruanyifeng.com/blog/2016/04/cors.html">http://www.ruanyifeng.com/blog/2016/04/cors.html</a></p>
-<p>Cross-origin resource sharing(跨域资源共享),是一个W3C标准，需要浏览器和服务器同时支持,目前浏览器都已支持，服务器端需进行配置.<br></p>
-<p>CORS请求分为简单请求和非简单请求。<br></p>
-<h3 id="3-1-简单请求"><a href="#3-1-简单请求" class="headerlink" title="3.1 简单请求"></a>3.1 简单请求</h3><h4 id="3-1-1-特征"><a href="#3-1-1-特征" class="headerlink" title="3.1.1 特征"></a>3.1.1 特征</h4><ul>
-<li><p>请求方式</p>
-<p>请求方式为 HEAD,GET,POST</p>
-</li>
-<li><p>header信息</p>
-<p>header信息不超出以下范围：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Accept</span><br><span class="line">Accept-Language</span><br><span class="line">Content-Language</span><br><span class="line">Last-Event-ID</span><br><span class="line">Content-Type：</span><br><span class="line">        application/x-www-form-urlencoded、 multipart/form-data、text/plain</span><br></pre></td></tr></table></figure>
-<p>一般主要是看Content-Type, 比如Content-Type: application/json 为复杂请求</p>
-</li>
+<p>真值转码：<br><br>反码为除符号位外，每位取反<br><br>补码为，反码加一</p>
+<p>码转真值:<br><br>补码取反，再加1</p>
+<h2 id="2-位运算"><a href="#2-位运算" class="headerlink" title="2.位运算"></a>2.位运算</h2><ul>
+<li>&amp; 与</li>
 </ul>
-<h4 id="3-1-2-请求流程"><a href="#3-1-2-请求流程" class="headerlink" title="3.1.2 请求流程"></a>3.1.2 请求流程</h4><p> 对于简单请求，浏览器直接发出CORS请求。具体来说，就是在头信息之中，增加一个Origin字段。<br> 如：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /cors HTTP/1.1</span><br><span class="line">Origin: http://api.bob.com</span><br><span class="line">Host: api.alice.com</span><br><span class="line">Accept-Language: en-US</span><br><span class="line">Connection: keep-alive</span><br><span class="line">User-Agent: Mozilla/5.0...</span><br></pre></td></tr></table></figure></p>
-<p> 如果 Origin 不在许可的范围内，浏览器会返回一个正常的HTTP响应，但是响应头中不包含Access-Control-Allow-Origin信息，此时浏览器就知道出错了。</p>
-<p> 如果 Origin 在许可的范围内，服务器返回会多出几个头信息。<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: http://api.bob.com</span><br><span class="line">Access-Control-Allow-Credentials: true</span><br><span class="line">Access-Control-Expose-Headers: FooBar</span><br></pre></td></tr></table></figure></p>
-<h3 id="3-2-非简单请求"><a href="#3-2-非简单请求" class="headerlink" title="3.2 非简单请求"></a>3.2 非简单请求</h3><p>超出简单请求范围的请求。<br></p>
-<p>如请求方式为PUT,DELETE, header包含Cookie， Content-Type为 application/json 等。</p>
-<p>非简单请求浏览器会先发送一个 OPTION 类型的预检请求，向服务器确认是否可以跨域。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">OPTIONS /cors HTTP/1.1</span><br><span class="line">Origin: http://api.bob.com</span><br><span class="line">Access-Control-Request-Method: PUT</span><br><span class="line">Access-Control-Request-Headers: X-Custom-Header</span><br><span class="line">Host: api.alice.com</span><br><span class="line">Accept-Language: en-US</span><br><span class="line">Connection: keep-alive</span><br><span class="line">User-Agent: Mozilla/5.0...</span><br></pre></td></tr></table></figure>
-<p>服务器收到预检请求后，检查Cors的相关信息，如果确认允许，则返回允许的信息，浏览器再发送真正请求，带上Origin字段。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Date: Mon, 01 Dec 2008 01:15:39 GMT</span><br><span class="line">Server: Apache/2.0.61 (Unix)</span><br><span class="line">Access-Control-Allow-Origin: http://api.bob.com</span><br><span class="line">Access-Control-Allow-Methods: GET, POST, PUT</span><br><span class="line">Access-Control-Allow-Headers: X-Custom-Header</span><br><span class="line">Content-Type: text/html; charset=utf-8</span><br><span class="line">Content-Encoding: gzip</span><br><span class="line">Content-Length: 0</span><br><span class="line">Keep-Alive: timeout=2, max=100</span><br><span class="line">Connection: Keep-Alive</span><br><span class="line">Content-Type: text/plain</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PUT /cors HTTP/1.1</span><br><span class="line">Origin: http://api.bob.com</span><br><span class="line">Host: api.alice.com</span><br><span class="line">X-Custom-Header: value</span><br><span class="line">Accept-Language: en-US</span><br><span class="line">Connection: keep-alive</span><br><span class="line">User-Agent: Mozilla/5.0...</span><br></pre></td></tr></table></figure>
-<p>如果预检信息不通过，则服务器返回的不带Cors相关信息。<br>浏览器根据Cors相关信息来确定是否允许跨域。</p>
-</script></a></image></li></ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 &amp; 1 = 1</span><br><span class="line">1 &amp; 0 = 0</span><br><span class="line">0 &amp; 0 = 0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>| 或</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 | 1 = 1</span><br><span class="line">1 | 0 = 1</span><br><span class="line">0 | 0 = 0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>~ 非</li>
+</ul>
+<p>非操作为取反操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A =   (1)10 = (00000000000000000000000000000001)2</span><br><span class="line">~A = ~ (1)10 = (11111111111111111111111111111110)2 = (-2)10</span><br></pre></td></tr></table></figure></p>
+<p>~1 值为 -2</p>
+<p>解释下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">10000000000000000000000000000001  // -1源码表示</span><br><span class="line">11111111111111111111111111111110  // -1反码</span><br><span class="line">11111111111111111111111111111111  // -1补码</span><br><span class="line"></span><br><span class="line">~A = ~(1)10 = ~(00000000000000000000000000000001)2</span><br><span class="line">   = ~(11111111111111111111111111111110)  // 1的非运算结果</span><br><span class="line">//转化为真值  取反 + 1</span><br><span class="line">10000000000000000000000000000001  //取反</span><br><span class="line">10000000000000000000000000000010  // +1 值为-2</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>^ 异或</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 ^ 1 = 0</span><br><span class="line">1 ^ 0 = 1</span><br><span class="line">0 ^ 0 = 0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>>&gt;     >&gt;&gt; 右移</li>
+</ul>
+<p>带符号右移 &gt;&gt;</p>
+<p>将A的二进制表示的每一位向右移B位，右边超出的位截掉，左边不足的位补符号位的数（比如负数符号位是1则补充1，正数符号位是0则补充0），所以对于算术右移，原来是负数的，结果还是负数，原来是正数的结果还是正数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A = (-127)10 &gt;&gt; 2 = (11111111111111111111111110000001)2 &gt;&gt; 2 = (11111111111111111111111111100000)2 = (-32)10</span><br></pre></td></tr></table></figure></p>
+<p>逻辑右移 &gt;&gt;&gt;</p>
+<p>将A的二进制表示的每一位向右移B位，右边超出的位截掉，左边不足的位补0。所以对于逻辑右移，结果将会是一个正数</p>
+<p>举个例子对于十进制数-127, 已知(-127)10 = (11111111111111111111111110000001)2 , 因为是负数，所以最高位上是1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A = (-127)10 &gt;&gt; 2 = (11111111111111111111111110000001)2 &gt;&gt; 2 = (00111111111111111111111111100000)2 = (1073741792)10</span><br></pre></td></tr></table></figure>
+<ul>
+<li>&lt;&lt;  左移</li>
+</ul>
+<p>将二进制表示的整体向左移 n位，左边超出 32 位的截掉（int类型为32位），右边不足的位补 0<br>比如对于10进制数12，他的二进制表示下，是1100，那么将其左移 2 位，得到的结果是 110000。</p>
+<p>可以发现，在不溢出的情况下，左移n位，相当于 乘了 2的n次方<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A &lt;&lt; B = A * 2^B</span><br></pre></td></tr></table></figure></p>
+<h1 id="为什么要用位运算"><a href="#为什么要用位运算" class="headerlink" title="为什么要用位运算"></a>为什么要用位运算</h1><p>位运算速度快</p>
+<h1 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用"></a>怎么用</h1>
       
 
       
@@ -425,7 +296,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">algorithm</a>
         		</li>
       		
 		</ul>
@@ -435,7 +306,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/10/14/base/浏览器同源策略/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/11/26/algorithm/位运算一/">展开全文 >></a>
         </p>
       
 
@@ -465,34 +336,57 @@
 
 
   
-    <article id="post-base/发布订阅模式与观察者模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-base/工厂模式-抽象工厂模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/09/base/发布订阅模式与观察者模式/">pub/sub模式和观察者模式</a>
+      <a class="article-title" href="/2019/11/13/base/工厂模式-抽象工厂模式/">设计模式--工厂模式三(抽象工厂模式)</a>
     </h1>
   
 
         
-        <a href="/2019/10/09/base/发布订阅模式与观察者模式/" class="archive-article-date">
-  	<time datetime="2019-10-09T08:43:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-09</time>
+        <a href="/2019/11/13/base/工厂模式-抽象工厂模式/" class="archive-article-date">
+  	<time datetime="2019-11-13T05:48:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-13</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>知乎高赞回答:<a href="https://www.zhihu.com/question/23486749" target="_blank" rel="noopener">https://www.zhihu.com/question/23486749</a></p>
-<h1 id="什么是观察者模式"><a href="#什么是观察者模式" class="headerlink" title="什么是观察者模式"></a>什么是观察者模式</h1><p>观察者订阅一个对象，当对象状态发生改变，直接告诉观察者。</p>
-<p><img src="http://67.216.218.49:8000/file/blogs/base/design-patterns/obverse_01.png" alt="obeverse"></p>
-<h1 id="什么是发布订阅模式"><a href="#什么是发布订阅模式" class="headerlink" title="什么是发布订阅模式"></a>什么是发布订阅模式</h1><p>观察者订阅一个对象，但是不是直接订阅对象，而是订阅事件池中的该对象信息，对象发生改变时，将变更信息放到事件池， 观察者从事件池中获取变更。</p>
-<p><img src="http://67.216.218.49:8000/file/blogs/base/design-patterns/pub_sub_01.png" alt="pub_sub"></p>
-<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><p>为什么要多加个中间层？中间层充当什么角色，事件管理?调度中心？有什么好处？<br></p>
-<p>个人理解,不一定准确:<br></p>
-<p>观察者得一直盯着对象，观察它是否发生变化。 发布订阅可以一直盯着，也可以先干自己的事情，隔一段时间想起来了，再去事件池中看有无消息，应用场景更广。如，消息队列，观察者(既消费者)离线后，事件信息不会丢失,上线后还能继续处理.</p>
+        <h2 id="1-抽象工厂模式"><a href="#1-抽象工厂模式" class="headerlink" title="1.抽象工厂模式"></a>1.抽象工厂模式</h2><p>工厂方法模式在大多数情况下已经可以了，但是它每个工厂只能创建一种商品，在某些情况下显得不够用。</p>
+<p>抽象工厂模式，提供一个创建一系列相关对象的接口，而无需指定它们具体的类。我的理解就是，将product再多了一层抽象。每个特定工厂，生产特定类型的product(某个接口或抽象类)。</p>
+<p>实际上多了个产品族的概念。</p>
+<p>同时，工厂也变成了超级工厂，这个超级工厂负责创建其它工厂。</p>
+<p>每个产品族可以包括多种产品。<br><img src="http://67.216.218.49:8000/file/blogs/base/abstract_factory_01.png" alt="abstract_factory"></p>
+<h2 id="2-角色"><a href="#2-角色" class="headerlink" title="2.角色"></a>2.角色</h2><ul>
+<li>factory</li>
+</ul>
+<p>抽象工厂类(超级工厂)。</p>
+<ul>
+<li>concreteFactory</li>
+</ul>
+<p>具体的某种工厂</p>
+<ul>
+<li>product</li>
+</ul>
+<p>抽象产品。</p>
+<ul>
+<li>productFamily</li>
+</ul>
+<p>抽象的产品族</p>
+<ul>
+<li>concerteProduct</li>
+</ul>
+<p>具体的产品</p>
+<h2 id="3-例子"><a href="#3-例子" class="headerlink" title="3.例子"></a>3.例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//超级工厂</span><br><span class="line">interface Factory&#123;</span><br><span class="line"></span><br><span class="line">     ProductFamily1 getProductFamily1(int type);</span><br><span class="line">     ProductFamily2 getProductFamily2(int type);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 负责产品族1的工厂</span><br><span class="line">class Factory1 implements Factory&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public ProductFamily1 getProductFamily1(int type) &#123;</span><br><span class="line">        if(type == 1)&#123;</span><br><span class="line">            return new Product1();</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            return new Product2();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public ProductFamily2 getProductFamily2(int type) &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//负责产品族2的工厂</span><br><span class="line">class Factory2 implements Factory&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public ProductFamily1 getProductFamily1(int type) &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public ProductFamily2 getProductFamily2(int type) &#123;</span><br><span class="line">        switch (type)&#123;</span><br><span class="line">            case 1 : return new Product3();</span><br><span class="line">            case 2 : return new Product4();</span><br><span class="line">            default: return null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//负责选择具体工厂，(不一定需要?)</span><br><span class="line">class SuperFactory&#123;</span><br><span class="line">    public Factory getFactory(int type)&#123;</span><br><span class="line">        switch (type)&#123;</span><br><span class="line">            case 1 : return new Factory1();</span><br><span class="line">            case 2 : return new Factory2();</span><br><span class="line">            default: return null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//产品族1</span><br><span class="line">interface ProductFamily1&#123;</span><br><span class="line">    void print();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Product1 implements ProductFamily1&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void print() &#123;</span><br><span class="line">        System.out.println(&quot;Product1&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Product2 implements ProductFamily1&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void print() &#123;</span><br><span class="line">        System.out.println(&quot;Product2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//产品族2</span><br><span class="line">interface ProductFamily2&#123;</span><br><span class="line">    void draw();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Product3 implements ProductFamily2&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void draw() &#123;</span><br><span class="line">        System.out.println(&quot;Product3&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Product4 implements ProductFamily2&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void draw() &#123;</span><br><span class="line">        System.out.println(&quot;Product4&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//开始生产产品了</span><br><span class="line">public class MyAbstractFactoryDemo &#123;</span><br><span class="line"></span><br><span class="line">    public static void main (String[] args)&#123;</span><br><span class="line">        //要生产产品1</span><br><span class="line">        //需要先得到工厂1</span><br><span class="line">        Factory factory1 = new SuperFactory().getFactory(1);</span><br><span class="line">        //生产</span><br><span class="line">        ProductFamily1 product1 = factory1.getProductFamily1(1);</span><br><span class="line">        product1.print();</span><br><span class="line"></span><br><span class="line">        //生产产品3</span><br><span class="line">        Factory factory2 = new SuperFactory().getFactory(2);</span><br><span class="line">        ProductFamily2 product3 = factory2.getProductFamily2(1);</span><br><span class="line">        product3.draw();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-理解"><a href="#4-理解" class="headerlink" title="4.理解"></a>4.理解</h2><p>写完一遍，清晰多了。</p>
+<p>抽象工厂模式，和工厂方法模式相比，感觉就是一个加大版的超级工厂。可以生产出不同的工厂，不同的工厂再去生产不同的具体产品族。</p>
+<p>而工厂方法模式，就是每个工厂生产其自己不同产品。</p>
+<p>简而言之就是 工厂方法模式的工厂生产产品，抽象工厂方法模式的工厂生产产品族。</p>
+<p>在生产产品族的时候，也有判断，所以也没遵从开闭原则。</p>
 
       
 
@@ -516,7 +410,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/10/09/base/发布订阅模式与观察者模式/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/11/13/base/工厂模式-抽象工厂模式/">展开全文 >></a>
         </p>
       
 
@@ -546,70 +440,48 @@
 
 
   
-    <article id="post-java/kafka初探" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-base/工厂模式-工厂方法模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/09/java/kafka初探/">kafka初了解</a>
+      <a class="article-title" href="/2019/11/13/base/工厂模式-工厂方法模式/">设计模式--工厂模式二(工厂方法模式)</a>
     </h1>
   
 
         
-        <a href="/2019/10/09/java/kafka初探/" class="archive-article-date">
-  	<time datetime="2019-10-09T05:23:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-09</time>
+        <a href="/2019/11/13/base/工厂模式-工厂方法模式/" class="archive-article-date">
+  	<time datetime="2019-11-13T02:56:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-13</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>win下Kafka测试环境搭建：<a href="https://blog.csdn.net/u012050154/article/details/76270655" target="_blank" rel="noopener">https://blog.csdn.net/u012050154/article/details/76270655</a></p>
-<h1 id="一-Kafka是什么"><a href="#一-Kafka是什么" class="headerlink" title="一.Kafka是什么"></a>一.Kafka是什么</h1><h2 id="1-是什么"><a href="#1-是什么" class="headerlink" title="1.是什么"></a>1.是什么</h2><p>我的理解是，kafka是一个分布式的消息队列，提供发布订阅功能.</p>
-<h2 id="2-专有名词"><a href="#2-专有名词" class="headerlink" title="2.专有名词"></a>2.专有名词</h2><p>Broker/Topic/Partition/Producer/Consumer/Consumer Group<br></p>
-<ul>
-<li><p>Broker</p>
-<p>Kafka集群包含一个或多个服务器，这种服务器被称为broker.</p>
-</li>
-<li><p>topic</p>
-<p>每条发布到Kafka集群的消息都有一个类别，这个类别被称为Topic（物理上不同Topic的消息分开存储[表现于日志落地]，逻辑上一个Topic的消息虽然保存于一个或多个broker上但用户只需指定消息的Topic即可生产或消费数据而不必关心数据存于何处）</p>
-</li>
-<li><p>partition</p>
-<p>Parition是物理上的概念，每个Topic包含一个或多个Partition.</p>
-</li>
-<li><p>Producer</p>
-<p>消息生产者</p>
-</li>
-<li><p>Consumer</p>
-<p>消息消费者</p>
-</li>
-<li><p>Consumer Group</p>
-<p>消费者所属组，组内的所有消费者协调在一起来消费订阅主题(subscribed topics)的所有分区(partition)。当然，每个分区只能由同一个消费组内的一个consumer来消费.<br><br>重要的再说一遍: Consumer Group下订阅的topic下的某一个分区只能分配给某个group下的一个consumer(当然该分区还可以被分配给其他group).</p>
-</li>
+        <h2 id="1-工厂方法模式"><a href="#1-工厂方法模式" class="headerlink" title="1.工厂方法模式"></a>1.工厂方法模式</h2><p>因为简单工厂模式的缺点，如不能太复杂的条件，违反开放-关闭原则(对拓展开放，对修改关闭)等，<br>所以工厂方法模式肯定会避免这些问题。</p>
+<p>工厂方法模式将工厂抽象，提供一个公共生产方法(接口或抽象类)，每种产品有自己的专属生产工厂。<br>这样，当新添加一种产品时，直接新建一个具体的工厂和产品就行，不用改其它代码。对拓展开放，对修改关闭，<br>符合开放-关闭原则。</p>
+<h2 id="2-角色"><a href="#2-角色" class="headerlink" title="2.角色"></a>2.角色</h2><ul>
+<li>抽象工厂</li>
 </ul>
-<h1 id="二-Kafka作用与意义"><a href="#二-Kafka作用与意义" class="headerlink" title="二.Kafka作用与意义"></a>二.Kafka作用与意义</h1><p>为什么要用它,与其它产品相比怎么样？</p>
-<h2 id="1-为什么用它"><a href="#1-为什么用它" class="headerlink" title="1.为什么用它"></a>1.为什么用它</h2><h3 id="高吞吐率，高性能"><a href="#高吞吐率，高性能" class="headerlink" title="高吞吐率，高性能"></a>高吞吐率，高性能</h3><p><br>怎么实现？<br></p>
+<p>工厂的父类或接口。</p>
 <ul>
-<li><p>写入</p>
-<p>基于操作系统的页缓存来写入文件，相当于kafka将文件写入内存，然后由操作系统来决定什么时候将内存中的信息写入磁盘。</p>
-<p>以磁盘顺序来写入数据，不会在文件随机位置修改数据。</p>
-</li>
-<li><p>读取</p>
-<p>零拷贝技术，省略了两次拷贝(OS Cache将数据拷贝到应用程序缓存和 应用程序缓存拷贝数据到socket缓存)，直接将数据发送到网卡.</p>
-<p><img src="http://67.216.218.49:8000/file/blogs/java/bigdata/kafka_data_transmission_01.png" alt="kafka_data_transmission"></p>
-<p>原图出处: <a href="https://juejin.im/post/5cc00ac95188250a59405322" target="_blank" rel="noopener">https://juejin.im/post/5cc00ac95188250a59405322</a></p>
-</li>
+<li>具体工厂</li>
 </ul>
-<h3 id="分布式"><a href="#分布式" class="headerlink" title="分布式"></a>分布式</h3><p>数据分布式存储(特点就是可以存极大数据)，消费者可以根据分区来进行读取。</p>
-<h3 id="消息队列的通用优点"><a href="#消息队列的通用优点" class="headerlink" title="消息队列的通用优点"></a>消息队列的通用优点</h3><p>灵活，销峰，缓冲等。</p>
-<h2 id="2-和redis区别"><a href="#2-和redis区别" class="headerlink" title="2.和redis区别"></a>2.和redis区别</h2><h3 id="kafka发布订阅模式，和redis有啥不同？"><a href="#kafka发布订阅模式，和redis有啥不同？" class="headerlink" title="kafka发布订阅模式，和redis有啥不同？"></a>kafka发布订阅模式，和redis有啥不同？</h3><h1 id="三-怎么用"><a href="#三-怎么用" class="headerlink" title="三.怎么用"></a>三.怎么用</h1><h2 id="1-springboot中kafka集成"><a href="#1-springboot中kafka集成" class="headerlink" title="1.springboot中kafka集成"></a>1.springboot中kafka集成</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">      &lt;groupId&gt;org.springframework.kafka&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;spring-kafka&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;2.2.9.RELEASE&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<p>配置文件application.properties<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">server.port=8888</span><br><span class="line"></span><br><span class="line">#kafka，更多配置查看kafka的属性类：org.springframework.boot.autoconfigure.kafka.KafkaProperties</span><br><span class="line">#指定kafka 代理地址，可以多个</span><br><span class="line">#spring.kafka.bootstrap-servers=192.168.1.159:9092,192.168.1.159:9093,192.168.1.159:9094</span><br><span class="line">spring.kafka.bootstrap-servers=localhost:9092</span><br><span class="line">#指定默认topic id</span><br><span class="line">spring.kafka.template.default-topic=testDemo</span><br><span class="line">#指定listener 容器中的线程数，用于提高并发量</span><br><span class="line">spring.kafka.listener.concurrency=3</span><br><span class="line">#每次批量发送消息的数量</span><br><span class="line">spring.kafka.producer.batch-size=1000</span><br><span class="line">#将Java对象转换成字节数组发送给broker</span><br><span class="line">spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer</span><br><span class="line">spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer</span><br><span class="line"></span><br><span class="line">#指定默认消费者group id</span><br><span class="line">spring.kafka.consumer.group-id=myGroup1</span><br><span class="line">#若设置为earliest，那么会从头开始读partition，latest读取最新的</span><br><span class="line">spring.kafka.consumer.auto-offset-reset=latest</span><br><span class="line">#将字节数组读取</span><br><span class="line">spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer</span><br><span class="line">spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer</span><br></pre></td></tr></table></figure></p>
-<h2 id="2-生产一条消息"><a href="#2-生产一条消息" class="headerlink" title="2.生产一条消息"></a>2.生产一条消息</h2><p>KafkaTemplate 是Spring提供的用来发消息的实现类，可以在application.properties中进行配置属性，也可以用kafka自己的KafkaProducer来send()消息.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.kafka.clients.producer.KafkaProducer;</span><br><span class="line">import org.apache.kafka.clients.producer.ProducerRecord;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.kafka.core.KafkaTemplate;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">import java.util.Properties;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * kafka生产者send()消息demo</span><br><span class="line"> *</span><br><span class="line"> * 两种，一种是Spring提供的可以用spring配置的KafkaTemplate</span><br><span class="line"> * 一种是Kafka自带的，需要自己注入配置信息的KafkaProducer</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">@Component</span><br><span class="line">public class ProducerDemo &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private KafkaTemplate kafkaTemplate;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public void send1()&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            kafkaTemplate.send(&quot;testDemo&quot;,&quot;data1&quot;);</span><br><span class="line">            System.out.println(&quot;[*]: send success 1 !&quot;);</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void send2()&#123;</span><br><span class="line">        Properties kafkaProps = new Properties();</span><br><span class="line">        kafkaProps.put(&quot;bootstrap.servers&quot;,&quot;localhost:9092&quot;);</span><br><span class="line">        kafkaProps.put(&quot;key.serializer&quot;,&quot;org.apache.kafka.common.serialization.StringSerializer&quot;);</span><br><span class="line">        kafkaProps.put(&quot;value.serializer&quot;,&quot;org.apache.kafka.common.serialization.StringSerializer&quot;);</span><br><span class="line"></span><br><span class="line">        KafkaProducer producer = new KafkaProducer&lt;String, String&gt;(kafkaProps);</span><br><span class="line"></span><br><span class="line">        ProducerRecord record = new ProducerRecord(&quot;testDemo&quot;,&quot;data2&quot;);</span><br><span class="line"></span><br><span class="line">        try&#123;</span><br><span class="line">            producer.send(record);</span><br><span class="line">            System.out.println(&quot;[*]: send success 2 !&quot;);</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="3-订阅消费消息"><a href="#3-订阅消费消息" class="headerlink" title="3.订阅消费消息"></a>3.订阅消费消息</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.kafka.clients.consumer.ConsumerRecord;</span><br><span class="line">import org.apache.kafka.clients.consumer.ConsumerRecords;</span><br><span class="line">import org.apache.kafka.clients.consumer.KafkaConsumer;</span><br><span class="line">import org.springframework.kafka.annotation.KafkaListener;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Properties;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * kafka消费消息demo</span><br><span class="line"> *</span><br><span class="line"> * 1.@KafkaListener 注解为Spring提供用来监听数据的，</span><br><span class="line"> * 由KafkaListenerAnnotationBeanPostProcessor类在postProcessAfterInitialization()时读取所有@Kafkalistener注解</span><br><span class="line"> *</span><br><span class="line"> * 2.KafkaConsumer为kafka自带的类，需要自己初始化配置文件</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class ConsumerDemo &#123;</span><br><span class="line"></span><br><span class="line">    @KafkaListener(id = &quot;testConsumer1&quot;, topics = &quot;testDemo&quot;, groupId = &quot;myGroup1&quot;)</span><br><span class="line">    public void receive1(String data)&#123;</span><br><span class="line">        System.out.println(&quot;[*]: receive success 1 !&quot;);</span><br><span class="line">        System.out.println(data);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void receive2()&#123;</span><br><span class="line">        Properties kafkaProps = new Properties();</span><br><span class="line">        kafkaProps.put(&quot;bootstrap.servers&quot;,&quot;localhost:9092&quot;);</span><br><span class="line">        kafkaProps.put(&quot;group.id&quot;,&quot;myGroup1&quot;);</span><br><span class="line">        kafkaProps.put(&quot;key.deserializer&quot;,&quot;org.apache.kafka.common.serialization.StringDeserializer&quot;);</span><br><span class="line">        kafkaProps.put(&quot;value.deserializer&quot;,&quot;org.apache.kafka.common.serialization.StringDeserializer&quot;);</span><br><span class="line"></span><br><span class="line">        KafkaConsumer kafkaConsumer = new KafkaConsumer(kafkaProps);</span><br><span class="line"></span><br><span class="line">        //List topics = List.of(&quot;testDemo&quot;);</span><br><span class="line">        List&lt;String&gt; topics = new ArrayList&lt;&gt;();</span><br><span class="line">        topics.add(&quot;testDemo&quot;);</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">            kafkaConsumer.subscribe(topics);</span><br><span class="line">            System.out.println(&quot;[*]: receive success 2 !&quot;);</span><br><span class="line">            while(true)&#123;</span><br><span class="line">                ConsumerRecords consumerRecords = kafkaConsumer.poll(1000);</span><br><span class="line">                if(!consumerRecords.isEmpty())&#123;</span><br><span class="line">                   for(Object consumerRecord: consumerRecords.records(&quot;testDemo&quot;))&#123;</span><br><span class="line">                       ConsumerRecord temp = (ConsumerRecord)consumerRecord;</span><br><span class="line">                       System.out.println(&quot;[*]: new data: &quot; + temp.value());</span><br><span class="line">                   &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="四-其它"><a href="#四-其它" class="headerlink" title="四.其它"></a>四.其它</h1>
+<p>具体的每个工厂，不同工厂生产不同产品。</p>
+<ul>
+<li>抽象产品</li>
+</ul>
+<p>产品的父类。</p>
+<ul>
+<li>具体产品</li>
+</ul>
+<p>具体的每种产品。</p>
+<h2 id="3-例子"><a href="#3-例子" class="headerlink" title="3.例子"></a>3.例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">//产品的抽象接口</span><br><span class="line">interface MyProduct &#123;</span><br><span class="line">    void print();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//不同的产品</span><br><span class="line">class ProDuct1 implements MyProduct&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void print()&#123;</span><br><span class="line">        System.out.println(&quot;product1&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class ProDuct2 implements MyProduct&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void print()&#123;</span><br><span class="line">        System.out.println(&quot;product2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//抽象工厂</span><br><span class="line">interface MyFactory&#123;</span><br><span class="line"></span><br><span class="line">    void create();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//具体的生产工厂</span><br><span class="line">class MyFactory1 implements  MyFactory&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void create() &#123;</span><br><span class="line">        new ProDuct1().print();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class MyFactory2 implements  MyFactory&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void create() &#123;</span><br><span class="line">        new ProDuct2().print();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class MyFactoryDemo&#123;</span><br><span class="line">    public static void main(String... args)&#123;</span><br><span class="line">        //根据不同需求(参数)得到不同产品</span><br><span class="line">        MyFactory factory1 = new MyFactory1();</span><br><span class="line">        factory1.create();</span><br><span class="line">        MyFactory factory2 = new MyFactory2();</span><br><span class="line">        factory2.create();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-理解"><a href="#4-理解" class="headerlink" title="4.理解"></a>4.理解</h2><p>工厂方法模式和简单工厂模式的区别就是，工厂方法模式将工厂也进行了抽象，每种工厂只生产特定的产品。</p>
+<p>当然，每个工厂只能创建特定产品，有时候还是会觉得不够方便(我觉得已经很好用了)。</p>
+
       
 
       
@@ -622,11 +494,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
         		</li>
       		
 		</ul>
@@ -636,7 +504,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/10/09/java/kafka初探/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/11/13/base/工厂模式-工厂方法模式/">展开全文 >></a>
         </p>
       
 
@@ -666,41 +534,368 @@
 
 
   
-    <article id="post-一次重启失败问题的解决" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-base/工厂模式-简单工厂模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/24/一次重启失败问题的解决/">一次linux启动失败问题的解决</a>
+      <a class="article-title" href="/2019/11/11/base/工厂模式-简单工厂模式/">设计模式--工厂模式一(简单工厂模式)</a>
     </h1>
   
 
         
-        <a href="/2019/09/24/一次重启失败问题的解决/" class="archive-article-date">
-  	<time datetime="2019-09-24T07:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-24</time>
+        <a href="/2019/11/11/base/工厂模式-简单工厂模式/" class="archive-article-date">
+  	<time datetime="2019-11-11T12:51:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-11</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h2><p>下载了一个截屏软件，然后提示设置了一些东西，需要重启.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install flameshot</span><br></pre></td></tr></table></figure></p>
-<p>经试验，只这次出现了，在虚拟机中未需要设置并重启.具体原因未知.<br></p>
-<p>然后，重启，发现启动报错，进不了桌面.<br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">failed to start network manager</span><br><span class="line">failed to start postgresql cluster 10-main</span><br></pre></td></tr></table></figure>
-<h2 id="2-解决"><a href="#2-解决" class="headerlink" title="2.解决"></a>2.解决</h2><p>重启，进入恢复模式,找到postgres路径,并尝试手动启动，看有什么问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find / -name postgres</span><br><span class="line">./postgres</span><br></pre></td></tr></table></figure></p>
-<p>报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">relocation error /usr/lib/x86_64-linux-gnu/libgnutls.so.30:</span><br><span class="line">symbol _idn2_punycode_decode version IDN2_0.0.0 not defined in file libidn2.so.0 with link time reference</span><br></pre></td></tr></table></figure></p>
-<p>在网上找到该文件并尝试下载</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://ftp.us.debian.org/debian/pool/main/libi/libidn2/libidn2-0_2.0.5-1_amd64.deb</span><br></pre></td></tr></table></figure>
-<p>报和上面同样的错误<br><br>此时猜测 failed to start network manager 已与此问题有关.<br></p>
-<p>重启,进入windows（双系统),下载该文件，复制到u盘<br></p>
-<p>重启，进入恢复模式<br></p>
-<p>查看u盘信息,并将文件得到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l</span><br><span class="line"></span><br><span class="line">//挂载</span><br><span class="line">mount -t vfat /dev/sdb1 /media (如果fat32格式)</span><br><span class="line">//mount -t nfs /dev/sdb1 /media (如果ntfs格式)</span><br><span class="line"></span><br><span class="line">//然后拿出文件  </span><br><span class="line">mv /media/libidn2-0_2.0.5-1_amd64.deb  /root</span><br></pre></td></tr></table></figure></p>
-<p>安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -i libidn2-0_2.0.5-1_amd64.deb</span><br></pre></td></tr></table></figure></p>
-<p>重启，成功进入桌面，问题解决.<br></p>
-<p>总结，此问题应该不是是装flameshot导致的，而是其它某个apt update之类操作引发</p>
+        <p>做开发已经一年了，是时候进阶了，就从设计模式开始吧。<br></p>
+<p>说在前面，我理解的设计模式，就是一种种思想，是比较抽象的，与语言无关。设计模式没有好坏之分，只有适用场景之分。<br><br>每种设计模式，都有其蕴涵的思想在其内。不是真的理解了这种思想，是很难真正掌握设计模式的。</p>
+<h2 id="1-什么是工厂模式"><a href="#1-什么是工厂模式" class="headerlink" title="1.什么是工厂模式"></a>1.什么是工厂模式</h2><p>这个问题有点大而全，暂时还不能很好的总结出来。<br></p>
+<p>我现在一个很粗浅的理解就是，工厂模式，就是定义一个，或者不同的多个工厂，每当有需要的时候，直接生产出满足不同要求的产品(实现类)。</p>
+<h2 id="2-工厂模式的分类"><a href="#2-工厂模式的分类" class="headerlink" title="2.工厂模式的分类"></a>2.工厂模式的分类</h2><ul>
+<li><p>简单工厂模式</p>
+</li>
+<li><p>工厂方法模式</p>
+</li>
+<li><p>抽象工厂模式</p>
+</li>
+</ul>
+<h2 id="3-简单工厂模式"><a href="#3-简单工厂模式" class="headerlink" title="3.简单工厂模式"></a>3.简单工厂模式</h2><h3 id="3-1-含义"><a href="#3-1-含义" class="headerlink" title="3.1 含义"></a>3.1 含义</h3><p>定义一个工厂类，根据传入参数不同，返回不同结果。</p>
+<p>简单工厂模式的关键在于，当你需要什么，只需要传入相应的参数，就可以得到对应的创建的对象，而完全不用管工厂的具体创建细节。</p>
+<h3 id="3-2-实现方式"><a href="#3-2-实现方式" class="headerlink" title="3.2 实现方式"></a>3.2 实现方式</h3><p>简单工厂模式，一般有三个角色。</p>
+<ul>
+<li>Factory</li>
+</ul>
+<p>工厂，这是简单工厂模式中的关键类，封装了产品的具体生产过程。</p>
+<ul>
+<li>Product</li>
+</ul>
+<p>产品的父类。如，水果。</p>
+<ul>
+<li>ConcerteProduct</li>
+</ul>
+<p>具体的生产出的产品。如，西瓜。</p>
+<h3 id="3-3-具体例子"><a href="#3-3-具体例子" class="headerlink" title="3.3 具体例子"></a>3.3 具体例子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo;</span><br><span class="line"></span><br><span class="line">//产品的抽象接口</span><br><span class="line">interface MyProduct &#123;</span><br><span class="line">    void print();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//不同的产品</span><br><span class="line">class ProDuct1 implements MyProduct&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void print()&#123;</span><br><span class="line">        System.out.println(&quot;product1&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class ProDuct2 implements MyProduct&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void print()&#123;</span><br><span class="line">        System.out.println(&quot;product2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//工厂类,具体生产过程</span><br><span class="line">class MyFactory &#123;</span><br><span class="line"></span><br><span class="line">    public static void create(String s)&#123;</span><br><span class="line">        switch (s)&#123;</span><br><span class="line">            case &quot;1&quot;:</span><br><span class="line">                new ProDuct1().print();break;</span><br><span class="line">            case &quot;2&quot;:</span><br><span class="line">                new ProDuct2().print();break;</span><br><span class="line">             default:</span><br><span class="line">                 System.out.println(&quot;无此产品！&quot;); break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class MyFactoryDemo&#123;</span><br><span class="line">    public static void main(String... args)&#123;</span><br><span class="line">        //根据不同需求(参数)得到不同产品</span><br><span class="line">        MyFactory.create(&quot;1&quot;);</span><br><span class="line">        MyFactory.create(&quot;2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-4-理解"><a href="#3-4-理解" class="headerlink" title="3.4 理解"></a>3.4 理解</h3><p>像设计模式这些，都是比较抽象的思想，思想层面是高于代码语言的，所以不管用什么实现，只要满足这个思想就行。<br><br>我看其它blog中，简单工厂方法都用的静态方法，但是我觉得应该是非必须的，原因如上.</p>
+<p>简单工厂模式，因为具体的生产过程肿有条件判断，所以一般不太适用与有很多条件的情况下。</p>
+<p>为什么要用？<br><br>简单工厂模式的好处是，可以隐藏具体的实现过程，但缺点是新增一个功能时，却还要改代码(switch).</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/11/base/工厂模式-简单工厂模式/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-前端相关/CSS中一些重要概念" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/06/前端相关/CSS中一些重要概念/">CSS 中一些重要知识点</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/06/前端相关/CSS中一些重要概念/" class="archive-article-date">
+  	<time datetime="2019-11-06T07:23:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>为了能马马虎虎的写个页面，学习一下CSS.</p>
+<p>不是专业的，所以写的没逻辑，也没主次，用来自己看看。</p>
+<p>参考：<a href="https://geekplux.com/2014/04/25/several_core_concepts_of_css/" target="_blank" rel="noopener">https://geekplux.com/2014/04/25/several_core_concepts_of_css/</a></p>
+<h1 id="一-盒模型"><a href="#一-盒模型" class="headerlink" title="一.盒模型"></a>一.盒模型</h1><h2 id="1-盒"><a href="#1-盒" class="headerlink" title="1.盒"></a>1.盒</h2><p><img src="http://67.216.218.49:8000/file/blogs/others/css-box-model.png" alt="box"></p>
+<p>如图: 盒模型由 content -&gt; padding -&gt; border -&gt; margin 四部分组成。</p>
+<p>块 和 行内元素 都是包含在盒中的。</p>
+<h2 id="2-块元素"><a href="#2-块元素" class="headerlink" title="2.块元素"></a>2.块元素</h2><p>每个块级元素默认占一行高度，一行内添加一个块级元素后无法一般无法添加其他元素（float浮动后除外）。两个块级元素连续编辑时，会在页面自动换行显示。块级元素一般可嵌套块级元素或行内元素；</p>
+<h2 id="3-行内元素"><a href="#3-行内元素" class="headerlink" title="3.行内元素"></a>3.行内元素</h2><p>和其他元素都在一行上。</p>
+<p>对行内元素，需要注意如下：<br></p>
+<p>设置宽度width 无效。<br><br>设置高度height 无效，可以通过line-height来设置。<br><br>设置margin 只有左右margin有效，上下无效。<br><br>设置padding只有左右padding有效，上下则无效。注意元素范围是增大了，但是对元素周围的内容是没影响的。</p>
+<h2 id="4-位置问题"><a href="#4-位置问题" class="headerlink" title="4.位置问题"></a>4.位置问题</h2><p> position属性：</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>absolute</td>
+<td>生成绝对定位的元素，相对于static定位以外的第一个父元素进行定位。元素的位置通过left, right, top, bottom进行规定</td>
+</tr>
+<tr>
+<td>fixed</td>
+<td>生成绝对定位的元素，相对于浏览器窗口进行定位。元素的位置通过left, right, top, bottom进行规定</td>
+</tr>
+<tr>
+<td>relative</td>
+<td>生成相对定位的元素，相对于其正常位置定位。元素的位置通过left, right, top, bottom进行规定</td>
+</tr>
+<tr>
+<td>static</td>
+<td>默认值，忽略 top, bottom, left, right和z-index</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>从父元素继承该属性的值</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-float"><a href="#5-float" class="headerlink" title="5.float"></a>5.float</h2><p>自己还一知半解。</p>
+<p>参考人家的：<a href="https://www.jianshu.com/p/07eb19957991" target="_blank" rel="noopener">https://www.jianshu.com/p/07eb19957991</a></p>
+<h1 id="二-选择器"><a href="#二-选择器" class="headerlink" title="二.选择器"></a>二.选择器</h1><p>太多了记不住，选择几个感觉够用的。来自w3school.</p>
+<p>找时间了解一下伪元素。</p>
+<table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>例子</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.class</td>
+<td>.intro</td>
+<td>选择 class=”intro” 的所有元素。</td>
+</tr>
+<tr>
+<td>#id</td>
+<td>#firstname</td>
+<td>选择 id=”firstname” 的所有元素。</td>
+</tr>
+<tr>
+<td>*</td>
+<td>*</td>
+<td>选择所有元素。</td>
+</tr>
+<tr>
+<td>element</td>
+<td>p</td>
+<td>选择所有 \&lt;p> 元素。</td>
+</tr>
+<tr>
+<td>element,element</td>
+<td>div,p</td>
+<td>选择所有 \&lt;div> 元素和所有 \&lt;p> 元素。</td>
+</tr>
+<tr>
+<td>element element</td>
+<td>div p</td>
+<td>选择 \&lt;div> 元素内部的所有 \&lt;p> 元素。</td>
+</tr>
+<tr>
+<td>element&gt;element</td>
+<td>div&gt;p</td>
+<td>选择父元素为 \&lt;div> 元素的所有 \&lt;p> 元素。</td>
+</tr>
+<tr>
+<td>element+element</td>
+<td>div+p</td>
+<td>选择紧接在 \&lt;div> 元素之后的所有 \&lt;p> 元素。</td>
+</tr>
+<tr>
+<td>[attribute]</td>
+<td>[target]</td>
+<td>选择带有 target 属性所有元素。</td>
+</tr>
+<tr>
+<td>[attribute=value]</td>
+<td>[target=_blank]</td>
+<td>选择 target=”_blank” 的所有元素。</td>
+</tr>
+<tr>
+<td>[attribute~=value]</td>
+<td>[title~=flower]</td>
+<td>选择 title 属性包含单词 “flower” 的所有元素。</td>
+</tr>
+<tr>
+<td>[attribute\</td>
+<td>=value]</td>
+<td>[lang\</td>
+<td>=en]</td>
+<td>选择 lang 属性值以 “en” 开头的所有元素。</td>
+</tr>
+<tr>
+<td>:link</td>
+<td>a:link</td>
+<td>选择所有未被访问的链接。</td>
+</tr>
+<tr>
+<td>:visited</td>
+<td>a:visited</td>
+<td>选择所有已被访问的链接。</td>
+</tr>
+<tr>
+<td>:active</td>
+<td>a:active</td>
+<td>选择活动链接。</td>
+</tr>
+<tr>
+<td>:hover</td>
+<td>a:hover</td>
+<td>选择鼠标指针位于其上的链接。</td>
+</tr>
+<tr>
+<td>:focus</td>
+<td>input:focus</td>
+<td>选择获得焦点的 input 元素。</td>
+</tr>
+<tr>
+<td>:before</td>
+<td>p:before</td>
+<td>在每个 &lt;\p> 元素的内容之前插入内容。</td>
+</tr>
+<tr>
+<td>:after</td>
+<td>p:after</td>
+<td>在每个 &lt;\p> 元素的内容之后插入内容.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="三-重要属性"><a href="#三-重要属性" class="headerlink" title="三.重要属性"></a>三.重要属性</h1><p>原文:<a href="https://www.html.cn/archives/558" target="_blank" rel="noopener">https://www.html.cn/archives/558</a></p>
+<h1 id="四-伪元素和伪类"><a href="#四-伪元素和伪类" class="headerlink" title="四.伪元素和伪类"></a>四.伪元素和伪类</h1><p><a href="https://segmentfault.com/a/1190000000484493" target="_blank" rel="noopener">https://segmentfault.com/a/1190000000484493</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">前端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/06/前端相关/CSS中一些重要概念/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-一次sql慢查询" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/06/一次sql慢查询/">一次sql慢查询</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/06/一次sql慢查询/" class="archive-article-date">
+  	<time datetime="2019-11-06T06:26:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天发现一个页面，打开后卡死，发现是sql执行时间太长导致。</p>
+<h2 id="1-原sql"><a href="#1-原sql" class="headerlink" title="1.原sql"></a>1.原sql</h2><details><br><summary> 原sql </summary><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">&lt;e:case value=&quot;getParentNodes&quot;&gt;</span><br><span class="line">    &lt;e:description&gt;获取满足条件的所有父节点&lt;/e:description&gt;</span><br><span class="line">    &lt;e:q4l var=&quot;parentNodeList&quot;&gt;</span><br><span class="line">        select</span><br><span class="line">            t.CUSTOMER_NO</span><br><span class="line">        from (</span><br><span class="line">            select</span><br><span class="line">                t1.customer_no,t1.parent_no</span><br><span class="line">            from</span><br><span class="line">                $&#123;gis_user&#125;.T_CUSTOMER_BASE_INFO t1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t2 on T1.customer_no=T2.CUSTOM_NO AND T2.TYPE=1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t3 on T1.customer_no=T3.CUSTOM_NO AND T3.TYPE=2</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t4 on T1.customer_no=T4.CUSTOM_NO AND T3.TYPE=3</span><br><span class="line">            LEFT JOIN V_CMCODE_BRANCH v1 on t1.substation_code = v1.branch_no</span><br><span class="line">            LEFT JOIN V_CMCODE_AREA v2 on v1.area_no = v2.area_no</span><br><span class="line">            LEFT JOIN V_CMCODE_CITY v3 on v1.city_no = v3.city_no</span><br><span class="line">            where 1 = 1</span><br><span class="line">                and customer_no in (</span><br><span class="line">                    select</span><br><span class="line">                        t1.customer_no</span><br><span class="line">                    from</span><br><span class="line">                    $&#123;gis_user&#125;.T_CUSTOMER_BASE_INFO t1</span><br><span class="line">                    LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t2 on T1.customer_no=T2.CUSTOM_NO AND T2.TYPE=1</span><br><span class="line">                    LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t3 on T1.customer_no=T3.CUSTOM_NO AND T3.TYPE=2</span><br><span class="line">                    LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t4 on T1.customer_no=T4.CUSTOM_NO AND T3.TYPE=3</span><br><span class="line">                    LEFT JOIN V_CMCODE_BRANCH v1 on t1.substation_code = v1.branch_no</span><br><span class="line">                    LEFT JOIN V_CMCODE_AREA v2 on v1.area_no = v2.area_no</span><br><span class="line">                    LEFT JOIN V_CMCODE_CITY v3 on v1.city_no = v3.city_no</span><br><span class="line">                    where 1 = 1</span><br><span class="line">                    &lt;e:if condition=&quot;$&#123;sessionScope.UserInfo.AREA_NO !=&apos;-1&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=&apos;&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=null&#125;&quot;&gt;</span><br><span class="line">                        AND v2.AREA_NO = &apos;$&#123;sessionScope.UserInfo.AREA_NO&#125;&apos;</span><br><span class="line">                    &lt;/e:if&gt;</span><br><span class="line">                    //其它条件</span><br><span class="line">                )</span><br><span class="line">            &lt;e:if condition=&quot;$&#123;sessionScope.UserInfo.AREA_NO !=&apos;-1&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=&apos;&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=null&#125;&quot;&gt;</span><br><span class="line">                AND v2.AREA_NO = &apos;$&#123;sessionScope.UserInfo.AREA_NO&#125;&apos;</span><br><span class="line">            &lt;/e:if&gt;</span><br><span class="line">            //其它条件</span><br><span class="line">            ) t</span><br><span class="line">        where t.PARENT_NO not in (</span><br><span class="line">            select</span><br><span class="line">                t1.customer_no</span><br><span class="line">            from</span><br><span class="line">            $&#123;gis_user&#125;.T_CUSTOMER_BASE_INFO t1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t2 on T1.customer_no=T2.CUSTOM_NO AND T2.TYPE=1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t3 on T1.customer_no=T3.CUSTOM_NO AND T3.TYPE=2</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t4 on T1.customer_no=T4.CUSTOM_NO AND T3.TYPE=3</span><br><span class="line">            LEFT JOIN V_CMCODE_BRANCH v1 on t1.substation_code = v1.branch_no</span><br><span class="line">            LEFT JOIN V_CMCODE_AREA v2 on v1.area_no = v2.area_no</span><br><span class="line">            LEFT JOIN V_CMCODE_CITY v3 on v1.city_no = v3.city_no</span><br><span class="line">            where 1 = 1</span><br><span class="line">            &lt;e:if condition=&quot;$&#123;!empty(param.customerType) &amp;&amp; param.customerType ne &apos;&apos;&#125;&quot;&gt;</span><br><span class="line">                and C_TYPE = &apos;$&#123;param.customerType&#125;&apos;</span><br><span class="line">            &lt;/e:if&gt;</span><br><span class="line">            //其它条件</span><br><span class="line">         )</span><br><span class="line"></span><br><span class="line">    &lt;/e:q4l&gt;$&#123;e:java2json(parentNodeList.list)&#125;</span><br><span class="line">&lt;/e:case&gt;</span><br></pre></td></tr></table></figure><br><br></details>
+
+<p>简化下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">select</span><br><span class="line">  t.a</span><br><span class="line">from ( select xxx from xx t1 where t1.a in (xxx) ) t</span><br><span class="line">where t.b not in (select xxx from xxx)</span><br></pre></td></tr></table></figure>
+<h2 id="2-原因"><a href="#2-原因" class="headerlink" title="2.原因"></a>2.原因</h2><p>in 和 not in 操作效率低， 非常耗时，在数据量大点时，页面直接一直等待它.</p>
+<h2 id="3-解决"><a href="#3-解决" class="headerlink" title="3.解决"></a>3.解决</h2><p>参考:<a href="https://www.cnblogs.com/phoenixfling/archive/2012/05/09/2492006.html" target="_blank" rel="noopener">https://www.cnblogs.com/phoenixfling/archive/2012/05/09/2492006.html</a></p>
+<p>这里使用了第二种</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;e:case value=&quot;getParentNodes&quot;&gt;</span><br><span class="line">        &lt;e:description&gt;获取满足条件的所有父节点&lt;/e:description&gt;</span><br><span class="line">        &lt;e:q4l var=&quot;parentNodeList&quot;&gt;</span><br><span class="line"></span><br><span class="line">            select</span><br><span class="line">            t1.customer_no</span><br><span class="line">            from</span><br><span class="line">            $&#123;gis_user&#125;.T_CUSTOMER_BASE_INFO t1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t2 on T1.customer_no=T2.CUSTOM_NO AND T2.TYPE=1</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t3 on T1.customer_no=T3.CUSTOM_NO AND T3.TYPE=2</span><br><span class="line">            LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t4 on T1.customer_no=T4.CUSTOM_NO AND T3.TYPE=3</span><br><span class="line">            LEFT JOIN V_CMCODE_BRANCH v1 on t1.substation_code = v1.branch_no</span><br><span class="line">            LEFT JOIN V_CMCODE_AREA v2 on v1.area_no = v2.area_no</span><br><span class="line">            LEFT JOIN V_CMCODE_CITY v3 on v1.city_no = v3.city_no</span><br><span class="line">            LEFT JOIN (select</span><br><span class="line">                        t1.customer_no</span><br><span class="line">                        from</span><br><span class="line">                        $&#123;gis_user&#125;.T_CUSTOMER_BASE_INFO t1</span><br><span class="line">                        LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t2 on T1.customer_no=T2.CUSTOM_NO AND T2.TYPE=1</span><br><span class="line">                        LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t3 on T1.customer_no=T3.CUSTOM_NO AND T3.TYPE=2</span><br><span class="line">                        LEFT JOIN $&#123;gis_user&#125;.T_CUSTOMER_PEPOLE t4 on T1.customer_no=T4.CUSTOM_NO AND T3.TYPE=3</span><br><span class="line">                        LEFT JOIN V_CMCODE_BRANCH v1 on t1.substation_code = v1.branch_no</span><br><span class="line">                        LEFT JOIN V_CMCODE_AREA v2 on v1.area_no = v2.area_no</span><br><span class="line">                        LEFT JOIN V_CMCODE_CITY v3 on v1.city_no = v3.city_no</span><br><span class="line">                        where 1 = 1</span><br><span class="line">                        &lt;e:if condition=&quot;$&#123;!empty(param.customerType) &amp;&amp; param.customerType ne &apos;&apos;&#125;&quot;&gt;</span><br><span class="line">                            and C_TYPE = &apos;$&#123;param.customerType&#125;&apos;</span><br><span class="line">                        &lt;/e:if&gt;</span><br><span class="line">                        //其它条件</span><br><span class="line"></span><br><span class="line">            where 1 = 1  and tmp.customer_no is NULL</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &lt;e:if condition=&quot;$&#123;sessionScope.UserInfo.AREA_NO !=&apos;-1&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=&apos;&apos; &amp;&amp; sessionScope.UserInfo.AREA_NO !=null&#125;&quot;&gt;</span><br><span class="line">                AND v2.AREA_NO = &apos;$&#123;sessionScope.UserInfo.AREA_NO&#125;&apos;</span><br><span class="line">            &lt;/e:if&gt;</span><br><span class="line">            //其它条件</span><br><span class="line"></span><br><span class="line">        &lt;/e:q4l&gt;$&#123;e:java2json(parentNodeList.list)&#125;</span><br><span class="line">    &lt;/e:case&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4.总结"></a>4.总结</h2><p>in 和 not in操作,能不用就不用，尽量少用.</p>
 
       
 
@@ -724,7 +919,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/24/一次重启失败问题的解决/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/11/06/一次sql慢查询/">展开全文 >></a>
         </p>
       
 
@@ -754,112 +949,35 @@
 
 
   
-    <article id="post-风控项目交接二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-base/cookie和token" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/18/风控项目交接二/">风控项目交接说明二(失信人修复)</a>
+      <a class="article-title" href="/2019/10/31/base/cookie和token/">是时候彻底分清Cookie/Session和Token了</a>
     </h1>
   
 
         
-        <a href="/2019/09/18/风控项目交接二/" class="archive-article-date">
-  	<time datetime="2019-09-18T08:18:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-18</time>
+        <a href="/2019/10/31/base/cookie和token/" class="archive-article-date">
+  	<time datetime="2019-10-31T08:10:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-31</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>现有项目地址: <a href="http://10.191.21.104:8300/unrepair/web/index" target="_blank" rel="noopener">http://10.191.21.104:8300/unrepair/web/index</a></p>
-<h2 id="一-整体介绍"><a href="#一-整体介绍" class="headerlink" title="一.整体介绍"></a>一.整体介绍</h2><p>失信人修复主要分为三部分：</p>
-<ul>
-<li><p>修复后验证(地理位置验证)</p>
-</li>
-<li><p>失信人修复</p>
-</li>
-<li><p>用户与菜单管理(门户控制)</p>
-</li>
-</ul>
-<h2 id="二-具体情况"><a href="#二-具体情况" class="headerlink" title="二.具体情况"></a>二.具体情况</h2><h3 id="1-地理位置验证"><a href="#1-地理位置验证" class="headerlink" title="1.地理位置验证"></a>1.地理位置验证</h3><h4 id="1-1-功能"><a href="#1-1-功能" class="headerlink" title="1.1 功能"></a>1.1 功能</h4><p>输入手机号和地址，查询出用户号码所在城市，用户号码所在城市，输入地址与实际居住地址距离，等几个指标信息.<br></p>
-<p>这个没什么好说的，比较常规。</p>
-<p><img src="http://67.216.218.49:8000/file/blogs/others/address_verify_01.png" alt="addressVerify"></p>
-<h4 id="1-2-注意点"><a href="#1-2-注意点" class="headerlink" title="1.2 注意点"></a>1.2 注意点</h4><p>1.经纬度的坐标系不是同一个坐标系，需要进行转化。</p>
-<p>2.因为要调五个不同接口，最好不要串行，使用并发。因为返回值不一样，所以在控制好对应关系，处理时知道哪个结果是哪个接口的返回。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Future&lt;Map&lt;String,String&gt;&gt;&gt; futures = new ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">futures.add(getAddress(jsonObject, permanentAddresss,&quot;permanentAddress&quot;));</span><br><span class="line">futures.add(getAddress(jsonObject, cityName,&quot;realTimeAddress&quot;));</span><br><span class="line">futures.add(getDistance2(jsonObject, workplaceVerification,&quot;workDistance&quot;));</span><br><span class="line">futures.add(getDistance2(jsonObject, houseVerification,&quot;houseDistance&quot;));</span><br><span class="line">futures.add(comparePosition(jsonObject, positionCompare,&quot;positionCompare&quot;));</span><br></pre></td></tr></table></figure>
-<h3 id="2-失信人修复"><a href="#2-失信人修复" class="headerlink" title="2.失信人修复"></a>2.失信人修复</h3><p><img src="http://67.216.218.49:8000/file/blogs/others/unrepair_repairType.png" alt="repair"></p>
-<p>主要分为三种类型，三种类型分别有其对应的文件模板。</p>
-<ul>
-<li>核验加修复</li>
-</ul>
-<p>上传文件，核验，暂存或修复。</p>
-<ul>
-<li>修复</li>
-</ul>
-<p>上传文件，直接进行修复。</p>
-<ul>
-<li>核验</li>
-</ul>
-<p>上传文件，进行核验，将核验结果文件给用户，再决定是否进行修复。</p>
-<p>这里主要讲一下 核验和修复这两块功能的逻辑。其它的上传下载，查询预览之类的常规功能就略过了。</p>
-<h4 id="2-1-核验"><a href="#2-1-核验" class="headerlink" title="2.1 核验"></a>2.1 核验</h4><h5 id="2-1-1-流程"><a href="#2-1-1-流程" class="headerlink" title="2.1.1 流程"></a>2.1.1 流程</h5><p>用户根据类型，下载相应模板，然后上传需要核验的文件(只是一个文件)，后端进行简单的判断后，进行相应的数据补全， 然后调用核验接口，保存结果，并返回数据，同时生成结果文件供下载或进行下一步操作。<br></p>
-<p>核验结果分为四种情况，一致，不一致，调用错误，不存在号码， 只有不一致才进行修复。</p>
-<h5 id="2-2-2-问题"><a href="#2-2-2-问题" class="headerlink" title="2.2.2 问题"></a>2.2.2 问题</h5><p>核验接口为单条，文件可以1000条记录，所以耗时久，改为异步线程池后，一千条记录平均从70s降到了20s,依然有点慢。<br><br>这里需要注意，不能太过增加线程池大小，一方面主机性能不一定够，另一方面，联通接口有QPS限制。</p>
-<h5 id="2-2-修复"><a href="#2-2-修复" class="headerlink" title="2.2 修复"></a>2.2 修复</h5><p>修复是电话号码和身份证不一致时，去联通，电信，或移动进行匹配，得到对应身份证下面的号码。</p>
-<h5 id="版本一"><a href="#版本一" class="headerlink" title="版本一"></a>版本一</h5><ul>
-<li>单网</li>
-</ul>
-<p>去联通查，每个身份证可以匹配多个号码，并对结果进行排序</p>
-<ul>
-<li>三网</li>
-</ul>
-<p>去三网查，但是不能马上得到返回结果。需要轮询。和张硕鹏讨论后，决定采用惰性轮询<br>,减少资源占用。<br></p>
-<p>这里接口需要得入参为json格式得txt文件，所以自己生成临时文件，并在请求时按照文件类型报文，手动构造Post文件的请求体。<br></p>
-<p>轮询得到的结果是一个外网文件地址。需要在代码中使用正向代理，获取文件，并对文件内容进行统计得到结果。</p>
-<h5 id="版本二"><a href="#版本二" class="headerlink" title="版本二"></a>版本二</h5><p>不分为单网三网，而是分为联通，移动，电信 三种</p>
-<ul>
-<li>联通</li>
-</ul>
-<p>按照原先单网逻辑</p>
-<ul>
-<li>电信</li>
-</ul>
-<p>嵌入电信外呼页面，并提交数据</p>
-<ul>
-<li>移动</li>
-</ul>
-<p>嵌入移动外呼页面。并提交数据</p>
-<p>问题：</p>
-<p>嵌入的页面为 https, 然后所用证书多半为自己申请的免费证书，导致浏览器不信任<br></p>
-<p>接口文档未给，处理逻辑未给, 甲方与电信移动沟通中<br></p>
-<h2 id="三-其它一些注意点"><a href="#三-其它一些注意点" class="headerlink" title="三.其它一些注意点"></a>三.其它一些注意点</h2><h3 id="1-规范"><a href="#1-规范" class="headerlink" title="1.规范"></a>1.规范</h3><p>方法注释，swagger等注释要完整<br></p>
-<p>返回消息用 ResultMessage 类型进行统一包装<br></p>
-<p>异常进行统一捕获处理,往前端抛友好提示，不抛异常 <br></p>
-<p>计次等日志类信息，统一用切面处理，不侵入代码<br></p>
-<p>用户管理相关功能，我们不操作门户的数据库，由门户自己进行处理，免得混杂.<br></p>
-<p>前端输入信息，要首先进行验证，避免多余消耗资源操作与安全问题， sql语句尽量用#{} 少用 ${} 防注入。<br></p>
-<p>多条操作，是否需要事务<br></p>
-<h3 id="2-其它一些注意点"><a href="#2-其它一些注意点" class="headerlink" title="2.其它一些注意点"></a>2.其它一些注意点</h3><h4 id="2-1-缓存"><a href="#2-1-缓存" class="headerlink" title="2.1 缓存"></a>2.1 缓存</h4><p>修复接口需要用户信息，自己生成的token,或者用户新建时保存的token和endId等信息。<br>此类信息需进行全局缓存，在项目启动时生成并缓存. 同时提供惰性更新机制，当有新用户时，能自动更新添加新信息。</p>
-<h4 id="2-2-跳转"><a href="#2-2-跳转" class="headerlink" title="2.2 跳转"></a>2.2 跳转</h4><p>原则上，后端不控制页面的跳转，但是为了解决初次登录门户在url后面加上jseesionid 导致的404问题，提供一个额外的跳转接口。</p>
-<h4 id="2-3-环境切换问题"><a href="#2-3-环境切换问题" class="headerlink" title="2.3 环境切换问题"></a>2.3 环境切换问题</h4><p>环境切换需要改两个文件，application.properties和bonc-security-base.properties</p>
-<h4 id="2-4-部署分布式"><a href="#2-4-部署分布式" class="headerlink" title="2.4 部署分布式"></a>2.4 部署分布式</h4><p>部署分布式时，记得做文件共享，找丹姐</p>
-<h4 id="2-5-特殊情况"><a href="#2-5-特殊情况" class="headerlink" title="2.5 特殊情况"></a>2.5 特殊情况</h4><p>如果核验过后，没有不一致的情况(即使有其它核验异常情况)， 再点修复，会返回无需要修复文件(甲方最初需求就这样)</p>
-<h2 id="四-后期待解决问题-09-20补充"><a href="#四-后期待解决问题-09-20补充" class="headerlink" title="四.后期待解决问题  09-20补充"></a>四.后期待解决问题  09-20补充</h2><h3 id="1-对接联通页面"><a href="#1-对接联通页面" class="headerlink" title="1.对接联通页面"></a>1.对接联通页面</h3><h4 id="1-1-排序"><a href="#1-1-排序" class="headerlink" title="1.1 排序"></a>1.1 排序</h4><p>已交给王澍稼</p>
-<h4 id="1-2-页面跳转"><a href="#1-2-页面跳转" class="headerlink" title="1.2 页面跳转"></a>1.2 页面跳转</h4><p>修复完成后，需要点击下一步跳转到联通外呼平台，进行下发。具体下发逻辑我们不管，我们进行对接，能跳转页面就行.<br></p>
-<p>注意: 跳转页面需要自动登录，找联通要接口。需要接口文档。</p>
-<h3 id="2-对接移动页面"><a href="#2-对接移动页面" class="headerlink" title="2.对接移动页面"></a>2.对接移动页面</h3><h4 id="2-1-https证书不安全"><a href="#2-1-https证书不安全" class="headerlink" title="2.1 https证书不安全"></a>2.1 https证书不安全</h4><p>此问题，为移动证书问题，让他们联系移动解决。</p>
-<h4 id="2-2-ip无权限"><a href="#2-2-ip无权限" class="headerlink" title="2.2 ip无权限"></a>2.2 ip无权限</h4><p>不能添加白名单，需要联通的ip,去雍和宫测试.</p>
-<h4 id="2-3-页面跳转时自动登录"><a href="#2-3-页面跳转时自动登录" class="headerlink" title="2.3 页面跳转时自动登录"></a>2.3 页面跳转时自动登录</h4><p>给个能用的接口，接口文档，会不会ip没权限问题？</p>
-<h4 id="2-4-移动模板和联通模板不一致"><a href="#2-4-移动模板和联通模板不一致" class="headerlink" title="2.4 移动模板和联通模板不一致"></a>2.4 移动模板和联通模板不一致</h4><p><img src="http://67.216.218.49:8000/file/blogs/others/unrapair_cmcc_template.png" alt="cmcc_template"></p>
-<p>模板中数据从哪来？授权码是啥,是否需要绑定用户?是否需要修改联通模板？需要的话，涉及到模板文件的从头捋一下。后续电信模板又不一致怎么办？</p>
-<h4 id="2-5-进入移动页面后，需要上传修复文件"><a href="#2-5-进入移动页面后，需要上传修复文件" class="headerlink" title="2.5 进入移动页面后，需要上传修复文件"></a>2.5 进入移动页面后，需要上传修复文件</h4><p>分为核验修复，和直接修复两种情况。<br></p>
-<p>直接修复，直接自己上传文件<br></p>
-<p>核验修复，需先核验，再上传核验过后需要修复的文件.此文件应该我们提供，给个接口，将文件处理成他们想要的格式，提供下载。(是否需要文档)</p>
-<h3 id="3-对接电信页面"><a href="#3-对接电信页面" class="headerlink" title="3.对接电信页面"></a>3.对接电信页面</h3><p>信息不足，暂无.</p>
-<h3 id="4-其它"><a href="#4-其它" class="headerlink" title="4.其它"></a>4.其它</h3>
+        <h1 id="一-Cookie-Session"><a href="#一-Cookie-Session" class="headerlink" title="一.Cookie/Session"></a>一.Cookie/Session</h1><p>Cookie: 因为http是无状态协议，为了保存用户状态，所以Cookie由此产生。</p>
+<p>Session: 存储在服务器端，里面存着用户信息，过期时间以及其它想要的数据。每个session有其唯一的sessionId与之对应。</p>
+<p>Cookie与Session通常都是一起配合使用的。</p>
+<p>cookie存在浏览器端，浏览器第一次请求服务器时，服务器会返回个set-cookie字段，然后以这个cookie作为浏览器和服务器之间的连接凭证，这个cookie多半为sessionId。<br>当下次客户端请求服务器时，浏览器会自动带上cookie,服务端通过该cookie中的信息，去查找判断对应的用户信息。</p>
+<h1 id="二-Token"><a href="#二-Token" class="headerlink" title="二.Token"></a>二.Token</h1><p>有了Cookie和Session, 已经能保存用户状态了，为什么还会出现token呢？</p>
+<p>答案， 为了防止csrf.<br>一个有csrf漏洞的网页，攻击者可以获取用户的cookie去进行危险操作(因为发请求的时候，浏览器自动带上了cookie)，<br>但是，token不同，token是特别设计的令牌，需要手动加到header中，浏览器不会自己往header中增加token字段，攻击者也无法获得token,<br>服务端验证不通过，导致csrf攻击不成功。</p>
+<h1 id="三-一点补充"><a href="#三-一点补充" class="headerlink" title="三.一点补充"></a>三.一点补充</h1><p>session是有状态的，因为需要存放在服务器端(内存或者数据库)，所以当有多个服务器时，会有session共享问题，</p>
+<p>token是一个令牌，无状态，数据都加密保存在token中，服务器拿到后，直接解密就能用，所以没有共享问题。</p>
+
       
 
       
@@ -872,7 +990,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">others</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">base</a>
         		</li>
       		
 		</ul>
@@ -882,7 +1000,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/18/风控项目交接二/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/10/31/base/cookie和token/">展开全文 >></a>
         </p>
       
 
@@ -912,84 +1030,116 @@
 
 
   
-    <article id="post-风控项目交接说明一" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-tools/ifconfig命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/18/风控项目交接说明一/">风控项目交接说明一(征信API)</a>
+      <a class="article-title" href="/2019/10/29/tools/ifconfig命令/">网卡相关操作ifconfig</a>
     </h1>
   
 
         
-        <a href="/2019/09/18/风控项目交接说明一/" class="archive-article-date">
-  	<time datetime="2019-09-18T03:20:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-18</time>
+        <a href="/2019/10/29/tools/ifconfig命令/" class="archive-article-date">
+  	<time datetime="2019-10-29T07:18:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="一-整体介绍"><a href="#一-整体介绍" class="headerlink" title="一.整体介绍"></a>一.整体介绍</h2><p>征信项目现有140多个接口.<br></p>
-<p>每个接口都是一个单独的项目，有 webservice 和 springboot 两种类型，但是除了接口请求方式外，里面<br>具体处理逻辑基本一致。<br></p>
-<p>项目地址: <a href="https://code.bonc.com.cn/groups/zhengXinApi" target="_blank" rel="noopener">https://code.bonc.com.cn/groups/zhengXinApi</a></p>
-<p><img src="http://67.216.218.49:8000/file/blogs/others/zhengxinapi_01.png" alt="zhengxinapi"></p>
-<h2 id="二-具体情况"><a href="#二-具体情况" class="headerlink" title="二.具体情况"></a>二.具体情况</h2><p>因为所有接口基本一个流程，所以举一个例子来进行介绍(三要素验证，4档，用户状态验证).<br></p>
-<p>讲具体逻辑之前，先看看HBase数据存储格式.</p>
-<h3 id="1-Hbase"><a href="#1-Hbase" class="headerlink" title="1.Hbase"></a>1.Hbase</h3><p>HBase 是一个NoSQL数据库，用于处理海量数据，可以支持10亿行百万列的大表.<br></p>
-<p>底层依赖于 HDFS(Hadoop Distributed File System) 作为存储空间.</p>
-<h4 id="1-1-数据存储格式"><a href="#1-1-数据存储格式" class="headerlink" title="1.1 数据存储格式"></a>1.1 数据存储格式</h4><p>如图这是HBase中的某张表的格式。</p>
-<p><img src="http://67.216.218.49:8000/file/blogs/database/hbase/hbase_database_01.png" alt="Hbase1"></p>
-<p> 字段意思 : <br></p>
-<ul>
-<li>rowkey</li>
+        <p>我一直将 ifconfig 简单的用来查看ip信息。有点太不了解它了。<br><br>实际上 ifconfig 工具不仅可以被用来简单地获取网络接口配置信息，还可以修改这些配置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig - configure a network interface</span><br></pre></td></tr></table></figure>
+<h1 id="一-ifconfig了解"><a href="#一-ifconfig了解" class="headerlink" title="一.ifconfig了解"></a>一.ifconfig了解</h1><h2 id="1-使用"><a href="#1-使用" class="headerlink" title="1.使用"></a>1.使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ifconfig [-v] [-a] [-s] [interface]</span><br><span class="line">ifconfig [-v] interface [aftype] options | address ...</span><br></pre></td></tr></table></figure>
+<p>-v 详细输出</p>
+<p>-s 输出一个简要list,和netstat -i 一个效果</p>
+<p>-a 输出全部接口信息，即使已经down</p>
+<p>address ip地址，可以用来给网卡配置ip地址，如 ifconfig wlan0 192.168.1.65  将wlan0配置为192.168.1.65</p>
+<p>总结下就是： <strong>ifconfig  [interface] [options]</strong></p>
+<h2 id="2-interface"><a href="#2-interface" class="headerlink" title="2.interface"></a>2.interface</h2><p>interface是网络接口设备名，例:wlan0, eth0</p>
+<h2 id="3-options"><a href="#3-options" class="headerlink" title="3.options"></a>3.options</h2><ul>
+<li>up</li>
 </ul>
-<p>行键，用来确定具体的某一行。</p>
+<p>开启接口设备</p>
 <ul>
-<li>family</li>
+<li>down</li>
 </ul>
-<p>列簇，列簇将表切割成不同部分。字节数组。</p>
+<p>shutdown 接口设备，这里要特别注意，在服务器上操作时，如果关闭了网卡，就断网了，导致ssh连接断开，就不能打开了，所以要小心(除非有多个网卡，关闭一个，其它的还联网)</p>
 <ul>
-<li>qualifier</li>
+<li>arp</li>
 </ul>
-<p>列，列属于列簇，列的数量没有限制，可以动态添加.字节数组。</p>
+<p>设置是否支持arp协议</p>
 <ul>
-<li>cell</li>
+<li>promisc</li>
 </ul>
-<p>存储具体数据的单元 . 没有数据类型，字节数组的形式存储.<br><br>在HBase每个cell存储单元对同一份数据有多个版本，根据唯一的时间戳来<br>区分每个版本之间的差异，时间戳可以由HBase(在数据写入时自动)赋值，<br>此时时间戳是精确到毫秒的当前系统时间，也可以由自己显示指定，按照时<br>间戳倒序排序，最新的数据排在最前面。</p>
-<h4 id="1-2-从表中取数据"><a href="#1-2-从表中取数据" class="headerlink" title="1.2 从表中取数据"></a>1.2 从表中取数据</h4><p>由{rowkey，column(family + qualifier)，version}唯一确定的单元.<br><br>注意，列中包含了列簇和列簇下面具体的列.<br></p>
-<p>所以取数据一般流程为:<br><br>得到表名 –&gt; 得到rowkey –&gt; 根据column取得cell –&gt; 取出数据.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//table</span><br><span class="line">Table table = connection.getTable(TableName.valueOf(tableName));</span><br><span class="line"></span><br><span class="line">//rowkey</span><br><span class="line">byte[] rowkeyHash = Bytes.toBytes((short)(mobnol.hashCode() &amp; 0x7FFF));</span><br><span class="line">byte[] key = Bytes.add(rowkeyHash, Bytes.toBytes(mobnol));</span><br><span class="line">Get get = new Get(key);</span><br><span class="line"></span><br><span class="line">//value</span><br><span class="line">Result result = table.get(get);</span><br><span class="line">if (!result.isEmpty()) &#123;</span><br><span class="line">  byte[] value = result.getValue(FAMILYNAME, QUALIFIER);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-整体流程"><a href="#2-整体流程" class="headerlink" title="2.整体流程"></a>2.整体流程</h3><p><img src="http://67.216.218.49:8000/file/blogs/others/zhengxinapi_02.png" alt="zhengxinapi"></p>
-<p>由上面可知，要获取数据，需先得到表名和rowkey,其实还需要column值，但是column固定为(f簇,q列),所以不需要再获取.</p>
-<h3 id="3-rowkey构造"><a href="#3-rowkey构造" class="headerlink" title="3.rowkey构造"></a>3.rowkey构造</h3><p>rowkey的构建规则与数据入库的规则有关。<br><br>征信项目现有三种类型的HBase库(主备库，信令库，交际圈库),具体在交接文档(征信接口列表—迁移后 20181212.xls)中有注明.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Enable  or  disable  the  promiscuous mode of the interface.  If selected, all packets on the</span><br><span class="line">network  will be received by the interface.</span><br></pre></td></tr></table></figure>
+<p>promiscuous模式，网卡将接收网络中发给它的  所有的数据包。</p>
 <ul>
-<li>主备库</li>
+<li>allmulti</li>
 </ul>
-<p>例子:<a href="https://code.bonc.com.cn/zhengXinApi/credit" target="_blank" rel="noopener">https://code.bonc.com.cn/zhengXinApi/credit</a> (三要素验证,四档)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">byte[] rowkeyHash = Bytes.toBytes((short)(&quot;电话号码MD5&quot;.hashCode() &amp; 0x7FFF));</span><br><span class="line">byte[] key = Bytes.add(rowkeyHash, Bytes.toBytes(&quot;电话号码MD5&quot;));</span><br><span class="line">Get get = new Get(key);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Enable or disable all-multicast mode.  If selected, all multicast packets on the network will be</span><br><span class="line">re‐ceived by the interface</span><br></pre></td></tr></table></figure>
+<p>all-multicast模式，网卡将接收网络中的所有组播包。</p>
 <ul>
-<li>信令库</li>
+<li>mtu N</li>
 </ul>
-<p>例子:<a href="https://code.bonc.com.cn/zhengXinApi/query" target="_blank" rel="noopener">https://code.bonc.com.cn/zhengXinApi/query</a>  (实时位置查询)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">byte[] phone_id = Bytes.copy(Bytes.toBytes(Long.parseLong(TelNo)), 3, 5);</span><br><span class="line">byte[] phone_id_hash = Bytes.toBytes((short) (TelNo.hashCode() &amp; 0x7fff));</span><br><span class="line">byte[] key = Bytes.add(phone_id_hash, phone_id);</span><br><span class="line">Get get = new Get(key);</span><br></pre></td></tr></table></figure></p>
+<p>设置设置网卡的最大传输单元N,字节数。</p>
 <ul>
-<li>交际圈库</li>
+<li>address</li>
 </ul>
-<p>例子:<a href="https://code.bonc.com.cn/zhengXinApi/amc_istopcontact" target="_blank" rel="noopener">https://code.bonc.com.cn/zhengXinApi/amc_istopcontact</a> (是否联系人手机号验证，电信合作版)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">byte[] deice_number_hash = Bytes.toBytes((short)(device_Number.hashCode() &amp; 0x7FFF));</span><br><span class="line">byte[] deice_number = Bytes.toBytes(device_Number);</span><br><span class="line">byte[] oppose_number = Bytes.toBytes(oppose_Number);</span><br><span class="line">byte[] key = Bytes.add(deice_number_hash, deice_number, oppose_number);</span><br><span class="line">Scan s = new Scan();</span><br><span class="line">s.setStartRow(Bytes.add(key, Bytes.toBytes(0)));</span><br><span class="line">s.setStopRow(Bytes.add(key, Bytes.toBytes(999999999)));</span><br></pre></td></tr></table></figure>
-<p>这里是用的Scan<br><br>按指定rowkey获取唯一一条记录：get方法。<br><br>按指定条件获取一批记录：scan方法。</p>
-<h3 id="4-tableName获取"><a href="#4-tableName获取" class="headerlink" title="4.tableName获取"></a>4.tableName获取</h3><p>在这里先简单介绍下zookeeper.<br><br>具体的我没仔细看，这里是一篇详细介绍的文章: <a href="https://blog.csdn.net/guchuanyun111/article/details/52091318" target="_blank" rel="noopener">https://blog.csdn.net/guchuanyun111/article/details/52091318</a></p>
-<h4 id="4-1-Zookeeper简要了解"><a href="#4-1-Zookeeper简要了解" class="headerlink" title="4.1 Zookeeper简要了解"></a>4.1 Zookeeper简要了解</h4><p>ZooKeeper主要是为分布式系统提供一致性协调(Coordination)服务。简单讲就是，如果某个节点宕机后，Zookeeper会通过选举算法重新选出一个节点，保证它不会由于单一节点的故障而造成问题.<br></p>
-<p>Zookeeper中存储的数据为树形结构，其上的每一个节点称为znode<br><br><img src="http://67.216.218.49:8000/file/blogs/others/zhengxinapi_znode_01.jpg" alt="znode"></p>
-<p>如征信用户验证表名节点路径为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;property name=&quot;zkTableNamePath&quot; value=&quot;/fengkong/table/user_check&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>ZooKeeper中的Watch机制(观察者模式)：Client可以在某个ZNode上设置一个Watcher，来Watch该ZNode上的变化。如果该ZNode上有相应的变化，就会触发这个Watcher，把相应的事件通知给设置Watcher的Client。需要注意的是，ZooKeeper中的Watcher是一次性的，即触发一次就会被取消，如果想继续Watch的话，需要客户端重新设置Watcher。</p>
-<h4 id="4-2-征信接口中的Zookeeper使用"><a href="#4-2-征信接口中的Zookeeper使用" class="headerlink" title="4.2 征信接口中的Zookeeper使用"></a>4.2 征信接口中的Zookeeper使用</h4><h5 id="4-2-1-为什么要用zookeeper"><a href="#4-2-1-为什么要用zookeeper" class="headerlink" title="4.2.1 为什么要用zookeeper"></a>4.2.1 为什么要用zookeeper</h5><p>以前征信接口项目中的表名都是放在redis还是oracle中的。表名会定期更新<br><br>后来出现了机房网络割接，导致某个数据库不可用，导致接口不可用，所以将之切换到了zookeeper中，某个节点挂掉不会影响使用.</p>
-<h5 id="4-2-2-怎么用"><a href="#4-2-2-怎么用" class="headerlink" title="4.2.2 怎么用"></a>4.2.2 怎么用</h5><p>连接zk时，注册该节点为监控状态<br><br>public ZooKeeper(String connectString, int sessionTimeout, Watcher watcher) throws IOException{}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public ZooKeeperConnection(String connectString, int sessionTimeOut, InitUtil initUtil) &#123;</span><br><span class="line">       this.connectString = connectString;</span><br><span class="line">       this.sessionTimeOut = sessionTimeOut;</span><br><span class="line">       this.initUtil = initUtil;</span><br><span class="line">       try &#123;</span><br><span class="line">           //zk的连接是异步的，建立连接后会调用process方法。</span><br><span class="line">           zooKeeper = new ZooKeeper(&quot;xx.xx.xx.xx:2181,xx.xx.xx.xx:2181,xx.xx.xx.xx8:2181&quot;, sessionTimeOut, this);</span><br><span class="line">       &#125; catch (IOException e) &#123;</span><br><span class="line">           e.printStackTrace();</span><br><span class="line">           logger.error(&quot;zk创建失败,&quot; + e.toString());</span><br><span class="line">       &#125; catch (NullPointerException e) &#123;</span><br><span class="line">           e.printStackTrace();</span><br><span class="line">           //logger.error(&quot;zk创建失败,connectString: &quot; + prop.getConnectString() + &quot;,sessionTimeOut: &quot; + prop.getSessionTimeOut() + &quot;,&quot; + e.toString());</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
-<p>从zk节点中获取表名,获取到数据时，重新注册为被监控状态.<br><br>public byte[] getData(String path, boolean watch, Stat stat) throws KeeperException, InterruptedException { }</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void process(WatchedEvent event) &#123;</span><br><span class="line">   try &#123;</span><br><span class="line">       //连接事件</span><br><span class="line">       if (event.getType() == Event.EventType.None) &#123;</span><br><span class="line">           logger.info(&quot;连接事件&quot;);</span><br><span class="line">           //连接成功</span><br><span class="line">           if (event.getState() == Event.KeeperState.SyncConnected) &#123;</span><br><span class="line">               logger.info(&quot;建立连接&quot;);</span><br><span class="line">               String tableName = new String(zooKeeper.getData(initUtil.getZkTableNamePath(),true,null));</span><br><span class="line">               initUtil.setTableName(tableName);</span><br><span class="line"></span><br><span class="line">           &#125; else if (event.getState() == Event.KeeperState.Expired || event.getState() == Event.KeeperState.Disconnected) &#123;</span><br><span class="line">               logger.info(event.getState() == Event.KeeperState.Expired ? &quot;客户端超时&quot; : &quot;客户端断开连接&quot;);</span><br><span class="line">               try &#123;</span><br><span class="line">                   if (zooKeeper != null) &#123;</span><br><span class="line">                       try &#123;</span><br><span class="line">                           zooKeeper.close();</span><br><span class="line">                           zooKeeper = null;</span><br><span class="line">                       &#125; catch (Exception e) &#123;</span><br><span class="line">                           e.printStackTrace();</span><br><span class="line">                           logger.error(&quot;zk状态:&quot; + zooKeeper.getState() + &quot;,&quot; + e.toString());</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125;</span><br><span class="line">                   zooKeeper = new ZooKeeper(connectString, sessionTimeOut, this);</span><br><span class="line">               &#125; catch (IOException e) &#123;</span><br><span class="line">                   e.printStackTrace();</span><br><span class="line">                   logger.error(&quot;zk创建失败,&quot; + e.toString());</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125; else if (event.getType() == Event.EventType.NodeDataChanged) &#123;</span><br><span class="line">           //todo 这里是单个路径发生变化，上面是启动时/重连时 对所有路径进行监听</span><br><span class="line">           logger.info(&quot;节点值变化事件&quot;);</span><br><span class="line">           String tableName = new String(zooKeeper.getData(initUtil.getZkTableNamePath(),true,null));</span><br><span class="line">           initUtil.setTableName(tableName);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125; catch (KeeperException | InterruptedException e) &#123;</span><br><span class="line">       e.printStackTrace();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="5-数据获取"><a href="#5-数据获取" class="headerlink" title="5.数据获取"></a>5.数据获取</h3><p>在tableName 和 rowkey 已知后，就可以直接获取数据了。但是在主备库情况下，主库备库都需要查询，又因为确定了只有两个库，所以在这里直接new了两个线程，不用使用线程池。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">public List&lt;String&gt; threadQuery(Get get,String tableName,String logInfo)&#123;</span><br><span class="line">	List&lt;HbaseQueryUserThread&gt; threadList = new ArrayList&lt;&gt;();</span><br><span class="line">	List&lt;String&gt; resultList = null;</span><br><span class="line">	for (String zkroot : HBasePool.getZKROOT()) &#123;</span><br><span class="line">		try &#123;</span><br><span class="line">			HbaseQueryUserThread thread = new HbaseQueryUserThread(get, HBasePool.getHConnection(zkroot), tableName, logInfo);</span><br><span class="line">			thread.setName(&quot;/hbase_zx&quot;.equals(zkroot) ? &quot;主库&quot; : &quot;备库&quot;);</span><br><span class="line">			threadList.add(thread);</span><br><span class="line">			thread.start();</span><br><span class="line">		&#125; catch (IOException e) &#123;</span><br><span class="line">			System.out.println(&quot;hbase创建出错===================================&quot;);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//完成计数</span><br><span class="line">	int finish = 0;</span><br><span class="line"></span><br><span class="line">	w:while (finish != threadList.size()) &#123;</span><br><span class="line">		//重置完成计数</span><br><span class="line">		finish = 0;</span><br><span class="line">		try &#123;</span><br><span class="line">			Thread.sleep(1);</span><br><span class="line">		&#125; catch (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		for (HbaseQueryUserThread t : threadList) &#123;</span><br><span class="line">			//System.out.println(t.getName() + &quot;线程状态：&quot; + t.getState());</span><br><span class="line">			//线程存活</span><br><span class="line">			if (!t.isAlive()) &#123;</span><br><span class="line">				//结束 标识增加</span><br><span class="line">				finish++;</span><br><span class="line">				//赋值</span><br><span class="line">				resultList = t.getList();</span><br><span class="line">				//有结果</span><br><span class="line">				if (t.getList().size() &gt; 0)&#123;</span><br><span class="line">					//System.out.println(&quot;跳出for&quot;);</span><br><span class="line">					//中断其他线程</span><br><span class="line">					for (HbaseQueryUserThread thread : threadList)&#123;</span><br><span class="line">						thread.interrupt();</span><br><span class="line">					&#125;</span><br><span class="line">					//跳出while循环</span><br><span class="line">					break w;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return resultList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>设置绑定的ip地址</p>
+<ul>
+<li>dstaddr addr</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Set the remote IP address for a point-to-point link (such as PPP).  This keyword is now obsolete;</span><br><span class="line">use the pointopoint keyword instead.</span><br></pre></td></tr></table></figure>
+<p>建立点对点通讯，暂时还不太清楚用来干嘛</p>
+<ul>
+<li>add/del addr</li>
+</ul>
+<p>添加/删除 ipv6 地址</p>
+<ul>
+<li>tunnel</li>
+</ul>
+<p>建立IPv4与IPv6之间的隧道通信地址。</p>
+<ul>
+<li>txqueuelen length</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set the length of the transmit queue of the device. It is useful to set this to small values for slower devices with a high latency (modem links, ISDN) to prevent fast bulk transfers from disturbing interactive traffic like telnet too much</span><br></pre></td></tr></table></figure>
+<p>设置传输队列长度。</p>
+<h1 id="二-例子"><a href="#二-例子" class="headerlink" title="二.例子"></a>二.例子</h1><h2 id="1-属性"><a href="#1-属性" class="headerlink" title="1.属性"></a>1.属性</h2><p>ifconfig:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536</span><br><span class="line">        inet 127.0.0.1  netmask 255.0.0.0</span><br><span class="line">        inet6 ::1  prefixlen 128  scopeid 0x10&lt;host&gt;</span><br><span class="line">        loop  txqueuelen 1000  (Local Loopback)</span><br><span class="line">        RX packets 3655  bytes 1594522 (1.5 MiB)</span><br><span class="line">        RX errors 0  dropped 0  overruns 0  frame 0</span><br><span class="line">        TX packets 3655  bytes 1594522 (1.5 MiB)</span><br><span class="line">        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0</span><br><span class="line"></span><br><span class="line">vmnet1: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500</span><br><span class="line">        inet 192.168.84.1  netmask 255.255.255.0  broadcast 192.168.84.255</span><br><span class="line">        inet6 fe80::250:56ff:fec0:1  prefixlen 64  scopeid 0x20&lt;link&gt;</span><br><span class="line">        ether 00:50:56:c0:00:01  txqueuelen 1000  (Ethernet)</span><br><span class="line">        RX packets 0  bytes 0 (0.0 B)</span><br><span class="line">        RX errors 0  dropped 0  overruns 0  frame 0</span><br><span class="line">        TX packets 18  bytes 0 (0.0 B)</span><br><span class="line">        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0</span><br><span class="line"></span><br><span class="line">vmnet8: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500</span><br><span class="line">        inet 192.168.94.1  netmask 255.255.255.0  broadcast 192.168.94.255</span><br><span class="line">        inet6 fe80::250:56ff:fec0:8  prefixlen 64  scopeid 0x20&lt;link&gt;</span><br><span class="line">        ether 00:50:56:c0:00:08  txqueuelen 1000  (Ethernet)</span><br><span class="line">        RX packets 0  bytes 0 (0.0 B)</span><br><span class="line">        RX errors 0  dropped 0  overruns 0  frame 0</span><br><span class="line">        TX packets 18  bytes 0 (0.0 B)</span><br><span class="line">        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0</span><br><span class="line"></span><br><span class="line">wlan0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500</span><br><span class="line">        inet 192.168.1.64  netmask 255.255.255.0  broadcast 192.168.1.255</span><br><span class="line">        inet6 fe80::8702:42e3:d919:f0db  prefixlen 64  scopeid 0x20&lt;link&gt;</span><br><span class="line">        ether 58:a0:23:27:d5:df  txqueuelen 1000  (Ethernet)</span><br><span class="line">        RX packets 1944  bytes 1436200 (1.3 MiB)</span><br><span class="line">        RX errors 0  dropped 0  overruns 0  frame 0</span><br><span class="line">        TX packets 1316  bytes 349665 (341.4 KiB)</span><br><span class="line">        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>flags=4163</li>
+</ul>
+<p>The if.h header says up=0x1, running=0x40, broadcast=0x2, multicast=0x1000</p>
+<p>4163 = 0x1043 = 0x1000 + 0x40 + 0x2 + 0x1</p>
+<ul>
+<li>&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  </li>
+</ul>
+<p>up 网卡开启<br><br>BROADCAST 支持广播<br><br>RUNNING 网卡正在运行<br><br>MULTICAST 支持多播</p>
+<ul>
+<li>mtu  </li>
+</ul>
+<p>传输单元字节数</p>
+<ul>
+<li>txqueuelen</li>
+</ul>
+<p>传输队列大小</p>
+<ul>
+<li>broadcast</li>
+</ul>
+<p>组播地址</p>
+<ul>
+<li>RX packets</li>
+</ul>
+<p>接收的数据包数</p>
+<ul>
+<li>TX packets</li>
+</ul>
+<p>传输即发送的数据包数。</p>
+<h2 id="2-使用例子"><a href="#2-使用例子" class="headerlink" title="2.使用例子"></a>2.使用例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#ARP协议</span><br><span class="line"># ifconfig wlan0 arp  //开启</span><br><span class="line"># ifconfig wlan0 -arp  //关闭</span><br></pre></td></tr></table></figure>
+<h1 id="三-补充"><a href="#三-补充" class="headerlink" title="三.补充"></a>三.补充</h1><p>iwconfig: 用来配置无线接口信息</p>
+<p>iw: 用来连接wifi</p>
 
       
 
@@ -1003,7 +1153,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">others</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
         		</li>
       		
 		</ul>
@@ -1013,7 +1163,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/18/风控项目交接说明一/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/10/29/tools/ifconfig命令/">展开全文 >></a>
         </p>
       
 
@@ -1043,27 +1193,46 @@
 
 
   
-    <article id="post-base/httpandsocket/http了解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-security/lab.pentestit.ru渗透环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/17/base/httpandsocket/http了解/">一次完整的http请求</a>
+      <a class="article-title" href="/2019/10/25/security/lab.pentestit.ru渗透环境/">lab.pentestit.ru渗透环境链接</a>
     </h1>
   
 
         
-        <a href="/2019/09/17/base/httpandsocket/http了解/" class="archive-article-date">
-  	<time datetime="2019-09-17T08:38:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-17</time>
+        <a href="/2019/10/25/security/lab.pentestit.ru渗透环境/" class="archive-article-date">
+  	<time datetime="2019-10-25T02:25:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-25</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>之前在windows上下载过openvpn连接lab.pentestit.ru没成功，不知道是什么问题，就没管。今天想起来了，在linux上再尝试了一下，成功。</p>
+<h3 id="1-安装openvpn"><a href="#1-安装openvpn" class="headerlink" title="1.安装openvpn"></a>1.安装openvpn</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install openvpn</span><br></pre></td></tr></table></figure>
+<p>安装成功后，会有/etc/openvpn文件夹，用存放配置文件</p>
+<h3 id="2-下载配置文件"><a href="#2-下载配置文件" class="headerlink" title="2.下载配置文件"></a>2.下载配置文件</h3><p>在 <a href="https://lab.pentestit.ru/how-to-connect" target="_blank" rel="noopener">https://lab.pentestit.ru/how-to-connect</a> 下载 配置文件 ，放入/etc/openvpn/client下。</p>
+<h3 id="3-解决-No-server-certificate-verification-method-has-been-enabled"><a href="#3-解决-No-server-certificate-verification-method-has-been-enabled" class="headerlink" title="3.解决 No server certificate verification method has been enabled."></a>3.解决 No server certificate verification method has been enabled.</h3><p>现在 直接启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openvpn /etc/openvpn/client/lab.pentestit.ru.conf</span><br></pre></td></tr></table></figure></p>
+<p>会报 No server certificate verification method has been enabled. 问题，</p>
+<p>解决:<br><br>打开配置文件，在末尾加入一行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">remote-cert-tls server</span><br></pre></td></tr></table></figure>
+<h3 id="4-解决连接失败"><a href="#4-解决连接失败" class="headerlink" title="4.解决连接失败"></a>4.解决连接失败</h3><p>现在再启动，会出现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Thu Oct 24 22:36:09 2019 TCP/UDP: Preserving recently used remote address: [AF_INET]91.121.71.57:443</span><br><span class="line">Thu Oct 24 22:36:09 2019 Socket Buffers: R=[131072-&gt;131072] S=[16384-&gt;16384]</span><br><span class="line">Thu Oct 24 22:36:09 2019 Attempting to establish TCP connection with [AF_INET]91.121.71.57:443 [nonblock]</span><br><span class="line">Thu Oct 24 22:36:10 2019 TCP connection established with [AF_INET]91.121.71.57:443</span><br><span class="line">Thu Oct 24 22:36:10 2019 TCP_CLIENT link local: (not bound)</span><br><span class="line">Thu Oct 24 22:36:10 2019 TCP_CLIENT link remote: [AF_INET]91.121.71.57:443</span><br><span class="line">Thu Oct 24 22:36:10 2019 Connection reset, restarting [-1]</span><br><span class="line">Thu Oct 24 22:36:10 2019 SIGUSR1[soft,connection-reset] received, process restarting</span><br><span class="line">Thu Oct 24 22:36:10 2019 Restart pause, 5 second(s)</span><br><span class="line">^CThu Oct 24 22:36:12 2019 SIGINT[hard,init_instance] received, process exiting</span><br></pre></td></tr></table></figure></p>
+<p>之前就是在这里不知道是什么问题，后来突然想到我在本地局域网192.168.x.x下，该实验环境的vpn 也是192.168.101.1 会不会是这个原因。</p>
+<p>测试，用代理启动：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains openvpn /etc/openvpn/client/lab.pentestit.ru.conf</span><br></pre></td></tr></table></figure>
+<p>启动成功，成功ping 通 192.168.101.1</p>
+<h3 id="5-简单测试下"><a href="#5-简单测试下" class="headerlink" title="5.简单测试下"></a>5.简单测试下</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/Downloads# nmap 192.168.101.1/24</span><br><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2019-10-24 22:55 EDT</span><br><span class="line">Nmap scan report for 192.168.101.1</span><br><span class="line">Host is up (0.49s latency).</span><br><span class="line">All 1000 scanned ports on 192.168.101.1 are filtered</span><br><span class="line"></span><br><span class="line">Nmap scan report for 192.168.101.12</span><br><span class="line">Host is up (0.45s latency).</span><br><span class="line">Not shown: 996 filtered ports</span><br><span class="line">PORT     STATE SERVICE</span><br><span class="line">25/tcp   open  smtp</span><br><span class="line">80/tcp   open  http</span><br><span class="line">143/tcp  open  imap</span><br><span class="line">8080/tcp open  http-proxy</span><br><span class="line"></span><br><span class="line">Nmap scan report for 192.168.101.13</span><br><span class="line">Host is up (0.41s latency).</span><br><span class="line">All 1000 scanned ports on 192.168.101.13 are filtered</span><br><span class="line"></span><br><span class="line">Nmap done: 256 IP addresses (3 hosts up) scanned in 145.16 seconds</span><br></pre></td></tr></table></figure>
+<p>看到192.168.101.12 有http</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/Downloads# wget 192.168.101.12</span><br><span class="line">--2019-10-24 23:14:04--  http://192.168.101.12/</span><br><span class="line">Connecting to 192.168.101.12:80... connected.</span><br><span class="line">HTTP request sent, awaiting response... 301 Moved Permanently</span><br><span class="line">Location: http://site.test.lab [following]</span><br><span class="line">--2019-10-24 23:14:04--  http://site.test.lab/</span><br><span class="line">Resolving site.test.lab (site.test.lab)... failed: Name or service not known.</span><br><span class="line">wget: unable to resolve host address ‘site.test.lab’</span><br></pre></td></tr></table></figure>
+<p>在/etc/hosts中添加一条<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.101.12 site.test.lab</span><br></pre></td></tr></table></figure></p>
+<p>再次wget,成功得到index.html</p>
+<p>环境有了，后续测试，现在水平不够，知识积累不足，以后再说。渗透是纯业余爱好。</p>
+
       
 
       
@@ -1076,7 +1245,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">protocol</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">security</a>
         		</li>
       		
 		</ul>
@@ -1086,7 +1255,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/17/base/httpandsocket/http了解/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/10/25/security/lab.pentestit.ru渗透环境/">展开全文 >></a>
         </p>
       
 
@@ -1118,7 +1287,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 
