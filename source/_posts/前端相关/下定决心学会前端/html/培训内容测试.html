@@ -1,66 +1,60 @@
-<!-- <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-    <style media="screen">
-      body {
-        vertical-align: middle;
-      }
-      div {
-
-        background: rgba(0,0,0,0);
-        width: 0px;
-        height: 0px;
-        margin: auto;
-        border-top: 50px solid red;
-        border-left: 50px solid rgba(0,0,0,0);
-        border-right: 50px solid rgba(0,0,0,0);
-        border-bottom: 50px none rgba(0,0,0,0);
-      }
-    </style>
-  </head>
-  <body>
-    <div class="">
-
-    </div>
-  </body>
-</html> -->
-
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <meta name="keywords" content="关键词，用于搜索">
+    <meta name="description" content="描述">
+    <title>啊哈 太极</title>
+
     <style media="screen">
+      * {
+        margin: 0px;
+        padding: 0px;
+      }
       body {
-        vertical-align: middle;
-        background-color: rgb(221,221,221);
+        background-color: grey;
       }
 
-      .div1 {
-        height: 360px;
-        width: 300px;
-        background: #fff;
-        margin: auto;
-
+      div {
+        width: 0px;
+        height: 200px;
+        border: 100px solid black;
+        border-top: none;
+        border-bottom: none;
+        border-left-color: black;
+        border-right-color: #fff;
+        margin: 50px auto;
+        border-radius: 100%;
+        position: relative;
+        box-shadow: 0px 0px 50px rgb(0,0,0);
       }
-      .content {
-        height: 280px;
-        width: 250px;
-        background: rgb(201,202,155);
-        margin: 40px 25px;
-        margin-top: 40px;
-        float: left;
+
+      div::after, div::before {
+        display: block;
+        width: 40px;
+        height: 40px;
+        content: "";
+        border-radius: 100%;
+        position: absolute;
+      }
+      div:after {
+        background-color: #fff;
+        border: 30px solid #000;
+        top: 0px;
+        left: -50px;
+      }
+      div:before {
+        background-color: #000;
+        border: 30px solid #fff;
+        top: 100px;
+        left: -50px;
       }
     </style>
   </head>
   <body>
-    <div class="div1">
-      <div class="content">
 
-      </div>
+    <div class="">
+
     </div>
   </body>
 </html>

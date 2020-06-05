@@ -75,3 +75,19 @@ image 四要素  alt title  width heigth
 
 
 盒子中 width和heigth 是内容区大小， 增加padding或margin不会改变内容区大小
+
+
+display: none block inline inline-block;
+
+inline-block 以行内元素的形式排列，以块级元素样式显示。 多个块都要加该属性。
+
+
+外边距合并:
+  同级元素：
+    垂直相遇  外边距会合并  左右相遇不会
+    外边距合并  取较大的那个边距
+
+  嵌套元素：
+    解决：
+      1.给父级一个border(添加一个边框)
+      2.不用margin, 在父级用padding代替
