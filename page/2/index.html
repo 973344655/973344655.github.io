@@ -254,6 +254,89 @@
 
 
   
+    <article id="post-java/others/redis分布式锁" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/01/06/java/others/redis分布式锁/">redis分布式锁</a>
+    </h1>
+  
+
+        
+        <a href="/2020/01/06/java/others/redis分布式锁/" class="archive-article-date">
+  	<time datetime="2020-01-06T03:02:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>分布式系统中，某个功能只在一台机器上执行(即，只执行一次)，用分布式锁实现。</p>
+<h1 id="一-分布式锁"><a href="#一-分布式锁" class="headerlink" title="一.分布式锁"></a>一.分布式锁</h1><h2 id="1-什么是分布式锁"><a href="#1-什么是分布式锁" class="headerlink" title="1.什么是分布式锁"></a>1.什么是分布式锁</h2><p>分布式锁是控制分布式系统或不同系统之间共同访问共享资源的一种锁实现，如果不同的系统或同一个系统的不同主机之间共享了某个资源时，往往需要互斥来防止彼此干扰来保证一致性。</p>
+<h2 id="2-实现方式"><a href="#2-实现方式" class="headerlink" title="2.实现方式"></a>2.实现方式</h2><ul>
+<li><p>基于数据库</p>
+</li>
+<li><p>基于缓存(redis，memcached等)</p>
+</li>
+<li><p>基于Zookeeper</p>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/01/06/java/others/redis分布式锁/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-java/others/mysql分布式锁实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -328,89 +411,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/01/06/java/others/mysql分布式锁实现/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java/others/redis分布式锁" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/06/java/others/redis分布式锁/">redis分布式锁</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/06/java/others/redis分布式锁/" class="archive-article-date">
-  	<time datetime="2020-01-06T03:02:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>分布式系统中，某个功能只在一台机器上执行(即，只执行一次)，用分布式锁实现。</p>
-<h1 id="一-分布式锁"><a href="#一-分布式锁" class="headerlink" title="一.分布式锁"></a>一.分布式锁</h1><h2 id="1-什么是分布式锁"><a href="#1-什么是分布式锁" class="headerlink" title="1.什么是分布式锁"></a>1.什么是分布式锁</h2><p>分布式锁是控制分布式系统或不同系统之间共同访问共享资源的一种锁实现，如果不同的系统或同一个系统的不同主机之间共享了某个资源时，往往需要互斥来防止彼此干扰来保证一致性。</p>
-<h2 id="2-实现方式"><a href="#2-实现方式" class="headerlink" title="2.实现方式"></a>2.实现方式</h2><ul>
-<li><p>基于数据库</p>
-</li>
-<li><p>基于缓存(redis，memcached等)</p>
-</li>
-<li><p>基于Zookeeper</p>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/06/java/others/redis分布式锁/">展开全文 >></a>
         </p>
       
 
@@ -1270,6 +1270,26 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">tools</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">database</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">other</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">springboot</a>
               </li>
              
@@ -1278,35 +1298,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">security</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">tools</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">other</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">前端</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">database</a>
+                <a href="javascript:void(0)" class="js-tag color4">security</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">protocol</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">wheels</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1319,10 +1323,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">tomcat</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">wheels</a>
               </li>
             
             <div class="clearfix"></div>
